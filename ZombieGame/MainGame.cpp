@@ -30,7 +30,7 @@ MainGame::MainGame() :
 	_screenWidth(1200),
 	_screenHeight(600),
 	_gameState(GameState::PLAY),
-	_fpsMax(60),
+	_fpsMax(80),
 	_announceInConsoleFPS(true),
 	_player(nullptr),
 	_numHumansKilled(0),
