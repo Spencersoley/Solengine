@@ -1,0 +1,2 @@
+﻿Agent.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
+Solengine.lib(ResourceManager.obj) : fatal error LNK1112: module machine type 'x86' conflicts with target machine type 'x64'

@@ -1,0 +1,6 @@
+﻿  MainGame.cpp
+c:\users\ssole\source\repos\solengineproject\gametemplate\maingame.cpp(93): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\ssole\source\repos\solengineproject\gametemplate\maingame.cpp(93): warning C4244: 'initializing': conversion from 'int' to 'const float', possible loss of data
+c:\users\ssole\source\repos\solengineproject\gametemplate\maingame.cpp(96): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+c:\users\ssole\source\repos\solengineproject\gametemplate\maingame.cpp(124): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+  GameTemplate.vcxproj -> C:\Users\Ssole\source\repos\SolengineProject\Debug\GameTemplate.exe
