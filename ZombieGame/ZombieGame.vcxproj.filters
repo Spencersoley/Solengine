@@ -48,6 +48,9 @@
     <ClCompile Include="Zombie.cpp">
       <Filter>Source Files\Agent</Filter>
     </ClCompile>
+    <ClCompile Include="View.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h">
@@ -73,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="Zombie.h">
       <Filter>Header Files\Agent</Filter>
+    </ClInclude>
+    <ClInclude Include="View.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

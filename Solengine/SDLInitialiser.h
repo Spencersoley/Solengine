@@ -2,5 +2,5 @@
 
 namespace Solengine
 {
-	extern int sdlInit();
+	extern int initialiseSDL();
 }

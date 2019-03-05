@@ -5,7 +5,7 @@
 
 namespace Solengine
 {
-	int sdlInit()
+	int initialiseSDL()
 	{
 		//Initialise SDL
 		SDL_Init(SDL_INIT_EVERYTHING);

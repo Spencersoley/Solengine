@@ -60,35 +60,16 @@ MainGame::~MainGame()
 void MainGame::run()
 {
 	initSystems();
-	initLevel();
-
 	gameLoop();
 }
 
-//Initialise SDL, glew, OpenGL, and shaders
+//Initialise SDL, glew, OpenGL, shaders, fps manager and level
 void MainGame::initSystems()
 {
-	Solengine::sdlInit();
-
-	_SOL_window.create("Zom", _screenWidth, _screenHeight, 0);
-
-	initShaders();
-
-	_SOL_agentSpriteBatch.init();
-
-	_SOL_cam.init(_screenWidth, _screenHeight);
-
+	Solengine::initialiseSDL();
+	view.init(&_levels, &_humans, &_zombies, &_bullets, _player, _screenWidth, _screenHeight);
 	_SOL_fpsManager.init(_fpsMax);
-}
-
-//Compile and link shaders  -- Should I bother having this in an extra function?
-void MainGame::initShaders()
-{
-	_SOL_shaderProgram.compileShaders("Shaders/colourShading.vert", "Shaders/colourShading.frag");
-	_SOL_shaderProgram.addAttribute("vertexPosition");
-	_SOL_shaderProgram.addAttribute("vertexColour");
-	_SOL_shaderProgram.addAttribute("vertexUV");
-	_SOL_shaderProgram.linkShaders();
+	initLevel();
 }
 
 //Initialise the game content
@@ -98,7 +79,7 @@ void MainGame::initLevel()
 	_currentLevel = 0;
 
 	_player = new Player();
-	_player->init(PLAYER_SPEED, _levels[_currentLevel]->getStartPlayerPosition(), &_SOL_inputManager, &_SOL_cam, &_bullets);
+	_player->init(PLAYER_SPEED, _levels[_currentLevel]->getStartPlayerPosition(), &_SOL_inputManager, &view._SOL_cam, &_bullets);
 
 	_humans.push_back(_player);
 
@@ -129,7 +110,6 @@ void MainGame::initLevel()
 	_player->addGun(new Gun("MG", 10, 1, 1.5f, 200.0f, 15.0f));
 }
 
-
  //Game loop
 void MainGame::gameLoop()
 {
@@ -152,10 +132,8 @@ void MainGame::gameLoop()
 		prevTicks = std::get<1>(deltaTimeAndTotalTicks);
 		updatePhysics(std::get<0>(deltaTimeAndTotalTicks), MAX_PHYSICS_STEPS, MAX_DELTA_TIME);
 	
-		_SOL_cam.setPosition(_player->getPosition());
-		_SOL_cam.update();
-
-		drawGame();
+		//handles rendering
+		view.update(_player->getPosition());
 
 		//Calculates, announces, and limits FPS
 		_SOL_fpsManager.end(trackFPS);
@@ -217,11 +195,11 @@ void MainGame::processInput()
 
 	if (_SOL_inputManager.key(SDLK_q))
 	{
-		_SOL_cam.setScale(_SOL_cam.getScale() + SCALE_SPEED);
+		view._SOL_cam.setScale(view._SOL_cam.getScale() + SCALE_SPEED);
 	}
 	if (_SOL_inputManager.key(SDLK_e))
 	{
-		_SOL_cam.setScale(_SOL_cam.getScale() - SCALE_SPEED);
+		view._SOL_cam.setScale(view._SOL_cam.getScale() - SCALE_SPEED);
 	}
 }
 
@@ -263,7 +241,7 @@ void MainGame::updateAgents(float deltaTime)
 			_zombies[i]->collisionWithAgent(_zombies[j]);
 		}
 		//zombie human
-		for (size_t j = 0; j < _humans.size(); j++)
+		for (size_t j = 1; j < _humans.size(); j++)
 		{
 			if (_zombies[i]->collisionWithAgent(_humans[j]))
 			{
@@ -274,10 +252,12 @@ void MainGame::updateAgents(float deltaTime)
 				_humans.pop_back();
 			}
 		}
+
 		//zombie player (loss condition)
 		if (_zombies[i]->collisionWithAgent(_player))
 		{
-			Solengine::fatalError("You lose");
+			std::printf("***DEFEAT!***");
+			Solengine::fatalError("");
 		}
 	}
 
@@ -364,67 +344,3 @@ void MainGame::updateBullets(float deltaTime)
 		}
 	}
 }
-
-void MainGame::drawGame()
-{
-	//Set base depth
-	glClearDepth(1.0);
-	//Clear colour and depth buffer
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	_SOL_shaderProgram.use();
-
-	//DrawCode, optional? Tells it to use texture unit 0
-	glActiveTexture(GL_TEXTURE0);
-
-	//Shader uses texture 0
-	GLint textureUniform = _SOL_shaderProgram.getUniformLocation("mySampler");
-	glUniform1i(textureUniform, 0);
-
-	//Grab camera matrix
-	glm::mat4 projectionMatrix = _SOL_cam.getCameraMatrix();
-	GLint pUniform = _SOL_shaderProgram.getUniformLocation("P");
-	glUniformMatrix4fv(pUniform, 1, GL_FALSE, &projectionMatrix[0][0]);
-
-	//Draw level
-	_levels[_currentLevel]->draw();
-
-	
-	_SOL_agentSpriteBatch.begin();
-
-	glm::vec2 agentDims(AGENT_RADIUS * 2.0f);
-
-	//Draw humans
-	for (size_t i = 0; i < _humans.size(); i++)
-	{
-		if (_SOL_cam.isBoxInView(_humans[i]->getPosition(), agentDims))
-		{
-           	_humans[i]->draw(_SOL_agentSpriteBatch);
-		}
-	}
-
-	//Draw zombies
-	for (size_t i = 0; i < _zombies.size(); i++)
-	{
-		if (_SOL_cam.isBoxInView(_zombies[i]->getPosition(), agentDims))
-		{
-			_zombies[i]->draw(_SOL_agentSpriteBatch);
-		}
-	}
-
-	//Draw bullets
-	for (size_t i = 0; i < _bullets.size(); i++)
-	{
-		_bullets[i].draw(_SOL_agentSpriteBatch);
-	}
-
-	// called agent sprite batch but not just for agents
-	_SOL_agentSpriteBatch.end();
-
-	_SOL_agentSpriteBatch.renderBatch();
-
-	_SOL_shaderProgram.unuse();
-
-	_SOL_window.swapBuffer();
-}
-

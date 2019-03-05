@@ -56,8 +56,7 @@ void Human::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, flo
 		{
 			redirect();
 			//std::cout << "redirect" << frameCount << std::endl;
-			_frameCount = 0;
-			
+			_frameCount = 0;		
 		}
 	}
 	else

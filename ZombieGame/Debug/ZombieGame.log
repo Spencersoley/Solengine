@@ -1,7 +1,11 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (GraphicsTutorials.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Main.cpp
   MainGame.cpp
-c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(136): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(136): warning C4244: 'initializing': conversion from 'int' to 'const float', possible loss of data
-c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(139): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
-c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(168): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(70): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(116): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(116): warning C4244: 'initializing': conversion from 'int' to 'const float', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(119): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(146): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+  Generating Code...
+Gun.obj : warning LNK4099: PDB 'vc141.pdb' was not found with 'Gun.obj' or at 'C:\Users\Ssole\source\repos\SolengineProject\Debug\vc141.pdb'; linking object as if no debug info
   ZombieGame.vcxproj -> C:\Users\Ssole\source\repos\SolengineProject\Debug\ZombieGame.exe
