@@ -23,8 +23,12 @@ public:
 	View();
 	~View();
 
-	void initShaders();
-	void drawGame(std::vector<Level*> levels, std::vector<Human*> humans, std::vector<Zombie*> zombies, std::vector<Bullet> bullets);
+	void drawGame();
+
+	void init(std::vector<Level*>* levels, std::vector<Human*>* humans, std::vector<Zombie*>* zombies, std::vector<Bullet>* bullets, Player* player, float screenwidth, float screenheight);
+
+	void update(glm::vec2 playerPos);
+
 	Solengine::Camera2D _SOL_cam;
 	Solengine::Window _SOL_window;
 	Solengine::SpriteBatch _SOL_agentSpriteBatch;
@@ -33,9 +37,12 @@ private:
 
 	Solengine::GLSLProgram _SOL_shaderProgram;
 	
-	std::vector<Level*> _levels;
-	std::vector<Human*> _humans;
-	std::vector<Zombie*> _zombies;
+	std::vector<Level*>* _levels;
+	std::vector<Human*>* _humans;
+	std::vector<Zombie*>* _zombies;
+	std::vector<Bullet>* _bullets;
+
+	Player* _player;
 
 	int _currentLevel;
 

@@ -60,36 +60,16 @@ MainGame::~MainGame()
 void MainGame::run()
 {
 	initSystems();
-	initLevel();
-
 	gameLoop();
 }
 
-//Initialise SDL, glew, OpenGL, and shaders
+//Initialise SDL, glew, OpenGL, shaders, fps manager and level
 void MainGame::initSystems()
 {
-	Solengine::sdlInit();
-
-	view._SOL_window.create("Zom", _screenWidth, _screenHeight, 0);
-
-	//initShaders();
-	view.initShaders();
-
-	view._SOL_agentSpriteBatch.init();
-
-	view._SOL_cam.init(_screenWidth, _screenHeight);
-
+	Solengine::initialiseSDL();
+	view.init(&_levels, &_humans, &_zombies, &_bullets, _player, _screenWidth, _screenHeight);
 	_SOL_fpsManager.init(_fpsMax);
-}
-
-//Compile and link shaders  -- Should I bother having this in an extra function?
-void MainGame::initShaders()
-{
-	_SOL_shaderProgram.compileShaders("Shaders/colourShading.vert", "Shaders/colourShading.frag");
-	_SOL_shaderProgram.addAttribute("vertexPosition");
-	_SOL_shaderProgram.addAttribute("vertexColour");
-	_SOL_shaderProgram.addAttribute("vertexUV");
-	_SOL_shaderProgram.linkShaders();
+	initLevel();
 }
 
 //Initialise the game content
@@ -130,7 +110,6 @@ void MainGame::initLevel()
 	_player->addGun(new Gun("MG", 10, 1, 1.5f, 200.0f, 15.0f));
 }
 
-
  //Game loop
 void MainGame::gameLoop()
 {
@@ -153,11 +132,8 @@ void MainGame::gameLoop()
 		prevTicks = std::get<1>(deltaTimeAndTotalTicks);
 		updatePhysics(std::get<0>(deltaTimeAndTotalTicks), MAX_PHYSICS_STEPS, MAX_DELTA_TIME);
 	
-		view._SOL_cam.setPosition(_player->getPosition());
-		view._SOL_cam.update();
-
-		//drawGame();
-		view.drawGame(_levels, _humans, _zombies, _bullets);
+		//handles rendering
+		view.update(_player->getPosition());
 
 		//Calculates, announces, and limits FPS
 		_SOL_fpsManager.end(trackFPS);
@@ -265,7 +241,7 @@ void MainGame::updateAgents(float deltaTime)
 			_zombies[i]->collisionWithAgent(_zombies[j]);
 		}
 		//zombie human
-		for (size_t j = 0; j < _humans.size(); j++)
+		for (size_t j = 1; j < _humans.size(); j++)
 		{
 			if (_zombies[i]->collisionWithAgent(_humans[j]))
 			{
@@ -276,10 +252,12 @@ void MainGame::updateAgents(float deltaTime)
 				_humans.pop_back();
 			}
 		}
+
 		//zombie player (loss condition)
 		if (_zombies[i]->collisionWithAgent(_player))
 		{
-			Solengine::fatalError("You lose");
+			std::printf("***DEFEAT!***");
+			Solengine::fatalError("");
 		}
 	}
 

@@ -54,10 +54,7 @@ private:
 	int _currentLevel;
 
 	//SOL helps indicate engine use
-	Solengine::GLSLProgram _SOL_shaderProgram;
 	Solengine::FPSManager _SOL_fpsManager;
-	Solengine::Window _SOL_window;
-	Solengine::SpriteBatch _SOL_agentSpriteBatch;
 	Solengine::InputManager _SOL_inputManager;
 
 	View view;
