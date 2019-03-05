@@ -17,6 +17,7 @@
 #include "Bullet.h"
 #include "Level.h"
 #include "Player.h"
+#include "View.h"
 
 class Zombie;
 
@@ -45,8 +46,6 @@ private:
 	void updateAgents(float deltaTime);
 	void updateBullets(float deltaTime);
 
-	void drawGame();
-
 
 	int _screenWidth;
 	int _screenHeight;
@@ -58,9 +57,10 @@ private:
 	Solengine::GLSLProgram _SOL_shaderProgram;
 	Solengine::FPSManager _SOL_fpsManager;
 	Solengine::Window _SOL_window;
-	Solengine::Camera2D _SOL_cam;
 	Solengine::SpriteBatch _SOL_agentSpriteBatch;
 	Solengine::InputManager _SOL_inputManager;
+
+	View view;
 
 	std::vector<Bullet> _bullets;
 	std::vector<Level*> _levels;
