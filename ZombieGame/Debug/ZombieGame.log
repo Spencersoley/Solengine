@@ -12,4 +12,5 @@ c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(151): warni
 c:\users\ssole\source\repos\solengineproject\zombiegame\view.cpp(19): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
 c:\users\ssole\source\repos\solengineproject\zombiegame\view.cpp(29): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
   Generating Code...
+  LINK : C:\Users\Ssole\source\repos\SolengineProject\Debug\ZombieGame.exe not found or not built by the last incremental link; performing full link
   ZombieGame.vcxproj -> C:\Users\Ssole\source\repos\SolengineProject\Debug\ZombieGame.exe

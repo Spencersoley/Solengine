@@ -1,15 +1,6 @@
 ﻿  Camera2D.cpp
-  ErrorHandler.cpp
   FPSManager.cpp
-  GLSLProgram.cpp
-  ImageLoader.cpp
   InputManager.cpp
-  IOManager.cpp
-  picoPNG.cpp
-  ResourceManager.cpp
   SDLInitialiser.cpp
-  SpriteBatch.cpp
-  TextureCache.cpp
-  Window.cpp
   Generating Code...
   Solengine.vcxproj -> C:\Users\Ssole\source\repos\SolengineProject\x64\Debug\Solengine.lib
