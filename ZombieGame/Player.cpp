@@ -17,9 +17,8 @@ Player::~Player()
 	}
 }
 
-void Player::init(float speed, glm::vec2 pos, std::vector<Bullet>* bullets)
+void Player::init(float speed, glm::vec2 pos)
 {
-	m_bullets = bullets;
 	m_speed = speed;
 	m_position = pos;
 	m_health = 150;
@@ -43,7 +42,7 @@ void Player::addGun(Gun* gun)
 	}
 }
 
-void Player::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, float deltaTime)
+void Player::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Bullet>& bullets, float deltaTime)
 {
 	glm::vec2 direction = { 0, 0 };
 
@@ -102,7 +101,7 @@ void Player::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, fl
 		mp_guns[m_currentGunIndex]->update(p_inputManager->key(SDL_BUTTON_LEFT),
 			centrePosition,
 			direction,
-			*m_bullets,
+			bullets,
 			deltaTime);
 
 		for (size_t i = 0; i < mp_guns.size(); i++)

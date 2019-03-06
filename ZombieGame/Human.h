@@ -16,10 +16,10 @@ private:
 	int m_turnRate;
 	int m_frameCount;
 
-	void redirect();
+	Zombie* p_nearestZombie = nullptr;
 
 	Zombie* getNearestZombie(std::vector<Zombie*>& zombies);
 
-	Zombie* p_nearestZombie = nullptr;
+	void redirect();
 };
 

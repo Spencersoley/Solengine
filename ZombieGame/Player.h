@@ -16,7 +16,7 @@ public:
 	Player();
 	~Player();
 
-	void init(float speed, glm::vec2 pos, std::vector<Bullet>* bullets);
+	void init(float speed, glm::vec2 pos);
 
 	void initInputManager(Solengine::InputManager* inputManager);
 
@@ -24,14 +24,14 @@ public:
 
 	void addGun(Gun* gun);
 
-	void move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, float deltaTime);
+	void move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Bullet>& bullets, float deltaTime);
 
 private:
 	int m_currentGunIndex;
 	std::vector<Gun*> mp_guns;
 
+
 	Solengine::InputManager* p_inputManager;
-	Solengine::Camera2D* p_cam;
-	std::vector<Bullet>* m_bullets;
+	Solengine::Camera2D* p_cam;	
 };
 
