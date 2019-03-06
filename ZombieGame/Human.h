@@ -19,6 +19,5 @@ private:
 	Zombie* p_nearestZombie = nullptr;
 
 	int m_turnRate;
-	int m_frameCount; //move to stack?
 };
 

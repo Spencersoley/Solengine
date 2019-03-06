@@ -148,7 +148,7 @@ bool Agent::applyDamage(float damage)
 	}
 }
 
-void Agent::draw(Solengine::SpriteBatch& _spriteBatch)
+void Agent::draw(Solengine::SpriteBatch& spriteBatch)
 {
 	//uses Solengine::ResourceManager to grab the textureID, passes it to the spriteBatch.
 	static int textureID = Solengine::ResourceManager::getTexture("Textures/zombie_pack/circle.png").textureID;
@@ -161,5 +161,5 @@ void Agent::draw(Solengine::SpriteBatch& _spriteBatch)
 	destRect.z = AGENT_WIDTH;
 	destRect.w = AGENT_WIDTH;
 
-	_spriteBatch.draw(destRect, uvRect, textureID, 0.0f, m_colour);
+	spriteBatch.draw(destRect, uvRect, textureID, 0.0f, m_colour);
 }

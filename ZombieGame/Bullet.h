@@ -24,8 +24,6 @@ public:
 	float getDamage() const { return m_damage; }
 
 private:	
-	int m_id; //use?
-	int m_lifeTime; //use?
 	glm::vec2 m_position;
 	glm::vec2 m_direction;
 	float m_damage;

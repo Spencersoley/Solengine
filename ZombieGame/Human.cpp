@@ -7,9 +7,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/rotate_vector.hpp>
 
-//Make humans run from nearest zombie
-
-Human::Human() : m_frameCount(0)
+Human::Human()
 {
 }
 
@@ -23,7 +21,7 @@ void Human::init(float speed, glm::vec2 pos)
 
 	static std::mt19937 randomEngine((unsigned int)time(nullptr));
 	static std::uniform_real_distribution<float> randomDir(-1.0f, 1.0f);
-	std::uniform_int_distribution<int> randomTurnRate(250, 450);
+	std::uniform_int_distribution<int> randomTurnRate(120, 240);
 
 	m_turnRate = randomTurnRate(randomEngine);	
 
@@ -38,24 +36,32 @@ void Human::init(float speed, glm::vec2 pos)
 
 void Human::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, float deltaTime)
 {
-	m_frameCount;
-	m_frameCount++;
+	static int frameCount = 0;
+	frameCount++;
 
-	//Scan for nearest zombie
-	if (m_frameCount%10 == 0)
+	//Scan for nearest zombie --Why do some not notice?
+	if (frameCount%60 == 0)
 	{
 		p_nearestZombie = getNearestZombie(zombies);
+
+		if (p_nearestZombie != nullptr)
+		{
+			m_colour = {/*r*/ 200, /*g*/ 0, /*b*/ 0, /*a*/ 255 };
+		}
+		else
+		{
+			m_colour = {/*r*/ 200, /*g*/ 0, /*b*/ 200, /*a*/ 255 };
+		}
+		if (frameCount >= 360) frameCount = 0;
 	}
 
 	//Movement depends on whether a _nearestZombie is recognised
 	if (p_nearestZombie == nullptr)
 	{	
 		//Automatic random turning based on fixed rate
-		if (m_frameCount > m_turnRate)
-		{
+		if (frameCount%m_turnRate == 0)
+		{		
 			redirect();
-			//std::cout << "redirect" << frameCount << std::endl;
-			m_frameCount = 0;		
 		}
 	}
 	else
@@ -64,13 +70,7 @@ void Human::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, flo
 		m_direction = glm::normalize(m_position - p_nearestZombie->getPosition());
 	}
 
-	//Come up with a better algorithm for breaking up human movement
-	const int _turnPause = 500 - m_turnRate;
-
-	if (m_frameCount > _turnPause)
-	{
-		m_position += m_direction * m_speed * deltaTime;
-	}
+	m_position += m_direction * m_speed * deltaTime;
 }
 
 Zombie* Human::getNearestZombie(std::vector<Zombie*>& zombies)

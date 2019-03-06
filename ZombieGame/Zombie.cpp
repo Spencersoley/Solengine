@@ -2,7 +2,7 @@
 
 #include "Human.h"
 
-Zombie::Zombie() : m_frames(0)
+Zombie::Zombie() 
 {
 }
 
@@ -15,27 +15,27 @@ void Zombie::init(float speed, glm::vec2 pos)
 	m_health = 150;
 	m_speed = speed;
 	m_position = pos;
-
 	m_colour = {/*r*/ 0, /*g*/ 150, /*b*/ 0, /*a*/ 255 };
 }
 
 void Zombie::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, float deltaTime)
 {
-	// Find the closest human every 80 frames
-	if (m_frames > 80 || p_nearestHuman == nullptr)
+	static int frameCount;
+	frameCount++;
+	// Find the closest human every 120 
+	if (frameCount%120 || p_nearestHuman == nullptr)
 	{
 		p_nearestHuman = getNearestHuman(humans);
-		m_frames = 0;
+		frameCount = 0;
 	}
 	
-	// If we found a human, move towards him
-	if (p_nearestHuman != nullptr) {
-		// Get the direction vector twoards the player
+	// If we found a human, move towards them
+	if (p_nearestHuman != nullptr) 
+	{
+		// Get the direction vector towards the player
 		m_direction = glm::normalize(p_nearestHuman->getPosition() - m_position);
 		m_position += m_direction * m_speed * deltaTime;
 	}
-
-	m_frames++;
 }
 
 Human* Zombie::getNearestHuman(std::vector<Human*>& humans) 

@@ -1,38 +1,3 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (GraphicsTutorials.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  Agent.cpp
-c:\users\ssole\source\repos\solengineproject\zombiegame\agent.cpp(61): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
-          with
-          [
-              T=float
-          ]
-  Bullet.cpp
-c:\users\ssole\source\repos\solengineproject\zombiegame\bullet.cpp(58): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
-          with
-          [
-              T=glm::i32
-          ]
-c:\users\ssole\source\repos\solengineproject\zombiegame\bullet.cpp(59): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
-          with
-          [
-              T=glm::i32
-          ]
-c:\users\ssole\source\repos\solengineproject\zombiegame\bullet.cpp(61): warning C4018: '>=': signed/unsigned mismatch
-c:\users\ssole\source\repos\solengineproject\zombiegame\bullet.cpp(62): warning C4018: '>=': signed/unsigned mismatch
-  Controller.cpp
-  Gun.cpp
   Human.cpp
-  Level.cpp
-  Main.cpp
-  MainGame.cpp
-c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(69): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(119): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(119): warning C4244: 'initializing': conversion from 'int' to 'const float', possible loss of data
-c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(122): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
-c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(151): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
-  Player.cpp
-  View.cpp
-c:\users\ssole\source\repos\solengineproject\zombiegame\view.cpp(19): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\zombiegame\view.cpp(29): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-  Zombie.cpp
-  Generating Code...
   ZombieGame.vcxproj -> C:\Users\Ssole\source\repos\SolengineProject\Debug\ZombieGame.exe

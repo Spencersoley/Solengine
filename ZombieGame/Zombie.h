@@ -17,9 +17,5 @@ private:
 	void redirect();
 
 	Human* p_nearestHuman = nullptr;
-	int m_frames; //move to stack?
-
-
-
 };
 

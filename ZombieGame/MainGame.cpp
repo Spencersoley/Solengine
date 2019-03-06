@@ -17,8 +17,11 @@
 
 //Move random engine to Solengine?
 //init vs constructors?
-//m_xxxx for members
 //stack as much as possible over heap for faster access
+//sort conversion errors
+//make game perform the same regardless of framerate
+//rename to scene
+//fix human zombie scanning
 
 //NTS: It's okay to have global variables if they're constant
 const float HUMAN_SPEED = 1.0f;
