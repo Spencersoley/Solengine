@@ -17,21 +17,16 @@ public:
 	~Player();
 
 	void init(float speed, glm::vec2 pos);
-
-	void initInputManager(Solengine::InputManager* inputManager);
-
+	void initInputManager(Solengine::InputManager* inputManager); //best way to handle the reference?
 	void setCamera(Solengine::Camera2D* cam) { p_cam = cam; }
-
 	void addGun(Gun* gun);
-
 	void move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Bullet>& bullets, float deltaTime);
 
 private:
-	int m_currentGunIndex;
-	std::vector<Gun*> mp_guns;
-
-
+	std::vector<Gun*> p_guns;
 	Solengine::InputManager* p_inputManager;
 	Solengine::Camera2D* p_cam;	
+
+	int m_currentGunIndex;
 };
 

@@ -8,18 +8,17 @@ public:
 	Human();
 	virtual ~Human();
 
-	void init(float speed, glm::vec2 pos);
-	
 	virtual void move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, float deltaTime) override;
 
+	void init(float speed, glm::vec2 pos);
+	
 private: 
-	int m_turnRate;
-	int m_frameCount;
+	Zombie* getNearestZombie(std::vector<Zombie*>& zombies);
+	void redirect();
 
 	Zombie* p_nearestZombie = nullptr;
 
-	Zombie* getNearestZombie(std::vector<Zombie*>& zombies);
-
-	void redirect();
+	int m_turnRate;
+	int m_frameCount; //move to stack?
 };
 

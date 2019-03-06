@@ -37,7 +37,6 @@ void Gun::reload()
 	if (m_frameCounter < m_fireRate) m_frameCounter++;
 }
 
-
 void Gun::fire(const glm::vec2& position, const glm::vec2& direction, std::vector<Bullet>& bullets)
 {
 	static std::mt19937 randomEngine((unsigned int)time(nullptr));

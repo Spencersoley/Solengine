@@ -20,33 +20,23 @@ public:
 	virtual void move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, float deltaTime) = 0;
 
 	void collisionWithLevel(const std::vector<std::string>& levelData);
-
-	bool collisionWithAgent(Agent* agent);
-
-	//true on death
-	bool applyDamage(float damage);
-
+	bool collisionWithAgent(Agent* agent); //true on collision?
+	bool applyDamage(float damage); //true on death
 	void draw(Solengine::SpriteBatch& _spriteBatch);
 
-	//Do we have a real reason to use a getter? Is const for access without modification?
 	glm::vec2 getPosition() const { return m_position; }
 
 protected:
-
 	void checkTilePosition(const std::vector<std::string>& levelData,
 		                   std::vector<glm::vec2>& collideTilePositions,                  
 	                       float x, float y);
-
 	void collisionWithTile(glm::vec2 tilePos);
-
 	virtual void redirect() = 0;
-
-	glm::vec2 m_position;
-	glm::vec2 m_direction;
 
 	float m_speed;
 	float m_health;
-
+	glm::vec2 m_position;
+	glm::vec2 m_direction;
 	Solengine::ColourRGBA8 m_colour;
 };
 

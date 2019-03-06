@@ -12,14 +12,14 @@ public:
 
 	void move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, float deltaTime) override;
 
-
 private:
-	int m_frames;
-
+	Human* getNearestHuman(std::vector<Human*>& humans);
 	void redirect();
 
-	Human* getNearestHuman(std::vector<Human*>& humans);
-
 	Human* p_nearestHuman = nullptr;
+	int m_frames; //move to stack?
+
+
+
 };
 

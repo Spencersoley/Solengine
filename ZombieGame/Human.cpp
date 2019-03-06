@@ -25,8 +25,7 @@ void Human::init(float speed, glm::vec2 pos)
 	static std::uniform_real_distribution<float> randomDir(-1.0f, 1.0f);
 	std::uniform_int_distribution<int> randomTurnRate(250, 450);
 
-	m_turnRate = randomTurnRate(randomEngine);
-	
+	m_turnRate = randomTurnRate(randomEngine);	
 
 	m_colour = {/*r*/ 200, /*g*/ 0, /*b*/ 200, /*a*/ 255 };
 

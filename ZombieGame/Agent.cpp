@@ -135,7 +135,6 @@ bool Agent::collisionWithAgent(Agent* agent)
 	return false;
 }
 
-
 bool Agent::applyDamage(float damage)
 {
 	m_health -= damage;

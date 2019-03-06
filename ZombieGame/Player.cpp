@@ -12,8 +12,8 @@ Player::Player() : m_currentGunIndex(-1)
 
 Player::~Player()
 {
-	for (size_t i = 0; i < mp_guns.size(); i++) {
-		delete mp_guns[i];
+	for (size_t i = 0; i < p_guns.size(); i++) {
+		delete p_guns[i];
 	}
 }
 
@@ -34,7 +34,7 @@ void Player::initInputManager(Solengine::InputManager* inputManager)
 void Player::addGun(Gun* gun)
 {
 	//Add gun to inventory
-	mp_guns.push_back(gun);
+	p_guns.push_back(gun);
 
 	if (m_currentGunIndex == -1)
 	{
@@ -66,17 +66,17 @@ void Player::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, st
 		direction.x += 1;
 	}
 
-	if (p_inputManager->key(SDLK_1) && mp_guns.size() >= 0)
+	if (p_inputManager->key(SDLK_1) && p_guns.size() >= 0)
 	{
 		m_currentGunIndex = 0;
 	}
 
-	if (p_inputManager->key(SDLK_2) && mp_guns.size() >= 1)
+	if (p_inputManager->key(SDLK_2) && p_guns.size() >= 1)
 	{
 		m_currentGunIndex = 1;
 	}
 
-	if (p_inputManager->key(SDLK_3) && mp_guns.size() >= 2)
+	if (p_inputManager->key(SDLK_3) && p_guns.size() >= 2)
 	{
 		m_currentGunIndex = 2;
 	}
@@ -98,15 +98,15 @@ void Player::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, st
 
 		glm::vec2 direction = glm::normalize(mouseCoords - centrePosition);
 
-		mp_guns[m_currentGunIndex]->update(p_inputManager->key(SDL_BUTTON_LEFT),
+		p_guns[m_currentGunIndex]->update(p_inputManager->key(SDL_BUTTON_LEFT),
 			centrePosition,
 			direction,
 			bullets,
 			deltaTime);
 
-		for (size_t i = 0; i < mp_guns.size(); i++)
+		for (size_t i = 0; i < p_guns.size(); i++)
 		{
-			mp_guns[i]->reload();
+			p_guns[i]->reload();
 		}
 	}
 }

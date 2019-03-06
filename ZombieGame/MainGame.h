@@ -23,6 +23,7 @@
 
 class Zombie;
 
+//Change this to "scene"
 class MainGame
 {
 public:
@@ -41,16 +42,6 @@ private:
 	void updateAgents(float deltaTime);
 	void updateBullets(float deltaTime);
 
-	Solengine::GameState m_gameState;
-	int m_screenWidth;
-	int m_screenHeight;
-	int m_currentLevel;
-	bool m_announceInConsoleFPS;
-	int m_fpsMax;
-	int m_numHumansKilled;
-	int m_numZombiesKilled;
-	Uint32 m_frameTime;
-
 	Solengine::FPSManager m_SOL_fpsManager;
 	View m_view;
 	Controller m_controller;
@@ -59,6 +50,16 @@ private:
 	std::vector<Bullet> m_bullets;
 	std::vector<Level*> p_levels;
 	std::vector<Human*> p_humans;
-	std::vector<Zombie*> p_zombies;		
+	std::vector<Zombie*> p_zombies;
+
+	Solengine::GameState m_gameState;
+	int m_screenWidth;
+	int m_screenHeight;
+	int m_currentLevel;	
+	int m_fpsMax;
+	int m_numHumansKilled;
+	int m_numZombiesKilled;
+	Uint32 m_frameTime;
+	bool m_announceInConsoleFPS; //rename this	
 };
 

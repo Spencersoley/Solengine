@@ -16,7 +16,6 @@ public:
 	void reload();
 
 private:
-
 	void fire(const glm::vec2& position, const glm::vec2& direction, std::vector<Bullet>& bullets);
 	
 	std::string m_name;
@@ -25,8 +24,6 @@ private:
 	float m_spread; //accuracy
 	float m_bulletDamage;
 	float m_bulletSpeed;
-
-	//frameCounter? name rethink. also, rethink member counters
-	float m_frameCounter;
+	float m_frameCounter; //move to stack?
 };
 

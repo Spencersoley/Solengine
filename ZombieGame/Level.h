@@ -17,7 +17,6 @@ public:
 
 	void draw();
 
-	//Getters
 	int getWidth() const { return m_levelData[0].size(); } //nts: It's a vector of strings. Width is the size of the string, height is the number of strings
 	int getHeight() const { return m_levelData.size(); }
 	int getNumHumans() const { return m_numHumans; }
@@ -26,12 +25,11 @@ public:
 	const std::vector<std::string>& getLevelData() const { return m_levelData; }
 
 private:
-	std::vector<std::string> m_levelData;
-	int m_numHumans;
+	std::vector<std::string> m_levelData;	
 	Solengine::SpriteBatch m_spriteBatch;
-
 	glm::vec2 m_startPlayerPosition;
 	std::vector<glm::vec2> m_startZombiePositions;
+	int m_numHumans;
 };
 
 //Render a texture for each tile
