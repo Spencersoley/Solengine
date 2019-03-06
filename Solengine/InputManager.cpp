@@ -32,10 +32,11 @@ namespace Solengine {
 	{
 		auto it = _keyMap.find(keyID);
 		
-		//returns false if key is not in the map
+		//.end returns true if key 'it' is not in the map
+		//this bool returns true if 'it' is in the map
 		if (it != _keyMap.end()) 
 		{
-			//returns the (boolean) second value in each pair
+			//function returns the (as a boolean) second value in the pair 'it' is in
 			return it->second;
 		}
 		else

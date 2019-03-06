@@ -30,7 +30,7 @@ MainGame::MainGame() :
 	_screenWidth(1200),
 	_screenHeight(600),
 	_gameState(GameState::PLAY),
-	_fpsMax(80),
+	_fpsMax(60),
 	_announceInConsoleFPS(true),
 	_player(nullptr),
 	_numHumansKilled(0),
@@ -194,12 +194,12 @@ void MainGame::processInput()
 	}
 
 	if (_SOL_inputManager.key(SDLK_q))
-	{
-		view._SOL_cam.setScale(view._SOL_cam.getScale() + SCALE_SPEED);
+	{	
+		view.scale(SCALE_SPEED);
 	}
 	if (_SOL_inputManager.key(SDLK_e))
 	{
-		view._SOL_cam.setScale(view._SOL_cam.getScale() - SCALE_SPEED);
+		view.scale(-SCALE_SPEED);
 	}
 }
 

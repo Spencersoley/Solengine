@@ -106,3 +106,8 @@ void View::drawGame()
 
 	_SOL_window.swapBuffer();
 }
+
+void View::scale(float scaleSpeed)
+{
+	_SOL_cam.setScale(_SOL_cam.getScale() + scaleSpeed);
+}

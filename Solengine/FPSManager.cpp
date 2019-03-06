@@ -24,7 +24,7 @@ namespace Solengine
 
 	void FPSManager::end(bool track)
 	{
-	    if (track) trackFPS();
+		if (track) trackFPS();
 		limitFPS();
 	}
 

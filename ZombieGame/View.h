@@ -29,6 +29,8 @@ public:
 
 	void update(glm::vec2 playerPos);
 
+	void scale(float scaleSpeed);
+
 	Solengine::Camera2D _SOL_cam;
 	Solengine::Window _SOL_window;
 	Solengine::SpriteBatch _SOL_agentSpriteBatch;
