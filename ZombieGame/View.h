@@ -25,20 +25,18 @@ public:
 
 	void drawGame();
 
-	void init(std::vector<Level*>* levels, std::vector<Human*>* humans, std::vector<Zombie*>* zombies, std::vector<Bullet>* bullets, Player* player, float screenwidth, float screenheight);
+	void init(Player* player, std::vector<Level*>* levels, std::vector<Human*>* humans, std::vector<Zombie*>* zombies, std::vector<Bullet>* bullets, float screenwidth, float screenheight);
 
-	void update(glm::vec2 playerPos);
+	void update();
 
 	void scale(float scaleSpeed);
 
+private: 
+	Solengine::GLSLProgram _SOL_shaderProgram;
 	Solengine::Camera2D _SOL_cam;
 	Solengine::Window _SOL_window;
 	Solengine::SpriteBatch _SOL_agentSpriteBatch;
 
-private: 
-
-	Solengine::GLSLProgram _SOL_shaderProgram;
-	
 	std::vector<Level*>* _levels;
 	std::vector<Human*>* _humans;
 	std::vector<Zombie*>* _zombies;

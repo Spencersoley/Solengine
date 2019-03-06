@@ -1,12 +1,14 @@
 #pragma once
 
+#include <SDL/SDL.h>
+
 #include <unordered_map>
 #include <glm/glm.hpp>
 
-//Could be expanded to allow for choosing your own hotkeys
+#include "GameState.h"
 
 namespace Solengine {
-
+//Checks for inputs, changes keystates
 	class InputManager
 	{
 	public:
@@ -18,6 +20,8 @@ namespace Solengine {
 		void keyUp(unsigned int keyID);
 		void setMouseCoords(int x, int y);
 		bool key(unsigned int keyID);
+
+		Solengine::GameState processInput();
 
 		glm::vec2 getMouseCoords() { return _mouseCoords; }
 

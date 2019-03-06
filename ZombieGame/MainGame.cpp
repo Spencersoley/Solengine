@@ -29,10 +29,9 @@ const float PLAYER_SPEED = 10.0f;
 MainGame::MainGame() :
 	_screenWidth(1200),
 	_screenHeight(600),
-	_gameState(GameState::PLAY),
+	_gameState(Solengine::GameState::PLAY),
 	_fpsMax(60),
 	_announceInConsoleFPS(true),
-	_player(nullptr),
 	_numHumansKilled(0),
 	_numZombiesKilled(0)
 {
@@ -46,7 +45,7 @@ MainGame::~MainGame()
 	{
 		delete _levels[i];
 	}
-	for (size_t i = 0; i < _humans.size(); i++) 
+	for (size_t i = 1; i < _humans.size(); i++) 
 	{
 		delete _humans[i];
 	}
@@ -67,7 +66,8 @@ void MainGame::run()
 void MainGame::initSystems()
 {
 	Solengine::initialiseSDL();
-	view.init(&_levels, &_humans, &_zombies, &_bullets, _player, _screenWidth, _screenHeight);
+	_view.init(&_player, &_levels, &_humans, &_zombies, &_bullets, _screenWidth, _screenHeight);
+	_controller.init(&_view);
 	_SOL_fpsManager.init(_fpsMax);
 	initLevel();
 }
@@ -78,10 +78,13 @@ void MainGame::initLevel()
 	_levels.push_back(new Level("Levels/level1.txt"));
 	_currentLevel = 0;
 
-	_player = new Player();
-	_player->init(PLAYER_SPEED, _levels[_currentLevel]->getStartPlayerPosition(), &_SOL_inputManager, &view._SOL_cam, &_bullets);
+	_player.init(PLAYER_SPEED, _levels[_currentLevel]->getStartPlayerPosition(), &_bullets);
+	//Passes reference of player to the controller. The controller passes a reference of th input manager to the player.
+	//Anything taking direct input will need to a reference to the input manager.
+	_controller.initPlayer(&_player);
+	//_view.playerInit();
 
-	_humans.push_back(_player);
+	_humans.push_back(&_player);
 
 	std::mt19937 randomEngine;
 	randomEngine.seed((unsigned int)time(nullptr));
@@ -105,9 +108,9 @@ void MainGame::initLevel()
 	}
 
 	//Give player guns
-	_player->addGun(new Gun("Pistol", 30, 1, 1.0f, 1.0f, 20.0f));
-	_player->addGun(new Gun("Shotgun", 60, 20, 10.0f, 4.0f, 10.0f));
-	_player->addGun(new Gun("MG", 10, 1, 1.5f, 200.0f, 15.0f));
+	_player.addGun(new Gun("Pistol", 30, 1, 1.0f, 1.0f, 20.0f));
+	_player.addGun(new Gun("Shotgun", 60, 20, 10.0f, 4.0f, 10.0f));
+	_player.addGun(new Gun("MG", 10, 1, 1.5f, 200.0f, 15.0f));
 }
 
  //Game loop
@@ -120,20 +123,22 @@ void MainGame::gameLoop()
 	//When initialised to true, this enables fps console announcing
 	bool trackFPS = _announceInConsoleFPS;
 
-	while (_gameState != GameState::EXIT)
+	while (_gameState != Solengine::GameState::EXIT)
 	{
 		//For calculating and imiting FPS
 		_SOL_fpsManager.begin();
 
 		checkVictory();
-		processInput();	
+		
+		//handles input
+		_gameState = _controller.processInput();	
 
 		std::tuple<float, float> deltaTimeAndTotalTicks = getDeltaTimeAndTotalTicks(DESIRED_FRAMETIME, prevTicks);
 		prevTicks = std::get<1>(deltaTimeAndTotalTicks);
 		updatePhysics(std::get<0>(deltaTimeAndTotalTicks), MAX_PHYSICS_STEPS, MAX_DELTA_TIME);
 	
 		//handles rendering
-		view.update(_player->getPosition());
+		_view.update();
 
 		//Calculates, announces, and limits FPS
 		_SOL_fpsManager.end(trackFPS);
@@ -157,49 +162,6 @@ void MainGame::checkVictory()
 		std::printf("***Victory!**** \n You killed %d humans and %d zombies. There are %d/%d civilians remainings",
 			_numHumansKilled, _numZombiesKilled, _humans.size() - 1, _levels[_currentLevel]->getNumHumans());
 		Solengine::fatalError("");
-	}
-}
-
-//Check for pending events, and closes SDL program if the event is a change in GameState.
-void MainGame::processInput()
-{
-	SDL_Event evnt;
-
-	const float CAMERA_SPEED = 2.0f;
-	const float SCALE_SPEED = 0.1f;
-
-	while (SDL_PollEvent(&evnt))
-	{
-		switch (evnt.type)
-		{
-		case SDL_QUIT:
-			_gameState = GameState::EXIT;
-			break;
-		case SDL_MOUSEMOTION:
-			_SOL_inputManager.setMouseCoords(evnt.motion.x, evnt.motion.y);
-			break;
-		case SDL_MOUSEBUTTONDOWN:
-			_SOL_inputManager.keyDown(evnt.button.button);
-			break;
-		case SDL_MOUSEBUTTONUP:
-			_SOL_inputManager.keyUp(evnt.button.button);
-			break;
-		case SDL_KEYDOWN:
-			_SOL_inputManager.keyDown(evnt.key.keysym.sym);
-			break;
-		case SDL_KEYUP:
-			_SOL_inputManager.keyUp(evnt.key.keysym.sym);
-			break;
-		}
-	}
-
-	if (_SOL_inputManager.key(SDLK_q))
-	{	
-		view.scale(SCALE_SPEED);
-	}
-	if (_SOL_inputManager.key(SDLK_e))
-	{
-		view.scale(-SCALE_SPEED);
 	}
 }
 
@@ -254,7 +216,7 @@ void MainGame::updateAgents(float deltaTime)
 		}
 
 		//zombie player (loss condition)
-		if (_zombies[i]->collisionWithAgent(_player))
+		if (_zombies[i]->collisionWithAgent(&_player))
 		{
 			std::printf("***DEFEAT!***");
 			Solengine::fatalError("");

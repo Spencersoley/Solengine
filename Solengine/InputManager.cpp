@@ -15,6 +15,39 @@ namespace Solengine {
 	{
 	}
 
+	//Checks all queued events, changing their states accordingly
+	Solengine::GameState InputManager::processInput()
+	{
+		SDL_Event evnt;
+
+		while (SDL_PollEvent(&evnt))
+		{
+			switch (evnt.type)
+			{
+			case SDL_QUIT:
+				return Solengine::GameState::EXIT;
+				break;
+			case SDL_MOUSEMOTION:
+				setMouseCoords(evnt.motion.x, evnt.motion.y);
+				break;
+			case SDL_MOUSEBUTTONDOWN:
+				keyDown(evnt.button.button);
+				break;
+			case SDL_MOUSEBUTTONUP:
+				keyUp(evnt.button.button);
+				break;
+			case SDL_KEYDOWN:
+				keyDown(evnt.key.keysym.sym);
+				break;
+			case SDL_KEYUP:
+				keyUp(evnt.key.keysym.sym);
+				break;
+			}
+		}
+
+		return Solengine::GameState::PLAY;
+	}
+
 	//Edits the keyMap
 	void InputManager::keyDown(unsigned int keyID)
 	{
@@ -50,5 +83,4 @@ namespace Solengine {
 		_mouseCoords.x = (float)x;
 		_mouseCoords.y = (float)y;
 	}
-
 }

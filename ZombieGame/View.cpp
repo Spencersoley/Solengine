@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "Zombie.h"
+#include <glm/glm.hpp>
 
 View::View()
 {
@@ -12,7 +13,8 @@ View::~View()
 {
 }
 
-void View::init(std::vector<Level*>* levels, std::vector<Human*>* humans, std::vector<Zombie*>* zombies, std::vector<Bullet>* bullets, Player* player, float screenwidth, float screenheight)
+//View needs a reference to everything we want to draw. we'll pass them all with init. We'll also create a window and initialise shader/spritebatch/camera here.
+void View::init(Player* player, std::vector<Level*>* levels, std::vector<Human*>* humans, std::vector<Zombie*>* zombies, std::vector<Bullet>* bullets, float screenwidth, float screenheight)
 {
 	_SOL_window.create("Zom", screenwidth, screenheight, 0);
 
@@ -32,13 +34,14 @@ void View::init(std::vector<Level*>* levels, std::vector<Human*>* humans, std::v
 	_zombies = zombies;
 	_bullets = bullets;
 	_player = player;
+
+	_player->setCamera(&_SOL_cam);
 }
 
-void View::update(glm::vec2 playerPos)
+void View::update()
 {
 	//Camera follows player
-
-	_SOL_cam.setPosition(playerPos);
+	_SOL_cam.setPosition(_player->getPosition());
 
 	_SOL_cam.update();
 

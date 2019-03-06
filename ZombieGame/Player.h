@@ -16,7 +16,11 @@ public:
 	Player();
 	~Player();
 
-	void init(float speed, glm::vec2 pos, Solengine::InputManager* inputManager, Solengine::Camera2D* cam, std::vector<Bullet>* bullets);
+	void init(float speed, glm::vec2 pos, std::vector<Bullet>* bullets);
+
+	void initInputManager(Solengine::InputManager* inputManager);
+
+	void setCamera(Solengine::Camera2D* cam) { _cam = cam; }
 
 	void addGun(Gun* gun);
 

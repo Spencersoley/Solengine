@@ -9,6 +9,7 @@
 #include <Solengine/Camera2D.h>
 #include <Solengine/SpriteBatch.h>
 #include <Solengine/InputManager.h>
+#include <Solengine/GameState.h>
 
 #include <SDL/SDL.h>
 #include <GL/glew.h>
@@ -18,10 +19,9 @@
 #include "Level.h"
 #include "Player.h"
 #include "View.h"
+#include "Controller.h"
 
 class Zombie;
-
-enum class GameState { PLAY, EXIT };
 
 class MainGame
 {
@@ -49,22 +49,23 @@ private:
 
 	int _screenWidth;
 	int _screenHeight;
-	GameState _gameState;
+	Solengine::GameState _gameState;
 	bool _announceInConsoleFPS;
 	int _currentLevel;
 
 	//SOL helps indicate engine use
 	Solengine::FPSManager _SOL_fpsManager;
-	Solengine::InputManager _SOL_inputManager;
 
-	View view;
+	View _view;
+	Controller _controller;
 
+	Player _player;
 	std::vector<Bullet> _bullets;
 	std::vector<Level*> _levels;
 	std::vector<Human*> _humans;
 	std::vector<Zombie*> _zombies;
 	
-	Player* _player;
+	
 
 	int _fpsMax;
 
