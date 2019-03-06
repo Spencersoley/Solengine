@@ -1,16 +1,8 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (GraphicsTutorials.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  Controller.cpp
-  Main.cpp
   MainGame.cpp
 c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(69): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(119): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
 c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(119): warning C4244: 'initializing': conversion from 'int' to 'const float', possible loss of data
 c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(122): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
 c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(151): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
-  Player.cpp
-  View.cpp
-c:\users\ssole\source\repos\solengineproject\zombiegame\view.cpp(19): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\zombiegame\view.cpp(29): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-  Generating Code...
-  LINK : C:\Users\Ssole\source\repos\SolengineProject\Debug\ZombieGame.exe not found or not built by the last incremental link; performing full link
   ZombieGame.vcxproj -> C:\Users\Ssole\source\repos\SolengineProject\Debug\ZombieGame.exe

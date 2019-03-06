@@ -19,9 +19,9 @@ public:
 	Solengine::GameState processInput();
 	
 private:
-	View* _view;
-	Player* _player;
+	View* p_view;
+	Player* p_player;
 
-	Solengine::InputManager _SOL_inputManager;
+	Solengine::InputManager m_SOL_inputManager;
 };
 

@@ -23,19 +23,19 @@ void Agent::collisionWithLevel(const std::vector<std::string>& levelData)
 	//Will only add the tile if it's not an empty space.
 	checkTilePosition(levelData,
 		              collideTilePositions,
-		              _position.x, _position.y);
+		              m_position.x, m_position.y);
 
 	checkTilePosition(levelData,
 		              collideTilePositions,
-	              	  _position.x + AGENT_WIDTH, _position.y);
+	              	  m_position.x + AGENT_WIDTH, m_position.y);
 
 	checkTilePosition(levelData,
 		              collideTilePositions,
-		              _position.x, _position.y + AGENT_WIDTH);
+		              m_position.x, m_position.y + AGENT_WIDTH);
 
 	checkTilePosition(levelData,
 	                  collideTilePositions,
-	       	          _position.x + AGENT_WIDTH , _position.y + AGENT_WIDTH);
+	       	         m_position.x + AGENT_WIDTH , m_position.y + AGENT_WIDTH);
 
 	//Calls a collision function on the tiles in the vector
 	for (size_t i = 0; i < collideTilePositions.size(); i++)
@@ -72,7 +72,7 @@ void Agent::collisionWithTile(glm::vec2 tilePos)
 	const float MIN_DISTANCE = AGENT_RADIUS + TILE_RADIUS;
 
 	//Get a vector of the distance between the colliding tile and the agent
-	glm::vec2 centrePos = _position + glm::vec2(AGENT_RADIUS);
+	glm::vec2 centrePos = m_position + glm::vec2(AGENT_RADIUS);
 	glm::vec2 distVec = centrePos - tilePos;
 	
 	float xDepth = MIN_DISTANCE - abs(distVec.x);
@@ -85,11 +85,11 @@ void Agent::collisionWithTile(glm::vec2 tilePos)
 		{
 			if (distVec.x < 0)
 			{
-				_position.x -= xDepth;
+				m_position.x -= xDepth;
 			}
 			else
 			{
-				_position.x += xDepth;
+				m_position.x += xDepth;
 			}
 
 			redirect();
@@ -98,11 +98,11 @@ void Agent::collisionWithTile(glm::vec2 tilePos)
 		{
 			if (distVec.y < 0)
 			{
-				_position.y -= yDepth;
+				m_position.y -= yDepth;
 			}
 			else
 			{
-				_position.y += yDepth;
+				m_position.y += yDepth;
 			}
 
 			redirect();
@@ -115,7 +115,7 @@ bool Agent::collisionWithAgent(Agent* agent)
 {
 	const float MIN_DISTANCE = 2.0f * AGENT_RADIUS;
 
-	glm::vec2 centrePosA = _position + glm::vec2(AGENT_RADIUS);
+	glm::vec2 centrePosA = m_position + glm::vec2(AGENT_RADIUS);
 	glm::vec2 centrePosB = agent->getPosition() + glm::vec2(AGENT_RADIUS);
 	glm::vec2 distVec = centrePosA - centrePosB;
 
@@ -127,8 +127,8 @@ bool Agent::collisionWithAgent(Agent* agent)
 	{
 		glm::vec2 collisionDepthVec = glm::normalize(distVec) * collisionDepth;
 
-		_position += collisionDepthVec / 2.0f;
-		agent->_position -= collisionDepthVec / 2.0f;
+		m_position += collisionDepthVec / 2.0f;
+		agent->m_position -= collisionDepthVec / 2.0f;
 		return true;
 	}
 
@@ -138,8 +138,8 @@ bool Agent::collisionWithAgent(Agent* agent)
 
 bool Agent::applyDamage(float damage)
 {
-	_health -= damage;
-	if (_health <= 0)
+	m_health -= damage;
+	if (m_health <= 0)
 	{
 		return true;
 	}
@@ -157,10 +157,10 @@ void Agent::draw(Solengine::SpriteBatch& _spriteBatch)
 	const glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
 
 	glm::vec4 destRect;
-	destRect.x = _position.x;
-	destRect.y = _position.y;
+	destRect.x = m_position.x;
+	destRect.y = m_position.y;
 	destRect.z = AGENT_WIDTH;
 	destRect.w = AGENT_WIDTH;
 
-	_spriteBatch.draw(destRect, uvRect, textureID, 0.0f, _colour);
+	_spriteBatch.draw(destRect, uvRect, textureID, 0.0f, m_colour);
 }

@@ -20,19 +20,18 @@ public:
 
 	void initInputManager(Solengine::InputManager* inputManager);
 
-	void setCamera(Solengine::Camera2D* cam) { _cam = cam; }
+	void setCamera(Solengine::Camera2D* cam) { p_cam = cam; }
 
 	void addGun(Gun* gun);
 
 	void move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, float deltaTime);
 
 private:
-	Solengine::InputManager* _inputManager;
+	int m_currentGunIndex;
+	std::vector<Gun*> mp_guns;
 
-	std::vector<Gun*> _guns;
-	int _currentGunIndex;
-
-	Solengine::Camera2D* _cam;
-	std::vector<Bullet>* _bullets;
+	Solengine::InputManager* p_inputManager;
+	Solengine::Camera2D* p_cam;
+	std::vector<Bullet>* m_bullets;
 };
 

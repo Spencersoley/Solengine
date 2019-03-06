@@ -24,16 +24,16 @@ public:
 
 	void move(float deltaTime);
 
-	float getDamage() const { return _damage; }
+	float getDamage() const { return m_damage; }
 
 private:	
 
-	int _id;
-	int _lifeTime;
+	int m_id;
+	int m_lifeTime;
 
-	glm::vec2 _position;
-	glm::vec2 _direction;
-	float _damage;
-	float _speed;
+	glm::vec2 m_position;
+	glm::vec2 m_direction;
+	float m_damage;
+	float m_speed;
 };
 

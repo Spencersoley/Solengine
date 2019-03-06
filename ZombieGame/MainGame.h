@@ -47,32 +47,30 @@ private:
 	void updateBullets(float deltaTime);
 
 
-	int _screenWidth;
-	int _screenHeight;
-	Solengine::GameState _gameState;
-	bool _announceInConsoleFPS;
-	int _currentLevel;
+	int m_screenWidth;
+	int m_screenHeight;
+	Solengine::GameState m_gameState;
+	bool m_announceInConsoleFPS;
+	int m_currentLevel;
 
 	//SOL helps indicate engine use
-	Solengine::FPSManager _SOL_fpsManager;
+	Solengine::FPSManager m_SOL_fpsManager;
 
-	View _view;
-	Controller _controller;
+	View m_view;
+	Controller m_controller;
+	Player m_player;
 
-	Player _player;
-	std::vector<Bullet> _bullets;
-	std::vector<Level*> _levels;
-	std::vector<Human*> _humans;
-	std::vector<Zombie*> _zombies;
-	
-	
+	std::vector<Bullet> mm_bullets;
+	std::vector<Level*> mp_levels;
+	std::vector<Human*> mp_humans;
+	std::vector<Zombie*> mp_zombies;		
 
-	int _fpsMax;
+	int m_fpsMax;
 
-	int _numHumansKilled;
-	int _numZombiesKilled;
+	int m_numHumansKilled;
+	int m_numZombiesKilled;
 
 
-	Uint32 _frameTime;
+	Uint32 m_frameTime;
 };
 

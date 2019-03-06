@@ -27,13 +27,13 @@ const float PLAYER_SPEED = 10.0f;
 
 //Constructor will initialise private member variables
 MainGame::MainGame() :
-	_screenWidth(1200),
-	_screenHeight(600),
-	_gameState(Solengine::GameState::PLAY),
-	_fpsMax(60),
-	_announceInConsoleFPS(true),
-	_numHumansKilled(0),
-	_numZombiesKilled(0)
+	m_screenWidth(1200),
+	m_screenHeight(600),
+	m_gameState(Solengine::GameState::PLAY),
+	m_fpsMax(60),
+	m_announceInConsoleFPS(true),
+	m_numHumansKilled(0),
+	m_numZombiesKilled(0)
 {
 
 }
@@ -41,17 +41,17 @@ MainGame::MainGame() :
 //Destructor
 MainGame::~MainGame()
 {
-	for (size_t i = 0; i < _levels.size(); i++)
+	for (size_t i = 0; i < mp_levels.size(); i++)
 	{
-		delete _levels[i];
+		delete mp_levels[i];
 	}
-	for (size_t i = 1; i < _humans.size(); i++) 
+	for (size_t i = 1; i < mp_humans.size(); i++) 
 	{
-		delete _humans[i];
+		delete mp_humans[i];
 	}
-	for (size_t i = 0; i < _zombies.size(); i++) 
+	for (size_t i = 0; i < mp_zombies.size(); i++) 
 	{
-		delete _zombies[i];
+		delete mp_zombies[i];
 	}
 }
 
@@ -66,82 +66,82 @@ void MainGame::run()
 void MainGame::initSystems()
 {
 	Solengine::initialiseSDL();
-	_view.init(&_player, &_levels, &_humans, &_zombies, &_bullets, _screenWidth, _screenHeight);
-	_controller.init(&_view);
-	_SOL_fpsManager.init(_fpsMax);
+	m_view.init(&m_player, m_screenWidth, m_screenHeight);
+	m_controller.init(&m_view);
+	m_SOL_fpsManager.init(m_fpsMax);
 	initLevel();
 }
 
 //Initialise the game content
 void MainGame::initLevel()
 {	
-	_levels.push_back(new Level("Levels/level1.txt"));
-	_currentLevel = 0;
+	mp_levels.push_back(new Level("Levels/level1.txt"));
+	m_currentLevel = 0;
 
-	_player.init(PLAYER_SPEED, _levels[_currentLevel]->getStartPlayerPosition(), &_bullets);
+	m_player.init(PLAYER_SPEED, mp_levels[m_currentLevel]->getStartPlayerPosition(), &mm_bullets);
 	//Passes reference of player to the controller. The controller passes a reference of th input manager to the player.
 	//Anything taking direct input will need to a reference to the input manager.
-	_controller.initPlayer(&_player);
+	m_controller.initPlayer(&m_player);
 	//_view.playerInit();
 
-	_humans.push_back(&_player);
+	mp_humans.push_back(&m_player);
 
 	std::mt19937 randomEngine;
 	randomEngine.seed((unsigned int)time(nullptr));
-	std::uniform_int_distribution<int> randX(2, _levels[_currentLevel]->getWidth() - 2);
-	std::uniform_int_distribution<int> randY(2, _levels[_currentLevel]->getHeight() - 2);
+	std::uniform_int_distribution<int> randX(2, mp_levels[m_currentLevel]->getWidth() - 2);
+	std::uniform_int_distribution<int> randY(2, mp_levels[m_currentLevel]->getHeight() - 2);
 
 	//Spawn humans
-	for (int i = 0; i < _levels[_currentLevel]->getNumHumans(); i++)
+	for (int i = 0; i < mp_levels[m_currentLevel]->getNumHumans(); i++)
 	{
-		_humans.push_back(new Human);
+		mp_humans.push_back(new Human);
 		glm::vec2 pos(randX(randomEngine) * TILE_WIDTH, randY(randomEngine) * TILE_WIDTH);
-		_humans.back()->init(HUMAN_SPEED, pos);
+		mp_humans.back()->init(HUMAN_SPEED, pos);
 	}
 
 	//Spawn zombies
-	const std::vector<glm::vec2>& zombiePositions = _levels[_currentLevel]->getStartZombiePositions();
+	const std::vector<glm::vec2>& zombiePositions = mp_levels[m_currentLevel]->getStartZombiePositions();
 	for (size_t i = 0; i < zombiePositions.size(); i++)
 	{
-		_zombies.push_back(new Zombie);
-		_zombies.back()->init(ZOMBIE_SPEED, zombiePositions[i]);
+		mp_zombies.push_back(new Zombie);
+		mp_zombies.back()->init(ZOMBIE_SPEED, zombiePositions[i]);
 	}
 
 	//Give player guns
-	_player.addGun(new Gun("Pistol", 30, 1, 1.0f, 1.0f, 20.0f));
-	_player.addGun(new Gun("Shotgun", 60, 20, 10.0f, 4.0f, 10.0f));
-	_player.addGun(new Gun("MG", 10, 1, 1.5f, 200.0f, 15.0f));
+	m_player.addGun(new Gun("Pistol", 30, 1, 1.0f, 1.0f, 20.0f));
+	m_player.addGun(new Gun("Shotgun", 60, 20, 10.0f, 4.0f, 10.0f));
+	m_player.addGun(new Gun("MG", 10, 1, 1.5f, 200.0f, 15.0f));
 }
 
  //Game loop
 void MainGame::gameLoop()
 {
-	const float DESIRED_FRAMETIME = 1000 / _fpsMax;
+	const float DESIRED_FRAMETIME = 1000 / m_fpsMax;
 	const int MAX_PHYSICS_STEPS = 6;
 	const float MAX_DELTA_TIME = 1.0f;
 	float prevTicks = SDL_GetTicks();
 	//When initialised to true, this enables fps console announcing
-	bool trackFPS = _announceInConsoleFPS;
+	bool trackFPS = m_announceInConsoleFPS;
 
-	while (_gameState != Solengine::GameState::EXIT)
+	while (m_gameState != Solengine::GameState::EXIT)
 	{
 		//For calculating and imiting FPS
-		_SOL_fpsManager.begin();
+		m_SOL_fpsManager.begin();
 
 		checkVictory();
 		
 		//handles input
-		_gameState = _controller.processInput();	
+		m_gameState = m_controller.processInput();	
 
 		std::tuple<float, float> deltaTimeAndTotalTicks = getDeltaTimeAndTotalTicks(DESIRED_FRAMETIME, prevTicks);
 		prevTicks = std::get<1>(deltaTimeAndTotalTicks);
 		updatePhysics(std::get<0>(deltaTimeAndTotalTicks), MAX_PHYSICS_STEPS, MAX_DELTA_TIME);
 	
 		//handles rendering
-		_view.update();
+		m_view.update(mp_humans, mp_zombies, mp_levels, mm_bullets);
 
 		//Calculates, announces, and limits FPS
-		_SOL_fpsManager.end(trackFPS);
+		m_SOL_fpsManager.end(trackFPS);
 	}
 }
 
@@ -157,10 +157,10 @@ void MainGame::checkVictory()
 {
     //todo: _currentLevel++; initLevel(...);
 
-	if (_zombies.size() == 0)
+	if (mp_zombies.size() == 0)
 	{
 		std::printf("***Victory!**** \n You killed %d humans and %d zombies. There are %d/%d civilians remainings",
-			_numHumansKilled, _numZombiesKilled, _humans.size() - 1, _levels[_currentLevel]->getNumHumans());
+			m_numHumansKilled, m_numZombiesKilled, mp_humans.size() - 1, mp_levels[m_currentLevel]->getNumHumans());
 		Solengine::fatalError("");
 	}
 }
@@ -181,42 +181,42 @@ void MainGame::updatePhysics(float totalDeltaTime, float MAX_PHYSICS_STEPS, floa
 
 void MainGame::updateAgents(float deltaTime)
 {
-	for (size_t i = 0; i < _zombies.size(); i++)
+	for (size_t i = 0; i < mp_zombies.size(); i++)
 	{
-		_zombies[i]->move(_humans, _zombies, deltaTime);
+		mp_zombies[i]->move(mp_humans, mp_zombies, deltaTime);
 	}
 
-	for (size_t i = 0; i < _humans.size(); i++)
+	for (size_t i = 0; i < mp_humans.size(); i++)
 	{
 		//Remember, the player is a human. Player redefines move slightly!
-		_humans[i]->move(_humans, _zombies, deltaTime);
+		mp_humans[i]->move(mp_humans, mp_zombies, deltaTime);
 	}
 
 	//zombie collision
-	for (size_t i = 0; i < _zombies.size(); i++)
+	for (size_t i = 0; i < mp_zombies.size(); i++)
 	{
 		//zombie level
-		_zombies[i]->collisionWithLevel(_levels[_currentLevel]->getLevelData());
+		mp_zombies[i]->collisionWithLevel(mp_levels[m_currentLevel]->getLevelData());
 		//zombie zombie
-		for (size_t j = i + 1; j < _zombies.size(); j++)
+		for (size_t j = i + 1; j < mp_zombies.size(); j++)
 		{
-			_zombies[i]->collisionWithAgent(_zombies[j]);
+			mp_zombies[i]->collisionWithAgent(mp_zombies[j]);
 		}
 		//zombie human
-		for (size_t j = 1; j < _humans.size(); j++)
+		for (size_t j = 1; j < mp_humans.size(); j++)
 		{
-			if (_zombies[i]->collisionWithAgent(_humans[j]))
+			if (mp_zombies[i]->collisionWithAgent(mp_humans[j]))
 			{
-				_zombies.push_back(new Zombie);
-				_zombies.back()->init(ZOMBIE_SPEED, _humans[j]->getPosition());
-				delete _humans[j];
-				_humans[j] = _humans.back();
-				_humans.pop_back();
+				mp_zombies.push_back(new Zombie);
+				mp_zombies.back()->init(ZOMBIE_SPEED, mp_humans[j]->getPosition());
+				delete mp_humans[j];
+				mp_humans[j] = mp_humans.back();
+				mp_humans.pop_back();
 			}
 		}
 
 		//zombie player (loss condition)
-		if (_zombies[i]->collisionWithAgent(&_player))
+		if (mp_zombies[i]->collisionWithAgent(&m_player))
 		{
 			std::printf("***DEFEAT!***");
 			Solengine::fatalError("");
@@ -224,52 +224,52 @@ void MainGame::updateAgents(float deltaTime)
 	}
 
 	//human collision
-	for (size_t i = 0; i < _humans.size(); i++)
+	for (size_t i = 0; i < mp_humans.size(); i++)
 	{
 		//human level
-		_humans[i]->collisionWithLevel(_levels[_currentLevel]->getLevelData());
+		mp_humans[i]->collisionWithLevel(mp_levels[m_currentLevel]->getLevelData());
 		//human human
-		for (size_t j = i + 1; j < _humans.size(); j++)
+		for (size_t j = i + 1; j < mp_humans.size(); j++)
 		{
-			_humans[i]->collisionWithAgent(_humans[j]);
+			mp_humans[i]->collisionWithAgent(mp_humans[j]);
 		}
 	}
 }
 
 void MainGame::updateBullets(float deltaTime)
 {
-	for (size_t i = 0; i < _bullets.size(); i++)
+	for (size_t i = 0; i < mm_bullets.size(); i++)
 	{
 		bool bulletRemoved = false;
-		_bullets[i].move(deltaTime);
+		mm_bullets[i].move(deltaTime);
 
-		if (_bullets[i].collisionWithWorld(_levels[_currentLevel]->getLevelData()))
+		if (mm_bullets[i].collisionWithWorld(mp_levels[m_currentLevel]->getLevelData()))
 		{
-			_bullets[i] = _bullets.back();
-			_bullets.pop_back();
+			mm_bullets[i] = mm_bullets.back();
+			mm_bullets.pop_back();
 			i--;
 			bulletRemoved = true;
 		}
 
 		if (!bulletRemoved)
 		{
-			for (size_t j = 0; j < _zombies.size(); j++)
+			for (size_t j = 0; j < mp_zombies.size(); j++)
 			{
-				if (_bullets[i].collisionWithAgent(_zombies[j]))
+				if (mm_bullets[i].collisionWithAgent(mp_zombies[j]))
 				{
-					if (_zombies[j]->applyDamage(_bullets[i].getDamage()))
+					if (mp_zombies[j]->applyDamage(mm_bullets[i].getDamage()))
 					{
 						//True on zombie death
-						delete _zombies[j];
-						_zombies[j] = _zombies.back();
-						_zombies.pop_back();
+						delete mp_zombies[j];
+						mp_zombies[j] = mp_zombies.back();
+						mp_zombies.pop_back();
 						j--;
-						_numZombiesKilled++;
+						m_numZombiesKilled++;
 					}
 
 					//Removes the bullet
-					_bullets[i] = _bullets.back();
-					_bullets.pop_back();
+					mm_bullets[i] = mm_bullets.back();
+					mm_bullets.pop_back();
 					i--;
 					bulletRemoved = true;
 
@@ -281,23 +281,23 @@ void MainGame::updateBullets(float deltaTime)
 
 		if (!bulletRemoved)
 		{
-			for (size_t j = 1; j < _humans.size(); j++)
+			for (size_t j = 1; j < mp_humans.size(); j++)
 			{
-				if (_bullets[i].collisionWithAgent(_humans[j]))
+				if (mm_bullets[i].collisionWithAgent(mp_humans[j]))
 				{
-					if (_humans[j]->applyDamage(_bullets[i].getDamage()))
+					if (mp_humans[j]->applyDamage(mm_bullets[i].getDamage()))
 					{
 						//Zombie death when this returns true
-						delete _humans[j];
-						_humans[j] = _humans.back();
-						_humans.pop_back();
+						delete mp_humans[j];
+						mp_humans[j] = mp_humans.back();
+						mp_humans.pop_back();
 						j--;
-						_numHumansKilled++;
+						m_numHumansKilled++;
 					}
 
 					//Removes the bullet
-					_bullets[i] = _bullets.back();
-					_bullets.pop_back();
+					mm_bullets[i] = mm_bullets.back();
+					mm_bullets.pop_back();
 					i--;
 					//Bullet died, no need for more zombie loops
 					break;

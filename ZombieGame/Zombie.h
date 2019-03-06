@@ -14,12 +14,12 @@ public:
 
 
 private:
-	int _frames;
+	int m_frames;
 
 	void redirect();
 
 	Human* getNearestHuman(std::vector<Human*>& humans);
 
-	Human* _nearestHuman = nullptr;
+	Human* p_nearestHuman = nullptr;
 };
 

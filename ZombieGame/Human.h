@@ -13,13 +13,13 @@ public:
 	virtual void move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, float deltaTime) override;
 
 private: 
-	int _turnRate;
-	int _frameCount;
+	int m_turnRate;
+	int m_frameCount;
 
 	void redirect();
 
 	Zombie* getNearestZombie(std::vector<Zombie*>& zombies);
 
-	Zombie* _nearestZombie = nullptr;
+	Zombie* p_nearestZombie = nullptr;
 };
 

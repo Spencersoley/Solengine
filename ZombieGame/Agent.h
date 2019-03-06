@@ -29,7 +29,7 @@ public:
 	void draw(Solengine::SpriteBatch& _spriteBatch);
 
 	//Do we have a real reason to use a getter? Is const for access without modification?
-	glm::vec2 getPosition() const { return _position; }
+	glm::vec2 getPosition() const { return m_position; }
 
 protected:
 
@@ -41,12 +41,12 @@ protected:
 
 	virtual void redirect() = 0;
 
-	glm::vec2 _position;
-	glm::vec2 _direction;
+	glm::vec2 m_position;
+	glm::vec2 m_direction;
 
-	float _speed;
-	float _health;
+	float m_speed;
+	float m_health;
 
-	Solengine::ColourRGBA8 _colour;
+	Solengine::ColourRGBA8 m_colour;
 };
 

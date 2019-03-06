@@ -2,7 +2,7 @@
 
 #include "Human.h"
 
-Zombie::Zombie() : _frames(0)
+Zombie::Zombie() : m_frames(0)
 {
 }
 
@@ -12,30 +12,30 @@ Zombie::~Zombie()
 
 void Zombie::init(float speed, glm::vec2 pos)
 {
-	_health = 150;
-	_speed = speed;
-	_position = pos;
+	m_health = 150;
+	m_speed = speed;
+	m_position = pos;
 
-	_colour = {/*r*/ 0, /*g*/ 150, /*b*/ 0, /*a*/ 255 };
+	m_colour = {/*r*/ 0, /*g*/ 150, /*b*/ 0, /*a*/ 255 };
 }
 
 void Zombie::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, float deltaTime)
 {
 	// Find the closest human every 80 frames
-	if (_frames > 80 || _nearestHuman == nullptr)
+	if (m_frames > 80 || p_nearestHuman == nullptr)
 	{
-		_nearestHuman = getNearestHuman(humans);
-		_frames = 0;
+		p_nearestHuman = getNearestHuman(humans);
+		m_frames = 0;
 	}
 	
 	// If we found a human, move towards him
-	if (_nearestHuman != nullptr) {
+	if (p_nearestHuman != nullptr) {
 		// Get the direction vector twoards the player
-		_direction = glm::normalize(_nearestHuman->getPosition() - _position);
-		_position += _direction * _speed * deltaTime;
+		m_direction = glm::normalize(p_nearestHuman->getPosition() - m_position);
+		m_position += m_direction * m_speed * deltaTime;
 	}
 
-	_frames++;
+	m_frames++;
 }
 
 Human* Zombie::getNearestHuman(std::vector<Human*>& humans) 
@@ -46,7 +46,7 @@ Human* Zombie::getNearestHuman(std::vector<Human*>& humans)
 
 	for (size_t i = 0; i < humans.size(); i++)
 	{
-		glm::vec2 distVec = humans[i]->getPosition() - _position;
+		glm::vec2 distVec = humans[i]->getPosition() - m_position;
 		float distance = glm::length(distVec);
 
 		if (distance < smallestDistance)

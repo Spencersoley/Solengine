@@ -18,20 +18,20 @@ public:
 	void draw();
 
 	//Getters
-	int getWidth() const { return _levelData[0].size(); } //nts: It's a vector of strings. Width is the size of the string, height is the number of strings
-	int getHeight() const { return _levelData.size(); }
-	int getNumHumans() const { return _numHumans; }
-	glm::vec2 getStartPlayerPosition() const { return _startPlayerPosition; }
-	const std::vector<glm::vec2>& getStartZombiePositions() const { return _startZombiePositions; }
-	const std::vector<std::string>& getLevelData() const { return _levelData; }
+	int getWidth() const { return m_levelData[0].size(); } //nts: It's a vector of strings. Width is the size of the string, height is the number of strings
+	int getHeight() const { return m_levelData.size(); }
+	int getNumHumans() const { return m_numHumans; }
+	glm::vec2 getStartPlayerPosition() const { return m_startPlayerPosition; }
+	const std::vector<glm::vec2>& getStartZombiePositions() const { return m_startZombiePositions; }
+	const std::vector<std::string>& getLevelData() const { return m_levelData; }
 
 private:
-	std::vector<std::string> _levelData;
-	int _numHumans;
-	Solengine::SpriteBatch _spriteBatch;
+	std::vector<std::string> m_levelData;
+	int m_numHumans;
+	Solengine::SpriteBatch m_spriteBatch;
 
-	glm::vec2 _startPlayerPosition;
-	std::vector<glm::vec2> _startZombiePositions;
+	glm::vec2 m_startPlayerPosition;
+	std::vector<glm::vec2> m_startZombiePositions;
 };
 
 //Render a texture for each tile
