@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Agent.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Controller.cpp" />
     <ClCompile Include="View.cpp" />
     <ClCompile Include="Gun.cpp" />
     <ClCompile Include="Human.cpp" />
@@ -33,6 +34,7 @@
   <ItemGroup>
     <ClInclude Include="Agent.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Controller.h" />
     <ClInclude Include="View.h" />
     <ClInclude Include="Gun.h" />
     <ClInclude Include="Human.h" />

@@ -1,8 +1,10 @@
 #include "Player.h"
 
 #include <SDL/SDL.h>
+#include <iostream>
 
 #include "Gun.h"
+
 
 Player::Player() : _currentGunIndex(-1)
 {
@@ -15,18 +17,19 @@ Player::~Player()
 	}
 }
 
-
-//init vs constructor?
-void Player::init(float speed, glm::vec2 pos, Solengine::InputManager* inputManager, Solengine::Camera2D* cam, std::vector<Bullet>* bullets)
+void Player::init(float speed, glm::vec2 pos, std::vector<Bullet>* bullets)
 {
 	_bullets = bullets;
-	_inputManager = inputManager;
-	_cam = cam;
 	_speed = speed;
 	_position = pos;
 	_health = 150;
 
 	_colour = {/*r*/ 255, /*g*/ 255, /*b*/ 0, /*a*/ 255 };
+}
+
+void Player::initInputManager(Solengine::InputManager* inputManager)
+{
+	_inputManager = inputManager;
 }
 
 void Player::addGun(Gun* gun)
@@ -42,24 +45,26 @@ void Player::addGun(Gun* gun)
 
 void Player::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, float deltaTime)
 {
+	glm::vec2 direction = { 0, 0 };
+
 	if (_inputManager->key(SDLK_w))
 	{
-		_position.y += _speed * deltaTime;
+		direction.y += 1;
 	}
 
 	if (_inputManager->key(SDLK_s))
 	{
-		_position.y -= _speed * deltaTime;
+		direction.y -= 1;
 	}
 
 	if (_inputManager->key(SDLK_a))
 	{
-		_position.x -= _speed * deltaTime;
+		direction.x -= 1;
 	}
 
 	if (_inputManager->key(SDLK_d))
 	{
-		_position.x += _speed * deltaTime;
+		direction.x += 1;
 	}
 
 	if (_inputManager->key(SDLK_1) && _guns.size() >= 0)
@@ -76,6 +81,13 @@ void Player::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, fl
 	{
 		_currentGunIndex = 2;
 	}
+
+	if (direction.x != 0 || direction.y != 0)
+	{
+		direction = glm::normalize(direction);
+	}
+
+	_position += direction * _speed * deltaTime;
 
 	//Guns, aiming, shooting, reloading
 	if (_currentGunIndex != -1)
