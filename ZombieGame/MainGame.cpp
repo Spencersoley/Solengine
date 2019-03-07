@@ -33,7 +33,8 @@ MainGame::MainGame() :
 	m_screenHeight(600),
 	m_gameState(Solengine::GameState::PLAY),
 	m_fpsMax(60),
-	m_announceInConsoleFPS(true),
+	m_gameSpeed(0.05f),
+	m_announceInConsoleFPS(false),
 	m_numHumansKilled(0),
 	m_numZombiesKilled(0),
 	m_globalFrameCount(0)
@@ -118,8 +119,8 @@ void MainGame::initLevel()
  //Game loop
 void MainGame::gameLoop()
 {
-	const float DESIRED_FRAMETICKS = 1000 / (float)m_fpsMax;
-	const int MAX_PHYSICS_STEPS = 6;
+	const float DESIRED_TICKS_PER_FRAME = 1000 / (float)m_fpsMax;
+	const int MAX_PHYSICS_STEPS = 5;
 	const float MAX_DELTA_TIME = 1.0f;
 	
 	//When initialised to true, this enables fps console announcing
@@ -127,21 +128,18 @@ void MainGame::gameLoop()
 
 	while (m_gameState != Solengine::GameState::EXIT)
 	{
-		//Uint32 startTicks = SDL_GetTicks();
 		checkVictory();
 		
 		//handles input
 		m_gameState = m_controller.processInput();	
 
-		updatePhysics(getDeltaTicks()/DESIRED_FRAMETICKS, MAX_PHYSICS_STEPS, MAX_DELTA_TIME);
-	
-		//std::cout << SDL_GetTicks() - startTicks << std::endl;
+		updatePhysics(MAX_PHYSICS_STEPS, MAX_DELTA_TIME);
 
 		//handles rendering
 		m_view.update(p_humans, p_zombies, p_levels, m_bullets);
 
 		//Calculates, announces, and limits FPS
-		m_SOL_fpsManager.limitFPS(trackFPS, DESIRED_FRAMETICKS);
+		m_SOL_fpsManager.limitFPS(trackFPS, DESIRED_TICKS_PER_FRAME);
 	}
 }
 
@@ -165,18 +163,23 @@ void MainGame::checkVictory()
 	}
 }
 
-void MainGame::updatePhysics(float totalDeltaTime, float MAX_PHYSICS_STEPS, float MAX_DELTA_TIME)
+void MainGame::updatePhysics(float MAX_PHYSICS_STEPS, float MAX_DELTA_TIME)
 {
-	int i = 0;
+	float adjustedDeltaTicks = getDeltaTicks()*m_gameSpeed;
+	updateAgents(adjustedDeltaTicks);
+	updateBullets(adjustedDeltaTicks);
 
-	while (totalDeltaTime > 0.0f && i < MAX_PHYSICS_STEPS)
+	/*
+	int i = 0;
+	while (adjustedDeltaTicks > 0.0f && i < MAX_PHYSICS_STEPS)
 	{
-		float deltaTime = std::min(totalDeltaTime, MAX_DELTA_TIME);
-		updateAgents(deltaTime);
-		updateBullets(deltaTime);
-		totalDeltaTime -= deltaTime;
+		float deltaTicks = std::min(adjustedDeltaTicks, MAX_DELTA_TIME);
+		updateAgents(deltaTicks);
+		updateBullets(deltaTicks);
+		adjustedDeltaTicks -= deltaTicks;
 		i++;
 	}
+	*/
 }
 
 void MainGame::updateAgents(float deltaTime)

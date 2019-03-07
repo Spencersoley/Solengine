@@ -38,7 +38,7 @@ private:
 	void gameLoop();
 	void checkVictory();
 	Uint32 getDeltaTicks();
-	void updatePhysics(float totalDeltaTime, float MAX_PHYSICS_STEPS, float MAX_DELTA_TIME);
+	void updatePhysics(float MAX_PHYSICS_STEPS, float MAX_DELTA_TIME);
 	void updateAgents(float deltaTime);
 	void updateBullets(float deltaTime);
 
@@ -57,6 +57,7 @@ private:
 	int m_screenHeight;
 	int m_currentLevel;	
 	int m_fpsMax;
+	float m_gameSpeed; // (0.02 is slow, 0.1 is fast)
 	int m_numHumansKilled;
 	int m_numZombiesKilled;
 	int m_globalFrameCount;
