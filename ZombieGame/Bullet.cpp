@@ -25,9 +25,9 @@ Bullet::~Bullet()
 {
 }
 
-void Bullet::move(float deltaTime)
+void Bullet::move(float adjustedDeltaTicks)
 {
-	m_position += m_direction * m_speed * deltaTime;
+	m_position += m_direction * m_speed * adjustedDeltaTicks;
 }
 
 //returns true on collision

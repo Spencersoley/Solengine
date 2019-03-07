@@ -12,7 +12,7 @@ namespace Solengine
 		FPSManager();
 		~FPSManager();
 
-		void limitFPS(bool track, int desiredFrameTicks);
+		void limitFPS(bool track, Uint32 desiredFrameTicks);
 		
 	private:
 		void trackFPS();

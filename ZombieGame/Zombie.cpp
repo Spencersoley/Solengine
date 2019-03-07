@@ -18,7 +18,7 @@ void Zombie::init(float speed, glm::vec2 pos)
 	m_colour = {/*r*/ 0, /*g*/ 150, /*b*/ 0, /*a*/ 255 };
 }
 
-void Zombie::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, float deltaTime, int globalFrameCount)
+void Zombie::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, float adjustedDeltaTicks, int globalFrameCount)
 {
 	static int frameCount;
 	frameCount++;
@@ -34,7 +34,7 @@ void Zombie::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, fl
 	{
 		// Get the direction vector towards the player
 		m_direction = glm::normalize(p_nearestHuman->getPosition() - m_position);
-		m_position += m_direction * m_speed * deltaTime;
+		m_position += m_direction * m_speed * adjustedDeltaTicks;
 	}
 }
 

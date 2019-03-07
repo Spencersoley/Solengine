@@ -39,8 +39,8 @@ private:
 	void checkVictory();
 	Uint32 getDeltaTicks();
 	void updatePhysics(float MAX_PHYSICS_STEPS, float MAX_DELTA_TIME);
-	void updateAgents(float deltaTime);
-	void updateBullets(float deltaTime);
+	void updateAgents(float adjustedDeltaTicks);
+	void updateBullets(float adjustedDeltaTicks);
 
 	Solengine::FPSManager m_SOL_fpsManager;
 	View m_view;

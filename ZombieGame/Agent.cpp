@@ -5,7 +5,6 @@
 
 #include "Solengine/ResourceManager.h"
 
-
 Agent::Agent()
 {
 }
@@ -35,7 +34,7 @@ void Agent::collisionWithLevel(const std::vector<std::string>& levelData)
 
 	checkTilePosition(levelData,
 	                  collideTilePositions,
-	       	         m_position.x + AGENT_WIDTH , m_position.y + AGENT_WIDTH);
+	       	          m_position.x + AGENT_WIDTH , m_position.y + AGENT_WIDTH);
 
 	//Calls a collision function on the tiles in the vector
 	for (size_t i = 0; i < collideTilePositions.size(); i++)
@@ -58,7 +57,7 @@ void Agent::checkTilePosition(const std::vector<std::string>& levelData,
 		return;
 	}
 
-	if (levelData[cornerPos.y][cornerPos.x] != '.')
+	if (levelData[(const unsigned int)cornerPos.y][(const unsigned int)cornerPos.x] != '.')
 	{
 		collideTilePositions.push_back(cornerPos * (float)TILE_WIDTH  + glm::vec2((float)TILE_WIDTH / 2.0f));
 	}

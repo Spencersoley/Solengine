@@ -30,14 +30,14 @@ namespace Solengine
 		}
 
 		//Open an SDL window
-		_pSdlWindow = SDL_CreateWindow(windowName.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, SDL_WINDOW_OPENGL);
-		if (_pSdlWindow == nullptr)
+		p_SdlWindow = SDL_CreateWindow(windowName.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, SDL_WINDOW_OPENGL);
+		if (p_SdlWindow == nullptr)
 		{
 			fatalError("SDL Window could not be created!");
 		}
 
 		//Set up OpenGL context
-		SDL_GLContext glContext = SDL_GL_CreateContext(_pSdlWindow);
+		SDL_GLContext glContext = SDL_GL_CreateContext(p_SdlWindow);
 		if (glContext == nullptr)
 		{
 			fatalError("SDL_GL context could not be created!");
@@ -68,10 +68,10 @@ namespace Solengine
 
 	void Window::swapBuffer()
 	{
-		if (_pSdlWindow == nullptr)
+		if (p_SdlWindow == nullptr)
 		{
 			fatalError("SDL Window could not be swapped!");
 		}
-		SDL_GL_SwapWindow(_pSdlWindow);
+		SDL_GL_SwapWindow(p_SdlWindow);
 	}
 }

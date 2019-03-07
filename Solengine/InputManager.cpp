@@ -7,7 +7,7 @@
 
 namespace Solengine {
 
-	InputManager::InputManager() : _mouseCoords(0)
+	InputManager::InputManager() : m_mouseCoords(0)
 	{
 	}
 
@@ -52,22 +52,22 @@ namespace Solengine {
 	void InputManager::keyDown(unsigned int keyID)
 	{
 		//checks if keyID is in the map. If not, it creates it. Then sets it to true.
-		_keyMap[keyID] = true;
+		m_keyMap[keyID] = true;
 	}
 
 	void InputManager::keyUp(unsigned int keyID)
 	{
-		_keyMap[keyID] = false;
+		m_keyMap[keyID] = false;
 	}
 
 	//Checks the keymap
 	bool InputManager::key(unsigned int keyID)
 	{
-		auto it = _keyMap.find(keyID);
+		auto it = m_keyMap.find(keyID);
 		
 		//.end returns true if key 'it' is not in the map
 		//this bool returns true if 'it' is in the map
-		if (it != _keyMap.end()) 
+		if (it != m_keyMap.end()) 
 		{
 			//function returns the (as a boolean) second value in the pair 'it' is in
 			return it->second;
@@ -80,7 +80,7 @@ namespace Solengine {
 
 	void InputManager::setMouseCoords(int x, int y) 
 	{
-		_mouseCoords.x = (float)x;
-		_mouseCoords.y = (float)y;
+		m_mouseCoords.x = (float)x;
+		m_mouseCoords.y = (float)y;
 	}
 }

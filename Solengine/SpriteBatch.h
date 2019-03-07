@@ -6,6 +6,8 @@
 
 #include "Vertex.h"
 
+// nts:: go over this class
+
 namespace Solengine
 {
 	enum class GlyphSortType
@@ -85,14 +87,14 @@ namespace Solengine
 		static bool compareBackToFront(Glyph* a, Glyph* b);
 		static bool compareTexture(Glyph* a, Glyph* b);
 		
-		GLuint _vbo;
-		GLuint _vao;
+		GLuint m_VBO;
+		GLuint m_VAO;
 
-		GlyphSortType _sortType;
+		GlyphSortType m_sortType;
 
-		std::vector<Glyph*> _pGlyphs; // for sorting
-		std::vector<Glyph> _glyphs; // actual glyphs
-		std::vector<RenderBatch> _renderBatches;
+		std::vector<Glyph*> p_glyphs; // for sorting
+		std::vector<Glyph> m_glyphs; // actual glyphs
+		std::vector<RenderBatch> m_renderBatches;
 
 	};
 }

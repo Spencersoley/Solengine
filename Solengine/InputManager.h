@@ -23,7 +23,7 @@ namespace Solengine {
 
 		Solengine::GameState processInput();
 
-		glm::vec2 getMouseCoords() { return _mouseCoords; }
+		glm::vec2 getMouseCoords() { return m_mouseCoords; }
 
 	private:
 		//We want to store states for all of our keys. We could make an array of booleans, but that would use a lot of memory.
@@ -31,8 +31,8 @@ namespace Solengine {
 		//a hash table rather than a tree, making it faster to access (it accesses in constant time rather than log time).
 		//however, it can use more space than a map. It's fine as order is irrelevant to us.
 
-		std::unordered_map<unsigned int, bool> _keyMap;
-		glm::vec2 _mouseCoords;
+		std::unordered_map<unsigned int, bool> m_keyMap;
+		glm::vec2 m_mouseCoords;
 	};
 }
 

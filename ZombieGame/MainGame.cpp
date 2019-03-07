@@ -32,7 +32,7 @@ MainGame::MainGame() :
 	m_screenWidth(1200),
 	m_screenHeight(600),
 	m_gameState(Solengine::GameState::PLAY),
-	m_fpsMax(60),
+	m_fpsMax(600),
 	m_gameSpeed(0.05f),
 	m_announceInConsoleFPS(false),
 	m_numHumansKilled(0),
@@ -139,7 +139,7 @@ void MainGame::gameLoop()
 		m_view.update(p_humans, p_zombies, p_levels, m_bullets);
 
 		//Calculates, announces, and limits FPS
-		m_SOL_fpsManager.limitFPS(trackFPS, DESIRED_TICKS_PER_FRAME);
+		m_SOL_fpsManager.limitFPS(trackFPS, (int)DESIRED_TICKS_PER_FRAME);
 	}
 }
 
@@ -182,21 +182,21 @@ void MainGame::updatePhysics(float MAX_PHYSICS_STEPS, float MAX_DELTA_TIME)
 	*/
 }
 
-void MainGame::updateAgents(float deltaTime)
+void MainGame::updateAgents(float adjustedDeltaTicks)
 {
 	m_globalFrameCount++;
 
 	for (size_t i = 0; i < p_zombies.size(); i++)
 	{
-		p_zombies[i]->move(p_humans, p_zombies, deltaTime, m_globalFrameCount);
+		p_zombies[i]->move(p_humans, p_zombies, adjustedDeltaTicks, m_globalFrameCount);
 	}
 
-	m_player.move(p_humans, p_zombies, m_bullets, deltaTime);
+	m_player.move(p_humans, p_zombies, m_bullets, adjustedDeltaTicks);
 
 	for (size_t i = 1; i < p_humans.size(); i++)
 	{
 		//Remember, the player is a human[0]. Player redefines move slightly!
-		p_humans[i]->move(p_humans, p_zombies, deltaTime, m_globalFrameCount);
+		p_humans[i]->move(p_humans, p_zombies, adjustedDeltaTicks, m_globalFrameCount);
 		if (m_globalFrameCount > 359) m_globalFrameCount = 0;
 	}
 
@@ -244,12 +244,12 @@ void MainGame::updateAgents(float deltaTime)
 	}
 }
 
-void MainGame::updateBullets(float deltaTime)
+void MainGame::updateBullets(float adjustedDeltaTicks)
 {
 	for (size_t i = 0; i < m_bullets.size(); i++)
 	{
 		bool bulletRemoved = false;
-		m_bullets[i].move(deltaTime);
+		m_bullets[i].move(adjustedDeltaTicks);
 
 		if (m_bullets[i].collisionWithWorld(p_levels[m_currentLevel]->getLevelData()))
 		{

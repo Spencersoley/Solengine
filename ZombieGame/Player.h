@@ -20,7 +20,7 @@ public:
 	void initInputManager(Solengine::InputManager* inputManager); //best way to handle the reference?
 	void setCamera(Solengine::Camera2D* cam) { p_cam = cam; }
 	void addGun(Gun* gun);
-	void move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Bullet>& bullets, float deltaTime); //Why can we override this but not zombie/human's move
+	void move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Bullet>& bullets, float adjustedDeltaTicks); //Why can we override this but not zombie/human's move
 
 private:
 	std::vector<Gun*> p_guns;

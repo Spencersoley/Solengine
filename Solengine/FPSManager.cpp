@@ -13,7 +13,7 @@ namespace Solengine
 	{
 	}
 
-	void FPSManager::limitFPS(bool track, int desiredFrameTicks)
+	void FPSManager::limitFPS(bool track, Uint32 desiredFrameTicks)
 	{
 		Uint32 frameTicks = SDL_GetTicks() - m_startTicks;
 

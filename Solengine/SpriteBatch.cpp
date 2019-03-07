@@ -4,7 +4,7 @@
 
 namespace Solengine
 {
-	SpriteBatch::SpriteBatch() : _vbo(0), _vao(0)
+	SpriteBatch::SpriteBatch() : m_VBO(0), m_VAO(0)
 	{
 
 	}
@@ -21,17 +21,17 @@ namespace Solengine
 
 	void SpriteBatch::begin(GlyphSortType sortType/* = GlyphSortType::TEXTURE*/)
 	{
-		_sortType = sortType;
-		_renderBatches.clear();
-		_glyphs.clear();
+		m_sortType = sortType;
+		m_renderBatches.clear();
+		m_glyphs.clear();
 	}
 
 	void SpriteBatch::end()
 	{
-		_pGlyphs.resize(_glyphs.size());
-		for (size_t i = 0; i < _glyphs.size(); i++)
+		p_glyphs.resize(m_glyphs.size());
+		for (size_t i = 0; i < m_glyphs.size(); i++)
 		{
-			_pGlyphs[i] = &_glyphs[i];
+			p_glyphs[i] = &m_glyphs[i];
 		}
 		sortGlyphs();
 		createRenderBatches();
@@ -39,7 +39,7 @@ namespace Solengine
 
 	void SpriteBatch::draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const ColourRGBA8& colour)
 	{
-		_glyphs.emplace_back(destRect, uvRect, texture, depth, colour);
+		m_glyphs.emplace_back(destRect, uvRect, texture, depth, colour);
 	}
 
 	void SpriteBatch::createRenderBatches()
@@ -47,46 +47,46 @@ namespace Solengine
 		std::vector <Vertex> vertices;
 		//reserving memory should make this faster
 		//resizes based on size of glyph array
-		vertices.resize(_pGlyphs.size() * 6);
+		vertices.resize(p_glyphs.size() * 6);
 
 		//.empty is same as .size == 0;
-		if (_pGlyphs.empty()) return;
+		if (p_glyphs.empty()) return;
 		
 		//current vertex
 		int cv = 0; 
 		int offset = 0;
 	
-		_renderBatches.emplace_back(offset, 6, _pGlyphs[0]->texture);
+		m_renderBatches.emplace_back(offset, 6, p_glyphs[0]->texture);
 		
-		vertices[cv++] = _pGlyphs[0]->topLeft;
-		vertices[cv++] = _pGlyphs[0]->bottomLeft;
-		vertices[cv++] = _pGlyphs[0]->bottomRight;
-		vertices[cv++] = _pGlyphs[0]->bottomRight;
-		vertices[cv++] = _pGlyphs[0]->topRight;
-		vertices[cv++] = _pGlyphs[0]->topLeft;
+		vertices[cv++] = p_glyphs[0]->topLeft;
+		vertices[cv++] = p_glyphs[0]->bottomLeft;
+		vertices[cv++] = p_glyphs[0]->bottomRight;
+		vertices[cv++] = p_glyphs[0]->bottomRight;
+		vertices[cv++] = p_glyphs[0]->topRight;
+		vertices[cv++] = p_glyphs[0]->topLeft;
 		offset += 6;
 
-		for (size_t cg = 1; cg < _pGlyphs.size(); cg++)
+		for (size_t cg = 1; cg < p_glyphs.size(); cg++)
 		{
-			if (_pGlyphs[cg]->texture != _pGlyphs[cg - 1]->texture)
+			if (p_glyphs[cg]->texture != p_glyphs[cg - 1]->texture)
 			{
-				_renderBatches.emplace_back(offset, 6, _pGlyphs[cg]->texture);
+				m_renderBatches.emplace_back(offset, 6, p_glyphs[cg]->texture);
 			}
 			else
 			{
-				_renderBatches.back().numVertices += 6;
+				m_renderBatches.back().numVertices += 6;
 			}
 
-			vertices[cv++] = _pGlyphs[cg]->topLeft;
-			vertices[cv++] = _pGlyphs[cg]->bottomLeft;
-			vertices[cv++] = _pGlyphs[cg]->bottomRight;
-			vertices[cv++] = _pGlyphs[cg]->bottomRight;
-			vertices[cv++] = _pGlyphs[cg]->topRight;
-			vertices[cv++] = _pGlyphs[cg]->topLeft;
+			vertices[cv++] = p_glyphs[cg]->topLeft;
+			vertices[cv++] = p_glyphs[cg]->bottomLeft;
+			vertices[cv++] = p_glyphs[cg]->bottomRight;
+			vertices[cv++] = p_glyphs[cg]->bottomRight;
+			vertices[cv++] = p_glyphs[cg]->topRight;
+			vertices[cv++] = p_glyphs[cg]->topLeft;
 			offset += 6;
 		}
 		//bind buffer
-		glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 		//orphan the buffer
 		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), nullptr, GL_DYNAMIC_DRAW);
 		//upload the data
@@ -98,13 +98,13 @@ namespace Solengine
 	//Renders the entire spritebatch to screen
 	void SpriteBatch::renderBatch()
 	{
-		glBindVertexArray(_vao);
+		glBindVertexArray(m_VAO);
 
-		for (size_t i = 0; i < _renderBatches.size(); i++)
+		for (size_t i = 0; i < m_renderBatches.size(); i++)
 		{
-			glBindTexture(GL_TEXTURE_2D, _renderBatches[i].texture);
+			glBindTexture(GL_TEXTURE_2D, m_renderBatches[i].texture);
 
-			glDrawArrays(GL_TRIANGLES, _renderBatches[i].offset, _renderBatches[i].numVertices);
+			glDrawArrays(GL_TRIANGLES, m_renderBatches[i].offset, m_renderBatches[i].numVertices);
 		}
 
 		glBindVertexArray(0);
@@ -112,17 +112,17 @@ namespace Solengine
 
 	void SpriteBatch::createVertexArray()
 	{
-		if (_vao == 0)
+		if (m_VAO == 0)
 		{
-			glGenVertexArrays(1, &_vao);
+			glGenVertexArrays(1, &m_VAO);
 		}
-		glBindVertexArray(_vao);
+		glBindVertexArray(m_VAO);
 
-		if (_vbo == 0)
+		if (m_VBO == 0)
 		{
-		    glGenBuffers(1, &_vbo);
+		    glGenBuffers(1, &m_VBO);
 		}
-		glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 
 		//Tells opengl to use the first attrib array.
 		//We only need this for now as we're only using position.
@@ -142,16 +142,16 @@ namespace Solengine
 
 	void SpriteBatch::sortGlyphs() 
 	{
-		switch (_sortType)
+		switch (m_sortType)
 		{
 		    case GlyphSortType::BACK_TO_FRONT:
-			    std::stable_sort(_pGlyphs.begin(), _pGlyphs.end(), compareBackToFront);
+			    std::stable_sort(p_glyphs.begin(), p_glyphs.end(), compareBackToFront);
 				break;
 			case GlyphSortType::FRONT_TO_BACK:
-				std::stable_sort(_pGlyphs.begin(), _pGlyphs.end(), compareFrontToBack);
+				std::stable_sort(p_glyphs.begin(), p_glyphs.end(), compareFrontToBack);
 				break;
 			case GlyphSortType::TEXTURE:
-				std::stable_sort(_pGlyphs.begin(), _pGlyphs.end(), compareTexture);
+				std::stable_sort(p_glyphs.begin(), p_glyphs.end(), compareTexture);
 				break;
 		}	
 	}

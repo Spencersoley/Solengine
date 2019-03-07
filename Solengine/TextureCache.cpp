@@ -16,16 +16,16 @@ namespace Solengine
 	GLTexture TextureCache::getTexture(std::string texturePath)
 	{
 		//Look up the texture
-		auto mit = _textureMap.find(texturePath);
+		auto mit = m_textureMap.find(texturePath);
 
 		//Check if it's not in the map
-		if (mit == _textureMap.end())
+		if (mit == m_textureMap.end())
 		{
 			//Load the texture
 			GLTexture newTexture = ImageLoader::loadPNG(texturePath);
 
 			//Insert it into the map
-			_textureMap.insert(make_pair(texturePath, newTexture));
+			m_textureMap.insert(make_pair(texturePath, newTexture));
 
 			return newTexture;
 		}

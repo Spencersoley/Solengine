@@ -17,6 +17,6 @@ namespace Solengine
 		GLTexture getTexture(std::string);
 
 	private:
-		std::map<std::string, GLTexture> _textureMap;
+		std::map<std::string, GLTexture> m_textureMap;
 	};
 }

@@ -23,9 +23,9 @@ namespace Solengine
 	private:
 		void compileShader(const std::string& filePath, GLuint id);
 
-		int _numAttributes;
-		GLuint _programID;
-		GLuint _vertexShaderID;
-		GLuint _fragmentShaderID;
+		int m_numAttributes;
+		GLuint m_programID;
+		GLuint m_vertexShaderID;
+		GLuint m_fragmentShaderID;
 	};
 }

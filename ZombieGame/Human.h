@@ -8,7 +8,7 @@ public:
 	Human();
 	virtual ~Human();
 
-	virtual void move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, float deltaTime, int globalFrameCount) override;
+	virtual void move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, float adjustedDeltaTicks, int globalFrameCount) override;
 
 	void init(float speed, glm::vec2 pos, int _id);
 

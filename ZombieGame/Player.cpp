@@ -42,7 +42,7 @@ void Player::addGun(Gun* gun)
 	}
 }
 
-void Player::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Bullet>& bullets, float deltaTime)
+void Player::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Bullet>& bullets, float adjustedDeltaTicks)
 {
 	glm::vec2 direction = { 0, 0 };
 
@@ -86,7 +86,7 @@ void Player::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, st
 		direction = glm::normalize(direction);
 	}
 
-	m_position += direction * m_speed * deltaTime;
+	m_position += direction * m_speed * adjustedDeltaTicks;
 
 	//Guns, aiming, shooting, reloading
 	if (m_currentGunIndex != -1)
@@ -102,7 +102,7 @@ void Player::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, st
 			centrePosition,
 			direction,
 			bullets,
-			deltaTime);
+			adjustedDeltaTicks);
 
 		for (size_t i = 0; i < p_guns.size(); i++)
 		{

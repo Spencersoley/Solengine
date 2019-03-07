@@ -18,11 +18,11 @@ namespace Solengine
 
 		void swapBuffer();
 
-		int getScreenHeight() { _screenHeight; }
-		int getScreenWidth() { _screenWidth; }
+		int getScreenHeight() { m_screenHeight; }
+		int getScreenWidth() { m_screenWidth; }
 	private:
-		SDL_Window* _pSdlWindow;
-		int _screenWidth, _screenHeight;
+		SDL_Window* p_SdlWindow;
+		int m_screenWidth, m_screenHeight;
 	};
 }
 
