@@ -28,8 +28,6 @@ void View::init(Player* player, int screenwidth, int screenheight)
 
 	m_SOL_cam.init(screenwidth, screenheight);
 
-	//game object pointers
-
 	p_player = player;
 
 	p_player->setCamera(&m_SOL_cam);
@@ -67,7 +65,7 @@ void View::drawGame(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, 
 	glUniformMatrix4fv(pUniform, 1, GL_FALSE, &projectionMatrix[0][0]);
 
 	//Draw level
-	levels[_currentLevel]->draw();
+	levels[m_currentLevel]->draw();
 
 	m_SOL_agentSpriteBatch.begin();
 

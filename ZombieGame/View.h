@@ -35,7 +35,6 @@ private:
 	Solengine::Window m_SOL_window;
 	Solengine::SpriteBatch m_SOL_agentSpriteBatch;
 	Player* p_player;
-	int _currentLevel;
-
+	int m_currentLevel;
 };
 

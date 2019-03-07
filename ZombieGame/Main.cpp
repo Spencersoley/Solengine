@@ -1,11 +1,11 @@
-#include "MainGame.h"
+#include "Scene.h"
 
 #include <iostream>
 
 int main(int argc, char** argv)
 {
-	MainGame m_mainGame;
-	m_mainGame.run();
+	Scene m_scene;
+	m_scene.run();
 
 	return 0;
 }
