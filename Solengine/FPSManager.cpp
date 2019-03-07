@@ -1,6 +1,7 @@
 #include "FPSManager.h"
 
 #include <SDL/SDL.h>
+#include <algorithm>
 
 namespace Solengine
 {
@@ -12,92 +13,72 @@ namespace Solengine
 	{
 	}
 
-	void FPSManager::init(int maxFPS)
+	void FPSManager::limitFPS(bool track, int desiredFrameTicks)
 	{
-		_maxFPS = maxFPS;
-	}
+		Uint32 frameTicks = SDL_GetTicks() - m_startTicks;
 
-	void FPSManager::begin()
-	{
-		_startTicks = SDL_GetTicks();
-	}
+		//Prevents frame finishing earlier and FPS breaking max fps
+		if (desiredFrameTicks > frameTicks)
+		{
+			SDL_Delay(desiredFrameTicks - frameTicks);
+		}
 
-	void FPSManager::end(bool track)
-	{
 		if (track) trackFPS();
-		limitFPS();
+
+		m_startTicks = SDL_GetTicks();
 	}
 
 	//Announces FPS every NUM_SAMPLES frames
 	void FPSManager::trackFPS()
 	{
 		static const int NUM_SAMPLES = 10;
-		static Uint32 frameTimes[NUM_SAMPLES];
+		static Uint32 ticksPerFrame[NUM_SAMPLES];
 		static int frameCount = 0;
-		static int announceFrameCount = 0;
+
 
 		static Uint32 currentTicks;
 		static Uint32 prevTicks = SDL_GetTicks();
+
+		float ticksPerFrameTotal;
+		float ticksPerFrameAverage;
+		float m_FPSTracked;
 
 		//Grabs number of ticks(ms) passed
 		currentTicks = SDL_GetTicks();
 
 		//Stores up to 10 samples of milliseconds passed since the previous frame
-		frameTimes[frameCount % NUM_SAMPLES] = currentTicks - prevTicks;
+		ticksPerFrame[frameCount % NUM_SAMPLES] = currentTicks - prevTicks;
 
 		//Stores current milliseconds passed, for next fps calculation
 		prevTicks = currentTicks;
-
-		//Sets the number of samples an average frametime can be drawn from
-		int limitedFrameCount;
-		if (frameCount < NUM_SAMPLES)
-		{
-			limitedFrameCount = frameCount;
-		}
-		else
-		{
-			limitedFrameCount = NUM_SAMPLES;
-		}
-
-		//Resets the average frame time
-		float frameTimeAverage = 0;
-
+        
 		frameCount++;
-		announceFrameCount++;
+		
+		//Resets the average frame time
+		ticksPerFrameTotal = 0;
 
 		//Calculates new average frame time
-		for (int i = 0; i < limitedFrameCount; i++)
+		for (int i = 0; i < std::min(frameCount, NUM_SAMPLES); i++)
 		{
-			frameTimeAverage += frameTimes[i];
+			ticksPerFrameTotal += ticksPerFrame[i];
 		}
-		frameTimeAverage /= limitedFrameCount;
 
+		ticksPerFrameAverage = ticksPerFrameTotal/std::min(frameCount, NUM_SAMPLES);
+		
 		//Sets _fps based on average frame time
-		if (frameTimeAverage > 0.0f)
+		if (ticksPerFrameAverage > 0.0f)
 		{
-			_trackedFPS = 1000.0f / frameTimeAverage;
+			m_FPSTracked = 1000.0f / ticksPerFrameAverage;
 		}
 		else
 		{
-			_trackedFPS = 50.0f;
+			m_FPSTracked = 0.0f;
 		}
 
 		//Announces fps every 10 cycles
-		if (announceFrameCount == 10)
+		if (frameCount%10 == 0)
 		{
-			std::cout << _trackedFPS << std::endl;
-			announceFrameCount = 0;
-		}
-	}
-
-	void FPSManager::limitFPS()
-	{
-		Uint32 frameTicks = SDL_GetTicks() - _startTicks;
-		Uint32 frameTicksLimit = 1000 / _maxFPS;
-		//Limit fps to max fps, waiting until it's met before restarting the loop
-		if (frameTicksLimit > frameTicks)
-		{
-			SDL_Delay(frameTicksLimit - frameTicks);
+			std::cout << m_FPSTracked << std::endl;
 		}
 	}
 }

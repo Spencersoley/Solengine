@@ -36,8 +36,8 @@ private:
 	void initSystems();
 	void initLevel();
 	void gameLoop();
-	std::tuple<float, Uint32> getDeltaTimeAndTotalTicks(float desiredFrametime, Uint32 prevTicks);
 	void checkVictory();
+	Uint32 getDeltaTicks();
 	void updatePhysics(float totalDeltaTime, float MAX_PHYSICS_STEPS, float MAX_DELTA_TIME);
 	void updateAgents(float deltaTime);
 	void updateBullets(float deltaTime);

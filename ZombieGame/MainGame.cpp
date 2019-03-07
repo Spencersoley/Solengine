@@ -71,7 +71,6 @@ void MainGame::initSystems()
 	Solengine::initialiseSDL();
 	m_view.init(&m_player, m_screenWidth, m_screenHeight);
 	m_controller.init(&m_view);
-	m_SOL_fpsManager.init(m_fpsMax);
 	initLevel();
 }
 
@@ -119,41 +118,39 @@ void MainGame::initLevel()
  //Game loop
 void MainGame::gameLoop()
 {
-	const float DESIRED_FRAMETIME = 1000 / (float)m_fpsMax;
+	const float DESIRED_FRAMETICKS = 1000 / (float)m_fpsMax;
 	const int MAX_PHYSICS_STEPS = 6;
 	const float MAX_DELTA_TIME = 1.0f;
-	Uint32 prevTicks = SDL_GetTicks();
+	
 	//When initialised to true, this enables fps console announcing
 	bool trackFPS = m_announceInConsoleFPS;
 
 	while (m_gameState != Solengine::GameState::EXIT)
 	{
-		//For calculating and imiting FPS
-		m_SOL_fpsManager.begin();
-
+		//Uint32 startTicks = SDL_GetTicks();
 		checkVictory();
 		
 		//handles input
 		m_gameState = m_controller.processInput();	
 
-		std::tuple<float, Uint32> deltaTimeAndTotalTicks = getDeltaTimeAndTotalTicks(DESIRED_FRAMETIME, prevTicks);
-		prevTicks = std::get<1>(deltaTimeAndTotalTicks);
-		updatePhysics(std::get<0>(deltaTimeAndTotalTicks), MAX_PHYSICS_STEPS, MAX_DELTA_TIME);
+		updatePhysics(getDeltaTicks()/DESIRED_FRAMETICKS, MAX_PHYSICS_STEPS, MAX_DELTA_TIME);
 	
+		//std::cout << SDL_GetTicks() - startTicks << std::endl;
+
 		//handles rendering
 		m_view.update(p_humans, p_zombies, p_levels, m_bullets);
 
 		//Calculates, announces, and limits FPS
-		m_SOL_fpsManager.end(trackFPS);
+		m_SOL_fpsManager.limitFPS(trackFPS, DESIRED_FRAMETICKS);
 	}
 }
 
-//returns delta time and the total ticks
-std::tuple<float, Uint32> MainGame::getDeltaTimeAndTotalTicks(float desiredFrametime, Uint32 prevTicks)
+Uint32 MainGame::getDeltaTicks()
 {
-	Uint32 totalTicks = SDL_GetTicks();
-	Uint32 frameTicks = totalTicks - prevTicks;
-	return std::make_tuple(frameTicks / desiredFrametime, totalTicks);
+	static Uint32 prevTicks = SDL_GetTicks();
+	Uint32 deltaTicks = SDL_GetTicks() - prevTicks;
+	prevTicks = SDL_GetTicks();
+	return deltaTicks;
 }
 
 void MainGame::checkVictory()

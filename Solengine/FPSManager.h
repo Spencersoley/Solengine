@@ -12,17 +12,12 @@ namespace Solengine
 		FPSManager();
 		~FPSManager();
 
-		void init(int _fpsMax);
-		void begin();
-		void end(bool track);
+		void limitFPS(bool track, int desiredFrameTicks);
 		
 	private:
 		void trackFPS();
-		void limitFPS();
 
-		float _trackedFPS;
-		int _maxFPS;
-		unsigned int _startTicks;
-
+		int m_FPSMax;
+		unsigned int m_startTicks;
 	};
 }
