@@ -55,11 +55,11 @@ bool Bullet::collisionWithAgent(Agent* agent)
 bool Bullet::collisionWithWorld(const std::vector<std::string>& levelData)
 {
 	glm::ivec2 gridPosition;
-	gridPosition.x = floor(m_position.x / (float)TILE_WIDTH);
-	gridPosition.y = floor(m_position.y / (float)TILE_WIDTH);
+	gridPosition.x = (int)floor(m_position.x / (float)TILE_WIDTH);
+	gridPosition.y = (int)floor(m_position.y / (float)TILE_WIDTH);
 
-	if (gridPosition.x < 0 || gridPosition.x >= levelData[0].length() ||
-		gridPosition.y < 0 || gridPosition.y >= levelData.size())
+	if (gridPosition.x < 0 || gridPosition.x >= (int)levelData[0].length() ||
+		gridPosition.y < 0 || gridPosition.y >= (int)levelData.size())
 	{
 		return true;
 	}

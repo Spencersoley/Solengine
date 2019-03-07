@@ -8,9 +8,11 @@ public:
 	Human();
 	virtual ~Human();
 
-	virtual void move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, float deltaTime) override;
+	virtual void move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, float deltaTime, int globalFrameCount) override;
 
-	void init(float speed, glm::vec2 pos);
+	void init(float speed, glm::vec2 pos, int _id);
+
+	int _id;
 	
 private: 
 	Zombie* getNearestZombie(std::vector<Zombie*>& zombies);

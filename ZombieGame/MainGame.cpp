@@ -14,13 +14,12 @@
 #include "Zombie.h"
 #include "Gun.h"
 
-
 //Move random engine to Solengine?
 //init vs constructors?
 //stack as much as possible over heap for faster access
-//sort conversion errors
 //make game perform the same regardless of framerate
 //rename to scene
+//fix conversion errors
 //fix human zombie scanning
 
 //NTS: It's okay to have global variables if they're constant
@@ -36,7 +35,8 @@ MainGame::MainGame() :
 	m_fpsMax(60),
 	m_announceInConsoleFPS(true),
 	m_numHumansKilled(0),
-	m_numZombiesKilled(0)
+	m_numZombiesKilled(0),
+	m_globalFrameCount(0)
 {
 
 }
@@ -88,7 +88,7 @@ void MainGame::initLevel()
 	//_view.playerInit();
 
 	p_humans.push_back(&m_player);
-
+	
 	std::mt19937 randomEngine;
 	randomEngine.seed((unsigned int)time(nullptr));
 	std::uniform_int_distribution<int> randX(2, p_levels[m_currentLevel]->getWidth() - 2);
@@ -99,7 +99,7 @@ void MainGame::initLevel()
 	{
 		p_humans.push_back(new Human);
 		glm::vec2 pos(randX(randomEngine) * TILE_WIDTH, randY(randomEngine) * TILE_WIDTH);
-		p_humans.back()->init(HUMAN_SPEED, pos);
+		p_humans.back()->init(HUMAN_SPEED, pos, i);
 	}
 
 	//Spawn zombies
@@ -119,10 +119,10 @@ void MainGame::initLevel()
  //Game loop
 void MainGame::gameLoop()
 {
-	const float DESIRED_FRAMETIME = 1000 / m_fpsMax;
+	const float DESIRED_FRAMETIME = 1000 / (float)m_fpsMax;
 	const int MAX_PHYSICS_STEPS = 6;
 	const float MAX_DELTA_TIME = 1.0f;
-	float prevTicks = SDL_GetTicks();
+	Uint32 prevTicks = SDL_GetTicks();
 	//When initialised to true, this enables fps console announcing
 	bool trackFPS = m_announceInConsoleFPS;
 
@@ -136,7 +136,7 @@ void MainGame::gameLoop()
 		//handles input
 		m_gameState = m_controller.processInput();	
 
-		std::tuple<float, float> deltaTimeAndTotalTicks = getDeltaTimeAndTotalTicks(DESIRED_FRAMETIME, prevTicks);
+		std::tuple<float, Uint32> deltaTimeAndTotalTicks = getDeltaTimeAndTotalTicks(DESIRED_FRAMETIME, prevTicks);
 		prevTicks = std::get<1>(deltaTimeAndTotalTicks);
 		updatePhysics(std::get<0>(deltaTimeAndTotalTicks), MAX_PHYSICS_STEPS, MAX_DELTA_TIME);
 	
@@ -149,10 +149,10 @@ void MainGame::gameLoop()
 }
 
 //returns delta time and the total ticks
-std::tuple<float, float> MainGame::getDeltaTimeAndTotalTicks(float desiredFrametime, float prevTicks)
+std::tuple<float, Uint32> MainGame::getDeltaTimeAndTotalTicks(float desiredFrametime, Uint32 prevTicks)
 {
-	float totalTicks = SDL_GetTicks();
-	float frameTicks = totalTicks - prevTicks;
+	Uint32 totalTicks = SDL_GetTicks();
+	Uint32 frameTicks = totalTicks - prevTicks;
 	return std::make_tuple(frameTicks / desiredFrametime, totalTicks);
 }
 
@@ -184,9 +184,11 @@ void MainGame::updatePhysics(float totalDeltaTime, float MAX_PHYSICS_STEPS, floa
 
 void MainGame::updateAgents(float deltaTime)
 {
+	m_globalFrameCount++;
+
 	for (size_t i = 0; i < p_zombies.size(); i++)
 	{
-		p_zombies[i]->move(p_humans, p_zombies, deltaTime);
+		p_zombies[i]->move(p_humans, p_zombies, deltaTime, m_globalFrameCount);
 	}
 
 	m_player.move(p_humans, p_zombies, m_bullets, deltaTime);
@@ -194,7 +196,8 @@ void MainGame::updateAgents(float deltaTime)
 	for (size_t i = 1; i < p_humans.size(); i++)
 	{
 		//Remember, the player is a human[0]. Player redefines move slightly!
-		p_humans[i]->move(p_humans, p_zombies, deltaTime);
+		p_humans[i]->move(p_humans, p_zombies, deltaTime, m_globalFrameCount);
+		if (m_globalFrameCount > 359) m_globalFrameCount = 0;
 	}
 
 	//zombie collision

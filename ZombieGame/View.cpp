@@ -14,7 +14,7 @@ View::~View()
 }
 
 //View needs a reference to everything we want to draw. we'll pass them all with init. We'll also create a window and initialise shader/spritebatch/camera here.
-void View::init(Player* player, float screenwidth, float screenheight)
+void View::init(Player* player, int screenwidth, int screenheight)
 {
 	m_SOL_window.create("Zom", screenwidth, screenheight, 0);
 

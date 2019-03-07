@@ -36,7 +36,7 @@ private:
 	void initSystems();
 	void initLevel();
 	void gameLoop();
-	std::tuple<float, float> getDeltaTimeAndTotalTicks(float desiredFrametime, float prevTicks);
+	std::tuple<float, Uint32> getDeltaTimeAndTotalTicks(float desiredFrametime, Uint32 prevTicks);
 	void checkVictory();
 	void updatePhysics(float totalDeltaTime, float MAX_PHYSICS_STEPS, float MAX_DELTA_TIME);
 	void updateAgents(float deltaTime);
@@ -59,6 +59,7 @@ private:
 	int m_fpsMax;
 	int m_numHumansKilled;
 	int m_numZombiesKilled;
+	int m_globalFrameCount;
 	Uint32 m_frameTime;
 	bool m_announceInConsoleFPS; //rename this	
 };

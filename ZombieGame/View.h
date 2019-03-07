@@ -23,7 +23,7 @@ public:
 	View();
 	~View();
 
-	void init(Player* player, float screenwidth, float screenheight);
+	void init(Player* player, int screenwidth, int screenheight);
 	void update(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Level*>& levels, std::vector<Bullet>& mm_bullets);
 	void scale(float scaleSpeed);
 

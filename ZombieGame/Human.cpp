@@ -15,8 +15,10 @@ Human::~Human()
 {
 }
 
-void Human::init(float speed, glm::vec2 pos)
+void Human::init(float speed, glm::vec2 pos, int id)
 {
+	_id = id;
+
 	m_health = 20.0f;
 
 	static std::mt19937 randomEngine((unsigned int)time(nullptr));
@@ -34,13 +36,10 @@ void Human::init(float speed, glm::vec2 pos)
 	m_direction = glm::normalize(m_direction);
 }
 
-void Human::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, float deltaTime)
+void Human::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, float deltaTime, int globalFrameCount)
 {
-	static int frameCount = 0;
-	frameCount++;
-
-	//Scan for nearest zombie --Why do some not notice?
-	if (frameCount%60 == 0)
+	//Scan for nearest zombie, EACH human calls frameCount++, so it might not ever be %60==0 on their turn
+	if (globalFrameCount%60 == 0)
 	{
 		p_nearestZombie = getNearestZombie(zombies);
 
@@ -52,14 +51,13 @@ void Human::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, flo
 		{
 			m_colour = {/*r*/ 200, /*g*/ 0, /*b*/ 200, /*a*/ 255 };
 		}
-		if (frameCount >= 360) frameCount = 0;
 	}
 
 	//Movement depends on whether a _nearestZombie is recognised
 	if (p_nearestZombie == nullptr)
 	{	
 		//Automatic random turning based on fixed rate
-		if (frameCount%m_turnRate == 0)
+		if (globalFrameCount%m_turnRate == 0)
 		{		
 			redirect();
 		}
