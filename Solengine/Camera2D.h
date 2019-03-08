@@ -19,7 +19,7 @@ namespace Solengine
 		bool isBoxInView(const glm::vec2& position, const glm::vec2& dimensions);
 
 		//Setters
-		void setPosition(const glm::vec2& newPosition) { m_position = newPosition; m_needsMatrixUpdate = true; }
+		void setPosition(const glm::vec2& newPosition) { glm::vec2 adjust = { 20.0f, 20.0f }; m_position = newPosition + adjust; m_needsMatrixUpdate = true; }
 		void setScale(float newScale) { if (newScale > m_maxZoomOut && newScale < m_maxZoomIn) m_scale = newScale; m_needsMatrixUpdate = true; }
 
 		//Getters

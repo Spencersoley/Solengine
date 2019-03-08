@@ -5,14 +5,14 @@
 
 #include "Gun.h"
 
-
 Player::Player() : m_currentGunIndex(-1)
 {
 }
 
 Player::~Player()
 {
-	for (size_t i = 0; i < p_guns.size(); i++) {
+	for (size_t i = 0; i < p_guns.size(); i++) 
+	{
 		delete p_guns[i];
 	}
 }
@@ -50,8 +50,9 @@ void Player::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, st
 	//Guns, aiming, shooting, reloading
 	if (m_currentGunIndex != -1)
 	{
-		glm::vec2 screenToWorldMouseCords = p_cam->screenToWorld(m_mouseCoords);
+		// get to coords (top left 0,0) from input manager, use the camera to convert the mouse coords into s2w mouse coords
 
+		glm::vec2 screenToWorldMouseCords = p_cam->screenToWorld(m_mouseCoords); 
 		glm::vec2 centrePosition = m_position + glm::vec2(AGENT_RADIUS);
 
 		glm::vec2 direction = glm::normalize(screenToWorldMouseCords - centrePosition);

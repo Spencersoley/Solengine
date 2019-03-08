@@ -16,10 +16,8 @@
 //Move random engine to Solengine?
 //init vs constructors?
 //stack as much as possible over heap for faster access
-//are bullets coming from the right place?
-//centre zoom?
+//FIX BULLET COLLISION
 //can we separate 'model'?
-//where should the control get references in scene/
 
 //NTS: It's okay to have global variables if they're constant
 const float HUMAN_SPEED = 1.0f;
@@ -34,7 +32,7 @@ Scene::Scene() :
 	m_currentLevel(0),
 	m_fpsMax(600),
 	m_gameSpeed(0.05f),
-	m_announceInConsoleFPS(true),
+	m_announceInConsoleFPS(false),
 	m_numHumansKilled(0),
 	m_numZombiesKilled(0),
 	m_globalFrameCount(0)
@@ -108,10 +106,9 @@ void Scene::initLevel()
 		p_zombies.back()->init(ZOMBIE_SPEED, zombiePositions[i]);
 	}
 
-	//Give player guns
-	m_player.addGun(new Gun("Pistol", 30, 1, 1.0f, 1.0f, 20.0f));
-	m_player.addGun(new Gun("Shotgun", 60, 20, 10.0f, 4.0f, 10.0f));
-	m_player.addGun(new Gun("MG", 10, 1, 1.5f, 200.0f, 15.0f));
+	m_player.addGun(new Gun("Pistol",    30,    1,    0.0f/*1.0f*/,    1.0f,    20.0f));
+	m_player.addGun(new Gun("Shotgun",   60,    20,   0.0f/*10.0f*/,   4.0f,    10.0f));
+	m_player.addGun(new Gun("MG",        10,    1,    0.0f/*100.0f*/,  1.5f,    15.0f));
 }
 
  //Game loop

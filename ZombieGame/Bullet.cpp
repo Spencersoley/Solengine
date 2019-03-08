@@ -18,7 +18,6 @@ Bullet::Bullet(glm::vec2 pos, glm::vec2 dir, float damage, float speed) :
 	m_damage(damage),
 	m_speed(speed)
 {
-
 }
 
 Bullet::~Bullet()

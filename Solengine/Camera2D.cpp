@@ -39,8 +39,6 @@ namespace Solengine
 			m_cameraMatrix = glm::scale(glm::mat4(1.0f), scale) * m_cameraMatrix;
 
 			m_needsMatrixUpdate = false;
-
-			std::cout << m_scale << std::endl;
 		}
 	}
 
@@ -54,6 +52,8 @@ namespace Solengine
 		screenCoords /= m_scale;
 		//Translate with camera;
 		screenCoords += m_position;
+
+		std::cout << screenCoords.x << " " << screenCoords.y << std::endl;
 
 		return screenCoords;
 	}

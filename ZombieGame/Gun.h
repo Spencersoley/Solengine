@@ -20,7 +20,7 @@ private:
 	
 	std::string m_name;
 	int m_fireRate; //in terms of frames
-	int m_bulletsPerShot; //How many bullets fired at a time
+	int m_bulletsPerShot; //How many bullets are fired at a time
 	float m_spread; //accuracy
 	float m_bulletDamage;
 	float m_bulletSpeed;

@@ -7,6 +7,8 @@
 
 #include "Bullet.h"
 
+#include <iostream>
+
 //#include "Gun.h"
 class Gun;
 
