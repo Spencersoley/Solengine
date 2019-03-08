@@ -35,7 +35,7 @@ bool Bullet::collisionWithAgent(Agent* agent)
 	const float MIN_DISTANCE = AGENT_RADIUS + BULLET_RADIUS;
 
 	glm::vec2 centrePosA = m_position;
-	glm::vec2 centrePosB = agent->getPosition() + glm::vec2(AGENT_RADIUS);
+	glm::vec2 centrePosB = agent->getPosition() + glm::vec2(0.5f * AGENT_RADIUS);
 	glm::vec2 distVec = centrePosA - centrePosB;
 
 	float dist = glm::length(distVec);
@@ -54,8 +54,8 @@ bool Bullet::collisionWithAgent(Agent* agent)
 bool Bullet::collisionWithWorld(const std::vector<std::string>& levelData)
 {
 	glm::ivec2 gridPosition;
-	gridPosition.x = (int)floor(m_position.x / (float)TILE_WIDTH);
-	gridPosition.y = (int)floor(m_position.y / (float)TILE_WIDTH);
+	gridPosition.x = (int)floor((m_position.x + 2 * BULLET_RADIUS) / (float)TILE_WIDTH);
+	gridPosition.y = (int)floor((m_position.y + 2 * BULLET_RADIUS) / (float)TILE_WIDTH);
 
 	if (gridPosition.x < 0 || gridPosition.x >= (int)levelData[0].length() ||
 		gridPosition.y < 0 || gridPosition.y >= (int)levelData.size())

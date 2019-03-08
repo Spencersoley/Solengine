@@ -53,8 +53,6 @@ namespace Solengine
 		//Translate with camera;
 		screenCoords += m_position;
 
-		std::cout << screenCoords.x << " " << screenCoords.y << std::endl;
-
 		return screenCoords;
 	}
 

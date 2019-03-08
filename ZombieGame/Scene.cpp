@@ -31,8 +31,8 @@ Scene::Scene() :
 	m_gameState(Solengine::GameState::PLAY),
 	m_currentLevel(0),
 	m_fpsMax(600),
-	m_gameSpeed(0.05f),
-	m_announceInConsoleFPS(false),
+	m_gameSpeed(0.005f),
+	m_announceInConsoleFPS(true),
 	m_numHumansKilled(0),
 	m_numZombiesKilled(0),
 	m_globalFrameCount(0)
