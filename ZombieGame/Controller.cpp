@@ -8,13 +8,9 @@ Controller::~Controller()
 {
 }
 
-void Controller::init(Solengine::Camera2D* cam)
+void Controller::init(Solengine::Camera2D* cam, Player* player)
 {
 	p_SOL_cam = cam;
-}
-
-void Controller::initPlayer(Player* player)
-{
 	p_player = player;
 }
 

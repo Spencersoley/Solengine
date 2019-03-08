@@ -1,8 +1,19 @@
 #include "Camera2D.h"
 
+#include <iostream>
+
 namespace Solengine
 {
-	Camera2D::Camera2D() : m_position(0.0f, 0.0f), m_cameraMatrix(1.0f), m_orthoMatrix(1.0f), m_scale(1.0f), m_needsMatrixUpdate(1), m_screenWidth(500), m_screenHeight(500)
+	Camera2D::Camera2D() : 
+		m_position(0.0f, 0.0f), 
+		m_cameraMatrix(1.0f), 
+		m_orthoMatrix(1.0f), 
+		m_scale(1.0f), 
+		m_needsMatrixUpdate(1), 
+		m_screenWidth(500), 
+		m_screenHeight(500), 
+		m_maxZoomIn(5.0f), 
+		m_maxZoomOut(0.5f)
 	{
 	}
 
@@ -28,6 +39,8 @@ namespace Solengine
 			m_cameraMatrix = glm::scale(glm::mat4(1.0f), scale) * m_cameraMatrix;
 
 			m_needsMatrixUpdate = false;
+
+			std::cout << m_scale << std::endl;
 		}
 	}
 

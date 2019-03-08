@@ -17,8 +17,8 @@
 //init vs constructors?
 //stack as much as possible over heap for faster access
 //are bullets coming from the right place?
+//centre zoom?
 //can we separate 'model'?
-//max zoom values?
 //where should the control get references in scene/
 
 //NTS: It's okay to have global variables if they're constant
@@ -71,7 +71,7 @@ void Scene::initSystems()
 {
 	Solengine::initialiseSDL();
 	m_view.init(&m_player, &m_SOL_cam, m_screenWidth, m_screenHeight);
-	m_controller.init(&m_SOL_cam);
+	m_controller.init(&m_SOL_cam, &m_player);
 	initLevel();
 }
 
@@ -80,11 +80,9 @@ void Scene::initLevel()
 {	
 	p_levels.push_back(new Level("Levels/level1.txt"));
 	
-
 	m_player.init(PLAYER_SPEED, p_levels[m_currentLevel]->getStartPlayerPosition());
 	//Passes reference of player to the controller. The controller passes a reference of th input manager to the player.
 	//Anything taking direct input will need to a reference to the input manager.
-	m_controller.initPlayer(&m_player);
 	//_view.playerInit();
 
 	p_humans.push_back(&m_player);

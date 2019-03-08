@@ -12,8 +12,7 @@ public:
 	Controller();
 	~Controller();
 
-	void init(Solengine::Camera2D* cam);
-	void initPlayer(Player* player); //best practice? what about passing a reference every function call?
+	void init(Solengine::Camera2D* cam, Player* player);
 	Solengine::GameState playStateInput();
 	Solengine::GameState pauseStateInput();
 

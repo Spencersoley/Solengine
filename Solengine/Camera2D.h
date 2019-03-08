@@ -20,7 +20,7 @@ namespace Solengine
 
 		//Setters
 		void setPosition(const glm::vec2& newPosition) { m_position = newPosition; m_needsMatrixUpdate = true; }
-		void setScale(float newScale) { m_scale = newScale; m_needsMatrixUpdate = true; }
+		void setScale(float newScale) { if (newScale > m_maxZoomOut && newScale < m_maxZoomIn) m_scale = newScale; m_needsMatrixUpdate = true; }
 
 		//Getters
 		glm::vec2 getPosition() { return m_position; }
@@ -29,6 +29,7 @@ namespace Solengine
 
 	private:
 		int m_screenWidth, m_screenHeight;
+		float m_maxZoomIn, m_maxZoomOut;
 		bool m_needsMatrixUpdate;
 		float m_scale;
 		glm::vec2 m_position;   //two floats
