@@ -25,7 +25,7 @@ public:
 	void setXDir(int dir) { m_direction.x += dir; }
 	int getNumOfGuns() { return p_guns.size(); }
 	int getCurrentGunIndex() { return m_currentGunIndex; }
-	void setCurrentGunIndex(int index) { m_currentGunIndex = index;  }
+	void setCurrentGunIndex(int index) { m_currentGunIndex = index; while (m_currentGunIndex > (int)p_guns.size()) m_currentGunIndex--; }
 	void setMouseCoords(glm::vec2 mouseCoords) { m_mouseCoords = mouseCoords; }
 	void setIsMouseDown(bool mouseDown) { m_isMouseDown = mouseDown;  }
 

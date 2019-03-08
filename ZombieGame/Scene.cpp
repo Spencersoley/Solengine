@@ -16,10 +16,10 @@
 //Move random engine to Solengine?
 //init vs constructors?
 //stack as much as possible over heap for faster access
-//clean controller up
-//pause
-//move all control to controller
+//are bullets coming from the right place?
 //can we separate 'model'?
+//max zoom values?
+//where should the control get references in scene/
 
 //NTS: It's okay to have global variables if they're constant
 const float HUMAN_SPEED = 1.0f;
@@ -70,8 +70,8 @@ void Scene::run()
 void Scene::initSystems()
 {
 	Solengine::initialiseSDL();
-	m_view.init(&m_player, m_screenWidth, m_screenHeight);
-	m_controller.init(&m_view);
+	m_view.init(&m_player, &m_SOL_cam, m_screenWidth, m_screenHeight);
+	m_controller.init(&m_SOL_cam);
 	initLevel();
 }
 
@@ -147,14 +147,12 @@ void Scene::gameLoop()
 		}
 
 		int pauseClockStart = SDL_GetTicks();
-
 		while (m_gameState == Solengine::GameState::PAUSE)
 		{
 			m_gameState = m_controller.pauseStateInput();
 			
 			m_SOL_fpsManager.limitFPS(trackFPS, (int)DESIRED_TICKS_PER_FRAME);
 		}
-
 		pauseDuration = SDL_GetTicks() - pauseClockStart;
 	}
 }

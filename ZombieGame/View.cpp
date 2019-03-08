@@ -14,7 +14,7 @@ View::~View()
 }
 
 //View needs a reference to everything we want to draw. we'll pass them all with init. We'll also create a window and initialise shader/spritebatch/camera here.
-void View::init(Player* player, int screenwidth, int screenheight)
+void View::init(Player* player, Solengine::Camera2D* cam, int screenwidth, int screenheight)
 {
 	m_SOL_window.create("Zom", screenwidth, screenheight, 0);
 
@@ -26,19 +26,19 @@ void View::init(Player* player, int screenwidth, int screenheight)
 
 	m_SOL_agentSpriteBatch.init();
 
-	m_SOL_cam.init(screenwidth, screenheight);
+	p_SOL_cam = cam;
+	cam->init(screenwidth, screenheight);
 
 	p_player = player;
-
-	p_player->setCamera(&m_SOL_cam);
+	player->setCamera(cam);
 }
 
 void View::update(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Level*>& levels, std::vector<Bullet>& bullets)
 {
 	//Camera follows player
-	m_SOL_cam.setPosition(p_player->getPosition());
+	p_SOL_cam->setPosition(p_player->getPosition());
 
-	m_SOL_cam.update();
+	p_SOL_cam->update();
 
 	drawGame(humans, zombies, levels, bullets);
 }
@@ -60,7 +60,7 @@ void View::drawGame(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, 
 	glUniform1i(textureUniform, 0);
 
 	//Grab camera matrix
-	glm::mat4 projectionMatrix = m_SOL_cam.getCameraMatrix();
+	glm::mat4 projectionMatrix = p_SOL_cam->getCameraMatrix();
 	GLint pUniform = m_SOL_shaderProgram.getUniformLocation("P");
 	glUniformMatrix4fv(pUniform, 1, GL_FALSE, &projectionMatrix[0][0]);
 
@@ -74,7 +74,7 @@ void View::drawGame(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, 
 	//Draw humans
 	for (size_t i = 0; i < humans.size(); i++)
 	{
-		if (m_SOL_cam.isBoxInView(humans[i]->getPosition(), agentDims))
+		if (p_SOL_cam->isBoxInView(humans[i]->getPosition(), agentDims))
 		{
 			humans[i]->draw(m_SOL_agentSpriteBatch);
 		}
@@ -83,7 +83,7 @@ void View::drawGame(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, 
 	//Draw zombies
 	for (size_t i = 0; i < zombies.size(); i++)
 	{
-		if (m_SOL_cam.isBoxInView(zombies[i]->getPosition(), agentDims))
+		if (p_SOL_cam->isBoxInView(zombies[i]->getPosition(), agentDims))
 		{
 			zombies[i]->draw(m_SOL_agentSpriteBatch);
 		}
@@ -105,7 +105,3 @@ void View::drawGame(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, 
 	m_SOL_window.swapBuffer();
 }
 
-void View::scale(float scaleSpeed)
-{
-	m_SOL_cam.setScale(m_SOL_cam.getScale() + scaleSpeed);
-}

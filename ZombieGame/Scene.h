@@ -42,6 +42,7 @@ private:
 	void updateBullets(float adjustedDeltaTicks);
 
 	Solengine::FPSManager m_SOL_fpsManager;
+	Solengine::Camera2D m_SOL_cam;
 	View m_view;
 	Controller m_controller;
 	Player m_player;
