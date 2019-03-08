@@ -14,11 +14,14 @@ public:
 
 	void init(View* view);
 	void initPlayer(Player* player); //best practice? what about passing a reference every function call?
-	Solengine::GameState processInput();
-	
+	Solengine::GameState playStateInput();
+	Solengine::GameState pauseStateInput();
+
 private:
+	Solengine::InputManager m_SOL_inputManager;
+
 	View* p_view;
 	Player* p_player;
-	Solengine::InputManager m_SOL_inputManager;
+
 };
 

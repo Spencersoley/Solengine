@@ -31,9 +31,10 @@ Scene::Scene() :
 	m_screenWidth(1200),
 	m_screenHeight(600),
 	m_gameState(Solengine::GameState::PLAY),
+	m_currentLevel(0),
 	m_fpsMax(600),
 	m_gameSpeed(0.05f),
-	m_announceInConsoleFPS(false),
+	m_announceInConsoleFPS(true),
 	m_numHumansKilled(0),
 	m_numZombiesKilled(0),
 	m_globalFrameCount(0)
@@ -78,7 +79,7 @@ void Scene::initSystems()
 void Scene::initLevel()
 {	
 	p_levels.push_back(new Level("Levels/level1.txt"));
-	m_currentLevel = 0;
+	
 
 	m_player.init(PLAYER_SPEED, p_levels[m_currentLevel]->getStartPlayerPosition());
 	//Passes reference of player to the controller. The controller passes a reference of th input manager to the player.
@@ -121,7 +122,7 @@ void Scene::gameLoop()
 	const float DESIRED_TICKS_PER_FRAME = 1000 / (float)m_fpsMax;
 	const int MAX_PHYSICS_STEPS = 5;
 	const float MAX_DELTA_TIME = 1.0f;
-	
+	static int pauseDuration = 0;
 	//When initialised to true, this enables fps console announcing
 	bool trackFPS = m_announceInConsoleFPS;
 
@@ -132,21 +133,29 @@ void Scene::gameLoop()
 		    checkVictory();
 		
 		    //handles input
-		    m_gameState = m_controller.processInput();	
+		    m_gameState = m_controller.playStateInput();
 
-	        updatePhysics(MAX_PHYSICS_STEPS, MAX_DELTA_TIME);
+	        updatePhysics(MAX_PHYSICS_STEPS, MAX_DELTA_TIME, pauseDuration);
 
 	        //handles rendering
 		    m_view.update(p_humans, p_zombies, p_levels, m_bullets);
 
 		    //Calculates, announces, and limits FPS
 		    m_SOL_fpsManager.limitFPS(trackFPS, (int)DESIRED_TICKS_PER_FRAME);
+			//std::cout << "---PLAY---" << std::endl;
+			pauseDuration = 0;
 		}
+
+		int pauseClockStart = SDL_GetTicks();
 
 		while (m_gameState == Solengine::GameState::PAUSE)
 		{
-			//pause stuff
+			m_gameState = m_controller.pauseStateInput();
+			
+			m_SOL_fpsManager.limitFPS(trackFPS, (int)DESIRED_TICKS_PER_FRAME);
 		}
+
+		pauseDuration = SDL_GetTicks() - pauseClockStart;
 	}
 }
 
@@ -170,9 +179,9 @@ void Scene::checkVictory()
 	}
 }
 
-void Scene::updatePhysics(float MAX_PHYSICS_STEPS, float MAX_DELTA_TIME)
+void Scene::updatePhysics(float MAX_PHYSICS_STEPS, float MAX_DELTA_TIME, int pauseDuration)
 {
-	float adjustedDeltaTicks = getDeltaTicks()*m_gameSpeed;
+	float adjustedDeltaTicks = (getDeltaTicks() - pauseDuration) * m_gameSpeed;
 	updateAgents(adjustedDeltaTicks);
 	updateBullets(adjustedDeltaTicks);
 

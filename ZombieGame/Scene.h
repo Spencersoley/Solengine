@@ -37,7 +37,7 @@ private:
 	void gameLoop();
 	void checkVictory();
 	Uint32 getDeltaTicks();
-	void updatePhysics(float MAX_PHYSICS_STEPS, float MAX_DELTA_TIME);
+	void updatePhysics(float MAX_PHYSICS_STEPS, float MAX_DELTA_TIME, int pauseDuration);
 	void updateAgents(float adjustedDeltaTicks);
 	void updateBullets(float adjustedDeltaTicks);
 

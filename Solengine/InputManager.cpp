@@ -18,6 +18,8 @@ namespace Solengine {
 	//Checks all queued events, changing their states accordingly
 	Solengine::GameState InputManager::processInput()
 	{
+		updatePreviousKeyMap();
+
 		SDL_Event evnt;
 
 		while (SDL_PollEvent(&evnt))
@@ -48,29 +50,65 @@ namespace Solengine {
 		return Solengine::GameState::PLAY;
 	}
 
-	//Edits the keyMap
+	//Copies the previous key states into a new map
+	void InputManager::updatePreviousKeyMap()
+	{
+		for (auto& it : m_keyMap)
+		{
+			m_previousKeyMap[it.first] = it.second;
+		}
+	}
+
+	//Changes the state of the key in the current map
 	void InputManager::keyDown(unsigned int keyID)
 	{
-		//checks if keyID is in the map. If not, it creates it. Then sets it to true.
+		//Creates a pair if it doesn't exist in the map
 		m_keyMap[keyID] = true;
 	}
 
+	//Changes the state of the key in the current map
 	void InputManager::keyUp(unsigned int keyID)
 	{
 		m_keyMap[keyID] = false;
 	}
 
-	//Checks the keymap
-	bool InputManager::key(unsigned int keyID)
+	//Returns the state of the key id in the current map
+	bool InputManager::keyState(unsigned int keyID)
 	{
 		auto it = m_keyMap.find(keyID);
 		
-		//.end returns true if key 'it' is not in the map
-		//this bool returns true if 'it' is in the map
 		if (it != m_keyMap.end()) 
 		{
-			//function returns the (as a boolean) second value in the pair 'it' is in
+			//'second' returns the second value in a pair
 			return it->second;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	//Returns the state of the key id in the previous map
+	bool InputManager::previousKeyState(unsigned int keyID)
+	{
+		auto it = m_previousKeyMap.find(keyID);
+
+		if (it != m_previousKeyMap.end())
+		{
+			return it->second;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	//checks for a key press
+	bool InputManager::keyPress(unsigned int keyID) 
+	{
+		if (keyState(keyID) && !previousKeyState(keyID))
+		{
+			return true;
 		}
 		else
 		{

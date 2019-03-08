@@ -46,37 +46,37 @@ void Player::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, st
 {
 	glm::vec2 direction = { 0, 0 };
 
-	if (p_inputManager->key(SDLK_w))
+	if (p_inputManager->keyState(SDLK_w))
 	{
 		direction.y += 1;
 	}
 
-	if (p_inputManager->key(SDLK_s))
+	if (p_inputManager->keyState(SDLK_s))
 	{
 		direction.y -= 1;
 	}
 
-	if (p_inputManager->key(SDLK_a))
+	if (p_inputManager->keyState(SDLK_a))
 	{
 		direction.x -= 1;
 	}
 
-	if (p_inputManager->key(SDLK_d))
+	if (p_inputManager->keyState(SDLK_d))
 	{
 		direction.x += 1;
 	}
 
-	if (p_inputManager->key(SDLK_1) && p_guns.size() >= 0)
+	if (p_inputManager->keyState(SDLK_1) && p_guns.size() >= 0)
 	{
 		m_currentGunIndex = 0;
 	}
 
-	if (p_inputManager->key(SDLK_2) && p_guns.size() >= 1)
+	if (p_inputManager->keyState(SDLK_2) && p_guns.size() >= 1)
 	{
 		m_currentGunIndex = 1;
 	}
 
-	if (p_inputManager->key(SDLK_3) && p_guns.size() >= 2)
+	if (p_inputManager->keyState(SDLK_3) && p_guns.size() >= 2)
 	{
 		m_currentGunIndex = 2;
 	}
@@ -98,7 +98,7 @@ void Player::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, st
 
 		glm::vec2 direction = glm::normalize(mouseCoords - centrePosition);
 
-		p_guns[m_currentGunIndex]->update(p_inputManager->key(SDL_BUTTON_LEFT),
+		p_guns[m_currentGunIndex]->update(p_inputManager->keyState(SDL_BUTTON_LEFT),
 			centrePosition,
 			direction,
 			bullets,
