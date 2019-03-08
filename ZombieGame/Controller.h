@@ -22,6 +22,5 @@ private:
 
 	View* p_view;
 	Player* p_player;
-
 };
 

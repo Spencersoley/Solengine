@@ -17,16 +17,25 @@ public:
 	~Player();
 
 	void init(float speed, glm::vec2 pos);
-	void initInputManager(Solengine::InputManager* inputManager); //best way to handle the reference?
 	void setCamera(Solengine::Camera2D* cam) { p_cam = cam; }
 	void addGun(Gun* gun);
 	void move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Bullet>& bullets, float adjustedDeltaTicks); //Why can we override this but not zombie/human's move
+	
+	void setYDir(int dir) { m_direction.y += dir; }
+	void setXDir(int dir) { m_direction.x += dir; }
+	int getNumOfGuns() { return p_guns.size(); }
+	int getCurrentGunIndex() { return m_currentGunIndex; }
+	void setCurrentGunIndex(int index) { m_currentGunIndex = index;  }
+	void setMouseCoords(glm::vec2 mouseCoords) { m_mouseCoords = mouseCoords; }
+	void setIsMouseDown(bool mouseDown) { m_isMouseDown = mouseDown;  }
 
 private:
 	std::vector<Gun*> p_guns;
-	Solengine::InputManager* p_inputManager;
 	Solengine::Camera2D* p_cam;	
 
 	int m_currentGunIndex;
+	glm::vec2 m_direction;
+	bool m_isMouseDown;
+	glm::vec2 m_mouseCoords;
 };
 

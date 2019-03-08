@@ -142,7 +142,7 @@ void Scene::gameLoop()
 
 		    //Calculates, announces, and limits FPS
 		    m_SOL_fpsManager.limitFPS(trackFPS, (int)DESIRED_TICKS_PER_FRAME);
-			//std::cout << "---PLAY---" << std::endl;
+
 			pauseDuration = 0;
 		}
 

@@ -3,8 +3,14 @@
 c:\users\ssole\source\repos\solengineproject\gametemplate\maingame.cpp(60): error C2039: 'sdlInit': is not a member of 'Solengine'
   c:\users\ssole\source\repos\solengineproject\solengine\resourcemanager.h(7): note: see declaration of 'Solengine'
 c:\users\ssole\source\repos\solengineproject\gametemplate\maingame.cpp(60): error C3861: 'sdlInit': identifier not found
+c:\users\ssole\source\repos\solengineproject\gametemplate\maingame.cpp(70): error C2039: 'init': is not a member of 'Solengine::FPSManager'
+  c:\users\ssole\source\repos\solengineproject\solengine\fpsmanager.h(9): note: see declaration of 'Solengine::FPSManager'
 c:\users\ssole\source\repos\solengineproject\gametemplate\maingame.cpp(93): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
 c:\users\ssole\source\repos\solengineproject\gametemplate\maingame.cpp(93): warning C4244: 'initializing': conversion from 'int' to 'const float', possible loss of data
 c:\users\ssole\source\repos\solengineproject\gametemplate\maingame.cpp(96): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+c:\users\ssole\source\repos\solengineproject\gametemplate\maingame.cpp(102): error C2039: 'begin': is not a member of 'Solengine::FPSManager'
+  c:\users\ssole\source\repos\solengineproject\solengine\fpsmanager.h(9): note: see declaration of 'Solengine::FPSManager'
+c:\users\ssole\source\repos\solengineproject\gametemplate\maingame.cpp(117): error C2039: 'end': is not a member of 'Solengine::FPSManager'
+  c:\users\ssole\source\repos\solengineproject\solengine\fpsmanager.h(9): note: see declaration of 'Solengine::FPSManager'
 c:\users\ssole\source\repos\solengineproject\gametemplate\maingame.cpp(124): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
   Generating Code...
