@@ -17,7 +17,7 @@ public:
 	Agent();
 	virtual ~Agent();
 
-	virtual void move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, float adjustedDeltaTicks, int globalFrameCount) = 0;
+	virtual void move(float adjustedDeltaTicks, int globalFrameCount, std::vector<Human*>& humans, std::vector<Zombie*>& zombies) = 0;
 
 	void collisionWithLevel(const std::vector<std::string>& levelData);
 	bool collisionWithAgent(Agent* agent); //true on collision?

@@ -18,7 +18,7 @@ void Zombie::init(float speed, glm::vec2 pos)
 	m_colour = {/*r*/ 0, /*g*/ 150, /*b*/ 0, /*a*/ 255 };
 }
 
-void Zombie::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, float adjustedDeltaTicks, int globalFrameCount)
+void Zombie::move(float adjustedDeltaTicks, int globalFrameCount, std::vector<Human*>& humans, std::vector<Zombie*>& zombies)
 {
 	static int frameCount;
 	frameCount++;

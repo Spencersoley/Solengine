@@ -21,7 +21,7 @@ public:
 	void init(float speed, glm::vec2 pos);
 	void setCamera(Solengine::Camera2D* cam) { p_cam = cam; }
 	void addGun(Gun* gun);
-	void move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Bullet>& bullets, float adjustedDeltaTicks); //Why can we override this but not zombie/human's move
+	void move(float adjustedDeltaTicks, std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Bullet>& bullets); //Why can we override this but not zombie/human's move
 	
 	void setYDir(int dir) { m_direction.y += dir; }
 	void setXDir(int dir) { m_direction.x += dir; }

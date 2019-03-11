@@ -18,6 +18,7 @@
 #include "Bullet.h"
 #include "Level.h"
 #include "Player.h"
+#include "Model.h"
 #include "View.h"
 #include "Controller.h"
 
@@ -36,16 +37,14 @@ private:
 	void initLevel();
 	void gameLoop();
 	void checkVictory();
-	Uint32 getDeltaTicks();
-	void updatePhysics(float MAX_PHYSICS_STEPS, float MAX_DELTA_TIME, int pauseDuration);
-	void updateAgents(float adjustedDeltaTicks);
-	void updateBullets(float adjustedDeltaTicks);
 
 	Solengine::FPSManager m_SOL_fpsManager;
 	Solengine::Camera2D m_SOL_cam;
+	Model m_model;
 	View m_view;
 	Controller m_controller;
 	Player m_player;
+	Player* p_player = &m_player;
 
 	std::vector<Bullet> m_bullets;
 	std::vector<Level*> p_levels;

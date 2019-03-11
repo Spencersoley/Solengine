@@ -36,7 +36,7 @@ void Human::init(float speed, glm::vec2 pos, int id)
 	m_direction = glm::normalize(m_direction);
 }
 
-void Human::move(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, float adjustedDeltaTicks, int globalFrameCount)
+void Human::move(float adjustedDeltaTicks, int globalFrameCount, std::vector<Human*>& humans, std::vector<Zombie*>& zombies)
 {
 	//Scan for nearest zombie, EACH human calls frameCount++, so it might not ever be %60==0 on their turn
 	if (globalFrameCount%60 == 0)

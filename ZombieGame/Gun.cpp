@@ -20,7 +20,7 @@ Gun::~Gun()
 {
 }
 
-void Gun::update(bool isMouseDown, const glm::vec2& position, const glm::vec2& direction, std::vector<Bullet>& bullets, float adjustedDeltaTicks)
+void Gun::update(float adjustedDeltaTicks, bool isMouseDown, const glm::vec2& position, const glm::vec2& direction, std::vector<Bullet>& bullets)
 {
 	m_frameCounter += adjustedDeltaTicks;
 	if (m_frameCounter >= m_fireRate && isMouseDown)
@@ -42,6 +42,6 @@ void Gun::fire(const glm::vec2& position, const glm::vec2& direction, std::vecto
 
 	for (int i = 0; i < m_bulletsPerShot; i++)
 	{
-		bullets.emplace_back(position -glm::vec2(2 * BULLET_RADIUS, 2 * BULLET_RADIUS), glm::rotate(direction, glm::radians(randRotate(randomEngine))), m_bulletDamage, m_bulletSpeed);
+		bullets.emplace_back(position - glm::vec2(2 * BULLET_RADIUS, 2 * BULLET_RADIUS), glm::rotate(direction, glm::radians(randRotate(randomEngine))), m_bulletDamage, m_bulletSpeed);
 	}
 }
