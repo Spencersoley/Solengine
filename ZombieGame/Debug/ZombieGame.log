@@ -1,13 +1,2 @@
-﻿  Agent.cpp
-  Bullet.cpp
-  Controller.cpp
-  Gun.cpp
-  Human.cpp
-  Main.cpp
-  Model.cpp
-  Player.cpp
-  Scene.cpp
-  View.cpp
-  Zombie.cpp
-  Generating Code...
+﻿  View.cpp
   ZombieGame.vcxproj -> C:\Users\Ssole\source\repos\SolengineProject\Debug\ZombieGame.exe

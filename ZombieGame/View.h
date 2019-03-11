@@ -29,6 +29,10 @@ public:
 private: 
 	void drawGame(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Level*>& levels, std::vector<Bullet>& bullets);
 
+	void drawHumans(std::vector<Human*>& humans);
+	void drawZombies(std::vector<Zombie*>& zombies);
+	void drawBullets(std::vector<Bullet>& bullets);
+
 	Solengine::GLSLProgram m_SOL_shaderProgram;
 	Solengine::Window m_SOL_window;
 	Solengine::SpriteBatch m_SOL_agentSpriteBatch;

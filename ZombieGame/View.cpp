@@ -69,31 +69,12 @@ void View::drawGame(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, 
 
 	m_SOL_agentSpriteBatch.begin();
 
-	glm::vec2 agentDims(AGENT_RADIUS * 2.0f);
+	//draw entities
+	drawHumans(humans);
 
-	//Draw humans
-	for (size_t i = 0; i < humans.size(); i++)
-	{
-		if (p_SOL_cam->isBoxInView(humans[i]->getPosition(), agentDims))
-		{
-			humans[i]->draw(m_SOL_agentSpriteBatch);
-		}
-	}
+	drawZombies(zombies);
 	
-	//Draw zombies
-	for (size_t i = 0; i < zombies.size(); i++)
-	{
-		if (p_SOL_cam->isBoxInView(zombies[i]->getPosition(), agentDims))
-		{
-			zombies[i]->draw(m_SOL_agentSpriteBatch);
-		}
-	}
-
-	//Draw bullets
-	for (size_t i = 0; i < bullets.size(); i++)
-	{
-		bullets[i].draw(m_SOL_agentSpriteBatch);
-	}
+	drawBullets(bullets);
 
 	// called agent sprite batch but not just for agents
 	m_SOL_agentSpriteBatch.end();
@@ -105,3 +86,40 @@ void View::drawGame(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, 
 	m_SOL_window.swapBuffer();
 }
 
+
+void View::drawHumans(std::vector<Human*>& humans)
+{
+	glm::vec2 agentDims(AGENT_RADIUS * 2.0f);
+
+	//Draw humans
+	for (size_t i = 0; i < humans.size(); i++)
+	{
+		if (p_SOL_cam->isBoxInView(humans[i]->getPosition(), agentDims))
+		{
+			humans[i]->draw(m_SOL_agentSpriteBatch);
+		}
+	}
+}
+
+void View::drawZombies(std::vector<Zombie*>& zombies)
+{
+	glm::vec2 agentDims(AGENT_RADIUS * 2.0f);
+
+	//Draw zombies
+	for (size_t i = 0; i < zombies.size(); i++)
+	{
+		if (p_SOL_cam->isBoxInView(zombies[i]->getPosition(), agentDims))
+		{
+			zombies[i]->draw(m_SOL_agentSpriteBatch);
+		}
+	}
+}
+
+void View::drawBullets(std::vector<Bullet>& bullets)
+{
+	//Draw bullets
+	for (size_t i = 0; i < bullets.size(); i++)
+	{
+		bullets[i].draw(m_SOL_agentSpriteBatch);
+	}
+}
