@@ -31,7 +31,7 @@ namespace Solengine
 	//Announces FPS every NUM_SAMPLES frames
 	void FPSManager::trackFPS()
 	{
-		static const int NUM_SAMPLES = 10;
+		static const int NUM_SAMPLES = 10000;
 		static Uint32 ticksPerFrame[NUM_SAMPLES];
 		static int frameCount = 0;
 
