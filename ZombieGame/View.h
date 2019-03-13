@@ -24,7 +24,7 @@ public:
 	~View();
 
 	void init(Player* player, Solengine::Camera2D* cam, int screenwidth, int screenheight);
-	void update(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Level*>& levels, std::vector<Bullet>& mm_bullets);
+	void update(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Level*>& levels, std::vector<Bullet>& m_bullets);
 
 private: 
 	void drawGame(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Level*>& levels, std::vector<Bullet>& bullets);
@@ -37,8 +37,8 @@ private:
 	Solengine::Window m_SOL_window;
 	Solengine::SpriteBatch m_SOL_agentSpriteBatch;
 
-	Solengine::Camera2D* p_SOL_cam;
-	Player* p_player;
+	Solengine::Camera2D* p_SOL_cam = nullptr;
+	Player* p_player = nullptr;
 	int m_currentLevel;
 };
 

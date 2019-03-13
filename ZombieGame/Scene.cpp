@@ -15,13 +15,12 @@
 
 //Move random engine to Solengine?
 //init vs constructors?
-//stack as much as possible over heap for faster access
-//FIX BULLET COLLISION
-//can we separate 'model'?
+//fix 'stats' numhumanskilled etc
+//Goal-Based pathfinding
 
 //NTS: It's okay to have global variables if they're constant
 const float HUMAN_SPEED = 1.0f;
-const float ZOMBIE_SPEED = 1.2f;
+const float ZOMBIE_SPEED = 5.0f;
 const float PLAYER_SPEED = 10.0f;
 
 //Constructor will initialise private member variables
@@ -32,7 +31,7 @@ Scene::Scene() :
 	m_currentLevel(0),
 	m_fpsMax(600),
 	m_gameSpeed(0.02f),
-	m_announceInConsoleFPS(true),
+	m_announceInConsoleFPS(false),
 	m_numHumansKilled(0),
 	m_numZombiesKilled(0),
 	m_globalFrameCount(0)
@@ -68,16 +67,17 @@ void Scene::run()
 void Scene::initSystems()
 {
 	Solengine::initialiseSDL();
-	m_model.init(&m_player, m_currentLevel, m_gameSpeed);
+	m_model.init(&m_player, m_currentLevel, m_gameSpeed, &m_pathfinder);
 	m_view.init(&m_player, &m_SOL_cam, m_screenWidth, m_screenHeight);
-	m_controller.init(&m_SOL_cam, &m_player);
 	initLevel();
+	m_controller.init(&m_SOL_cam, &m_player, p_levels);
+	m_pathfinder.init(p_levels[m_currentLevel]->getNodeField());
 }
 
 //Initialise the game content
 void Scene::initLevel()
 {	
-	p_levels.push_back(new Level("Levels/level1.txt"));
+	p_levels.push_back(new Level("Levels/level3.txt"));
 	
 	m_player.init(PLAYER_SPEED, p_levels[m_currentLevel]->getStartPlayerPosition());
 	//Passes reference of player to the controller. The controller passes a reference of th input manager to the player.
@@ -103,7 +103,7 @@ void Scene::initLevel()
 	for (size_t i = 0; i < zombiePositions.size(); i++)
 	{
 		p_zombies.push_back(new Zombie);
-		p_zombies.back()->init(ZOMBIE_SPEED, zombiePositions[i]);
+		p_zombies.back()->init(ZOMBIE_SPEED, zombiePositions[i], &m_pathfinder);
 	}
 
 	m_player.addGun(new Gun("Pistol",    30,    1,    0.0f/*1.0f*/,    1.0f,    20.0f));
@@ -125,13 +125,13 @@ void Scene::gameLoop()
 		{ 
 		    checkVictory();
 		
-		    //handles input
-		    m_gameState = m_controller.playStateInput();
-
 			m_model.updateModel(pauseDuration, p_humans, p_zombies, p_levels, m_bullets);
 
 	        //handles rendering
 		    m_view.update(p_humans, p_zombies, p_levels, m_bullets);
+
+			//handles input
+			m_gameState = m_controller.playStateInput();
 
 		    //Calculates, announces, and limits FPS
 		    m_SOL_fpsManager.limitFPS(trackFPS, (int)DESIRED_TICKS_PER_FRAME);

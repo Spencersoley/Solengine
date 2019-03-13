@@ -33,7 +33,7 @@ public:
 
 private:
 	std::vector<Gun*> p_guns;
-	Solengine::Camera2D* p_cam;	
+	Solengine::Camera2D* p_cam = nullptr;
 
 	int m_currentGunIndex;
 	glm::vec2 m_direction;

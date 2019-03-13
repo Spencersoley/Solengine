@@ -19,7 +19,7 @@ public:
 	Model();
 	~Model();
 
-	void init(Player* player, int currentLevel, float gameSpeed);
+	void init(Player* player, int currentLevel, float gameSpeed, Pathfinder* pathfinder);
 	void updateModel(int pauseDuration, std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Level*>& levels, std::vector<Bullet>& bullets);
 
 private:
@@ -27,7 +27,9 @@ private:
 	void updateAgents(float adjustedDeltaTicks, std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Level*>& levels, std::vector<Bullet>& bullets);
 	void updateBullets(float adjustedDeltaTicks, std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Level*>& levels, std::vector<Bullet>& bullets);
 
-	Player* p_player;
+	Player* p_player = nullptr;
+	Pathfinder* p_pathfinder = nullptr;
+
 	int m_currentLevel;
 	int m_globalFrameCount;
 	float m_gameSpeed;

@@ -2,7 +2,7 @@
 
 #include <Solengine/ErrorHandler.h>
 
-const float ZOMBIE_SPEED = 1.2f;
+const float ZOMBIE_SPEED = 5.0f;
 
 Model::Model() : m_globalFrameCount(0)
 {
@@ -12,11 +12,12 @@ Model::~Model()
 {
 }
 
-void Model::init(Player* player, int currentLevel, float gameSpeed)
+void Model::init(Player* player, int currentLevel, float gameSpeed, Pathfinder* pathfinder)
 {
 	p_player = player;
 	m_currentLevel = currentLevel;
 	m_gameSpeed = gameSpeed;
+	p_pathfinder = pathfinder;
 }
 
 void Model::updateModel(int pauseDuration, std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Level*>& levels, std::vector<Bullet>& bullets)
@@ -67,7 +68,7 @@ void Model::updateAgents(float adjustedDeltaTicks, std::vector<Human*>& humans, 
 			if (zombies[i]->collisionWithAgent(humans[j]))
 			{
 				zombies.push_back(new Zombie);
-				zombies.back()->init(ZOMBIE_SPEED, humans[j]->getPosition());
+				zombies.back()->init(ZOMBIE_SPEED, humans[j]->getPosition(), p_pathfinder);
 				delete humans[j];
 				humans[j] = humans.back();
 				humans.pop_back();

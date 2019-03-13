@@ -44,7 +44,8 @@ private:
 	View m_view;
 	Controller m_controller;
 	Player m_player;
-	Player* p_player = &m_player;
+
+	Pathfinder m_pathfinder;
 
 	std::vector<Bullet> m_bullets;
 	std::vector<Level*> p_levels;

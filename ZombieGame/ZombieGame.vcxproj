@@ -23,6 +23,8 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="Node.cpp" />
+    <ClCompile Include="Pathfinder.cpp" />
     <ClCompile Include="View.cpp" />
     <ClCompile Include="Gun.cpp" />
     <ClCompile Include="Human.cpp" />
@@ -37,6 +39,8 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="Pathfinder.h" />
     <ClInclude Include="View.h" />
     <ClInclude Include="Gun.h" />
     <ClInclude Include="Human.h" />

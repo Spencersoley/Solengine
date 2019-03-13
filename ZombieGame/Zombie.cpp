@@ -10,12 +10,13 @@ Zombie::~Zombie()
 {
 }
 
-void Zombie::init(float speed, glm::vec2 pos)
+void Zombie::init(float speed, glm::vec2 pos, Pathfinder* pathfinder)
 {
 	m_health = 150;
 	m_speed = speed;
 	m_position = pos;
 	m_colour = {/*r*/ 0, /*g*/ 150, /*b*/ 0, /*a*/ 255 };
+	p_pathfinder = pathfinder;
 }
 
 void Zombie::move(float adjustedDeltaTicks, int globalFrameCount, std::vector<Human*>& humans, std::vector<Zombie*>& zombies)
@@ -32,8 +33,21 @@ void Zombie::move(float adjustedDeltaTicks, int globalFrameCount, std::vector<Hu
 	// If we found a human, move towards them
 	if (p_nearestHuman != nullptr) 
 	{
-		// Get the direction vector towards the player
-		m_direction = glm::normalize(p_nearestHuman->getPosition() - m_position);
+		float chaseDistance = 150.0f;
+
+		glm::vec2 distVec = p_nearestHuman->getPosition() - m_position;
+		float distance = glm::length(distVec);
+
+		if (distance < chaseDistance)
+		{
+			m_direction = glm::normalize(p_nearestHuman->getPosition() - m_position);
+		} 
+		else
+		{
+			//m_direction = { 0, 0 };
+			m_direction = p_pathfinder->pathfind(m_position, p_nearestHuman->getPosition());
+		}
+
 		m_position += m_direction * m_speed * adjustedDeltaTicks;
 	}
 }

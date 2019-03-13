@@ -5,6 +5,8 @@
 
 #include <Solengine/SpriteBatch.h>
 
+#include "Node.h"
+
 const int TILE_WIDTH = 64;
 
 class Level
@@ -23,13 +25,18 @@ public:
 	glm::vec2 getStartPlayerPosition() const { return m_startPlayerPosition; }
 	const std::vector<glm::vec2>& getStartZombiePositions() const { return m_startZombiePositions; }
 	const std::vector<std::string>& getLevelData() const { return m_levelData; }
+	void nodeCheck();
+
+	std::vector<std::vector<Node>> getNodeField() { return m_nodeField; }
 
 private:
 	std::vector<std::string> m_levelData;	
-	Solengine::SpriteBatch m_spriteBatch;
+	Solengine::SpriteBatch m_SOL_levelSpriteBatch;
 	glm::vec2 m_startPlayerPosition;
 	std::vector<glm::vec2> m_startZombiePositions;
 	int m_numHumans;
+
+	std::vector<std::vector<Node>> m_nodeField;
 };
 
 //Render a texture for each tile
