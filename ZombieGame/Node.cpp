@@ -1,8 +1,8 @@
 #include "Node.h"
 
-Node::Node(int value, int x, int y)
+Node::Node(int f, int x, int y)
 {
-	m_value = value;
+	m_f = f;
 	m_xPos = x;
 	m_yPos = y;
 }

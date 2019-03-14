@@ -1,23 +1,35 @@
 #pragma once
+
+#include <glm/glm.hpp>
+
 class Node
 {
 public:
-	Node(int value, int x, int y);
+	Node(int f, int x, int y);
 	~Node();
 
-	void setValue(int value) { m_value = value; }
-	int getValue() { return m_value; }
+	void setf(int value) { m_f = value; }
+	void updatef() { m_f = m_g + m_h; }
+	void setg(int value) { m_g = value; }
+	void seth(int value) { m_h = value; }
+	int getf() { return m_f; }
+	int getg() { return m_g; }
+	int geth() { return m_h; }
+
 	int getXPos() { return m_xPos; }
 	int getYPos() { return m_yPos; }
+	glm::vec2 getDir() { return m_dir; }
 
 private:
-	int m_value;
 	int m_xPos;
 	int m_yPos;
 
-	float g; //cost
-	float h; //heuristic estimate to goal state
-	float f; // f = g + h
+	glm::vec2 m_dir = { 0, 0 };
+
+	int m_f; // f = g + h
+	int m_g = 0; //cost
+	int m_h = 0;; //heuristic estimate to goal state
+	
 
 
 	// zombie checks what node it's on

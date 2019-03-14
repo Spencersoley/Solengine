@@ -27,7 +27,7 @@ public:
 	const std::vector<std::string>& getLevelData() const { return m_levelData; }
 	void nodeCheck();
 
-	std::vector<std::vector<Node>> getNodeField() { return m_nodeField; }
+	std::vector<std::vector<Node>>& getNodeField() { return m_nodeField; }
 
 private:
 	std::vector<std::string> m_levelData;	

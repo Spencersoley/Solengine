@@ -71,7 +71,7 @@ void Scene::initSystems()
 	m_view.init(&m_player, &m_SOL_cam, m_screenWidth, m_screenHeight);
 	initLevel();
 	m_controller.init(&m_SOL_cam, &m_player, p_levels);
-	m_pathfinder.init(p_levels[m_currentLevel]->getNodeField());
+	m_pathfinder.init(p_levels[m_currentLevel]->getNodeField(), TILE_WIDTH);
 }
 
 //Initialise the game content

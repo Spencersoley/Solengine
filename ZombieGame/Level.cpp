@@ -71,16 +71,16 @@ Level::Level(const std::string& fileName)
 					m_levelData[y][x] = '.';
 					m_startPlayerPosition.x = (float)(x * TILE_WIDTH);
 					m_startPlayerPosition.y = (float)(y * TILE_WIDTH);
-					m_nodeRow.emplace_back(1, x, y);
+					m_nodeRow.emplace_back(9, x, y);
 					break;
 				case 'Z':
 					std::cout << 'Z' << "\n";
 					m_levelData[y][x] = '.';
 					m_startZombiePositions.emplace_back(x * TILE_WIDTH, y * TILE_WIDTH);
-					m_nodeRow.emplace_back(1, x, y);
+					m_nodeRow.emplace_back(9, x, y);
 					break;
 				case '.':
-					m_nodeRow.emplace_back(1, x, y);
+					m_nodeRow.emplace_back(9, x, y);
 					break;
 				default: 
 					std::cout << "Unexpected symbol " << tile << "at " << x << "," << y;
