@@ -18,7 +18,9 @@ public:
 
 	int getXPos() { return m_xPos; }
 	int getYPos() { return m_yPos; }
-	glm::vec2 getDir() { return m_dir; }
+	glm::vec2 getDir();
+
+	int count;
 
 private:
 	int m_xPos;
@@ -30,7 +32,7 @@ private:
 	int m_g = 0; //cost
 	int m_h = 0;; //heuristic estimate to goal state
 	
-
+	Node* p_parent;
 
 	// zombie checks what node it's on
 	// zombie finds the value of the 8 nodes around it

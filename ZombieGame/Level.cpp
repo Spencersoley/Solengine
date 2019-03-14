@@ -54,37 +54,37 @@ Level::Level(const std::string& fileName)
 			    case 'R':
 					m_SOL_levelSpriteBatch.draw(destRect, uvRect, Solengine::ResourceManager::getTexture("Textures/zombie_pack/light_bricks.png").textureID, 0.0f, whiteColour);
 					std::cout << 'R' << Solengine::ResourceManager::getTexture("Textures/zombie_pack/light_bricks.png").textureID << "\n";
-					m_nodeRow.emplace_back(0, x, y);
+					m_nodeRow.emplace_back(-1, x, y);
 					break;
 				case 'G':
 					m_SOL_levelSpriteBatch.draw(destRect, uvRect, Solengine::ResourceManager::getTexture("Textures/zombie_pack/glass.png").textureID, 0.0f, whiteColour);
 					std::cout << 'G' << Solengine::ResourceManager::getTexture("Textures/zombie_pack/glass.png").textureID << "\n";
-					m_nodeRow.emplace_back(0, x, y);
+					m_nodeRow.emplace_back(-1, x, y);
 					break;
 				case 'L':
 				    m_SOL_levelSpriteBatch.draw(destRect, uvRect, Solengine::ResourceManager::getTexture("Textures/zombie_pack/light_bricks.png").textureID, 0.0f, whiteColour);
 					std::cout << 'L' << Solengine::ResourceManager::getTexture("Textures/zombie_pack/light_bricks.png").textureID << "\n";
-					m_nodeRow.emplace_back(0, x, y);
+					m_nodeRow.emplace_back(-1, x, y);
 					break;
 				case '@':
 					std::cout << '@' << "\n";
 					m_levelData[y][x] = '.';
 					m_startPlayerPosition.x = (float)(x * TILE_WIDTH);
 					m_startPlayerPosition.y = (float)(y * TILE_WIDTH);
-					m_nodeRow.emplace_back(9, x, y);
+					m_nodeRow.emplace_back(5000, x, y);
 					break;
 				case 'Z':
 					std::cout << 'Z' << "\n";
 					m_levelData[y][x] = '.';
 					m_startZombiePositions.emplace_back(x * TILE_WIDTH, y * TILE_WIDTH);
-					m_nodeRow.emplace_back(9, x, y);
+					m_nodeRow.emplace_back(5000, x, y);
 					break;
 				case '.':
-					m_nodeRow.emplace_back(9, x, y);
+					m_nodeRow.emplace_back(5000, x, y);
 					break;
 				default: 
 					std::cout << "Unexpected symbol " << tile << "at " << x << "," << y;
-					m_nodeRow.emplace_back(0, x, y);
+					m_nodeRow.emplace_back(-1, x, y);
 					break;
 			}
 		}

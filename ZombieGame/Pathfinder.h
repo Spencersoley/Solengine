@@ -18,12 +18,13 @@ public:
 private:	
 	glm::vec2 getCoordinates(glm::vec2 position);
 
-	void updateNeighbourNodes(glm::vec2 nodeCoords);
+	void updateNeighbourNodes(glm::vec2 nodeCoords, glm::vec2 targetCoords);
+	glm::vec2 getLowestf(std::vector<glm::vec2> openSet);
 
 	glm::vec2 m_previousTargetCoords = { 0, 0 };
 	std::vector<std::vector<Node>> m_field;
-	std::vector<glm::vec2> openSet;
-	std::vector<glm::vec2> closedSet;
+	std::vector<glm::vec2> m_openSet;
+	std::vector<glm::vec2> m_closedSet;
 
 	int m_tileWidth;
 };

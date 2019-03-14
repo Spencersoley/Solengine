@@ -10,3 +10,13 @@ Node::Node(int f, int x, int y)
 Node::~Node()
 {
 }
+
+glm::vec2 Node::getDir() 
+{
+	// get its x and y position
+	// get its parents x and y position
+	// work out direction
+	//
+
+	return m_dir;
+}
