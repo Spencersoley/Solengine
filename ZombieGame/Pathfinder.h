@@ -16,9 +16,10 @@ public:
 	glm::vec2 pathfind(glm::vec2 pos, glm::vec2 target);
 
 private:	
-	glm::vec2 getCoordinates(glm::vec2 position);
+	glm::vec2 converPositionToCoordinates(glm::vec2 position);
 
 	void updateNeighbourNodes(glm::vec2 nodeCoords, glm::vec2 targetCoords);
+	void updateNode(float baseNodeX, float baseNodeY, float updateNodeX, float updateNodeY, glm::vec2 targetCoords, bool isDiag);
 	glm::vec2 getLowestf(std::vector<glm::vec2> openSet);
 
 	glm::vec2 m_previousTargetCoords = { 0, 0 };

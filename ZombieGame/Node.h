@@ -18,7 +18,9 @@ public:
 
 	int getXPos() { return m_xPos; }
 	int getYPos() { return m_yPos; }
-	glm::vec2 getDir();
+	int getDir();
+
+	void setParent(Node* parent) { p_parent = parent;  }
 
 	int count;
 
@@ -26,11 +28,11 @@ private:
 	int m_xPos;
 	int m_yPos;
 
-	glm::vec2 m_dir = { 0, 0 };
+	int m_dir;
 
 	int m_f; // f = g + h
-	int m_g = 0; //cost
-	int m_h = 0;; //heuristic estimate to goal state
+	int m_g; //cost
+	int m_h; //heuristic estimate to goal state
 	
 	Node* p_parent;
 
