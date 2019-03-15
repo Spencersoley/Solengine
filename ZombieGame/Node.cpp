@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-Node::Node(int f, int x, int y) : m_g(5000), m_h(0)
+Node::Node(int f, int x, int y) : m_g(5000), m_h(5000)
 {
 	m_f = f;
 	m_xPos = x;
@@ -82,7 +82,6 @@ void Node::setDirectionToChild()
 glm::vec2 Node::getDirectionToChild() 
 { 
 	setDirectionToChild();
-	std::cout << m_dir.x << " " << m_dir.y << std::endl;
 	return m_dir;
 }
 

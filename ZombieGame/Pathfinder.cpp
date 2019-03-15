@@ -23,12 +23,13 @@ void Pathfinder::init(std::vector<std::vector<Node>> nodeField, int tileWidth)
 	m_tileWidth = tileWidth;
 }
 
+//Can we sort F by order maybe?
 void Pathfinder::pathfind(glm::vec2 startPos, glm::vec2 target)
 {
-	glm::vec2 dir = { 0, 0 };
-	glm::vec2 targetCoords = convertPositionToCoordinates(target);
 	glm::vec2 startCoords = convertPositionToCoordinates(startPos);
-
+	glm::vec2 targetCoords = convertPositionToCoordinates(target);
+	
+	//Path is recalculated when either the target coordinates or the start coordinates change
 	if (m_previousTargetCoords != targetCoords || m_previousStartCoords != startCoords)
 	{	
 		m_openSet.clear();
@@ -37,19 +38,24 @@ void Pathfinder::pathfind(glm::vec2 startPos, glm::vec2 target)
 		m_field[startCoords.y][startCoords.x].setg(0);
 		m_field[startCoords.y][startCoords.x].seth(10 * (abs(targetCoords.x - startCoords.x) + abs(targetCoords.y - startCoords.y)));
 		m_field[startCoords.y][startCoords.x].updatef();
-		m_field[startCoords.y][startCoords.x].setParent(&m_field[startCoords.y][startCoords.x]);
 		m_openSet.push_back(startCoords);
 		
+		//check open set for lowest f valued node, set this as current node
+		//add it to the closed list
+		//check the 8 adjacent squares. Ignore if not walkable or reachable.
+		// If it's not in the open list, add it. The current square then becomes parent to this square. Its F, G and H values are set.
+		// If it's in the open list, check if this path to the square is better. If the potential g cost is lower than the current g cost, it's a better path.
+		//        If it's a better path, change its parent to the current square and recalculate G and F scores.
+
 		glm::vec2 pathCoords = startCoords;
 		//creates a path following the lowest f value
-		while (pathCoords != targetCoords) //and also while open set is not empty
+		while (pathCoords != targetCoords) //and also while open list is not empty
 		{
 		    updateNeighbourNodes(pathCoords, targetCoords);
 		    pathCoords = getLowestf(m_openSet);
 		}
 
-		//set dir in all m_field's nodes. Dir will lead pathfinder to target
-			
+		
 		//announce map
 		for (int y = 0; y < m_field.size(); y++)
 		{
@@ -70,15 +76,7 @@ void Pathfinder::pathfind(glm::vec2 startPos, glm::vec2 target)
 				}
 				else if (std::find(m_closedSet.begin(), m_closedSet.end(), glm::vec2{ m_field[y][x].getXPos(), m_field[y][x].getYPos() }) != m_closedSet.end())
 				{
-					if (m_field[y][x].getChild() == &m_field[y][x])
-					{
-						//main node is its own child
-						std::cout << 9;
-					}
-					else
-					{
-						std::cout << 1; 
-					}
+					std::cout << m_field[y][x].getDir();
 				}
 				else
 				{
@@ -91,6 +89,7 @@ void Pathfinder::pathfind(glm::vec2 startPos, glm::vec2 target)
 		std::cout << std::endl;
 		std::cout << std::endl;
 		std::cout << std::endl;
+		
 
 		//reset nodes
 		for (int y = 0; y < m_field.size(); y++)
@@ -134,16 +133,28 @@ glm::vec2 Pathfinder::convertPositionToCoordinates(glm::vec2 position)
 //We can avoid a lot of repetition here.
 void Pathfinder::updateNeighbourNodes(glm::vec2 nodeCoords, glm::vec2 targetCoords)
 {	
+	//We only want to update diagonal neighoburing nodes if it doesn't cut across an obstacle
 	//updates neighbouring nodes
 	updateNode(nodeCoords.x, nodeCoords.y, nodeCoords.x, nodeCoords.y  + 1, targetCoords, false);
 	updateNode(nodeCoords.x, nodeCoords.y, nodeCoords.x, nodeCoords.y - 1, targetCoords, false);
 	updateNode(nodeCoords.x, nodeCoords.y, nodeCoords.x + 1, nodeCoords.y, targetCoords, false);
 	updateNode(nodeCoords.x, nodeCoords.y, nodeCoords.x - 1, nodeCoords.y, targetCoords, false);
-	updateNode(nodeCoords.x, nodeCoords.y, nodeCoords.x + 1, nodeCoords.y + 1, targetCoords, true);
-	updateNode(nodeCoords.x, nodeCoords.y, nodeCoords.x - 1, nodeCoords.y + 1, targetCoords, true);
-	updateNode(nodeCoords.x, nodeCoords.y, nodeCoords.x + 1, nodeCoords.y - 1, targetCoords, true);
-	updateNode(nodeCoords.x, nodeCoords.y, nodeCoords.x - 1, nodeCoords.y - 1, targetCoords, true);
-
+	if (m_field[nodeCoords.y + 1][nodeCoords.x].getf() >= 0 && m_field[nodeCoords.y][nodeCoords.x + 1].getf() >= 0) 
+	{
+		updateNode(nodeCoords.x, nodeCoords.y, nodeCoords.x + 1, nodeCoords.y + 1, targetCoords, true);
+	}
+	if (m_field[nodeCoords.y + 1][nodeCoords.x].getf() >= 0 && m_field[nodeCoords.y][nodeCoords.x - 1].getf() >= 0)
+	{
+		updateNode(nodeCoords.x, nodeCoords.y, nodeCoords.x - 1, nodeCoords.y + 1, targetCoords, true);
+	}
+	if (m_field[nodeCoords.y - 1][nodeCoords.x].getf() >= 0 && m_field[nodeCoords.y][nodeCoords.x + 1].getf() >= 0)
+	{
+	    updateNode(nodeCoords.x, nodeCoords.y, nodeCoords.x + 1, nodeCoords.y - 1, targetCoords, true);
+	}
+	if (m_field[nodeCoords.y - 1][nodeCoords.x].getf() >= 0 && m_field[nodeCoords.y][nodeCoords.x - 1].getf() >= 0)
+	{
+	    updateNode(nodeCoords.x, nodeCoords.y, nodeCoords.x - 1, nodeCoords.y - 1, targetCoords, true);
+	}
 	//removes basenode from open set by its value
 	m_openSet.erase(std::remove(m_openSet.begin(), m_openSet.end(), nodeCoords), m_openSet.end());
 
