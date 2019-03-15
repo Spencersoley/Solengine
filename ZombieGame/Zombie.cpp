@@ -43,9 +43,9 @@ void Zombie::move(float adjustedDeltaTicks, int globalFrameCount, std::vector<Hu
 			m_direction = glm::normalize(p_nearestHuman->getPosition() - m_position);
 		} 
 		else
-		{
-			//m_direction = { 0, 0 };
-			m_direction = p_pathfinder->pathfind(m_position, p_nearestHuman->getPosition());
+		{		
+			p_pathfinder->pathfind(m_position, p_nearestHuman->getPosition());
+			m_direction = p_pathfinder->getDirectionFromNode(m_position);
 		}
 
 		m_position += m_direction * m_speed * adjustedDeltaTicks;

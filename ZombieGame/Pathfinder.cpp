@@ -23,13 +23,13 @@ void Pathfinder::init(std::vector<std::vector<Node>> nodeField, int tileWidth)
 	m_tileWidth = tileWidth;
 }
 
-glm::vec2 Pathfinder::pathfind(glm::vec2 startPos, glm::vec2 target)
+void Pathfinder::pathfind(glm::vec2 startPos, glm::vec2 target)
 {
 	glm::vec2 dir = { 0, 0 };
-	glm::vec2 targetCoords = converPositionToCoordinates(target);
-	glm::vec2 startCoords = converPositionToCoordinates(startPos);
+	glm::vec2 targetCoords = convertPositionToCoordinates(target);
+	glm::vec2 startCoords = convertPositionToCoordinates(startPos);
 
-	if (m_previousTargetCoords != targetCoords)
+	if (m_previousTargetCoords != targetCoords || m_previousStartCoords != startCoords)
 	{	
 		m_openSet.clear();
 		m_closedSet.clear();
@@ -70,9 +70,15 @@ glm::vec2 Pathfinder::pathfind(glm::vec2 startPos, glm::vec2 target)
 				}
 				else if (std::find(m_closedSet.begin(), m_closedSet.end(), glm::vec2{ m_field[y][x].getXPos(), m_field[y][x].getYPos() }) != m_closedSet.end())
 				{
-
-				    std::cout << m_field[y][x].getDir();
-					
+					if (m_field[y][x].getChild() == &m_field[y][x])
+					{
+						//main node is its own child
+						std::cout << 9;
+					}
+					else
+					{
+						std::cout << 1; 
+					}
 				}
 				else
 				{
@@ -101,13 +107,21 @@ glm::vec2 Pathfinder::pathfind(glm::vec2 startPos, glm::vec2 target)
 		}
 	}   
 
+	m_previousStartCoords = startCoords;
 	m_previousTargetCoords = targetCoords;
+}
 
-	dir = glm::vec2 { 0, 0 }; //m_field[startCoords.y][startCoords.x].getDir();
+glm::vec2 Pathfinder::getDirectionFromNode(glm::vec2 startPos)
+{
+	glm::vec2 startCoords = convertPositionToCoordinates(startPos);
+
+	//The direction we're getting from this is doing weird things.
+	glm::vec2 dir = m_field[startCoords.y][startCoords.x].getDirectionToChild();
+
 	return dir;
 }
 
-glm::vec2 Pathfinder::converPositionToCoordinates(glm::vec2 position)
+glm::vec2 Pathfinder::convertPositionToCoordinates(glm::vec2 position)
 {
 	glm::vec2 coordinates;
 

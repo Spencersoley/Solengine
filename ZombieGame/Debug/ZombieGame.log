@@ -1,12 +1,4 @@
-﻿  Agent.cpp
-  Bullet.cpp
-  Controller.cpp
-  Human.cpp
-  Level.cpp
-  Main.cpp
-  Model.cpp
-  Node.cpp
-  Pathfinder.cpp
+﻿  Pathfinder.cpp
 c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(37): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
           with
           [
@@ -30,29 +22,29 @@ c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(40): warn
           ]
 c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(54): warning C4018: '<': signed/unsigned mismatch
 c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(56): warning C4018: '<': signed/unsigned mismatch
-c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(90): warning C4018: '<': signed/unsigned mismatch
-c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(92): warning C4018: '<': signed/unsigned mismatch
-c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(146): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(146): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(156): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(159): warning C4552: '+': result of expression not used
-c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(161): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(164): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(164): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(166): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(166): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(168): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(175): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(180): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(192): warning C4018: '<': signed/unsigned mismatch
-c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(195): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(95): warning C4018: '<': signed/unsigned mismatch
+c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(97): warning C4018: '<': signed/unsigned mismatch
+c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(118): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
           with
           [
               T=float
           ]
-  Player.cpp
-  Scene.cpp
-  View.cpp
-  Zombie.cpp
-  Generating Code...
+c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(159): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(159): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(169): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(172): warning C4552: '+': result of expression not used
+c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(174): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(177): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(177): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(179): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(179): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(181): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(188): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(193): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(205): warning C4018: '<': signed/unsigned mismatch
+c:\users\ssole\source\repos\solengineproject\zombiegame\pathfinder.cpp(208): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
+          with
+          [
+              T=float
+          ]
   ZombieGame.vcxproj -> C:\Users\Ssole\source\repos\SolengineProject\Debug\ZombieGame.exe
