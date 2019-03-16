@@ -5,7 +5,7 @@
 class Node
 {
 public:
-	Node(int f, int x, int y);
+	Node(int f, int x, int y, int TILE_WIDTH);
 	~Node();
 
 	void setf(int value) { m_f = value; }
@@ -16,13 +16,16 @@ public:
 	int getg() { return m_g; }
 	int geth() { return m_h; }
 
-	int getXPos() { return m_xPos; }
-	int getYPos() { return m_yPos; }
+	int getXPos() { return m_xPos; } 
+	int getYPos() { return m_yPos; } 
+
+	int getXCoord() { return m_xCoord; }
+	int getYCoord() { return m_yCoord; }
+
 	int getDir();
 
-	glm::vec2 getDirectionToChild();
+	glm::vec2 getDirectionToParent(glm::vec2 startPos);
 	Node* getParent() { return p_parent;  }
-	Node* getChild() { return p_child; }
 
 	void setParent(Node* parent);
 
@@ -30,12 +33,12 @@ public:
 	int count;
 
 private:
-	void setChild(Node* child);
-	void setDirectionToChild();
-
 	int m_xPos;
 	int m_yPos;
+	int m_xCoord;
+	int m_yCoord;
 
+	int m_tileWidth;
 	glm::vec2 m_dir;
 
 	int m_f; // f = g + h
@@ -43,7 +46,5 @@ private:
 	int m_h; //heuristic estimate to goal state
 	
 	Node* p_parent = nullptr;
-	Node* p_child = nullptr;
-
 };
 

@@ -45,7 +45,7 @@ void Zombie::move(float adjustedDeltaTicks, int globalFrameCount, std::vector<Hu
 		else
 		{		
 			p_pathfinder->pathfind(m_position, p_nearestHuman->getPosition());
-			m_direction = p_pathfinder->getDirectionFromNode(m_position);
+			m_direction = p_pathfinder->getDirectionToNextNode(m_position);
 		}
 
 		m_position += m_direction * m_speed * adjustedDeltaTicks;

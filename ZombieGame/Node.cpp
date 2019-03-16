@@ -2,11 +2,16 @@
 
 #include <iostream>
 
-Node::Node(int f, int x, int y) : m_g(5000), m_h(5000)
+Node::Node(int f, int x, int y, int TILE_WIDTH) : m_g(5000), m_h(5000)
 {
 	m_f = f;
-	m_xPos = x;
-	m_yPos = y;
+	m_xPos = x * TILE_WIDTH;
+	m_yPos = y * TILE_WIDTH;
+
+	m_tileWidth = TILE_WIDTH;
+
+	m_xCoord = x;
+	m_yCoord = y;
 }
 
 Node::~Node()
@@ -15,17 +20,17 @@ Node::~Node()
 
 int Node::getDir() 
 {
-	//point to child
-	if (p_child != nullptr)
+	//point to parent
+	if (p_parent != nullptr)
 	{
-		if (m_xPos == p_child->getXPos() && m_yPos > p_child->getYPos()) return 0;
-		if (m_xPos < p_child->getXPos() && m_yPos > p_child->getYPos()) return 1;
-		if (m_xPos < p_child->getXPos() && m_yPos == p_child->getYPos()) return 2;
-		if (m_xPos < p_child->getXPos() && m_yPos < p_child->getYPos()) return 3;
-		if (m_xPos == p_child->getXPos() && m_yPos < p_child->getYPos()) return 4;
-		if (m_xPos > p_child->getXPos() && m_yPos < p_child->getYPos()) return 5;
-		if (m_xPos > p_child->getXPos() && m_yPos == p_child->getYPos()) return 6;
-		if (m_xPos > p_child->getXPos() && m_yPos > p_child->getYPos()) return 7;
+		if (m_xCoord == p_parent->getXCoord() && m_yCoord > p_parent->getYCoord()) return 0;
+		if (m_xCoord < p_parent->getXCoord() && m_yCoord > p_parent->getYCoord()) return 1;
+		if (m_xCoord < p_parent->getXCoord() && m_yCoord == p_parent->getYCoord()) return 2;
+		if (m_xCoord < p_parent->getXCoord() && m_yCoord < p_parent->getYCoord()) return 3;
+		if (m_xCoord == p_parent->getXCoord() && m_yCoord < p_parent->getYCoord()) return 4;
+		if (m_xCoord > p_parent->getXCoord() && m_yCoord < p_parent->getYCoord()) return 5;
+		if (m_xCoord > p_parent->getXCoord() && m_yCoord == p_parent->getYCoord()) return 6;
+		if (m_xCoord > p_parent->getXCoord() && m_yCoord > p_parent->getYCoord()) return 7;
 	}
 
 	return 9;
@@ -35,53 +40,34 @@ int Node::getDir()
 void Node::setParent(Node* parent) 
 { 
 	p_parent = parent; 
-	parent->setChild(this);
 }
 
-//if main child node doesn't exist, new child is set as the main child
-//if it does exist, the if the new child has a lower f value than main child, new child is set as the main child
-void Node::setChild(Node* child)
-{
-	if (p_child != nullptr) 
-	{	
-		if (child->getf() < p_child->getf())
-		{
-			p_child = child;
-		}
-	}
-	else
-	{
-		p_child = child;
-	}
-}
-
-void Node::setDirectionToChild()
-{
-	glm::vec2 childPos;
-	glm::vec2 nodePos{ m_xPos, m_yPos };
-
-	if (p_child == nullptr)
-	{
-		childPos = { 0, 0 };
-	}
-	else
-	{
-		childPos = { p_child->getXPos(), p_child->getYPos() };
-	}
-
-	if (childPos - nodePos == glm::vec2(0, 0))
-	{
-		m_dir = { 0, 0 };
-	}
-	else
-	{
-		m_dir = glm::normalize(childPos - nodePos);
-	}
-}
-
-glm::vec2 Node::getDirectionToChild() 
+glm::vec2 Node::getDirectionToParent(glm::vec2 startPos)
 { 
-	setDirectionToChild();
-	return m_dir;
+	glm::vec2 dir;
+	glm::vec2 parentPos; //We need this in world pixels, game coordinates
+	
+	if (p_parent != nullptr)
+	{
+		parentPos = { p_parent->getXPos() + 0.5f * m_tileWidth, p_parent->getYPos() + 0.5f * m_tileWidth };
+	}
+	else
+	{
+		parentPos = { 0, 0 };
+		std::cout << "no parent found" << std::endl;
+	}
+	
+	if (parentPos - startPos == glm::vec2(0, 0))
+	{
+		dir = { 0, 0 };
+		std::cout << "no direction found" << std::endl;
+	}
+	else
+	{
+		dir = glm::normalize(parentPos - startPos);
+	}
+
+	return dir;
 }
+
 
