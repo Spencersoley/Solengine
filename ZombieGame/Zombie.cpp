@@ -10,13 +10,14 @@ Zombie::~Zombie()
 {
 }
 
-void Zombie::init(float speed, glm::vec2 pos, Pathfinder* pathfinder)
+void Zombie::init(float speed, glm::vec2 pos, std::vector<std::vector<Node>> nodeField)
 {
 	m_health = 150;
 	m_speed = speed;
 	m_position = pos;
 	m_colour = {/*r*/ 0, /*g*/ 150, /*b*/ 0, /*a*/ 255 };
-	p_pathfinder = pathfinder;
+	m_pathfinder.setNodeField(nodeField);
+	m_pathfinder.setTileWidth(TILE_WIDTH);
 }
 
 void Zombie::move(float adjustedDeltaTicks, int globalFrameCount, std::vector<Human*>& humans, std::vector<Zombie*>& zombies)
@@ -44,9 +45,11 @@ void Zombie::move(float adjustedDeltaTicks, int globalFrameCount, std::vector<Hu
 		} 
 		else
 		{		
-			p_pathfinder->pathfind(m_position, p_nearestHuman->getPosition());
-			m_direction = p_pathfinder->getDirectionToNextNode(m_position);
+			m_pathfinder.pathfind(m_position, p_nearestHuman->getPosition());
+			m_direction = m_pathfinder.getDirectionToNextNode(m_position);
 		}
+
+		//what if we only got direction to next node once we're fully within the node?
 
 		m_position += m_direction * m_speed * adjustedDeltaTicks;
 	}

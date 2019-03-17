@@ -19,8 +19,10 @@ public:
 	Model();
 	~Model();
 
-	void init(Player* player, int currentLevel, float gameSpeed, Pathfinder* pathfinder);
+	void init(Player* player, int currentLevel, float gameSpeed);
 	void updateModel(int pauseDuration, std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Level*>& levels, std::vector<Bullet>& bullets);
+	
+	void setNodeField(std::vector<std::vector<Node>> nodeField) { m_defaultNodeField = nodeField; }
 
 private:
 	Uint32 getDeltaTicks();
@@ -28,7 +30,7 @@ private:
 	void updateBullets(float adjustedDeltaTicks, std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Level*>& levels, std::vector<Bullet>& bullets);
 
 	Player* p_player = nullptr;
-	Pathfinder* p_pathfinder = nullptr;
+	std::vector<std::vector<Node>> m_defaultNodeField;
 
 	int m_currentLevel;
 	int m_globalFrameCount;

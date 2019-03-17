@@ -104,14 +104,3 @@ void Level::draw()
 	m_SOL_levelSpriteBatch.renderBatch();
 }
 
-void Level::nodeCheck()
-{
-	for (unsigned int y = 0; y < m_nodeField.size(); y++) 
-	{
-		for (unsigned int x = 0; x < m_nodeField[y].size(); x++)
-		{
-			std::cout << m_nodeField[y][x].getYPos();
-		}
-		std::cout << std::endl;
-	}	
-}

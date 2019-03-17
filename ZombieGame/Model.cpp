@@ -12,12 +12,11 @@ Model::~Model()
 {
 }
 
-void Model::init(Player* player, int currentLevel, float gameSpeed, Pathfinder* pathfinder)
+void Model::init(Player* player, int currentLevel, float gameSpeed)
 {
 	p_player = player;
 	m_currentLevel = currentLevel;
 	m_gameSpeed = gameSpeed;
-	p_pathfinder = pathfinder;
 }
 
 void Model::updateModel(int pauseDuration, std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Level*>& levels, std::vector<Bullet>& bullets)
@@ -68,7 +67,7 @@ void Model::updateAgents(float adjustedDeltaTicks, std::vector<Human*>& humans, 
 			if (zombies[i]->collisionWithAgent(humans[j]))
 			{
 				zombies.push_back(new Zombie);
-				zombies.back()->init(ZOMBIE_SPEED, humans[j]->getPosition(), p_pathfinder);
+				zombies.back()->init(ZOMBIE_SPEED, humans[j]->getPosition(), m_defaultNodeField);
 				delete humans[j];
 				humans[j] = humans.back();
 				humans.pop_back();

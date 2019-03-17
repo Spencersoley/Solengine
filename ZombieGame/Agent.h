@@ -5,7 +5,7 @@
 #include "Solengine/SpriteBatch.h"
 #include "Level.h"
 
-const float AGENT_WIDTH = 40.0f;
+const float AGENT_WIDTH = 20.0f;
 const float AGENT_RADIUS = AGENT_WIDTH / 2.0f;
 
 class Zombie;

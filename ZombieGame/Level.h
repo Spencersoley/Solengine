@@ -25,9 +25,8 @@ public:
 	glm::vec2 getStartPlayerPosition() const { return m_startPlayerPosition; }
 	const std::vector<glm::vec2>& getStartZombiePositions() const { return m_startZombiePositions; }
 	const std::vector<std::string>& getLevelData() const { return m_levelData; }
-	void nodeCheck();
 
-	std::vector<std::vector<Node>>& getNodeField() { return m_nodeField; }
+	std::vector<std::vector<Node>> getNodeField() { return m_nodeField; }
 
 private:
 	std::vector<std::string> m_levelData;	

@@ -20,7 +20,7 @@
 
 //NTS: It's okay to have global variables if they're constant
 const float HUMAN_SPEED = 1.0f;
-const float ZOMBIE_SPEED = 15.0f;
+const float ZOMBIE_SPEED = 10.0f;
 const float PLAYER_SPEED = 10.0f;
 
 //Constructor will initialise private member variables
@@ -29,9 +29,9 @@ Scene::Scene() :
 	m_screenHeight(600),
 	m_gameState(Solengine::GameState::PLAY),
 	m_currentLevel(0),
-	m_fpsMax(600),
+	m_fpsMax(60),
 	m_gameSpeed(0.02f),
-	m_announceInConsoleFPS(false),
+	m_announceInConsoleFPS(true),
 	m_numHumansKilled(0),
 	m_numZombiesKilled(0),
 	m_globalFrameCount(0)
@@ -67,18 +67,19 @@ void Scene::run()
 void Scene::initSystems()
 {
 	Solengine::initialiseSDL();
-	m_model.init(&m_player, m_currentLevel, m_gameSpeed, &m_pathfinder);
+	m_model.init(&m_player, m_currentLevel, m_gameSpeed);
 	m_view.init(&m_player, &m_SOL_cam, m_screenWidth, m_screenHeight);
 	initLevel();
 	m_controller.init(&m_SOL_cam, &m_player, p_levels);
-	m_pathfinder.init(p_levels[m_currentLevel]->getNodeField(), TILE_WIDTH);
 }
 
 //Initialise the game content
 void Scene::initLevel()
 {	
 	p_levels.push_back(new Level("Levels/level3.txt"));
-	
+	m_defaultNodeField = p_levels[m_currentLevel]->getNodeField();
+	m_model.setNodeField(m_defaultNodeField);
+
 	m_player.init(PLAYER_SPEED, p_levels[m_currentLevel]->getStartPlayerPosition());
 	//Passes reference of player to the controller. The controller passes a reference of th input manager to the player.
 	//Anything taking direct input will need to a reference to the input manager.
@@ -103,7 +104,7 @@ void Scene::initLevel()
 	for (size_t i = 0; i < zombiePositions.size(); i++)
 	{
 		p_zombies.push_back(new Zombie);
-		p_zombies.back()->init(ZOMBIE_SPEED, zombiePositions[i], &m_pathfinder);
+		p_zombies.back()->init(ZOMBIE_SPEED, zombiePositions[i], m_defaultNodeField);
 	}
 
 	m_player.addGun(new Gun("Pistol",    30,    1,    0.0f/*1.0f*/,    1.0f,    20.0f));

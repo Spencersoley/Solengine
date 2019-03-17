@@ -6,7 +6,7 @@
 #include <algorithm>
 
 //Better way than redefining here, this is temporary
-const float AGENT_WIDTH = 40.0f;
+const float AGENT_WIDTH = 20.0f;
 const float AGENT_RADIUS = AGENT_WIDTH / 2.0f;
 
 Pathfinder::Pathfinder()
@@ -17,90 +17,46 @@ Pathfinder::~Pathfinder()
 {
 }
 
-void Pathfinder::init(std::vector<std::vector<Node>> nodeField, int tileWidth)
-{
-	m_field = nodeField;
-	m_tileWidth = tileWidth;
-}
-
 //Can we sort F by order maybe?
 void Pathfinder::pathfind(glm::vec2 startPos, glm::vec2 target)
 {
 	glm::vec2 startCoords = convertPositionToCoordinates(startPos);
 	glm::vec2 targetCoords = convertPositionToCoordinates(target);
 	
-	//Path is recalculated when either the target coordinates or the start coordinates change
+	//Path is recalculated when either the target coordinates change
 	if (m_previousTargetCoords != targetCoords)
 	{	
-		m_openSet.clear();
-		m_closedSet.clear();
+		m_openList.clear();
+		m_closedList.clear();
 		//reset nodes
 		for (int y = 0; y < m_field.size(); y++)
 		{
 			for (int x = 0; x < m_field[0].size(); x++)
 			{
-				if (m_field[y][x].getf() >= 0)
+				if (m_field[y][x].m_f >= 0)
 				{
-					m_field[y][x].setf(5000);
-					m_field[y][x].setg(5000);
-					m_field[y][x].seth(0);
+					m_field[y][x].m_f = 5000;
+					m_field[y][x].m_g = 5000;
+					m_field[y][x].m_h = 0;
 				}
 			}
 		}
 		//WORK OUR WAY TO START POSITION FROM TARGET
 
-		m_field[targetCoords.y][targetCoords.x].setg(0);
-		m_field[targetCoords.y][targetCoords.x].seth(10 * (abs(targetCoords.x - startCoords.x) + abs(targetCoords.y - startCoords.y)));
+		m_field[targetCoords.y][targetCoords.x].m_g = 0;
+		m_field[targetCoords.y][targetCoords.x].m_h = 10 * (abs(targetCoords.x - startCoords.x) + abs(targetCoords.y - startCoords.y));
 		m_field[targetCoords.y][targetCoords.x].updatef();
-		m_openSet.push_back(targetCoords);
-		m_field[targetCoords.y][targetCoords.x].setParent(&m_field[targetCoords.y][targetCoords.x]);
+		m_openList.push_back(targetCoords);
+		m_field[targetCoords.y][targetCoords.x].p_parent=&m_field[targetCoords.y][targetCoords.x];
 		
-		glm::vec2 pathCoords = getLowestf();
+		glm::vec2 pathCoords = getLowestF();
 
 		while (pathCoords != startCoords)
 		{
 		    updateNeighbourNodes(pathCoords, startCoords);
-		    pathCoords = getLowestf();
+		    pathCoords = getLowestF();
 		}
-		//The path should go from each square to its parent until you reach the starting square. This is the path.
-		
-		//announce map
-		/*
-		for (int y = 0; y < m_field.size(); y++)
-		{
-			for (int x = 0; x < m_field[0].size(); x++)
-			{
-				if (m_field[y][x].getf() < 0)
-				{
-					std::cout << "x";
-				}
-				else if (m_field[y][x].getXCoord() == targetCoords.x && m_field[y][x].getYCoord() == targetCoords.y)
-				{
-					std::cout << "T";
-				}
-				else if (m_field[y][x].getf() == 5000)
-				{
-					std::cout << "_";
-					
-				}
-				else if (std::find(m_closedSet.begin(), m_closedSet.end(), glm::vec2{ m_field[y][x].getXCoord(), m_field[y][x].getYCoord() }) != m_closedSet.end())
-				{
-					std::cout << m_field[y][x].getDir();
-				}
-				else
-				{
-					std::cout << " ";
-				}
-			}
-			std::cout << std::endl;
-		}
-		std::cout << std::endl;
-		std::cout << std::endl;
-		std::cout << std::endl;
-		std::cout << std::endl;
-		*/
 	}   
-
 	m_previousTargetCoords = targetCoords;
 }
 
@@ -108,110 +64,90 @@ glm::vec2 Pathfinder::getDirectionToNextNode(glm::vec2 startPos)
 {
 	glm::vec2 startCoords = convertPositionToCoordinates(startPos);
 
-	//The direction we're getting from this is doing weird things.
-	glm::vec2 dir = m_field[startCoords.y][startCoords.x].getDirectionToParent(startPos + glm::vec2{ AGENT_RADIUS, AGENT_RADIUS });
+	glm::vec2 parentPos{ m_field[startCoords.y][startCoords.x].p_parent->m_xPos + (0.5f * m_tileWidth), m_field[startCoords.y][startCoords.x].p_parent->m_yPos + (0.5f * m_tileWidth) };
+
+	glm::vec2 dir { 0, 0 };
+
+	glm::vec2 centredStartPos = startPos + glm::vec2{ AGENT_RADIUS, AGENT_RADIUS };
+
+	if (parentPos - centredStartPos != glm::vec2(0, 0))
+	{
+		dir = glm::normalize(parentPos - centredStartPos);
+	}
 
 	return dir;
 }
 
 glm::vec2 Pathfinder::convertPositionToCoordinates(glm::vec2 position)
 {
-	glm::vec2 coordinates;
-
-	coordinates.x = floor((position.x + AGENT_RADIUS) / m_tileWidth);
-	coordinates.y = floor((position.y + AGENT_RADIUS) / m_tileWidth);
-
-	return coordinates;
+	return  { floor((position.x + AGENT_RADIUS) / m_tileWidth), floor((position.y + AGENT_RADIUS) / m_tileWidth) };
 }
 
 //We can avoid a lot of repetition here.
 void Pathfinder::updateNeighbourNodes(glm::vec2 nodeCoords, glm::vec2 startCoords)
-{	
-	//updates neighbouring nodes
-	updateNode(nodeCoords.x, nodeCoords.y, nodeCoords.x, nodeCoords.y  + 1, startCoords, false);
-	updateNode(nodeCoords.x, nodeCoords.y, nodeCoords.x, nodeCoords.y - 1, startCoords, false);
-	updateNode(nodeCoords.x, nodeCoords.y, nodeCoords.x + 1, nodeCoords.y, startCoords, false);
-	updateNode(nodeCoords.x, nodeCoords.y, nodeCoords.x - 1, nodeCoords.y, startCoords, false);
-	//if walkable
-	if (m_field[nodeCoords.y + 1][nodeCoords.x].getf() >= 0 && m_field[nodeCoords.y][nodeCoords.x + 1].getf()) 
-	{
-		updateNode(nodeCoords.x, nodeCoords.y, nodeCoords.x + 1, nodeCoords.y + 1, startCoords, true);
-	}
-	if (m_field[nodeCoords.y + 1][nodeCoords.x].getf() >= 0 && m_field[nodeCoords.y][nodeCoords.x - 1].getf() >= 0)
-	{
-		updateNode(nodeCoords.x, nodeCoords.y, nodeCoords.x - 1, nodeCoords.y + 1, startCoords, true);
-	}
-	if (m_field[nodeCoords.y - 1][nodeCoords.x].getf() >= 0 && m_field[nodeCoords.y][nodeCoords.x + 1].getf() >= 0)
-	{
-	    updateNode(nodeCoords.x, nodeCoords.y, nodeCoords.x + 1, nodeCoords.y - 1, startCoords, true);
-	}
-	if (m_field[nodeCoords.y - 1][nodeCoords.x].getf() >= 0 && m_field[nodeCoords.y][nodeCoords.x - 1].getf() >= 0)
-	{
-	    updateNode(nodeCoords.x, nodeCoords.y, nodeCoords.x - 1, nodeCoords.y - 1, startCoords, true);
+{	 
+	for(int i = -1; i <= 1; i++)
+	{ 
+	    for (int j = -1; j <= 1; j++)
+	    {	                                                                                                                                                
+	        if (i == 0 && j == 0) continue;                                                                                                                              //base node
+			else if (m_field[nodeCoords.y + i][nodeCoords.x + j].m_f < 0) continue;                                                                                      //obstacle node  
+            else if (m_field[nodeCoords.y + i][nodeCoords.x].m_f < 0 || m_field[nodeCoords.y][nodeCoords.x + j].m_f < 0) continue;                                       //diagonally impassable  
+			else if ((nodeCoords.y + i) >= m_field.size() || (nodeCoords.y + i) < 0 || (nodeCoords.x + j) >= m_field[0].size() || (nodeCoords.x + j) < 0) continue;      //outside of field
+			else if (std::find(m_closedList.begin(), m_closedList.end(), glm::vec2{ (nodeCoords.x + j), (nodeCoords.y + i) }) != m_closedList.end()) continue;           //already in closed list
+			
+			int addedG;                                                                                                                                                  //needed for g value
+			if (i == 0 || j == 0) addedG = 10;                                                                                                                           //orthogonal
+            else addedG = 14;                                                                                                                                            //diagonally passable
+
+		    updateNode(nodeCoords.x, nodeCoords.y, nodeCoords.x + j, nodeCoords.y + i, startCoords, addedG); 
+	    }
 	}
 
 	//removes basenode from open set by its value [it's guaranteed to be here]
-	m_openSet.erase(std::remove(m_openSet.begin(), m_openSet.end(), nodeCoords), m_openSet.end());
+	m_openList.erase(std::remove(m_openList.begin(), m_openList.end(), nodeCoords), m_openList.end());
 
 	//puts base node in closed set if it's not there already
-	if (std::find(m_closedSet.begin(), m_closedSet.end(), nodeCoords) == m_closedSet.end())
+	if (std::find(m_closedList.begin(), m_closedList.end(), nodeCoords) == m_closedList.end())
 	{
-		m_closedSet.push_back(nodeCoords);
+		m_closedList.push_back(nodeCoords);
 	}
 }
 
-void Pathfinder::updateNode(float baseNodeX, float baseNodeY, float updateNodeX, float updateNodeY, glm::vec2 startCoords, bool isDiag)
+void Pathfinder::updateNode(float baseNodeX, float baseNodeY, float updateNodeX, float updateNodeY, glm::vec2 startCoords, int addedG)
 {
-	//NTS -- only change nodeg if it is an improvement??
-	float nodeg = m_field[baseNodeY][baseNodeX].getg();
-	
-	//NTS -- could we organise this for optimisation??
-	//update only if update node isn't in closed set
-	if (std::find(m_closedSet.begin(), m_closedSet.end(), glm::vec2{ updateNodeX, updateNodeY }) == m_closedSet.end())
+	float newG = m_field[baseNodeY][baseNodeX].m_g + addedG;
+
+	if (std::find(m_openList.begin(), m_openList.end(), glm::vec2{ updateNodeX, updateNodeY }) == m_openList.end())
 	{
-		//update only if update node is within node field
-		if (updateNodeY < m_field.size() && updateNodeY >= 0 && updateNodeX < m_field[0].size() && updateNodeX >= 0)
+			m_openList.push_back(glm::vec2{ updateNodeX, updateNodeY });
+			m_field[updateNodeY][updateNodeX].p_parent=&m_field[baseNodeY][baseNodeX];
+			m_field[updateNodeY][updateNodeX].m_g = newG;
+			m_field[updateNodeY][updateNodeX].m_h = (10 * (abs(startCoords.x - updateNodeX) + abs(startCoords.y - updateNodeY)));
+			m_field[updateNodeY][updateNodeX].updatef();
+	}
+	else
+	{
+		if (m_field[updateNodeY][updateNodeX].m_g > newG)
 		{
-			//update only if update node's f value > 0 (f is -1 for impassable nodes)
-			if (m_field[updateNodeY][updateNodeX].getf() > 0)
-			{
-				if (isDiag) nodeg += 4;
-				// check if update node is on open list
-				// if not: add it, set base node as its parent, set its g and record its f
-				// if it is: check its g cost. if we lower its g cost here, set base node as its parent, set its g and record its f
-				if (std::find(m_openSet.begin(), m_openSet.end(), glm::vec2{ updateNodeX, updateNodeY }) == m_openSet.end())
-				{
-					m_openSet.push_back(glm::vec2{ updateNodeX, updateNodeY });
-					m_field[updateNodeY][updateNodeX].setParent(&m_field[baseNodeY][baseNodeX]);
-					m_field[updateNodeY][updateNodeX].setg(nodeg + 10);
-					m_field[updateNodeY][updateNodeX].seth(10 * (abs(startCoords.x - updateNodeX) + abs(startCoords.y - updateNodeY)));
-					m_field[updateNodeY][updateNodeX].updatef();
-				}
-				else
-				{
-					if (m_field[updateNodeY][updateNodeX].getg() > nodeg + 10)
-					{
-						m_field[updateNodeY][updateNodeX].setParent(&m_field[baseNodeY][baseNodeX]);
-						m_field[updateNodeY][updateNodeX].setg(nodeg + 10);
-						m_field[updateNodeY][updateNodeX].updatef();
-					}
-				}
-			}
+			m_field[updateNodeY][updateNodeX].p_parent=&m_field[baseNodeY][baseNodeX];
+			m_field[updateNodeY][updateNodeX].m_g = newG;
+			m_field[updateNodeY][updateNodeX].updatef();
 		}
-	}
+	}	
 }
 
-glm::vec2 Pathfinder::getLowestf()
+glm::vec2 Pathfinder::getLowestF()
 {
-	glm::vec2 lowestfCoords = m_openSet[0];
+	glm::vec2 lowestFCoords = m_openList[0];
 	// check all values of open set
-	for (int i = 0; i < m_openSet.size(); i++)
+	for (int i = 0; i < m_openList.size(); i++)
 	{
 		//prioritises later added members of the set, storing lowest coordinates with lowest f value
-		if (m_field[m_openSet[i].y][m_openSet[i].x].getf() <= m_field[lowestfCoords.y][lowestfCoords.x].getf())
+		if (m_field[m_openList[i].y][m_openList[i].x].m_f <= m_field[lowestFCoords.y][lowestFCoords.x].m_f)
 		{
-			lowestfCoords = m_openSet[i];
+			lowestFCoords = m_openList[i];
 		}
 	}
-	return lowestfCoords;
+	return lowestFCoords;
 }

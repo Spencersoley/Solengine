@@ -45,12 +45,12 @@ private:
 	Controller m_controller;
 	Player m_player;
 
-	Pathfinder m_pathfinder;
-
 	std::vector<Bullet> m_bullets;
 	std::vector<Level*> p_levels;
 	std::vector<Human*> p_humans;
 	std::vector<Zombie*> p_zombies;
+
+	std::vector<std::vector<Node>> m_defaultNodeField;
 
 	Solengine::GameState m_gameState;
 	int m_screenWidth;

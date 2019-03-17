@@ -33,8 +33,6 @@ Solengine::GameState Controller::playStateInput()
 	if (m_SOL_inputManager.keyState(SDLK_q))       p_SOL_cam->setScale(p_SOL_cam->getScale() + SCALE_SPEED);
 	if (m_SOL_inputManager.keyState(SDLK_e))       p_SOL_cam->setScale(p_SOL_cam->getScale() - SCALE_SPEED);
 
-	if (m_SOL_inputManager.keyPress(SDLK_x))       p_levels[0]->nodeCheck();
-
 	p_player->setMouseCoords(m_SOL_inputManager.getMouseCoords());  
 	p_player->setIsMouseDown(m_SOL_inputManager.keyState(SDL_BUTTON_LEFT));
 

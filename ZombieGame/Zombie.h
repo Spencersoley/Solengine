@@ -10,7 +10,7 @@ public:
 	Zombie();
 	~Zombie();
 
-	void init(float speed, glm::vec2 pos, Pathfinder* pathfinder);
+	void init(float speed, glm::vec2 pos, std::vector<std::vector<Node>> nodeField);
 
 	void move(float adjustedDeltaTicks, int globalFrameCount, std::vector<Human*>& humans, std::vector<Zombie*>& zombies) override;
 
@@ -20,6 +20,6 @@ private:
 
 	Human* p_nearestHuman = nullptr;
 
-	Pathfinder* p_pathfinder = nullptr;
+	Pathfinder m_pathfinder;
 };
 
