@@ -20,7 +20,7 @@
 
 //NTS: It's okay to have global variables if they're constant
 const float HUMAN_SPEED = 1.0f;
-const float ZOMBIE_SPEED = 10.0f;
+const float ZOMBIE_SPEED = 2.0f;
 const float PLAYER_SPEED = 10.0f;
 
 //Constructor will initialise private member variables
@@ -68,7 +68,7 @@ void Scene::initSystems()
 {
 	Solengine::initialiseSDL();
 	m_model.init(&m_player, m_currentLevel, m_gameSpeed);
-	m_view.init(&m_player, &m_SOL_cam, m_screenWidth, m_screenHeight);
+	m_view.init(&m_player, &m_SOL_cam, &m_SOL_uiCam, m_screenWidth, m_screenHeight);
 	initLevel();
 	m_controller.init(&m_SOL_cam, &m_player, p_levels);
 }

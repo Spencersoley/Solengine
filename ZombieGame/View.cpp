@@ -14,7 +14,7 @@ View::~View()
 }
 
 //View needs a reference to everything we want to draw. we'll pass them all with init. We'll also create a window and initialise shader/spritebatch/camera here.
-void View::init(Player* player, Solengine::Camera2D* cam, int screenwidth, int screenheight)
+void View::init(Player* player, Solengine::Camera2D* cam, Solengine::Camera2D* uiCam,  int screenwidth, int screenheight)
 {
 	m_SOL_window.create("Zom", screenwidth, screenheight, 0);
 
@@ -25,9 +25,18 @@ void View::init(Player* player, Solengine::Camera2D* cam, int screenwidth, int s
 	m_SOL_shaderProgram.linkShaders();
 
 	m_SOL_agentSpriteBatch.init();
+	m_SOL_uiSpriteBatch.init();
+
+	p_SOL_spriteFont = new Solengine::Font("Fonts/Roboto-Regular.ttf", 64);
 
 	p_SOL_cam = cam;
 	cam->init(screenwidth, screenheight);
+
+	p_SOL_uiCam = uiCam;
+	uiCam->init(screenwidth, screenheight);
+
+	m_screenHeight = screenheight;
+	m_screenWidth = screenwidth;
 
 	p_player = player;
 	player->setCamera(cam);
@@ -37,9 +46,9 @@ void View::update(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, st
 {
 	//Camera follows player
 	p_SOL_cam->setPosition(p_player->getPosition());
-
 	p_SOL_cam->update();
-
+	p_SOL_uiCam->update();
+	p_SOL_uiCam->setPosition(glm::vec2 (m_screenWidth / 2, m_screenHeight / 2));
 	drawGame(humans, zombies, levels, bullets);
 }
 
@@ -80,6 +89,8 @@ void View::drawGame(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, 
 	m_SOL_agentSpriteBatch.end();
 
 	m_SOL_agentSpriteBatch.renderBatch();
+
+	drawUI(zombies.size());
 
 	m_SOL_shaderProgram.unuse();
 
@@ -122,4 +133,27 @@ void View::drawBullets(std::vector<Bullet>& bullets)
 	{
 		bullets[i].draw(m_SOL_agentSpriteBatch);
 	}
+}
+
+void View::drawUI(size_t zombiesSize)
+{
+	char buffer[256];
+	//Grab camera matrix
+	glm::mat4 projectionMatrix = p_SOL_uiCam->getCameraMatrix();
+	GLint pUniform = m_SOL_shaderProgram.getUniformLocation("P");
+	glUniformMatrix4fv(pUniform, 1, GL_FALSE, &projectionMatrix[0][0]);
+
+	m_SOL_uiSpriteBatch.begin();
+
+	sprintf_s(buffer, "The Hunt");
+	p_SOL_spriteFont->draw(m_SOL_uiSpriteBatch, buffer, glm::vec2(30, 56), glm::vec2(0.5f), 0.0f, Solengine::ColourRGBA8{ 255, 255, 255, 255 });
+
+	//number of zombies
+	sprintf_s(buffer, "Zombie count %d", zombiesSize);
+	p_SOL_spriteFont->draw(m_SOL_uiSpriteBatch, buffer, glm::vec2(30, 20), glm::vec2(0.5f), 0.0f, Solengine::ColourRGBA8{ 255, 255, 255, 255 });
+
+	
+
+	m_SOL_uiSpriteBatch.end();
+	m_SOL_uiSpriteBatch.renderBatch();
 }

@@ -31,6 +31,5 @@ struct Node
 	int m_h; //heuristic estimate to goal state
 	Node* p_parent = nullptr;
 	int m_tileWidth;
-
 };
 

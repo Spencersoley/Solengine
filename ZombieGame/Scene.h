@@ -40,10 +40,13 @@ private:
 
 	Solengine::FPSManager m_SOL_fpsManager;
 	Solengine::Camera2D m_SOL_cam;
+	Solengine::Camera2D m_SOL_uiCam;
 	Model m_model;
 	View m_view;
 	Controller m_controller;
 	Player m_player;
+
+
 
 	std::vector<Bullet> m_bullets;
 	std::vector<Level*> p_levels;

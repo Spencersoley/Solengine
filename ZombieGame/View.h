@@ -4,6 +4,7 @@
 #include <Solengine/Camera2D.h>
 #include <Solengine/SpriteBatch.h>
 #include <Solengine/Window.h>
+#include <Solengine/Font.h>
 
 #include <SDL/SDL.h>
 #include <GL/glew.h>
@@ -23,7 +24,7 @@ public:
 	View();
 	~View();
 
-	void init(Player* player, Solengine::Camera2D* cam, int screenwidth, int screenheight);
+	void init(Player* player, Solengine::Camera2D* cam, Solengine::Camera2D* uiCam, int screenwidth, int screenheight);
 	void update(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Level*>& levels, std::vector<Bullet>& m_bullets);
 
 private: 
@@ -32,13 +33,21 @@ private:
 	void drawHumans(std::vector<Human*>& humans);
 	void drawZombies(std::vector<Zombie*>& zombies);
 	void drawBullets(std::vector<Bullet>& bullets);
+	void drawUI(size_t zombiesSize);
 
 	Solengine::GLSLProgram m_SOL_shaderProgram;
 	Solengine::Window m_SOL_window;
 	Solengine::SpriteBatch m_SOL_agentSpriteBatch;
+	Solengine::SpriteBatch m_SOL_uiSpriteBatch;
+
+	Solengine::Font* p_SOL_spriteFont = nullptr;
 
 	Solengine::Camera2D* p_SOL_cam = nullptr;
+	Solengine::Camera2D* p_SOL_uiCam = nullptr;
 	Player* p_player = nullptr;
+
+	int m_screenHeight;
+	int m_screenWidth;
 	int m_currentLevel;
 };
 

@@ -160,6 +160,7 @@
   <ItemGroup>
     <ClInclude Include="Camera2D.h" />
     <ClInclude Include="ErrorHandler.h" />
+    <ClInclude Include="Font.h" />
     <ClInclude Include="FPSManager.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GLSLProgram.h" />
@@ -178,6 +179,7 @@
   <ItemGroup>
     <ClCompile Include="Camera2D.cpp" />
     <ClCompile Include="ErrorHandler.cpp" />
+    <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSManager.cpp" />
     <ClCompile Include="GLSLProgram.cpp" />
     <ClCompile Include="ImageLoader.cpp" />

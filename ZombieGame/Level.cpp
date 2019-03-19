@@ -88,10 +88,8 @@ Level::Level(const std::string& fileName)
 					break;
 			}
 		}
-
 		m_nodeField.push_back(m_nodeRow);
 	}
-
 	m_SOL_levelSpriteBatch.end();
 }
 
