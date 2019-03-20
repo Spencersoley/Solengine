@@ -1,1 +1,10 @@
+<<<<<<< HEAD
 ﻿  Solengine.vcxproj -> C:\Users\Ssole\source\repos\SolengineProject\SolengineProject-master\x64\Debug\Solengine.lib
+=======
+﻿  Camera2D.cpp
+  FPSManager.cpp
+  InputManager.cpp
+  SDLInitialiser.cpp
+  Generating Code...
+  Solengine.vcxproj -> C:\Users\Ssole\source\repos\SolengineProject\x64\Debug\Solengine.lib
+>>>>>>> origin/master

@@ -1,2 +1,51 @@
+<<<<<<< HEAD
 ﻿Agent.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
+=======
+﻿  Bullet.cpp
+c:\users\ssole\source\repos\solengineproject\zombiegame\level.h(21): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\level.h(22): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\bullet.cpp(58): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+c:\users\ssole\source\repos\solengineproject\zombiegame\bullet.cpp(59): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=glm::i32
+          ]
+  Controller.cpp
+c:\users\ssole\source\repos\solengineproject\zombiegame\level.h(21): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\level.h(22): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  View.cpp
+c:\users\ssole\source\repos\solengineproject\zombiegame\level.h(21): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\level.h(22): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\view.cpp(19): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\view.cpp(29): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  Gun.cpp
+  Human.cpp
+c:\users\ssole\source\repos\solengineproject\zombiegame\level.h(21): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\level.h(22): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  Main.cpp
+c:\users\ssole\source\repos\solengineproject\zombiegame\level.h(21): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\level.h(22): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  MainGame.cpp
+c:\users\ssole\source\repos\solengineproject\zombiegame\level.h(21): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\level.h(22): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(69): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(119): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(119): warning C4244: 'initializing': conversion from 'int' to 'const float', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(122): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(151): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(162): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 3 has type 'unsigned __int64'
+  c:\users\ssole\source\repos\solengineproject\zombiegame\maingame.cpp(162): note: consider using '%zd' in the format string
+  Player.cpp
+c:\users\ssole\source\repos\solengineproject\zombiegame\level.h(21): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\level.h(22): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  Zombie.cpp
+c:\users\ssole\source\repos\solengineproject\zombiegame\level.h(21): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\zombiegame\level.h(22): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
+Agent.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
+>>>>>>> origin/master
 Solengine.lib(ResourceManager.obj) : fatal error LNK1112: module machine type 'x86' conflicts with target machine type 'x64'
