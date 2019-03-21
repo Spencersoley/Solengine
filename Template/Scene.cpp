@@ -10,9 +10,6 @@
 #include <Solengine/SDLInitialiser.h>
 #include <Solengine/ErrorHandler.h>
 
-#include "Zombie.h"
-#include "Gun.h"
-
 //Move random engine to Solengine?
 //init vs constructors?
 //fix 'stats' numhumanskilled etc
@@ -25,16 +22,7 @@ const float PLAYER_SPEED = 10.0f;
 
 //Constructor will initialise private member variables
 Scene::Scene() :
-	m_screenWidth(1200),
-	m_screenHeight(600),
-	m_gameState(Solengine::GameState::PLAY),
-	m_currentLevel(0),
-	m_fpsMax(60),
-	m_gameSpeed(0.02f),
-	m_announceInConsoleFPS(true),
-	m_numHumansKilled(0),
-	m_numZombiesKilled(0),
-	m_globalFrameCount(0)
+
 {
 
 }
@@ -48,8 +36,8 @@ Scene::~Scene()
 //Runs the game
 void Scene::run()
 {
-	initSystems();
-	gameLoop();
+	//initSystems();
+	//gameLoop();
 }
 
 //Initialise SDL, glew, OpenGL, shaders, fps manager and level
