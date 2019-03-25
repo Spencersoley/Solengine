@@ -26,6 +26,23 @@ public:
 	void run();
 
 private:
+	void initSystems();
+	void initLevel();
+	void gameLoop();
 
+	Solengine::FPSManager m_SOL_fpsManager;
+	Solengine::Camera2D m_SOL_cam;
+	Solengine::Camera2D m_SOL_uiCam;
+	Model m_model;
+	View m_view;
+	Controller m_controller;
+
+	int m_screenWidth;
+	int m_screenHeight;
+	Solengine::GameState m_gameState;
+	int m_currentLevel;
+	int m_fpsMax;
+	float m_gameSpeed;
+	bool m_announceFPS;
 };
 

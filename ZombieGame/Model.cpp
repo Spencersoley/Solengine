@@ -19,7 +19,7 @@ void Model::init(Player* player, int currentLevel, float gameSpeed)
 	m_gameSpeed = gameSpeed;
 }
 
-void Model::updateModel(int pauseDuration, std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Level*>& levels, std::vector<Bullet>& bullets)
+void Model::update(int pauseDuration, std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Level*>& levels, std::vector<Bullet>& bullets)
 {
 	m_globalFrameCount++;
 	float adjustedDeltaTicks = (getDeltaTicks() - pauseDuration) * m_gameSpeed;

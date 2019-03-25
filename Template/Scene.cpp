@@ -22,15 +22,19 @@ const float PLAYER_SPEED = 10.0f;
 
 //Constructor will initialise private member variables
 Scene::Scene() :
-
+	m_screenWidth(1200),
+	m_screenHeight(600),
+	m_gameState(Solengine::GameState::PLAY),
+	m_currentLevel(0),
+	m_fpsMax(60),
+	m_gameSpeed(0.02f),
+	m_announceFPS(true)
 {
-
 }
 
 //Destructor
 Scene::~Scene()
 {
-
 }
 
 //Runs the game
@@ -58,14 +62,14 @@ void Scene::gameLoop()
 	const float DESIRED_TICKS_PER_FRAME = 1000 / (float)m_fpsMax;
 	static int pauseDuration = 0;
 	//When initialised to true, this enables fps console announcing
-	bool trackFPS = m_announceInConsoleFPS;
+	bool trackFPS = m_announceFPS;
 
 	while (m_gameState != Solengine::GameState::EXIT)
 	{
 		while (m_gameState == Solengine::GameState::PLAY)
 		{
 
-			m_model.updateModel();
+			m_model.update(pauseDuration);
 
 			//handles rendering
 			m_view.update();

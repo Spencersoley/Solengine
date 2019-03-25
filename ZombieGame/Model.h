@@ -20,7 +20,7 @@ public:
 	~Model();
 
 	void init(Player* player, int currentLevel, float gameSpeed);
-	void updateModel(int pauseDuration, std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Level*>& levels, std::vector<Bullet>& bullets);
+	void update(int pauseDuration, std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Level*>& levels, std::vector<Bullet>& bullets);
 	
 	void setNodeField(std::vector<std::vector<Node>> nodeField) { m_defaultNodeField = nodeField; }
 

@@ -31,10 +31,9 @@ Scene::Scene() :
 	m_currentLevel(0),
 	m_fpsMax(60),
 	m_gameSpeed(0.02f),
-	m_announceInConsoleFPS(true),
+	m_announceFPS(true),
 	m_numHumansKilled(0),
-	m_numZombiesKilled(0),
-	m_globalFrameCount(0)
+	m_numZombiesKilled(0)
 {
 
 }
@@ -118,7 +117,7 @@ void Scene::gameLoop()
 	const float DESIRED_TICKS_PER_FRAME = 1000 / (float)m_fpsMax;
 	static int pauseDuration = 0;
 	//When initialised to true, this enables fps console announcing
-	bool trackFPS = m_announceInConsoleFPS;
+	bool trackFPS = m_announceFPS;
 
 	while (m_gameState != Solengine::GameState::EXIT)
 	{    
@@ -126,7 +125,7 @@ void Scene::gameLoop()
 		{ 
 		    checkVictory();
 		
-			m_model.updateModel(pauseDuration, p_humans, p_zombies, p_levels, m_bullets);
+			m_model.update(pauseDuration, p_humans, p_zombies, p_levels, m_bullets);
 
 	        //handles rendering
 		    m_view.update(p_humans, p_zombies, p_levels, m_bullets);

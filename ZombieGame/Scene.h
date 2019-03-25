@@ -63,8 +63,7 @@ private:
 	float m_gameSpeed; // (0.02 is slow, 0.1 is fast)
 	int m_numHumansKilled;
 	int m_numZombiesKilled;
-	int m_globalFrameCount;
 	Uint32 m_frameTime;
-	bool m_announceInConsoleFPS; //rename this	
+	bool m_announceFPS; //rename this	
 };
 
