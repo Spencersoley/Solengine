@@ -6,6 +6,7 @@
 #include <Solengine/GLTexture.h>
 #include <Solengine/Window.h>
 #include <Solengine/FPSManager.h>
+#include <Solengine/TileLevelLoader.h>
 #include <Solengine/Camera2D.h>
 #include <Solengine/SpriteBatch.h>
 #include <Solengine/InputManager.h>
@@ -34,19 +35,18 @@ public:
 
 private:
 	void initSystems();
-	void initLevel();
+	void initScene();
 	void gameLoop();
 	void checkVictory();
 
 	Solengine::FPSManager m_SOL_fpsManager;
+	Solengine::TileLevelLoader m_SOL_tileLevelLoader;
 	Solengine::Camera2D m_SOL_cam;
 	Solengine::Camera2D m_SOL_uiCam;
 	Model m_model;
 	View m_view;
 	Controller m_controller;
 	Player m_player;
-
-
 
 	std::vector<Bullet> m_bullets;
 	std::vector<Level*> p_levels;

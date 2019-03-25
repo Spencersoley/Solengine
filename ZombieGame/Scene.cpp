@@ -22,6 +22,7 @@
 const float HUMAN_SPEED = 1.0f;
 const float ZOMBIE_SPEED = 2.0f;
 const float PLAYER_SPEED = 10.0f;
+const int NUM_HUMANS = 3;
 
 //Constructor will initialise private member variables
 Scene::Scene() :
@@ -68,14 +69,14 @@ void Scene::initSystems()
 	Solengine::initialiseSDL();
 	m_model.init(&m_player, m_currentLevel, m_gameSpeed);
 	m_view.init(&m_player, &m_SOL_cam, &m_SOL_uiCam, m_screenWidth, m_screenHeight);
-	initLevel();
+	initScene();
 	m_controller.init(&m_SOL_cam, &m_player, p_levels);
 }
 
 //Initialise the game content
-void Scene::initLevel()
+void Scene::initScene()
 {	
-	p_levels.push_back(new Level("Levels/level3.txt"));
+	p_levels.push_back(new Level(m_SOL_tileLevelLoader.ParseLevelData("Levels/level3.txt")));
 	m_defaultNodeField = p_levels[m_currentLevel]->getNodeField();
 	m_model.setNodeField(m_defaultNodeField);
 
@@ -84,19 +85,21 @@ void Scene::initLevel()
 	//Anything taking direct input will need to a reference to the input manager.
 
 	p_humans.push_back(&m_player);
-	
+
 	std::mt19937 randomEngine;
 	randomEngine.seed((unsigned int)time(nullptr));
 	std::uniform_int_distribution<int> randX(2, p_levels[m_currentLevel]->getWidth() - 2);
 	std::uniform_int_distribution<int> randY(2, p_levels[m_currentLevel]->getHeight() - 2);
 
 	//Spawn humans
-	for (int i = 0; i < p_levels[m_currentLevel]->getNumHumans(); i++)
+	
+	for (int i = 0; i < NUM_HUMANS + 1; i++)
 	{
 		p_humans.push_back(new Human);
 		glm::vec2 pos(randX(randomEngine) * TILE_WIDTH, randY(randomEngine) * TILE_WIDTH);
 		p_humans.back()->init(HUMAN_SPEED, pos, i);
 	}
+	
 
 	//Spawn zombies
 	const std::vector<glm::vec2>& zombiePositions = p_levels[m_currentLevel]->getStartZombiePositions();
@@ -157,7 +160,7 @@ void Scene::checkVictory()
 	if (p_zombies.size() == 0)
 	{
 		std::printf("***Victory!**** \n You killed %d humans and %d zombies. There are %d/%d civilians remainings",
-			m_numHumansKilled, m_numZombiesKilled, p_humans.size() - 1, p_levels[m_currentLevel]->getNumHumans());
+			m_numHumansKilled, m_numZombiesKilled, p_humans.size() - 1, NUM_HUMANS);
 		Solengine::fatalError("");
 	}
 }

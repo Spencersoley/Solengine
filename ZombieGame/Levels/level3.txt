@@ -1,18 +1,35 @@
-Humans: 0
+
+nnnn: 0
 RRRRRRRRRRRRRRRRRRRRRRRRRRRR
+
 R........................Z.R
+
 R.....................RR...R
+
 R...RRRRRRRRRRRRRR..RR.....R
+
 R...R................R.RRRRR
+
 R...R................R.....R
+
 RZ..RRRRRRRRRRRRRR...RRRRR.R
+
 R...R................R.....R
+
 R...R................R.....R
+
 R...R.......Z........R.....R
+
 R....................R..Z..R
+
 R....................RR..RRR
+
 R...R................R.....R
+
 R...RRRRRRRRRRRRR..RRR.....R
+
 R....@..R..........R.......R
+
 R...........R..............R
+
 RRRRRRRRRRRRRRRRRRRRRRRRRRRR
