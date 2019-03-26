@@ -38,7 +38,6 @@ namespace Solengine
 		while (std::getline(file, temp))
 		{
 			if (temp.size() > 0) levelData.push_back(temp);
-			//std::cout << temp.size() << std::endl;
 		}
 
 		for (unsigned int y = 0; y < levelData.size(); y++)
@@ -50,8 +49,6 @@ namespace Solengine
 
 			std::cout << std::endl;
 		}
-
-
 		return levelData;
 	}
 }

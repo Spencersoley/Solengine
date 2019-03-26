@@ -12,17 +12,17 @@ Model::~Model()
 {
 }
 
-void Model::init(Player* player, int currentLevel, float gameSpeed)
+void Model::init(Player* player, int currentLevel, float physicsSpeed)
 {
 	p_player = player;
 	m_currentLevel = currentLevel;
-	m_gameSpeed = gameSpeed;
+	m_physicsSpeed = physicsSpeed;
 }
 
 void Model::update(int pauseDuration, std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Level*>& levels, std::vector<Bullet>& bullets)
 {
 	m_globalFrameCount++;
-	float adjustedDeltaTicks = (getDeltaTicks() - pauseDuration) * m_gameSpeed;
+	float adjustedDeltaTicks = (getDeltaTicks() - pauseDuration) * m_physicsSpeed;
 	updateAgents(adjustedDeltaTicks, humans, zombies, levels, bullets);
 	updateBullets(adjustedDeltaTicks, humans, zombies, levels, bullets);
 }

@@ -31,7 +31,7 @@ Scene::Scene() :
 	m_gameState(Solengine::GameState::PLAY),
 	m_currentLevel(0),
 	m_fpsMax(60),
-	m_gameSpeed(0.02f),
+	m_physicsSpeed(0.02f),
 	m_announceFPS(true),
 	m_numHumansKilled(0),
 	m_numZombiesKilled(0)
@@ -67,7 +67,7 @@ void Scene::run()
 void Scene::initSystems()
 {
 	Solengine::initialiseSDL();
-	m_model.init(&m_player, m_currentLevel, m_gameSpeed);
+	m_model.init(&m_player, m_currentLevel, m_physicsSpeed);
 	m_view.init(&m_player, &m_SOL_cam, &m_SOL_uiCam, m_screenWidth, m_screenHeight);
 	initScene();
 	m_controller.init(&m_SOL_cam, &m_player, p_levels);

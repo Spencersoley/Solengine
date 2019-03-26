@@ -27,13 +27,14 @@ public:
 	std::vector<std::vector<Node>> getNodeField() { return m_nodeField; }
 
 private:
-	std::vector<std::string> m_levelData;	
+	std::vector<std::string> m_levelData;
 	std::vector<std::vector<Node>> m_nodeField;
 
 	Solengine::SpriteBatch m_SOL_levelSpriteBatch;
 	glm::vec2 m_startPlayerPosition;
 	std::vector<glm::vec2> m_startZombiePositions;
 };
+
 
 //Render a texture for each tile
 //Usually using SpriteBatch we call begin and end every frame.

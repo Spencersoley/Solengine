@@ -12,6 +12,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZombieGame", "ZombieGame\Zo
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Template", "Template\Template.vcxproj", "{BAD5A9D0-D826-4BFB-9BD3-764C6641A519}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DungeonQuest", "DungeonQuest\DungeonQuest.vcxproj", "{1EF56C45-FCC3-4043-98BB-10D31B7694AE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C4171837-0EB5-4A28-B6FD-379152443057} = {C4171837-0EB5-4A28-B6FD-379152443057}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -44,6 +49,14 @@ Global
 		{BAD5A9D0-D826-4BFB-9BD3-764C6641A519}.Release|x64.Build.0 = Release|x64
 		{BAD5A9D0-D826-4BFB-9BD3-764C6641A519}.Release|x86.ActiveCfg = Release|Win32
 		{BAD5A9D0-D826-4BFB-9BD3-764C6641A519}.Release|x86.Build.0 = Release|Win32
+		{1EF56C45-FCC3-4043-98BB-10D31B7694AE}.Debug|x64.ActiveCfg = Debug|x64
+		{1EF56C45-FCC3-4043-98BB-10D31B7694AE}.Debug|x64.Build.0 = Debug|x64
+		{1EF56C45-FCC3-4043-98BB-10D31B7694AE}.Debug|x86.ActiveCfg = Debug|Win32
+		{1EF56C45-FCC3-4043-98BB-10D31B7694AE}.Debug|x86.Build.0 = Debug|Win32
+		{1EF56C45-FCC3-4043-98BB-10D31B7694AE}.Release|x64.ActiveCfg = Release|x64
+		{1EF56C45-FCC3-4043-98BB-10D31B7694AE}.Release|x64.Build.0 = Release|x64
+		{1EF56C45-FCC3-4043-98BB-10D31B7694AE}.Release|x86.ActiveCfg = Release|Win32
+		{1EF56C45-FCC3-4043-98BB-10D31B7694AE}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

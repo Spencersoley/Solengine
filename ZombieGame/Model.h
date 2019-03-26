@@ -19,7 +19,7 @@ public:
 	Model();
 	~Model();
 
-	void init(Player* player, int currentLevel, float gameSpeed);
+	void init(Player* player, int currentLevel, float physicsSpeed);
 	void update(int pauseDuration, std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Level*>& levels, std::vector<Bullet>& bullets);
 	
 	void setNodeField(std::vector<std::vector<Node>> nodeField) { m_defaultNodeField = nodeField; }
@@ -34,6 +34,6 @@ private:
 
 	int m_currentLevel;
 	int m_globalFrameCount;
-	float m_gameSpeed;
+	float m_physicsSpeed;
 };
 

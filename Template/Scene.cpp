@@ -10,16 +10,6 @@
 #include <Solengine/SDLInitialiser.h>
 #include <Solengine/ErrorHandler.h>
 
-//Move random engine to Solengine?
-//init vs constructors?
-//fix 'stats' numhumanskilled etc
-//Goal-Based pathfinding
-
-//NTS: It's okay to have global variables if they're constant
-const float HUMAN_SPEED = 1.0f;
-const float ZOMBIE_SPEED = 2.0f;
-const float PLAYER_SPEED = 10.0f;
-
 //Constructor will initialise private member variables
 Scene::Scene() :
 	m_screenWidth(1200),
@@ -27,7 +17,7 @@ Scene::Scene() :
 	m_gameState(Solengine::GameState::PLAY),
 	m_currentLevel(0),
 	m_fpsMax(60),
-	m_gameSpeed(0.02f),
+	m_physicsSpeed(0.02f),
 	m_announceFPS(true)
 {
 }
@@ -40,20 +30,25 @@ Scene::~Scene()
 //Runs the game
 void Scene::run()
 {
-	//initSystems();
-	//gameLoop();
+	initSystems();
+    gameLoop();
 }
 
 //Initialise SDL, glew, OpenGL, shaders, fps manager and level
 void Scene::initSystems()
 {
-
+	Solengine::initialiseSDL();
+	
+	m_model.init(m_physicsSpeed);
+	m_view.init(&m_SOL_cam, &m_SOL_uiCam, m_screenWidth, m_screenHeight);
+	m_controller.init(&m_SOL_cam);
+	initScene();
 }
 
 //Initialise the game content
-void Scene::initLevel()
+void Scene::initScene()
 {
-
+	p_levels.push_back(new Level(m_SOL_tileLevelLoader.ParseLevelData("")));
 }
 
 //Game loop

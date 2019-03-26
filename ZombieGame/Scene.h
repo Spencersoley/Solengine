@@ -60,7 +60,7 @@ private:
 	int m_screenHeight;
 	int m_currentLevel;	
 	int m_fpsMax;
-	float m_gameSpeed; // (0.02 is slow, 0.1 is fast)
+	float m_physicsSpeed; // (0.02 is slow, 0.1 is fast)
 	int m_numHumansKilled;
 	int m_numZombiesKilled;
 	Uint32 m_frameTime;
