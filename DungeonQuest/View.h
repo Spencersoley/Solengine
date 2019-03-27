@@ -13,6 +13,7 @@
 
 //add drawing level by default to template
 #include "Level.h"
+#include "Unit.h"
 
 class View
 {
@@ -21,10 +22,11 @@ public:
 	~View();
 
 	void init(Solengine::Camera2D* cam, Solengine::Camera2D* uiCam, int screenwidth, int screenheight);
-	void update(std::vector<Level*>& levels);
+	void update(std::vector<Level*>& levels, std::vector<Unit*>& units);
 
 private:
-	void drawGame(std::vector<Level*>& levels);
+	void drawGame(std::vector<Level*>& levels, std::vector<Unit*>& units);
+	void drawUnits(std::vector<Unit*>& units);
 
 	void drawUI();
 

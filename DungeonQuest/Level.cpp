@@ -6,9 +6,9 @@
 #include "Solengine/ErrorHandler.h"
 #include "Solengine/ResourceManager.h"
 
+
 Level::Level(std::vector<std::string> levelData)
 {
-
 	m_levelData = levelData;
 	m_SOL_levelSpriteBatch.init();
 	m_SOL_levelSpriteBatch.begin();
@@ -16,9 +16,13 @@ Level::Level(std::vector<std::string> levelData)
 	glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
 	Solengine::ColourRGBA8 whiteColour = {/*r*/ 255, /*g*/ 255, /*b*/ 255, /*a*/ 255 };
 
+
+
 	//Render tiles
 	for (unsigned int y = 0; y < levelData.size(); y++)
 	{
+		std::vector<Tile> tileRow;
+
 		for (unsigned int x = 0; x < levelData[y].size(); x++)
 		{
 			//Grab tile
@@ -32,15 +36,36 @@ Level::Level(std::vector<std::string> levelData)
 			{
 			case 'R':
 				m_SOL_levelSpriteBatch.draw(destRect, uvRect, Solengine::ResourceManager::getTexture("Textures/zombie_pack/light_bricks.png").textureID, 0.0f, whiteColour);
-			
+				tileRow.emplace_back(true, x, y, TILE_WIDTH);
+				break;
+			case '.':
+				m_SOL_levelSpriteBatch.draw(destRect, uvRect, Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID, 0.0f, whiteColour);
+				tileRow.emplace_back(false, x, y, TILE_WIDTH);
+				break;
+			case 'A':
+				m_SOL_levelSpriteBatch.draw(destRect, uvRect, Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID, 0.0f, whiteColour);
+				tileRow.emplace_back(false, x, y, TILE_WIDTH);		
+				m_adeptSpawnCoords = glm::vec2{ x , y };
 				break;
 			default:
 
 				break;
 			}
 		}
+
+		if (tileRow.size() > 0) m_tileMap.push_back(tileRow);
 	}
 	m_SOL_levelSpriteBatch.end();
+
+	for (int y = 0; y < m_tileMap.size(); y++)
+	{
+		for (int x = 0; x < m_tileMap[0].size(); x++)
+		{
+			if (m_tileMap[y][x].m_obstacle) std::cout << "R";
+			else std::cout << ".";
+		}
+		std::cout << std::endl;
+	}
 }
 
 Level::~Level()

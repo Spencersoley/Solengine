@@ -38,17 +38,17 @@ void View::init(Solengine::Camera2D* cam, Solengine::Camera2D* uiCam, int screen
 	m_screenWidth = screenwidth;
 }
 
-void View::update(std::vector<Level*>& levels)
+void View::update(std::vector<Level*>& levels, std::vector<Unit*>& units)
 {
 	//Camera follows player
 	p_SOL_cam->setPosition(glm::vec2(m_screenWidth / 2, m_screenHeight / 2));
 	p_SOL_cam->update();
 	p_SOL_uiCam->update();
 	p_SOL_uiCam->setPosition(glm::vec2(m_screenWidth / 2, m_screenHeight / 2));
-	drawGame(levels);
+	drawGame(levels, units);
 }
 
-void View::drawGame(std::vector<Level*>& levels)
+void View::drawGame(std::vector<Level*>& levels, std::vector<Unit*>& units)
 {
 	//Set base depth
 	glClearDepth(1.0);
@@ -75,7 +75,7 @@ void View::drawGame(std::vector<Level*>& levels)
 	m_SOL_agentSpriteBatch.begin();
 
 	//draw entities
-
+	drawUnits(units);
 
 	// called agent sprite batch but not just for agents
 	m_SOL_agentSpriteBatch.end();
@@ -89,6 +89,24 @@ void View::drawGame(std::vector<Level*>& levels)
 	m_SOL_window.swapBuffer();
 }
 
+
+void View::drawUnits(std::vector<Unit*>& units)
+{
+	glm::vec2 agentDims(AGENT_RADIUS * 2.0f);
+
+	//Draw humans
+	for (size_t i = 0; i < units.size(); i++)
+	{
+		//if (p_SOL_cam->isBoxInView(units[i]->getPosition(), agentDims)) <----- Frustrum culling, needs pos not coords
+		//{
+			units[i]->draw(m_SOL_agentSpriteBatch);
+
+			//std::cout << units[i]->getCoords().x << " " << units[i]->getCoords().y << std::endl;
+		//}
+	}
+}
+
+
 void View::drawUI()
 {
 	char buffer[256];
@@ -99,8 +117,8 @@ void View::drawUI()
 
 	m_SOL_uiSpriteBatch.begin();
 
-	sprintf_s(buffer, "GameName");
-	p_SOL_spriteFont->draw(m_SOL_uiSpriteBatch, buffer, glm::vec2(30, 56), glm::vec2(0.5f), 0.0f, Solengine::ColourRGBA8{ 255, 255, 255, 255 });
+	sprintf_s(buffer, "DungeonQuest");
+	p_SOL_spriteFont->draw(m_SOL_uiSpriteBatch, buffer, glm::vec2(30, 20), glm::vec2(0.5f), 0.0f, Solengine::ColourRGBA8{ 255, 255, 255, 255 });
 
 	m_SOL_uiSpriteBatch.end();
 	m_SOL_uiSpriteBatch.renderBatch();

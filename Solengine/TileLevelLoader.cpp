@@ -39,16 +39,6 @@ namespace Solengine
 		{
 			if (temp.size() > 0) levelData.push_back(temp);
 		}
-
-		for (unsigned int y = 0; y < levelData.size(); y++)
-		{
-			for (unsigned int x = 0; x < levelData[y].size(); x++)
-			{
-				std::cout << levelData[y][x];
-			}
-
-			std::cout << std::endl;
-		}
 		return levelData;
 	}
 }

@@ -10,6 +10,13 @@
 #include <Solengine/SDLInitialiser.h>
 #include <Solengine/ErrorHandler.h>
 
+//TODO:
+// Add basic camera movement
+// Add UI overlay
+// Add unit selection
+
+
+
 //Constructor will initialise private member variables
 Scene::Scene() :
 	m_screenWidth(1200),
@@ -18,13 +25,21 @@ Scene::Scene() :
 	m_currentLevel(0),
 	m_fpsMax(60),
 	m_physicsSpeed(0.02f),
-	m_announceFPS(true)
+	m_announceFPS(false)
 {
 }
 
 //Destructor
 Scene::~Scene()
 {
+	for (size_t i = 0; i < p_levels.size(); i++)
+	{
+		delete p_levels[i];
+	}
+	for (size_t i = 1; i < p_units.size(); i++)
+	{
+		delete p_units[i];
+	}
 }
 
 //Runs the game
@@ -51,6 +66,8 @@ void Scene::initScene()
 {
 	//Make sure we draw the level --> VIEW
 	p_levels.push_back(new Level(m_SOL_tileLevelLoader.ParseLevelData("Levels/DQlevel1.txt")));
+	//Creates an adept at intended spot
+	p_units.push_back(new Unit(p_levels[m_currentLevel]->getAdeptSpawnCoords()));
 }
 
 //Game loop
@@ -68,15 +85,12 @@ void Scene::gameLoop()
 
 			m_model.update(pauseDuration);
 
-			//handles rendering
-			m_view.update(p_levels);
+			m_view.update(p_levels, p_units);
 
-			//handles input
 			m_gameState = m_controller.playStateInput();
 
-			//Calculates, announces, and limits FPS
-			m_SOL_fpsManager.limitFPS(trackFPS, (int)DESIRED_TICKS_PER_FRAME);
 
+			m_SOL_fpsManager.limitFPS(trackFPS, (int)DESIRED_TICKS_PER_FRAME);
 			pauseDuration = 0;
 		}
 

@@ -16,6 +16,8 @@
 #include "View.h"
 #include "Controller.h"
 
+#include "Unit.h"
+
 #include "Level.h"
 
 class Scene
@@ -40,6 +42,9 @@ private:
 	Controller m_controller;
 
 	std::vector<Level*> p_levels;
+
+
+	std::vector<Unit*> p_units;
 
 	int m_screenWidth;
 	int m_screenHeight;
