@@ -21,6 +21,7 @@ namespace Solengine
 		//Setters
 		void setPosition(const glm::vec2& newPosition) { glm::vec2 adjust = { 20.0f, 20.0f }; m_position = newPosition + adjust; m_needsMatrixUpdate = true; }
 		void setScale(float newScale) { if (newScale > m_maxZoomOut && newScale < m_maxZoomIn) m_scale = newScale; m_needsMatrixUpdate = true; }
+		void shiftPosition(glm::vec2 shiftQuantity) { m_position.x += shiftQuantity.x; m_position.y += shiftQuantity.y;  m_needsMatrixUpdate = true; }
 
 		//Getters
 		glm::vec2 getPosition() { return m_position; }

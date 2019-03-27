@@ -11,8 +11,9 @@
 #include <Solengine/ErrorHandler.h>
 
 //TODO:
-// Add basic camera movement
+// Limit basic camera movement
 // Add UI overlay
+// Figure out better texturing for UI overlay
 // Add unit selection
 
 

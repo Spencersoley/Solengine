@@ -33,6 +33,7 @@ private:
 	Solengine::GLSLProgram m_SOL_shaderProgram;
 	Solengine::Window m_SOL_window;
 	Solengine::SpriteBatch m_SOL_agentSpriteBatch;
+	Solengine::SpriteBatch m_SOL_uiBackgroundSpriteBatch;
 	Solengine::SpriteBatch m_SOL_uiSpriteBatch;
 
 	Solengine::Font* p_SOL_spriteFont = nullptr;

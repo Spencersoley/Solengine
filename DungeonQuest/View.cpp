@@ -1,7 +1,8 @@
 #include "View.h"
 
-#include <iostream>
+#include "Solengine/ResourceManager.h"
 
+#include <iostream>
 #include <glm/glm.hpp>
 
 View::View()
@@ -24,6 +25,7 @@ void View::init(Solengine::Camera2D* cam, Solengine::Camera2D* uiCam, int screen
 	m_SOL_shaderProgram.linkShaders();
 
 	m_SOL_agentSpriteBatch.init();
+	m_SOL_uiBackgroundSpriteBatch.init();
 	m_SOL_uiSpriteBatch.init();
 
 	p_SOL_spriteFont = new Solengine::Font("Fonts/Roboto-Regular.ttf", 64);
@@ -40,8 +42,6 @@ void View::init(Solengine::Camera2D* cam, Solengine::Camera2D* uiCam, int screen
 
 void View::update(std::vector<Level*>& levels, std::vector<Unit*>& units)
 {
-	//Camera follows player
-	p_SOL_cam->setPosition(glm::vec2(m_screenWidth / 2, m_screenHeight / 2));
 	p_SOL_cam->update();
 	p_SOL_uiCam->update();
 	p_SOL_uiCam->setPosition(glm::vec2(m_screenWidth / 2, m_screenHeight / 2));
@@ -115,11 +115,18 @@ void View::drawUI()
 	GLint pUniform = m_SOL_shaderProgram.getUniformLocation("P");
 	glUniformMatrix4fv(pUniform, 1, GL_FALSE, &projectionMatrix[0][0]);
 
+	//background
+	glm::vec4 destRect(20, 0, m_screenWidth, 150);
+	glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
+	m_SOL_uiBackgroundSpriteBatch.begin();
+	m_SOL_uiBackgroundSpriteBatch.draw(destRect, uvRect, Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID, 0.0f, Solengine::ColourRGBA8{ 255, 255, 255, 255 });
+	m_SOL_uiBackgroundSpriteBatch.end();
+	m_SOL_uiBackgroundSpriteBatch.renderBatch();
+
+	//text
 	m_SOL_uiSpriteBatch.begin();
-
 	sprintf_s(buffer, "DungeonQuest");
-	p_SOL_spriteFont->draw(m_SOL_uiSpriteBatch, buffer, glm::vec2(30, 20), glm::vec2(0.5f), 0.0f, Solengine::ColourRGBA8{ 255, 255, 255, 255 });
-
+	p_SOL_spriteFont->draw(m_SOL_uiSpriteBatch, buffer, glm::vec2(100, 20), glm::vec2(0.5f), 0.0f, Solengine::ColourRGBA8{ 255, 255, 255, 255 });
 	m_SOL_uiSpriteBatch.end();
 	m_SOL_uiSpriteBatch.renderBatch();
 }
