@@ -23,12 +23,14 @@ public:
 
 	void init(Solengine::Camera2D* cam, Solengine::Camera2D* uiCam, int screenwidth, int screenheight);
 	void update(std::vector<Level*>& levels, std::vector<Unit*>& units);
+	void updateUIText(std::vector<Unit*>& units);
 
 private:
 	void drawGame(std::vector<Level*>& levels, std::vector<Unit*>& units);
 	void drawUnits(std::vector<Unit*>& units);
+	void initUIBackground();
 
-	void drawUI();
+	void drawUI(std::vector<Unit*>& units);
 
 	Solengine::GLSLProgram m_SOL_shaderProgram;
 	Solengine::Window m_SOL_window;

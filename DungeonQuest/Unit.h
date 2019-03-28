@@ -22,10 +22,18 @@ public:
 	glm::vec2 getPosition() const { return m_position; }	
 	glm::vec2 getCoords() const { return m_coords; }
 
+
+	std::string getName() const { return m_name; }
+	int getHealth() { return m_health; }
+	int getEnergy() { return m_energy; }
+
 protected:
 
-	float m_speed;
-	float m_health;
+	int m_energy;
+	int m_health;
+
+	std::string m_name;
+
 	glm::vec2 m_position;
 	glm::vec2 m_coords;
 	Solengine::ColourRGBA8 m_colour;

@@ -16,7 +16,7 @@
 // Figure out better texturing for UI overlay
 // Add unit selection
 
-
+// Can we move level sprite batch to view?
 
 //Constructor will initialise private member variables
 Scene::Scene() :

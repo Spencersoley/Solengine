@@ -2,7 +2,7 @@
 
 #include "Solengine/ResourceManager.h"
 
-Unit::Unit(glm::vec2 coords)
+Unit::Unit(glm::vec2 coords) : m_health(20), m_energy(15), m_name("Adept")
 {
 	m_coords = coords;
 	m_position.x = m_coords.x * TILE_WIDTH;
@@ -11,6 +11,7 @@ Unit::Unit(glm::vec2 coords)
 
 Unit::~Unit()
 {
+
 }
 
 void Unit::draw(Solengine::SpriteBatch& spriteBatch)
