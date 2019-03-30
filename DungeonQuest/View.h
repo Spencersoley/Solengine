@@ -15,6 +15,8 @@
 #include "Level.h"
 #include "Unit.h"
 #include "UIElement.h"
+#include "UIText.h"
+#include "UIButton.h"
 
 class View
 {
@@ -24,6 +26,10 @@ public:
 
 	void init(Solengine::Camera2D* cam, Solengine::Camera2D* uiCam, int screenWidth, int screenHeight);
 	void update(std::vector<Level*>& levels, std::vector<Unit*>& units, std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* selectedUnit);
+
+	void setCurrentUnitNameTextBox(UIText* currentUnitNameTextBox) { p_currentUnitNameTextBox = currentUnitNameTextBox; }
+	void setCurrentUnitIcon(UIButton* currentUnitIcon) { p_currentUnitIcon = currentUnitIcon;  }
+
 
 private:
 	void drawGame(std::vector<Level*>& levels, std::vector<Unit*>& units, std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* selectedUnit);
@@ -38,12 +44,11 @@ private:
 	Solengine::GLSLProgram m_SOL_shaderProgram;
 	Solengine::Window m_SOL_window;
 
-
-	//Every separate sprite has its own sprite batch.
+	UIText* p_currentUnitNameTextBox = nullptr;
+	UIButton* p_currentUnitIcon = nullptr;
 
 	Solengine::Font* p_SOL_spriteFont;
 	
-
 	Solengine::Camera2D* p_SOL_cam = nullptr;
 	Solengine::Camera2D* p_SOL_uiCam = nullptr;
 

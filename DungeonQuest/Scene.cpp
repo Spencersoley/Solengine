@@ -81,9 +81,8 @@ void Scene::initSystems()
 //Initialise the game content
 void Scene::initScene()
 {
-	//We want to create a pointer for each sprite we draw (one for font)
-	//We want to create the objects, passing a pointer to their sprite batch for each created
 
+	//Set level
 	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
 	p_SOL_spriteBatches.back()->init();
 	p_levels.push_back(new Level(m_SOL_tileLevelLoader.ParseLevelData("Levels/DQlevel1.txt"), p_SOL_spriteBatches.back()));
@@ -93,35 +92,51 @@ void Scene::initScene()
 	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
 	p_SOL_spriteBatches.back()->init();
 	p_units.push_back(new Unit(p_levels[m_currentLevel]->getAdeptSpawnCoords(), p_SOL_spriteBatches.back()));
+	p_currentUnit = p_units[0];
 
-	//init ui [Parts of this we only need to render rather than redraw every frame. Can add this later]
+
+
+	//UI//
 	
+	//Sets ui backplate
 	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
 	p_SOL_spriteBatches.back()->init();
 	p_UIElements.push_back(new UIButton(20, 0, m_screenWidth, 150, Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID, p_SOL_spriteBatches.back()));
 
+	//
 	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
 	p_SOL_spriteBatches.back()->init();
 	p_UIElements.push_back(new UIButton(40, 80, 150, 150, Solengine::ResourceManager::getTexture("Textures/zombie_pack/circle2.png").textureID, p_SOL_spriteBatches.back()));
 
+
+	//Set current icon
 	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
 	p_SOL_spriteBatches.back()->init();
-	p_UIElements.push_back(new UIButton(200, 50, 150, 150, Solengine::ResourceManager::getTexture("Textures/zombie_pack/adept.png").textureID, p_SOL_spriteBatches.back()));
-	
+	UIButton* currentUnitIcon = new UIButton(200, 50, 150, 150, Solengine::ResourceManager::getTexture("Textures/zombie_pack/adept.png").textureID, p_SOL_spriteBatches.back());
+	p_UIElements.push_back(currentUnitIcon);
+	m_view.setCurrentUnitIcon(currentUnitIcon);
+
+	//TO BE: Set selected icon
 	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
 	p_SOL_spriteBatches.back()->init();
 	p_UIElements.push_back(new UIButton(400, 50, 150, 150, Solengine::ResourceManager::getTexture("Textures/zombie_pack/adept.png").textureID, p_SOL_spriteBatches.back()));
 
 
-	p_currentUnit = p_units[0];
-
-	//Grab the TTF
+	//Set current name
 	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
 	p_SOL_spriteBatches.back()->init();
 	p_SOL_spriteFont = new Solengine::Font("Fonts/Roboto-Regular.ttf", 32, p_SOL_spriteBatches.back());
-	p_UIElements.push_back(new UIText(200, 50, 1, p_SOL_spriteFont, "Name: ", p_currentUnit));
+	UIText* currentUnitNameTextBox = new UIText(200, 50, 1, p_SOL_spriteFont, "Name: ", 0, p_currentUnit->getName());
+	p_UIElements.push_back(currentUnitNameTextBox);	
+	m_view.setCurrentUnitNameTextBox(currentUnitNameTextBox);
 
-	//create textboxes
+	//Set selected name
+
+
+	//Current stats
+	//Current moveset
+	//selected stats
+
 
 }
 

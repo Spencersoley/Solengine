@@ -89,38 +89,33 @@ void View::drawLevel(std::vector<Level*>& levels)
 {
 	static Solengine::SpriteBatch* spriteBatch = levels[0]->getSpriteBatch();
 
-	//Since the level will stay the same, we don't need to redraw, only render
-	//levels[0]->draw();
-
 	spriteBatch->renderBatch();
 }
 
 void View::drawUnits(std::vector<Unit*>& units)
 {
-	//This works because they share a sprite batch
+	//This will work for units if they share a sprite batch
 	static Solengine::SpriteBatch* spriteBatch = units[0]->getSpriteBatch();
 
-	spriteBatch->begin();
-
 	glm::vec2 agentDims(AGENT_RADIUS * 2.0f);
-
+    
+	spriteBatch->begin();
 	//Draw units
 	for (size_t i = 0; i < units.size(); i++)
 	{
-		//Frustrum culling
-		if (p_SOL_cam->isBoxInView(units[i]->getPosition(), agentDims))
-		{
+		//Frustrum cull
+		//if (p_SOL_cam->isBoxInView(units[i]->getPosition(), agentDims))
+		//{
 			units[i]->draw();
-		}
+		//}
 	}
-	
+
 	spriteBatch->end();
 	spriteBatch->renderBatch();
 }
 
-// Ideally: We only modify the uiSpriteBatch when we modify the contents of the information.
-// Otherwise, we just want to call renderBatch. In order to do this, we'll have to routinely tell it to update its information.
-// For now we can let it do it every frame.
+
+// For now we can let this do everything every frame.
 void View::drawUI(std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* selectedUnit)
 {
 	//Grab UI camera matrix
@@ -128,9 +123,21 @@ void View::drawUI(std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* 
 	GLint pUniform = m_SOL_shaderProgram.getUniformLocation("P");
 	glUniformMatrix4fv(pUniform, 1, GL_FALSE, &projectionMatrix[0][0]);
 	
-	// REDRAW PHASE
 
-	for (int i = 0; i < uiElements.size(); i++)
+	//Update statistical information
+	if (p_currentUnitNameTextBox != nullptr)
+	{
+		p_currentUnitNameTextBox->updateText(0, currentUnit->getName());
+	}
+
+	if (p_currentUnitIcon != nullptr)
+	{
+		p_currentUnitIcon->updateIcon(currentUnit->getTextureID());
+	}
+
+	//REDRAW PHASE
+
+	for (size_t i = 0; i < uiElements.size(); i++)
 	{
 		Solengine::SpriteBatch* spriteBatch = uiElements[i]->getSpriteBatch(); //get the correct sprite batch from the element
 	

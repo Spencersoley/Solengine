@@ -10,6 +10,8 @@ public:
 
 	void draw();
 
+	void updateIcon(GLuint textureID);
+
 private:
 	GLuint m_textureID;
 };

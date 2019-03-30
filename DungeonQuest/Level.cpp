@@ -55,9 +55,9 @@ Level::Level(std::vector<std::string> levelData, Solengine::SpriteBatch* spriteB
 	}
 	spriteBatch->end();
 
-	for (int y = 0; y < m_tileMap.size(); y++)
+	for (size_t y = 0; y < m_tileMap.size(); y++)
 	{
-		for (int x = 0; x < m_tileMap[0].size(); x++)
+		for (size_t x = 0; x < m_tileMap[0].size(); x++)
 		{
 			if (m_tileMap[y][x].m_obstacle) std::cout << "R";
 			else std::cout << ".";

@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-UIText::UIText(int x, int y, int z, Solengine::Font* spriteFont, std::string message, Unit* currentUnit)
+UIText::UIText(int x, int y, int z, Solengine::Font* spriteFont, std::string message, int trackedInt, std::string trackedString)
 {
 	m_xPos = x;
 	m_yPos = y;
@@ -12,7 +12,9 @@ UIText::UIText(int x, int y, int z, Solengine::Font* spriteFont, std::string mes
 	p_SOL_SB = spriteFont->getSpriteBatch();
 
 	m_message = message;
-	p_currentUnit = currentUnit;
+
+	m_trackedInt = trackedInt;
+	m_trackedString = trackedString;
 }
 
 UIText::~UIText()
@@ -28,13 +30,18 @@ void UIText::draw()
 
 	//+ currentUnit->getName()).c_str()
 
-	
-
-	p_SOL_spriteFont->draw((m_message + p_currentUnit->getName()).c_str(), pos, size, 0.0f, colour);
+	if (m_trackedString == "")
+	{
+		p_SOL_spriteFont->draw((m_message + std::to_string(m_trackedInt)).c_str(), pos, size, 0.0f, colour);
+	}
+	else
+	{
+		p_SOL_spriteFont->draw((m_message + m_trackedString).c_str(), pos, size, 0.0f, colour);
+	}
 }
 
-
-void UIText::updateText()
+void UIText::updateText(int trackedInt, std::string trackedString)
 {
-	//p_currentUnit 
+	m_trackedInt = trackedInt;
+	m_trackedString = trackedString;
 }

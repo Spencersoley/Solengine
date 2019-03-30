@@ -15,10 +15,7 @@ public:
 	Unit(glm::vec2 coords, Solengine::SpriteBatch* spriteBatch);
 	~Unit();
 
-	//virtual void move(float adjustedDeltaTicks, int globalFrameCount, std::vector<Human*>& humans, std::vector<Zombie*>& zombies) = 0;
-
 	void draw();
-	void drawIcon(int xPos, int yPos);
 
 	glm::vec2 getPosition() const { return m_position; }	
 	glm::vec2 getCoords() const { return m_coords; }
@@ -26,10 +23,13 @@ public:
 	Solengine::SpriteBatch* getSpriteBatch() { return p_SOL_SB; }
 
 	std::string getName() const { return m_name; }
+	GLuint getTextureID() const { return m_textureID; }
 	int getHealth() { return m_health; }
 	int getEnergy() { return m_energy; }
 
 protected:
+
+	GLuint m_textureID;
 
 	int m_energy;
 	int m_health;
@@ -40,6 +40,5 @@ protected:
 
 	glm::vec2 m_position;
 	glm::vec2 m_coords;
-	Solengine::ColourRGBA8 m_colour;
 };
 
