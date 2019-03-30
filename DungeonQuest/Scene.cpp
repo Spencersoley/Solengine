@@ -10,6 +10,9 @@
 #include <Solengine/SDLInitialiser.h>
 #include <Solengine/ErrorHandler.h>
 
+#include "UIButton.h"
+#include "UIText.h"
+
 //TODO:
 // Limit basic camera movement
 // Add UI overlay
@@ -24,9 +27,11 @@ Scene::Scene() :
 	m_screenHeight(600),
 	m_gameState(Solengine::GameState::PLAY),
 	m_currentLevel(0),
+	m_turnCounter(0),
 	m_fpsMax(60),
 	m_physicsSpeed(0.02f),
 	m_announceFPS(false)
+
 {
 }
 
@@ -37,10 +42,20 @@ Scene::~Scene()
 	{
 		delete p_levels[i];
 	}
-	for (size_t i = 1; i < p_units.size(); i++)
+	for (size_t i = 0; i < p_units.size(); i++)
 	{
 		delete p_units[i];
 	}
+	for (size_t i = 0; i < p_UIElements.size(); i++)
+	{
+		delete p_UIElements[i];
+	}
+	for (size_t i = 0; i < p_SOL_spriteBatches.size(); i++)
+	{
+		delete p_SOL_spriteBatches[i];
+	}
+
+	delete p_SOL_spriteFont;
 }
 
 //Runs the game
@@ -60,15 +75,54 @@ void Scene::initSystems()
 	m_controller.init(&m_SOL_cam);
 
 	initScene();
+
 }
 
 //Initialise the game content
 void Scene::initScene()
 {
-	//Make sure we draw the level --> VIEW
-	p_levels.push_back(new Level(m_SOL_tileLevelLoader.ParseLevelData("Levels/DQlevel1.txt")));
+	//We want to create a pointer for each sprite we draw (one for font)
+	//We want to create the objects, passing a pointer to their sprite batch for each created
+
+	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
+	p_SOL_spriteBatches.back()->init();
+	p_levels.push_back(new Level(m_SOL_tileLevelLoader.ParseLevelData("Levels/DQlevel1.txt"), p_SOL_spriteBatches.back()));
+
+	
 	//Creates an adept at intended spot
-	p_units.push_back(new Unit(p_levels[m_currentLevel]->getAdeptSpawnCoords()));
+	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
+	p_SOL_spriteBatches.back()->init();
+	p_units.push_back(new Unit(p_levels[m_currentLevel]->getAdeptSpawnCoords(), p_SOL_spriteBatches.back()));
+
+	//init ui [Parts of this we only need to render rather than redraw every frame. Can add this later]
+	
+	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
+	p_SOL_spriteBatches.back()->init();
+	p_UIElements.push_back(new UIButton(20, 0, m_screenWidth, 150, Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID, p_SOL_spriteBatches.back()));
+
+	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
+	p_SOL_spriteBatches.back()->init();
+	p_UIElements.push_back(new UIButton(40, 80, 150, 150, Solengine::ResourceManager::getTexture("Textures/zombie_pack/circle2.png").textureID, p_SOL_spriteBatches.back()));
+
+	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
+	p_SOL_spriteBatches.back()->init();
+	p_UIElements.push_back(new UIButton(200, 50, 150, 150, Solengine::ResourceManager::getTexture("Textures/zombie_pack/adept.png").textureID, p_SOL_spriteBatches.back()));
+	
+	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
+	p_SOL_spriteBatches.back()->init();
+	p_UIElements.push_back(new UIButton(400, 50, 150, 150, Solengine::ResourceManager::getTexture("Textures/zombie_pack/adept.png").textureID, p_SOL_spriteBatches.back()));
+
+
+	p_currentUnit = p_units[0];
+
+	//Grab the TTF
+	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
+	p_SOL_spriteBatches.back()->init();
+	p_SOL_spriteFont = new Solengine::Font("Fonts/Roboto-Regular.ttf", 32, p_SOL_spriteBatches.back());
+	p_UIElements.push_back(new UIText(200, 50, 1, p_SOL_spriteFont, "Name: ", p_currentUnit));
+
+	//create textboxes
+
 }
 
 //Game loop
@@ -86,10 +140,15 @@ void Scene::gameLoop()
 
 			m_model.update(pauseDuration);
 
-			m_view.update(p_levels, p_units);
+			m_view.update(p_levels, p_units, p_UIElements, p_currentUnit, p_selectedUnit);
 
+
+			//if unit is friendly
 			m_gameState = m_controller.playStateInput();
-
+			//else if unit is enemy
+			//works through AI LOGIC
+			//enemy does stuff and eventually ends its turn
+			//
 
 			m_SOL_fpsManager.limitFPS(trackFPS, (int)DESIRED_TICKS_PER_FRAME);
 			pauseDuration = 0;

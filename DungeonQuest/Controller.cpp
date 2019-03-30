@@ -29,6 +29,10 @@ Solengine::GameState Controller::playStateInput()
 	if (m_SOL_inputManager.keyState(SDLK_a))       p_SOL_cam->shiftPosition(glm::vec2{ -SCROLL_SPEED, 0 });
 	if (m_SOL_inputManager.keyState(SDLK_d))       p_SOL_cam->shiftPosition(glm::vec2{ SCROLL_SPEED, 0 });
 
+
+	//Check if mousedown occurs where buttons are
+
+
 	return state;
 }
 

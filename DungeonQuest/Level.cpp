@@ -6,17 +6,15 @@
 #include "Solengine/ErrorHandler.h"
 #include "Solengine/ResourceManager.h"
 
-
-Level::Level(std::vector<std::string> levelData)
+Level::Level(std::vector<std::string> levelData, Solengine::SpriteBatch* spriteBatch)
 {
 	m_levelData = levelData;
-	m_SOL_levelSpriteBatch.init();
-	m_SOL_levelSpriteBatch.begin();
+	p_SOL_SB = spriteBatch;
+
+	spriteBatch->begin();
 
 	glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
 	Solengine::ColourRGBA8 whiteColour = {/*r*/ 255, /*g*/ 255, /*b*/ 255, /*a*/ 255 };
-
-
 
 	//Render tiles
 	for (unsigned int y = 0; y < levelData.size(); y++)
@@ -35,15 +33,15 @@ Level::Level(std::vector<std::string> levelData)
 			switch (tile)
 			{
 			case 'R':
-				m_SOL_levelSpriteBatch.draw(destRect, uvRect, Solengine::ResourceManager::getTexture("Textures/zombie_pack/light_bricks.png").textureID, 0.0f, whiteColour);
+				spriteBatch->draw(destRect, uvRect, Solengine::ResourceManager::getTexture("Textures/zombie_pack/light_bricks.png").textureID, 0.0f, whiteColour);
 				tileRow.emplace_back(true, x, y, TILE_WIDTH);
 				break;
 			case '.':
-				m_SOL_levelSpriteBatch.draw(destRect, uvRect, Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID, 0.0f, whiteColour);
+				spriteBatch->draw(destRect, uvRect, Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID, 0.0f, whiteColour);
 				tileRow.emplace_back(false, x, y, TILE_WIDTH);
 				break;
 			case 'A':
-				m_SOL_levelSpriteBatch.draw(destRect, uvRect, Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID, 0.0f, whiteColour);
+				spriteBatch->draw(destRect, uvRect, Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID, 0.0f, whiteColour);
 				tileRow.emplace_back(false, x, y, TILE_WIDTH);		
 				m_adeptSpawnCoords = glm::vec2{ x , y };
 				break;
@@ -55,7 +53,7 @@ Level::Level(std::vector<std::string> levelData)
 
 		if (tileRow.size() > 0) m_tileMap.push_back(tileRow);
 	}
-	m_SOL_levelSpriteBatch.end();
+	spriteBatch->end();
 
 	for (int y = 0; y < m_tileMap.size(); y++)
 	{
@@ -71,9 +69,3 @@ Level::Level(std::vector<std::string> levelData)
 Level::~Level()
 {
 }
-
-void Level::draw()
-{
-	m_SOL_levelSpriteBatch.renderBatch();
-}
-

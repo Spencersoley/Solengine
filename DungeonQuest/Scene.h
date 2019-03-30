@@ -17,7 +17,7 @@
 #include "Controller.h"
 
 #include "Unit.h"
-
+#include "UIElement.h"
 #include "Level.h"
 
 class Scene
@@ -42,10 +42,19 @@ private:
 	Controller m_controller;
 
 	std::vector<Level*> p_levels;
-
-
 	std::vector<Unit*> p_units;
 
+	std::vector<UIElement*> p_UIElements;
+
+	Solengine::Font* p_SOL_spriteFont = nullptr;
+
+	//One for each sprite
+	std::vector<Solengine::SpriteBatch*> p_SOL_spriteBatches;
+
+	Unit* p_currentUnit = nullptr;
+	Unit* p_selectedUnit = nullptr;
+
+	int m_turnCounter;
 	int m_screenWidth;
 	int m_screenHeight;
 	Solengine::GameState m_gameState;

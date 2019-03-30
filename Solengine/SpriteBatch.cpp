@@ -6,6 +6,7 @@ namespace Solengine
 {
 	SpriteBatch::SpriteBatch() : m_VBO(0), m_VAO(0)
 	{
+
 	}
 
 	SpriteBatch::~SpriteBatch()

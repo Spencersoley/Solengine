@@ -24,6 +24,10 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="UIButton.cpp" />
+    <ClCompile Include="UIElement.cpp" />
+    <ClCompile Include="UIIcon.cpp" />
+    <ClCompile Include="UIText.cpp" />
     <ClCompile Include="Unit.cpp" />
     <ClCompile Include="View.cpp" />
   </ItemGroup>
@@ -33,6 +37,10 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="UIButton.h" />
+    <ClInclude Include="UIElement.h" />
+    <ClInclude Include="UIIcon.h" />
+    <ClInclude Include="UIText.h" />
     <ClInclude Include="Unit.h" />
     <ClInclude Include="View.h" />
   </ItemGroup>

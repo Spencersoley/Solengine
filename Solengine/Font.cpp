@@ -1,6 +1,7 @@
 #include "Font.h"
 
 #include <SDL/SDL.h>
+#include <iostream>
 
 #include "SpriteBatch.h"
 
@@ -20,8 +21,10 @@ int closestPow2(int i)
 
 namespace Solengine 
 {
-	Font::Font(const char* font, int size, char cs, char ce) 
+	Font::Font(const char* font, int size, char cs, char ce, SpriteBatch* spriteBatch)
 	{
+		p_SOL_SB = spriteBatch;
+
 		init(font, size, cs, ce);
 	}
 
@@ -109,8 +112,8 @@ namespace Solengine
 			throw 282;
 		}
 		// Create the texture
-		glGenTextures(1, &_texID);
-		glBindTexture(GL_TEXTURE_2D, _texID);
+		glGenTextures(1, &m_texID);
+		glBindTexture(GL_TEXTURE_2D, m_texID);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, bestWidth, bestHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
 
 		// Now draw all the glyphs
@@ -191,10 +194,10 @@ namespace Solengine
 
 	void Font::dispose() 
 	{
-		if (_texID != 0) 
+		if (m_texID != 0) 
 		{
-			glDeleteTextures(1, &_texID);
-			_texID = 0;
+			glDeleteTextures(1, &m_texID);
+			m_texID = 0;
 		}
 
 		if (p_glyphs) 
@@ -266,7 +269,7 @@ namespace Solengine
 		return size;
 	}
 
-	void Font::draw(SpriteBatch& batch, const char* s, glm::vec2 position, glm::vec2 scaling, float depth, ColourRGBA8 tint, Justification just /* = Justification::LEFT */) 
+	void Font::draw(const char* s, glm::vec2 position, glm::vec2 scaling, float depth, ColourRGBA8 tint, Justification just /* = Justification::LEFT */)
 	{
 		glm::vec2 tp = position;
 		// Apply justification
@@ -294,7 +297,7 @@ namespace Solengine
 				if (gi < 0 || gi >= m_regLength)
 					gi = m_regLength;
 				glm::vec4 destRect(tp, p_glyphs[gi].size * scaling);
-				batch.draw(destRect, p_glyphs[gi].uvRect, _texID, depth, tint);
+				p_SOL_SB->draw(destRect, p_glyphs[gi].uvRect, m_texID, depth, tint);
 				tp.x += p_glyphs[gi].size.x * scaling.x;
 			}
 		}

@@ -12,16 +12,18 @@ const float AGENT_RADIUS = AGENT_WIDTH / 2.0f;
 class Unit
 {
 public:
-	Unit(glm::vec2 coords);
+	Unit(glm::vec2 coords, Solengine::SpriteBatch* spriteBatch);
 	~Unit();
 
 	//virtual void move(float adjustedDeltaTicks, int globalFrameCount, std::vector<Human*>& humans, std::vector<Zombie*>& zombies) = 0;
 
-	void draw(Solengine::SpriteBatch& _spriteBatch);
+	void draw();
+	void drawIcon(int xPos, int yPos);
 
 	glm::vec2 getPosition() const { return m_position; }	
 	glm::vec2 getCoords() const { return m_coords; }
 
+	Solengine::SpriteBatch* getSpriteBatch() { return p_SOL_SB; }
 
 	std::string getName() const { return m_name; }
 	int getHealth() { return m_health; }
@@ -33,6 +35,8 @@ protected:
 	int m_health;
 
 	std::string m_name;
+
+	Solengine::SpriteBatch* p_SOL_SB;
 
 	glm::vec2 m_position;
 	glm::vec2 m_coords;
