@@ -12,17 +12,19 @@ const float AGENT_RADIUS = AGENT_WIDTH / 2.0f;
 class Unit
 {
 public:
-	Unit(glm::vec2 coords, Solengine::SpriteBatch* spriteBatch);
-	~Unit();
+	Unit();
+	virtual ~Unit();
 
 	void draw();
+
+	virtual void init(glm::vec2 coords, Solengine::SpriteBatch* spriteBatch) = 0;
 
 	glm::vec2 getPosition() const { return m_position; }	
 	glm::vec2 getCoords() const { return m_coords; }
 
 	Solengine::SpriteBatch* getSpriteBatch() { return p_SOL_SB; }
 
-	std::string getName() const { return m_name; }
+	std::string getName() const { if (m_name == "") return "__"; else return m_name; }
 	GLuint getTextureID() const { return m_textureID; }
 	int getHealth() { return m_health; }
 	int getEnergy() { return m_energy; }

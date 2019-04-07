@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-UIText::UIText(int x, int y, int z, Solengine::Font* spriteFont, std::string message, int trackedInt, std::string trackedString)
+UIText::UIText(int x, int y, int z, Solengine::Font* spriteFont, std::string message, int trackedInt)
 {
 	m_xPos = x;
 	m_yPos = y;
@@ -14,7 +14,6 @@ UIText::UIText(int x, int y, int z, Solengine::Font* spriteFont, std::string mes
 	m_message = message;
 
 	m_trackedInt = trackedInt;
-	m_trackedString = trackedString;
 }
 
 UIText::~UIText()
@@ -23,20 +22,23 @@ UIText::~UIText()
 
 void UIText::draw()
 {
-	static Solengine::ColourRGBA8 colour = { 255, 255, 255, 255 };
-
-	glm::vec2 pos = { m_xPos, m_yPos };
-	glm::vec2 size = { m_width, m_height };
-
-	//+ currentUnit->getName()).c_str()
-
-	if (m_trackedString == "")
+	if (m_trackedString != "") 
 	{
-		p_SOL_spriteFont->draw((m_message + std::to_string(m_trackedInt)).c_str(), pos, size, 0.0f, colour);
-	}
-	else
-	{
-		p_SOL_spriteFont->draw((m_message + m_trackedString).c_str(), pos, size, 0.0f, colour);
+		static Solengine::ColourRGBA8 colour = { 255, 255, 255, 255 };
+
+		glm::vec2 pos = { m_xPos, m_yPos };
+		glm::vec2 size = { m_width, m_height };
+
+		//+ currentUnit->getName()).c_str()
+
+		if (m_trackedString == "")
+		{
+			p_SOL_spriteFont->draw((m_message + std::to_string(m_trackedInt)).c_str(), pos, size, 0.0f, colour);
+		}
+		else
+		{
+			p_SOL_spriteFont->draw((m_message + m_trackedString).c_str(), pos, size, 0.0f, colour);
+		}
 	}
 }
 

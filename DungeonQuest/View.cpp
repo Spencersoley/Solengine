@@ -95,25 +95,19 @@ void View::drawLevel(std::vector<Level*>& levels)
 void View::drawUnits(std::vector<Unit*>& units)
 {
 	//This will work for units if they share a sprite batch
-	static Solengine::SpriteBatch* spriteBatch = units[0]->getSpriteBatch();
 
 	glm::vec2 agentDims(AGENT_RADIUS * 2.0f);
     
-	spriteBatch->begin();
 	//Draw units
 	for (size_t i = 0; i < units.size(); i++)
 	{
-		//Frustrum cull
-		//if (p_SOL_cam->isBoxInView(units[i]->getPosition(), agentDims))
-		//{
-			units[i]->draw();
-		//}
+		Solengine::SpriteBatch* spriteBatch = units[i]->getSpriteBatch();
+		spriteBatch->begin();
+		units[i]->draw();
+		spriteBatch->end();
+		spriteBatch->renderBatch();
 	}
-
-	spriteBatch->end();
-	spriteBatch->renderBatch();
 }
-
 
 // For now we can let this do everything every frame.
 void View::drawUI(std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* selectedUnit)
@@ -125,6 +119,7 @@ void View::drawUI(std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* 
 	
 
 	//Update statistical information
+	//CURRENT UNIT
 	if (p_currentUnitNameTextBox != nullptr)
 	{
 		p_currentUnitNameTextBox->updateText(0, currentUnit->getName());
@@ -135,6 +130,26 @@ void View::drawUI(std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* 
 		p_currentUnitIcon->updateIcon(currentUnit->getTextureID());
 	}
 
+	//SELECTED UNIT
+	if (p_selectedUnitNameTextBox != nullptr && selectedUnit != nullptr) //selected
+	{
+		p_selectedUnitNameTextBox->updateText(0, selectedUnit->getName());
+	} 
+	else if (p_selectedUnitNameTextBox != nullptr  && selectedUnit == nullptr) //no selected
+	{
+		p_selectedUnitNameTextBox->updateText(0, "");
+	}
+
+	if (p_selectedUnitIcon != nullptr  && selectedUnit != nullptr) //selected
+	{
+		p_selectedUnitIcon->updateIcon(selectedUnit->getTextureID());
+	}
+	else if (p_selectedUnitIcon != nullptr  && selectedUnit == nullptr) //no selected
+	{
+		p_selectedUnitIcon->updateIcon(-1);
+	}
+
+
 	//REDRAW PHASE
 
 	for (size_t i = 0; i < uiElements.size(); i++)
@@ -142,7 +157,7 @@ void View::drawUI(std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* 
 		Solengine::SpriteBatch* spriteBatch = uiElements[i]->getSpriteBatch(); //get the correct sprite batch from the element
 	
 		spriteBatch->begin();                                                  //begin the batch
-		uiElements[i]->draw();                                                 //call the draw function from the element
+		uiElements[i]->draw();         // Not the best way to do this... //call the draw function from the element
 		spriteBatch->end();                                                    //end the batch
 		spriteBatch->renderBatch();                                            //render the batch
 	}

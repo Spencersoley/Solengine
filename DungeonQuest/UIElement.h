@@ -12,6 +12,7 @@ public:
 	virtual void draw() = 0;
 
 	Solengine::SpriteBatch* getSpriteBatch() { return p_SOL_SB; }
+	GLuint getTextureID() const { return m_textureID; }
 
 protected:
 	int	m_xPos;
@@ -19,5 +20,7 @@ protected:
 	int m_height;
 	int m_width;
 	Solengine::SpriteBatch* p_SOL_SB;
+
+	GLuint m_textureID;
 };
 

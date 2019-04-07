@@ -1,14 +1,2 @@
-﻿  Controller.cpp
-  Level.cpp
-  Main.cpp
-  Model.cpp
-  Scene.cpp
-  UIButton.cpp
-  UIElement.cpp
-  UIIcon.cpp
-  UIText.cpp
-  Unit.cpp
-  View.cpp
-c:\users\ssole\source\repos\solengineproject\dungeonquest\view.cpp(140): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
+﻿  Adept.cpp
   DungeonQuest.vcxproj -> C:\Users\Ssole\source\repos\SolengineProject\Debug\DungeonQuest.exe

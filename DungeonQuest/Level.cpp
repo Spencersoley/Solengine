@@ -45,6 +45,16 @@ Level::Level(std::vector<std::string> levelData, Solengine::SpriteBatch* spriteB
 				tileRow.emplace_back(false, x, y, TILE_WIDTH);		
 				m_adeptSpawnCoords = glm::vec2{ x , y };
 				break;
+			case 'F':
+				spriteBatch->draw(destRect, uvRect, Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID, 0.0f, whiteColour);
+				tileRow.emplace_back(false, x, y, TILE_WIDTH);
+				m_fighterSpawnCoords = glm::vec2{ x , y };
+				break;
+			case 'S':
+				spriteBatch->draw(destRect, uvRect, Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID, 0.0f, whiteColour);
+				tileRow.emplace_back(false, x, y, TILE_WIDTH);
+				m_scoutSpawnCoords = glm::vec2{ x , y };
+				break;
 			default:
 
 				break;

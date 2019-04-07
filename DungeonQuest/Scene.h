@@ -27,6 +27,7 @@ public:
 	~Scene();
 
 	void run();
+	void setSelected(Unit* select) { p_selectedUnit = select;  }
 
 private:
 	void initSystems();

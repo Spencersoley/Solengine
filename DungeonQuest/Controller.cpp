@@ -8,9 +8,10 @@ Controller::~Controller()
 {
 }
 
-void Controller::init(Solengine::Camera2D* cam)
+void Controller::init(Solengine::Camera2D* cam, Model* model)
 {
 	p_SOL_cam = cam;
+	p_model = model;
 }
 
 Solengine::GameState Controller::playStateInput()
@@ -31,9 +32,42 @@ Solengine::GameState Controller::playStateInput()
 
 
 	//Check if mousedown occurs where buttons are
+	setMouseCoords(m_SOL_inputManager.getMouseCoords());
+	setIsMouseDown(m_SOL_inputManager.keyState(SDL_BUTTON_LEFT));
 
 
+	//selection #1
+	// pass in units
+	// check if mouse click and position collides with a unit
+	// 
+	// scene set selected as the unit the mouse position collides with 
+	//
+	//selection #2
+	// if (m_isMouseDown) 
+	// {
+	//     p_model->selectionCheck(m_mouseCoords);
+	// }
+	// pass in mouse position into model function 'check selection'
+	// return pointer to collided or return null
+	// if return is to a collided, set selected unit
 	return state;
+}
+
+Unit* Controller::selectionCheck(std::vector<Unit*> units)
+{
+	glm::vec2 clickWorldPos = p_SOL_cam->screenToWorld(m_mouseCoords);
+	for (size_t i = 0; i < units.size(); i++)
+	{
+		glm::vec2 unitPos = units[i]->getPosition();
+	
+		if (clickWorldPos.x >= unitPos.x && clickWorldPos.x <= unitPos.x + TILE_WIDTH
+			&& clickWorldPos.y >= unitPos.y && clickWorldPos.y <= unitPos.y + TILE_WIDTH)
+		{
+			return units[i];
+		}
+	}
+
+	return nullptr;
 }
 
 Solengine::GameState Controller::pauseStateInput()

@@ -17,6 +17,12 @@
     <Filter Include="Source Files\UI">
       <UniqueIdentifier>{4ddaa7df-7bdf-40a2-a9a6-0bc7484fcdec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Unit">
+      <UniqueIdentifier>{6e2256ea-3615-4882-9a71-ecec6badbc2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Unit">
+      <UniqueIdentifier>{0f14f67f-c0c7-4f3c-aaba-01ed417f1737}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -37,9 +43,6 @@
     <ClCompile Include="View.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Unit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="UIButton.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
@@ -51,6 +54,18 @@
     </ClCompile>
     <ClCompile Include="UIText.cpp">
       <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Adept.cpp">
+      <Filter>Source Files\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="Fighter.cpp">
+      <Filter>Source Files\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit.cpp">
+      <Filter>Source Files\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="Scout.cpp">
+      <Filter>Source Files\Unit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -72,9 +87,6 @@
     <ClInclude Include="Tile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Unit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="UIButton.h">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
@@ -86,6 +98,18 @@
     </ClInclude>
     <ClInclude Include="UIText.h">
       <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit.h">
+      <Filter>Header Files\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="Adept.h">
+      <Filter>Header Files\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="Fighter.h">
+      <Filter>Header Files\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="Scout.h">
+      <Filter>Header Files\Unit</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

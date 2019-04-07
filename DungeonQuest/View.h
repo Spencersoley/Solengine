@@ -17,6 +17,7 @@
 #include "UIElement.h"
 #include "UIText.h"
 #include "UIButton.h"
+#include "UIIcon.h"
 
 class View
 {
@@ -28,7 +29,9 @@ public:
 	void update(std::vector<Level*>& levels, std::vector<Unit*>& units, std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* selectedUnit);
 
 	void setCurrentUnitNameTextBox(UIText* currentUnitNameTextBox) { p_currentUnitNameTextBox = currentUnitNameTextBox; }
-	void setCurrentUnitIcon(UIButton* currentUnitIcon) { p_currentUnitIcon = currentUnitIcon;  }
+	void setCurrentUnitIcon(UIIcon* currentUnitIcon) { p_currentUnitIcon = currentUnitIcon;  }
+	void setSelectedUnitNameTextBox(UIText* currentUnitNameTextBox) { p_selectedUnitNameTextBox = currentUnitNameTextBox; }
+	void setSelectedUnitIcon(UIIcon* currentUnitIcon) { p_selectedUnitIcon = currentUnitIcon; }
 
 
 private:
@@ -45,7 +48,11 @@ private:
 	Solengine::Window m_SOL_window;
 
 	UIText* p_currentUnitNameTextBox = nullptr;
-	UIButton* p_currentUnitIcon = nullptr;
+	UIIcon* p_currentUnitIcon = nullptr;
+	UIText* p_selectedUnitNameTextBox = nullptr;
+	UIIcon* p_selectedUnitIcon = nullptr;
+
+
 
 	Solengine::Font* p_SOL_spriteFont;
 	

@@ -19,11 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Adept.cpp" />
     <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="Fighter.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Scout.cpp" />
     <ClCompile Include="UIButton.cpp" />
     <ClCompile Include="UIElement.cpp" />
     <ClCompile Include="UIIcon.cpp" />
@@ -32,10 +35,13 @@
     <ClCompile Include="View.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Adept.h" />
     <ClInclude Include="Controller.h" />
+    <ClInclude Include="Fighter.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Scout.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="UIButton.h" />
     <ClInclude Include="UIElement.h" />

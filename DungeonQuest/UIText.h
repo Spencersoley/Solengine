@@ -8,7 +8,7 @@
 class UIText : public UIElement
 {
 public:
-	UIText(int x, int y, int z, Solengine::Font* spriteFont, std::string message, int tracked, std::string trackedString);
+	UIText(int x, int y, int z, Solengine::Font* spriteFont, std::string message, int tracked);
 	~UIText();
 
 	void draw();

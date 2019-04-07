@@ -12,6 +12,11 @@
 
 #include "UIButton.h"
 #include "UIText.h"
+#include "UIIcon.h"
+
+#include "Adept.h"
+#include "Fighter.h"
+#include "Scout.h"
 
 //TODO:
 // Limit basic camera movement
@@ -72,7 +77,7 @@ void Scene::initSystems()
 	
 	m_model.init(m_physicsSpeed);
 	m_view.init(&m_SOL_cam, &m_SOL_uiCam, m_screenWidth, m_screenHeight);
-	m_controller.init(&m_SOL_cam);
+	m_controller.init(&m_SOL_cam, &m_model);
 
 	initScene();
 
@@ -87,57 +92,68 @@ void Scene::initScene()
 	p_SOL_spriteBatches.back()->init();
 	p_levels.push_back(new Level(m_SOL_tileLevelLoader.ParseLevelData("Levels/DQlevel1.txt"), p_SOL_spriteBatches.back()));
 
-	
-	//Creates an adept at intended spot
+	//ADEPT INIT
 	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
 	p_SOL_spriteBatches.back()->init();
-	p_units.push_back(new Unit(p_levels[m_currentLevel]->getAdeptSpawnCoords(), p_SOL_spriteBatches.back()));
+	p_units.push_back(new Adept());
+	p_units.back()->init(p_levels[m_currentLevel]->getAdeptSpawnCoords(), p_SOL_spriteBatches.back());
 	p_currentUnit = p_units[0];
 
+	//FIGHTER INIT
+	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
+	p_SOL_spriteBatches.back()->init();
+	p_units.push_back(new Fighter());
+	p_units.back()->init(p_levels[m_currentLevel]->getFighterSpawnCoords(), p_SOL_spriteBatches.back());
 
+	//SCOUT INIT
+	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
+	p_SOL_spriteBatches.back()->init();
+	p_units.push_back(new Scout());
+	p_units.back()->init(p_levels[m_currentLevel]->getScoutSpawnCoords(), p_SOL_spriteBatches.back());
 
 	//UI//
 	
 	//Sets ui backplate
 	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
 	p_SOL_spriteBatches.back()->init();
-	p_UIElements.push_back(new UIButton(20, 0, m_screenWidth, 150, Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID, p_SOL_spriteBatches.back()));
+	p_UIElements.push_back(new UIIcon(20, 0, m_screenWidth, 150, Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID, p_SOL_spriteBatches.back()));
 
 	//
-	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
-	p_SOL_spriteBatches.back()->init();
-	p_UIElements.push_back(new UIButton(40, 80, 150, 150, Solengine::ResourceManager::getTexture("Textures/zombie_pack/circle2.png").textureID, p_SOL_spriteBatches.back()));
+	//p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
+	//p_SOL_spriteBatches.back()->init();
+	//p_UIElements.push_back(new UIButton(40, 80, 150, 150, Solengine::ResourceManager::getTexture("Textures/zombie_pack/circle2.png").textureID, p_SOL_spriteBatches.back()));
 
 
 	//Set current icon
 	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
 	p_SOL_spriteBatches.back()->init();
-	UIButton* currentUnitIcon = new UIButton(200, 50, 150, 150, Solengine::ResourceManager::getTexture("Textures/zombie_pack/adept.png").textureID, p_SOL_spriteBatches.back());
+	UIIcon* currentUnitIcon = new UIIcon(0.05f*m_screenWidth, 20, 150, 150, p_SOL_spriteBatches.back());
 	p_UIElements.push_back(currentUnitIcon);
 	m_view.setCurrentUnitIcon(currentUnitIcon);
 
-	//TO BE: Set selected icon
+	//Set selected icon
 	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
 	p_SOL_spriteBatches.back()->init();
-	p_UIElements.push_back(new UIButton(400, 50, 150, 150, Solengine::ResourceManager::getTexture("Textures/zombie_pack/adept.png").textureID, p_SOL_spriteBatches.back()));
-
+	UIIcon* selectedUnitIcon = new UIIcon(0.6f*m_screenWidth, 20, 150, 150, p_SOL_spriteBatches.back());
+	p_UIElements.push_back(selectedUnitIcon);
+	m_view.setSelectedUnitIcon(selectedUnitIcon);
 
 	//Set current name
 	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
 	p_SOL_spriteBatches.back()->init();
-	p_SOL_spriteFont = new Solengine::Font("Fonts/Roboto-Regular.ttf", 32, p_SOL_spriteBatches.back());
-	UIText* currentUnitNameTextBox = new UIText(200, 50, 1, p_SOL_spriteFont, "Name: ", 0, p_currentUnit->getName());
+	p_SOL_spriteFont = new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, p_SOL_spriteBatches.back());
+	UIText* currentUnitNameTextBox = new UIText(0.09f*m_screenWidth, 20, 1, p_SOL_spriteFont, "", 0);
 	p_UIElements.push_back(currentUnitNameTextBox);	
 	m_view.setCurrentUnitNameTextBox(currentUnitNameTextBox);
 
 	//Set selected name
-
+	UIText* selectedUnitNameTextBox = new UIText(0.64f*m_screenWidth, 20, 1, p_SOL_spriteFont, "", 0);
+	p_UIElements.push_back(selectedUnitNameTextBox);
+	m_view.setSelectedUnitNameTextBox(selectedUnitNameTextBox);
 
 	//Current stats
 	//Current moveset
 	//selected stats
-
-
 }
 
 //Game loop
@@ -160,6 +176,7 @@ void Scene::gameLoop()
 
 			//if unit is friendly
 			m_gameState = m_controller.playStateInput();
+			if (m_controller.getIsMouseDown()) setSelected(m_controller.selectionCheck(p_units));
 			//else if unit is enemy
 			//works through AI LOGIC
 			//enemy does stuff and eventually ends its turn
