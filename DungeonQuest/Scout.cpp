@@ -4,6 +4,13 @@
 
 Scout::Scout()
 {
+	m_isFriendly = true;
+	m_energy = 20;
+	m_energyMax = 20;
+	m_health = 21;
+	m_healthMax = 21;
+	m_name = "Scout";
+
 }
 
 Scout::~Scout()
@@ -12,9 +19,6 @@ Scout::~Scout()
 
 void Scout::init(glm::vec2 coords, Solengine::SpriteBatch* spriteBatch)
 {
-	m_energy = 20;
-	m_health = 20;
-	m_name = "Scout";
 
 	m_coords = coords;
 	m_position.x = m_coords.x * TILE_WIDTH;

@@ -67,6 +67,9 @@
     <ClCompile Include="Scout.cpp">
       <Filter>Source Files\Unit</Filter>
     </ClCompile>
+    <ClCompile Include="Rat.cpp">
+      <Filter>Source Files\Unit</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controller.h">
@@ -109,6 +112,9 @@
       <Filter>Header Files\Unit</Filter>
     </ClInclude>
     <ClInclude Include="Scout.h">
+      <Filter>Header Files\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="Rat.h">
       <Filter>Header Files\Unit</Filter>
     </ClInclude>
   </ItemGroup>

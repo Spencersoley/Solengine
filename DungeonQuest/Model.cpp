@@ -2,6 +2,7 @@
 
 #include <Solengine/ErrorHandler.h>
 
+
 Model::Model() : m_globalFrameCount(0)
 {
 }
@@ -10,7 +11,7 @@ Model::~Model()
 {
 }
 
-void Model::init(float physicsSpeed)
+void Model::init(float physicsSpeed, int* turnCounter, Unit* currentUnit)
 {
 	m_physicsSpeed = physicsSpeed;
 }
@@ -33,3 +34,4 @@ Uint32 Model::getDeltaTicks()
 void Model::updateAgents(float adjustedDeltaTicks)
 {
 }
+

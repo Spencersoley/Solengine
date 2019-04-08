@@ -4,9 +4,8 @@
 //#include <GL/glew.h>
 //#include <vector>
 //#include <glm/glm.hpp>
-
+#include "Unit.h"
 //class Zombie;
-class Human;
 
 class Model
 {
@@ -14,7 +13,7 @@ public:
 	Model();
 	~Model();
 
-	void init(float physicsSpeed);
+	void init(float physicsSpeed, int* turnCounter, Unit* currentUnit);
 	void update(int pauseDuration);
 
 private:

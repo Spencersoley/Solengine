@@ -17,12 +17,12 @@
 #include "Adept.h"
 #include "Fighter.h"
 #include "Scout.h"
+#include "Rat.h"
 
 //TODO:
 // Limit basic camera movement
 // Add UI overlay
 // Figure out better texturing for UI overlay
-// Add unit selection
 
 // Can we move level sprite batch to view?
 
@@ -36,7 +36,6 @@ Scene::Scene() :
 	m_fpsMax(60),
 	m_physicsSpeed(0.02f),
 	m_announceFPS(false)
-
 {
 }
 
@@ -76,12 +75,11 @@ void Scene::initSystems()
 {
 	Solengine::initialiseSDL();
 	
-	m_model.init(m_physicsSpeed);
+	m_model.init(m_physicsSpeed, &m_turnCounter, p_currentUnit);
 	m_view.init(&m_SOL_cam, &m_SOL_uiCam, m_screenWidth, m_screenHeight);
 	m_controller.init(&m_SOL_cam, &m_model);
 
 	initScene();
-
 }
 
 //Initialise the game content
@@ -98,7 +96,7 @@ void Scene::initScene()
 	p_SOL_spriteBatches.back()->init();
 	p_units.push_back(new Adept());
 	p_units.back()->init(p_levels[m_currentLevel]->getAdeptSpawnCoords(), p_SOL_spriteBatches.back());
-	p_currentUnit = p_units[0];
+	p_currentUnit = p_units[m_turnCounter];
 
 	//FIGHTER INIT
 	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
@@ -111,6 +109,14 @@ void Scene::initScene()
 	p_SOL_spriteBatches.back()->init();
 	p_units.push_back(new Scout());
 	p_units.back()->init(p_levels[m_currentLevel]->getScoutSpawnCoords(), p_SOL_spriteBatches.back());
+
+	//RATS
+	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
+	p_SOL_spriteBatches.back()->init();
+	p_units.push_back(new Rat());
+	p_units.back()->init(p_levels[m_currentLevel]->getRatSpawnCoords(), p_SOL_spriteBatches.back());
+
+
 
 	//UI//
 	
@@ -139,18 +145,7 @@ void Scene::initScene()
 	p_UIElements.push_back(selectedUnitIcon);
 	m_view.setSelectedUnitIcon(selectedUnitIcon);
 
-	//Set current name
-	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
-	p_SOL_spriteBatches.back()->init();
-	p_SOL_spriteFont = new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, p_SOL_spriteBatches.back());
-	UIText* currentUnitNameTextBox = new UIText(0.09f*m_screenWidth, 20, 1, p_SOL_spriteFont, "", 0);
-	p_UIElements.push_back(currentUnitNameTextBox);	
-	m_view.setCurrentUnitNameTextBox(currentUnitNameTextBox);
 
-	//Set selected name
-	UIText* selectedUnitNameTextBox = new UIText(0.64f*m_screenWidth, 20, 1, p_SOL_spriteFont, "", 0);
-	p_UIElements.push_back(selectedUnitNameTextBox);
-	m_view.setSelectedUnitNameTextBox(selectedUnitNameTextBox);
 
 	//Selection box
 	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
@@ -158,12 +153,50 @@ void Scene::initScene()
 	p_selectionBox = new UIIcon(0.3f * m_screenWidth, 200, TILE_WIDTH, TILE_WIDTH, Solengine::ResourceManager::getTexture("Textures/zombie_pack/selection.png").textureID, p_SOL_spriteBatches.back());
 	m_view.setSelectionBox(p_selectionBox);
 
+	//Current unit box
+	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
+	p_SOL_spriteBatches.back()->init();
+	p_currentUnitBox = new UIIcon(0.3f * m_screenWidth, 200, TILE_WIDTH, TILE_WIDTH, Solengine::ResourceManager::getTexture("Textures/zombie_pack/selection.png").textureID, p_SOL_spriteBatches.back());
+	m_view.setCurrentUnitBox(p_currentUnitBox);
 
 
+	//TEXT ELEMENTS
+	//Set current name
+	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
+	p_SOL_spriteBatches.back()->init();
+	p_SOL_spriteFont = new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, p_SOL_spriteBatches.back());
+	UIText* currentUnitNameTextBox = new UIText(0.09f*m_screenWidth, 20, 1, p_SOL_spriteFont, "");
+	p_UIElements.push_back(currentUnitNameTextBox);
+	m_view.setCurrentUnitNameTextBox(currentUnitNameTextBox);
 
-	//Current stats
+	//Set selected name
+	UIText* selectedUnitNameTextBox = new UIText(0.64f*m_screenWidth, 20, 1, p_SOL_spriteFont, "");
+	p_UIElements.push_back(selectedUnitNameTextBox);
+	m_view.setSelectedUnitNameTextBox(selectedUnitNameTextBox);
+
+	//Set current energy
+	UIText* currentUnitEnergy = new UIText(0.15f*m_screenWidth, 80, 1, p_SOL_spriteFont, "Energy: ");
+	p_UIElements.push_back(currentUnitEnergy);
+	m_view.setCurrentEnergyText(currentUnitEnergy);
+
+	//Set current health
+	UIText* currentUnitHealth = new UIText(0.15f*m_screenWidth, 100, 1, p_SOL_spriteFont, "Health: ");
+	p_UIElements.push_back(currentUnitHealth);
+	m_view.setCurrentHealthText(currentUnitHealth);
+	
+	//Set selected energy
+	UIText* selectedUnitEnergy = new UIText(0.85f*m_screenWidth, 80, 1, p_SOL_spriteFont, "Energy: ");
+	p_UIElements.push_back(selectedUnitEnergy);
+	m_view.setSelectedEnergyText(selectedUnitEnergy);
+
+    //Set selected health
+	UIText* selectedUnitHealth = new UIText(0.85f*m_screenWidth, 100, 1, p_SOL_spriteFont, "Health: ");
+	p_UIElements.push_back(selectedUnitHealth);
+	m_view.setSelectedHealthText(selectedUnitHealth);
+
+	//m_view.setSelectedUnitNameTextBox(selectedUnitNameTextBox);
+
 	//Current moveset
-	//selected stats
 }
 
 //Game loop
@@ -178,19 +211,16 @@ void Scene::gameLoop()
 	{
 		while (m_gameState == Solengine::GameState::PLAY)
 		{
-
 			m_model.update(pauseDuration);
 
 			m_view.update(p_levels, p_units, p_UIElements, p_currentUnit, p_selectedUnit);
 
-
 			//if unit is friendly
 			m_gameState = m_controller.playStateInput();
+
 			if (m_controller.getIsMouseDown()) setSelected(m_controller.selectionCheck(p_units));
-			//else if unit is enemy
-			//works through AI LOGIC
-			//enemy does stuff and eventually ends its turn
-			//
+
+			if (m_gameState == Solengine::GameState::TURNOVER) nextTurn();
 
 			m_SOL_fpsManager.limitFPS(trackFPS, (int)DESIRED_TICKS_PER_FRAME);
 			pauseDuration = 0;
@@ -199,9 +229,15 @@ void Scene::gameLoop()
 		int pauseClockStart = SDL_GetTicks();
 		while (m_gameState == Solengine::GameState::PAUSE)
 		{
-
+			m_gameState = m_controller.pauseStateInput();
 		}
 		pauseDuration = SDL_GetTicks() - pauseClockStart;
 	}
 }
 
+void Scene::nextTurn()
+{
+	p_currentUnit = p_units[++m_turnCounter%p_units.size()]; 
+	if (p_currentUnit == p_selectedUnit) p_selectedUnit = nullptr;  
+	m_gameState = Solengine::GameState::PLAY;
+}

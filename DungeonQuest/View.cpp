@@ -108,15 +108,30 @@ void View::drawUnits(std::vector<Unit*>& units)
 
 void View::drawWorldspaceUI(Unit* currentUnit, Unit* selectedUnit)
 {
+
 	if (selectedUnit != nullptr)
 	{
 		Solengine::SpriteBatch* spriteBatch = p_selectionBox->getSpriteBatch();
 		spriteBatch->begin();
-		//Also overload colour
-		p_selectionBox->draw(selectedUnit->getPosition());
+
+		if (selectedUnit->getIsFriendly()) 	p_selectionBox->draw(selectedUnit->getPosition(), { 0, 255, 0, 255 });
+		else p_selectionBox->draw(selectedUnit->getPosition(), { 255, 0, 0, 255 });
+
 		spriteBatch->end();
 		spriteBatch->renderBatch();
 	}
+
+	if (currentUnit != nullptr)
+	{
+		Solengine::SpriteBatch* spriteBatch = p_currentUnitBox->getSpriteBatch();
+		spriteBatch->begin();
+
+        p_currentUnitBox->draw(currentUnit->getPosition(), { 0, 0, 255, 255 });
+
+		spriteBatch->end();
+		spriteBatch->renderBatch();
+	}
+;
 }
 
 // For now we can let this do everything every frame.
@@ -127,12 +142,11 @@ void View::drawUI(std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* 
 	GLint pUniform = m_SOL_shaderProgram.getUniformLocation("P");
 	glUniformMatrix4fv(pUniform, 1, GL_FALSE, &projectionMatrix[0][0]);
 	
-
-	//Update statistical information
+	//Update statistical information -- obviously it's doing all this every frame. It doesn't need to.
 	//CURRENT UNIT
 	if (p_currentUnitNameTextBox != nullptr)
 	{
-		p_currentUnitNameTextBox->updateText(0, currentUnit->getName());
+		p_currentUnitNameTextBox->updateText(currentUnit->getName());
 	}
 
 	if (p_currentUnitIcon != nullptr)
@@ -140,14 +154,24 @@ void View::drawUI(std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* 
 		p_currentUnitIcon->updateIcon(currentUnit->getTextureID());
 	}
 
+	if (p_currentEnergyText != nullptr)
+	{
+		p_currentEnergyText->updateText(std::to_string(currentUnit->getEnergy()) + "/" + std::to_string(currentUnit->getEnergyMax()));
+	}
+
+	if (p_currentHealthText != nullptr)
+	{
+		p_currentHealthText->updateText(std::to_string(currentUnit->getHealth()) + "/" + std::to_string(currentUnit->getHealthMax()));
+	}
+
 	//SELECTED UNIT
 	if (p_selectedUnitNameTextBox != nullptr && selectedUnit != nullptr) //selected
 	{
-		p_selectedUnitNameTextBox->updateText(0, selectedUnit->getName());
+		p_selectedUnitNameTextBox->updateText(selectedUnit->getName());
 	} 
 	else if (p_selectedUnitNameTextBox != nullptr  && selectedUnit == nullptr) //no selected
 	{
-		p_selectedUnitNameTextBox->updateText(0, "");
+		p_selectedUnitNameTextBox->updateText("");
 	}
 
 	if (p_selectedUnitIcon != nullptr  && selectedUnit != nullptr) //selected
@@ -159,12 +183,20 @@ void View::drawUI(std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* 
 		p_selectedUnitIcon->updateIcon(-1);
 	}
 
-
-	if (currentUnit != nullptr)
+	if (p_selectedEnergyText != nullptr)
 	{
-		//draw current 
+		if (selectedUnit == nullptr) p_selectedEnergyText->updateText("");
+	    else p_selectedEnergyText->updateText(std::to_string(selectedUnit->getEnergy()) + "/" + std::to_string(selectedUnit->getEnergyMax()));
 	}
 
+	if (p_selectedHealthText != nullptr)
+	{
+		if (selectedUnit == nullptr) p_selectedHealthText->updateText("");
+		else p_selectedHealthText->updateText(std::to_string(selectedUnit->getHealth()) + "/" + std::to_string(selectedUnit->getHealthMax()));
+	}
+
+
+	
 
 	//REDRAW PHASE
 	for (size_t i = 0; i < uiElements.size(); i++)

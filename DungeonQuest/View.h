@@ -33,7 +33,11 @@ public:
 	void setSelectedUnitNameTextBox(UIText* selectedUnitNameText) { p_selectedUnitNameTextBox = selectedUnitNameText; }
 	void setSelectedUnitIcon(UIIcon* selectedUnitIcon) { p_selectedUnitIcon = selectedUnitIcon; }
 	void setSelectionBox(UIIcon* selectionBox) { p_selectionBox = selectionBox; }
-
+	void setCurrentUnitBox(UIIcon* currentUnitBox) { p_currentUnitBox = currentUnitBox; }
+	void setCurrentEnergyText(UIText* currentEnergyText) { p_currentEnergyText = currentEnergyText; }
+	void setCurrentHealthText(UIText* currentHealthText) { p_currentHealthText = currentHealthText; }
+	void setSelectedHealthText(UIText* selectedHealthText) { p_selectedHealthText = selectedHealthText; }
+	void setSelectedEnergyText(UIText* selectedEnergyText) { p_selectedEnergyText = selectedEnergyText;  }
 
 private:
 	void drawGame(std::vector<Level*>& levels, std::vector<Unit*>& units, std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* selectedUnit);
@@ -55,7 +59,11 @@ private:
 	UIText* p_selectedUnitNameTextBox = nullptr;
 	UIIcon* p_selectedUnitIcon = nullptr;
 	UIIcon* p_selectionBox = nullptr;
-
+	UIIcon* p_currentUnitBox = nullptr;
+	UIText* p_currentEnergyText = nullptr;
+	UIText* p_currentHealthText = nullptr;
+	UIText* p_selectedHealthText = nullptr;
+	UIText* p_selectedEnergyText = nullptr;
 
 
 	Solengine::Font* p_SOL_spriteFont;

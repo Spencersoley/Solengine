@@ -27,7 +27,8 @@ public:
 	~Scene();
 
 	void run();
-	void setSelected(Unit* select) { p_selectedUnit = select; }
+	void setSelected(Unit* select) { if (select != p_currentUnit) p_selectedUnit = select; else p_selectedUnit = nullptr; }
+	void nextTurn();
 
 private:
 	void initSystems();
@@ -47,8 +48,7 @@ private:
 
 	std::vector<UIElement*> p_UIElements;
 	UIIcon* p_selectionBox = nullptr;
-
-
+	UIIcon* p_currentUnitBox = nullptr;
 	Solengine::Font* p_SOL_spriteFont = nullptr;
 
 	//One for each sprite

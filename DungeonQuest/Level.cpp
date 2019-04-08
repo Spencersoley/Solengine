@@ -32,7 +32,7 @@ Level::Level(std::vector<std::string> levelData, Solengine::SpriteBatch* spriteB
 			//Process tile
 			switch (tile)
 			{
-			case 'R':
+			case 'X':
 				spriteBatch->draw(destRect, uvRect, Solengine::ResourceManager::getTexture("Textures/zombie_pack/light_bricks.png").textureID, 0.0f, whiteColour);
 				tileRow.emplace_back(true, x, y, TILE_WIDTH);
 				break;
@@ -54,6 +54,11 @@ Level::Level(std::vector<std::string> levelData, Solengine::SpriteBatch* spriteB
 				spriteBatch->draw(destRect, uvRect, Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID, 0.0f, whiteColour);
 				tileRow.emplace_back(false, x, y, TILE_WIDTH);
 				m_scoutSpawnCoords = glm::vec2{ x , y };
+				break;
+			case 'R':
+				spriteBatch->draw(destRect, uvRect, Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID, 0.0f, whiteColour);
+				tileRow.emplace_back(false, x, y, TILE_WIDTH);
+				m_ratSpawnCoords = glm::vec2{ x , y };
 				break;
 			default:
 

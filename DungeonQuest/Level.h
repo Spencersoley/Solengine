@@ -20,7 +20,8 @@ public:
 	int getHeight() const { return m_levelData.size(); }
 	glm::vec2 getAdeptSpawnCoords() const { return m_adeptSpawnCoords; }
 	glm::vec2 getFighterSpawnCoords() const { return m_fighterSpawnCoords; }
-	glm::vec2 getScoutSpawnCoords() const { return m_scoutSpawnCoords; }
+	glm::vec2 getScoutSpawnCoords() const { return m_scoutSpawnCoords; }	
+	glm::vec2 getRatSpawnCoords() const { return m_ratSpawnCoords; }
 
 	Solengine::SpriteBatch* getSpriteBatch() { return p_SOL_SB; }
 
@@ -30,6 +31,7 @@ private:
 	glm::vec2 m_adeptSpawnCoords;
 	glm::vec2 m_fighterSpawnCoords;
 	glm::vec2 m_scoutSpawnCoords;
+	glm::vec2 m_ratSpawnCoords;
 
 	std::vector<std::vector<Tile>> m_tileMap;
 

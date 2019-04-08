@@ -1,6 +1,6 @@
 #include "Controller.h"
 
-Controller::Controller()
+Controller::Controller() : m_nextTurn(false)
 {
 }
 
@@ -23,6 +23,7 @@ Solengine::GameState Controller::playStateInput()
 	Solengine::GameState state = m_SOL_inputManager.processInput();
 
 	if (m_SOL_inputManager.keyPress(SDLK_p))       state = Solengine::GameState::PAUSE;
+	if (m_SOL_inputManager.keyPress(SDLK_r))       state = Solengine::GameState::TURNOVER;
 	//if (m_SOL_inputManager.keyState(SDLK_q))       p_SOL_cam->setScale(p_SOL_cam->getScale() + SCALE_SPEED);
 	//if (m_SOL_inputManager.keyState(SDLK_e))       p_SOL_cam->setScale(p_SOL_cam->getScale() - SCALE_SPEED);
 	if (m_SOL_inputManager.keyState(SDLK_w))       p_SOL_cam->shiftPosition(glm::vec2{ 0, SCROLL_SPEED });
@@ -30,26 +31,11 @@ Solengine::GameState Controller::playStateInput()
 	if (m_SOL_inputManager.keyState(SDLK_a))       p_SOL_cam->shiftPosition(glm::vec2{ -SCROLL_SPEED, 0 });
 	if (m_SOL_inputManager.keyState(SDLK_d))       p_SOL_cam->shiftPosition(glm::vec2{ SCROLL_SPEED, 0 });
 
-
+					
 	//Check if mousedown occurs where buttons are
 	setMouseCoords(m_SOL_inputManager.getMouseCoords());
 	setIsMouseDown(m_SOL_inputManager.keyState(SDL_BUTTON_LEFT));
 
-
-	//selection #1
-	// pass in units
-	// check if mouse click and position collides with a unit
-	// 
-	// scene set selected as the unit the mouse position collides with 
-	//
-	//selection #2
-	// if (m_isMouseDown) 
-	// {
-	//     p_model->selectionCheck(m_mouseCoords);
-	// }
-	// pass in mouse position into model function 'check selection'
-	// return pointer to collided or return null
-	// if return is to a collided, set selected unit
 	return state;
 }
 

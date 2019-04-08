@@ -27,12 +27,10 @@ UIIcon::~UIIcon()
 {
 }
 
-void UIIcon::draw(glm::vec2 pos)
+void UIIcon::draw(glm::vec2 pos, Solengine::ColourRGBA8 colour)
 {
 	if (m_textureID != -1)
 	{
-		static Solengine::ColourRGBA8 colour = { 255, 255, 255, 255 };
-
 		const glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
 
 		glm::vec4 destRect;
@@ -43,6 +41,16 @@ void UIIcon::draw(glm::vec2 pos)
 
 		p_SOL_SB->draw(destRect, uvRect, m_textureID, 0.0f, colour);
 	}
+}
+
+void UIIcon::draw(Solengine::ColourRGBA8 colour)
+{
+	draw(glm::vec2{ m_xPos, m_yPos }, colour);
+}
+
+void UIIcon::draw(glm::vec2 pos)
+{
+	draw(pos, { 255, 255, 255, 255 } );
 }
 
 void UIIcon::draw()

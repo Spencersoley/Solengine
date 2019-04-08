@@ -21,20 +21,28 @@ public:
 
 	glm::vec2 getPosition() const { return m_position; }	
 	glm::vec2 getCoords() const { return m_coords; }
+	bool getIsFriendly() const { return m_isFriendly; }
 
 	Solengine::SpriteBatch* getSpriteBatch() { return p_SOL_SB; }
 
 	std::string getName() const { if (m_name == "") return "__"; else return m_name; }
 	GLuint getTextureID() const { return m_textureID; }
-	int getHealth() { return m_health; }
+	
 	int getEnergy() { return m_energy; }
+	int getEnergyMax() { return m_energyMax; }
+	int getHealth() { return m_health; }
+	int getHealthMax() { return m_healthMax; }
+
 
 protected:
 
 	GLuint m_textureID;
 
 	int m_energy;
+	int m_energyMax;
 	int m_health;
+	int m_healthMax;
+	bool m_isFriendly;
 
 	std::string m_name;
 

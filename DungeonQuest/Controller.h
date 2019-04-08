@@ -6,6 +6,7 @@
 #include "View.h"
 #include "Model.h"
 
+
 class Controller
 {
 public:
@@ -22,17 +23,18 @@ public:
 
 	Unit* selectionCheck(std::vector<Unit*> units);
 
-
 private:
 	Solengine::InputManager m_SOL_inputManager;
-
 
 	Model* p_model;
 
 
 
+	int* p_turnCounter;
+
 	glm::vec2 m_mouseCoords;
 	bool m_isMouseDown;
+	bool m_nextTurn;
 
 	Solengine::Camera2D* p_SOL_cam = nullptr;
 };
