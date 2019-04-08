@@ -35,11 +35,6 @@ void View::init(Solengine::Camera2D* cam, Solengine::Camera2D* uiCam, int screen
 	//Stores the screen dimensions
 	m_screenHeight = screenheight;
 	m_screenWidth = screenwidth;
-
-	//Draws the ui background panel
-	glm::vec4 destRect(20, 0, m_screenWidth, 150);
-	glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
-
 }
 
 void View::update(std::vector<Level*>& levels, std::vector<Unit*>& units, std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* selectedUnit)
@@ -66,14 +61,14 @@ void View::drawGame(std::vector<Level*>& levels, std::vector<Unit*>& units, std:
 
 	// NTS: anything that changes/moves must be redrawn. Otherwise we simply rerender.
 
-	drawWorld(levels, units);
+	drawWorld(levels, units, currentUnit, selectedUnit);
 	drawUI(uiElements, currentUnit, selectedUnit);
 
 	m_SOL_shaderProgram.unuse();
 	m_SOL_window.swapBuffer();
 }
 
-void View::drawWorld(std::vector<Level*>& levels, std::vector<Unit*>& units)
+void View::drawWorld(std::vector<Level*>& levels, std::vector<Unit*>& units, Unit* currentUnit, Unit* selectedUnit)
 {
 	//Grab world camera matrix
 	glm::mat4 projectionMatrix = p_SOL_cam->getCameraMatrix();
@@ -83,6 +78,8 @@ void View::drawWorld(std::vector<Level*>& levels, std::vector<Unit*>& units)
 	drawLevel(levels);
 
 	drawUnits(units);
+
+	drawWorldspaceUI(currentUnit, selectedUnit);
 }
 
 void View::drawLevel(std::vector<Level*>& levels)
@@ -104,6 +101,19 @@ void View::drawUnits(std::vector<Unit*>& units)
 		Solengine::SpriteBatch* spriteBatch = units[i]->getSpriteBatch();
 		spriteBatch->begin();
 		units[i]->draw();
+		spriteBatch->end();
+		spriteBatch->renderBatch();
+	}
+}
+
+void View::drawWorldspaceUI(Unit* currentUnit, Unit* selectedUnit)
+{
+	if (selectedUnit != nullptr)
+	{
+		Solengine::SpriteBatch* spriteBatch = p_selectionBox->getSpriteBatch();
+		spriteBatch->begin();
+		//Also overload colour
+		p_selectionBox->draw(selectedUnit->getPosition());
 		spriteBatch->end();
 		spriteBatch->renderBatch();
 	}
@@ -150,8 +160,13 @@ void View::drawUI(std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* 
 	}
 
 
-	//REDRAW PHASE
+	if (currentUnit != nullptr)
+	{
+		//draw current 
+	}
 
+
+	//REDRAW PHASE
 	for (size_t i = 0; i < uiElements.size(); i++)
 	{
 		Solengine::SpriteBatch* spriteBatch = uiElements[i]->getSpriteBatch(); //get the correct sprite batch from the element

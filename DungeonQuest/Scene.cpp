@@ -61,6 +61,7 @@ Scene::~Scene()
 	}
 
 	delete p_SOL_spriteFont;
+	delete p_selectionBox;
 }
 
 //Runs the game
@@ -150,6 +151,15 @@ void Scene::initScene()
 	UIText* selectedUnitNameTextBox = new UIText(0.64f*m_screenWidth, 20, 1, p_SOL_spriteFont, "", 0);
 	p_UIElements.push_back(selectedUnitNameTextBox);
 	m_view.setSelectedUnitNameTextBox(selectedUnitNameTextBox);
+
+	//Selection box
+	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
+	p_SOL_spriteBatches.back()->init();
+	p_selectionBox = new UIIcon(0.3f * m_screenWidth, 200, TILE_WIDTH, TILE_WIDTH, Solengine::ResourceManager::getTexture("Textures/zombie_pack/selection.png").textureID, p_SOL_spriteBatches.back());
+	m_view.setSelectionBox(p_selectionBox);
+
+
+
 
 	//Current stats
 	//Current moveset

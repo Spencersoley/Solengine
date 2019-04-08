@@ -1,2 +1,11 @@
-﻿  Adept.cpp
+﻿  Controller.cpp
+  Main.cpp
+  Scene.cpp
+c:\users\ssole\source\repos\solengineproject\dungeonquest\scene.cpp(131): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\dungeonquest\scene.cpp(138): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\dungeonquest\scene.cpp(146): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\dungeonquest\scene.cpp(151): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\dungeonquest\scene.cpp(158): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  View.cpp
+  Generating Code...
   DungeonQuest.vcxproj -> C:\Users\Ssole\source\repos\SolengineProject\Debug\DungeonQuest.exe

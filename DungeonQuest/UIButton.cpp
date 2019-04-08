@@ -30,7 +30,7 @@ UIButton::~UIButton()
 {
 }
 
-void UIButton::draw()
+void UIButton::draw(glm::vec2 pos)
 {
 	if (m_textureID != -1)
 	{
@@ -42,13 +42,18 @@ void UIButton::draw()
 		const glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
 
 		glm::vec4 destRect;
-		destRect.x = (float)m_xPos;
-		destRect.y = (float)m_yPos;
+		destRect.x = pos.x;
+		destRect.y = pos.y;
 		destRect.z = (float)m_width;
 		destRect.w = (float)m_height;
 
 		p_SOL_SB->draw(destRect, uvRect, m_textureID, 0.0f, colour);
 	}
+}
+
+void UIButton::draw()
+{
+	draw(glm::vec2{ m_xPos, m_yPos });
 }
 
 void UIButton::updateIcon(GLuint textureID)

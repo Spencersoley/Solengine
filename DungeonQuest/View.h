@@ -30,8 +30,9 @@ public:
 
 	void setCurrentUnitNameTextBox(UIText* currentUnitNameTextBox) { p_currentUnitNameTextBox = currentUnitNameTextBox; }
 	void setCurrentUnitIcon(UIIcon* currentUnitIcon) { p_currentUnitIcon = currentUnitIcon;  }
-	void setSelectedUnitNameTextBox(UIText* currentUnitNameTextBox) { p_selectedUnitNameTextBox = currentUnitNameTextBox; }
-	void setSelectedUnitIcon(UIIcon* currentUnitIcon) { p_selectedUnitIcon = currentUnitIcon; }
+	void setSelectedUnitNameTextBox(UIText* selectedUnitNameText) { p_selectedUnitNameTextBox = selectedUnitNameText; }
+	void setSelectedUnitIcon(UIIcon* selectedUnitIcon) { p_selectedUnitIcon = selectedUnitIcon; }
+	void setSelectionBox(UIIcon* selectionBox) { p_selectionBox = selectionBox; }
 
 
 private:
@@ -40,9 +41,11 @@ private:
 	void drawUI(std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* selectedUnit);
 
 
-	void drawWorld(std::vector<Level*>& levels, std::vector<Unit*>& units);
+	void drawWorld(std::vector<Level*>& levels, std::vector<Unit*>& units, Unit* currentUnit, Unit* selectedUnit);
 	void drawLevel(std::vector<Level*>& levels);
 	void drawUnits(std::vector<Unit*>& units);
+	void drawWorldspaceUI(Unit* currentUnit, Unit* selectedUnit);
+
 
 	Solengine::GLSLProgram m_SOL_shaderProgram;
 	Solengine::Window m_SOL_window;
@@ -51,6 +54,7 @@ private:
 	UIIcon* p_currentUnitIcon = nullptr;
 	UIText* p_selectedUnitNameTextBox = nullptr;
 	UIIcon* p_selectedUnitIcon = nullptr;
+	UIIcon* p_selectionBox = nullptr;
 
 
 

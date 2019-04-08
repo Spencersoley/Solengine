@@ -22,6 +22,7 @@ public:
 
 	Unit* selectionCheck(std::vector<Unit*> units);
 
+
 private:
 	Solengine::InputManager m_SOL_inputManager;
 

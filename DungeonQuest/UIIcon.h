@@ -10,6 +10,7 @@ public:
 	~UIIcon();
 
 	void draw();
+	void draw(glm::vec2 pos);
 
 	void updateIcon(GLuint textureID);
 };
