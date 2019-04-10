@@ -39,15 +39,15 @@ void View::init(Controller* controller, Solengine::Camera2D* cam, Solengine::Cam
 	m_screenWidth = screenwidth;
 }
 
-void View::update(std::vector<Level*>& levels, std::vector<Unit*>& units, std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* selectedUnit)
+void View::update(std::vector<Level*>& levels, std::vector<Unit*>& units, std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* selectedUnit, TileMap* tileMap)
 {
 	p_SOL_cam->update();
 	p_SOL_uiCam->update();
 	p_SOL_uiCam->setPosition(glm::vec2(m_screenWidth / 2, m_screenHeight / 2));
-	drawGame(levels, units, uiElements, currentUnit, selectedUnit);
+	drawGame(levels, units, uiElements, currentUnit, selectedUnit, tileMap);
 }
 
-void View::drawGame(std::vector<Level*>& levels, std::vector<Unit*>& units, std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* selectedUnit)
+void View::drawGame(std::vector<Level*>& levels, std::vector<Unit*>& units, std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* selectedUnit, TileMap* tileMap)
 {
 	//Set base depth
 	glClearDepth(1.0);
@@ -63,14 +63,14 @@ void View::drawGame(std::vector<Level*>& levels, std::vector<Unit*>& units, std:
 
 	// NTS: anything that changes/moves must be redrawn. Otherwise we simply rerender.
 
-	drawWorld(levels, units, currentUnit, selectedUnit);
+	drawWorld(levels, units, currentUnit, selectedUnit, tileMap);
 	drawUI(uiElements, currentUnit, selectedUnit);
 
 	m_SOL_shaderProgram.unuse();
 	m_SOL_window.swapBuffer();
 }
 
-void View::drawWorld(std::vector<Level*>& levels, std::vector<Unit*>& units, Unit* currentUnit, Unit* selectedUnit)
+void View::drawWorld(std::vector<Level*>& levels, std::vector<Unit*>& units, Unit* currentUnit, Unit* selectedUnit, TileMap* tileMap)
 {
 	//Grab world camera matrix
 	glm::mat4 projectionMatrix = p_SOL_cam->getCameraMatrix();
@@ -79,7 +79,7 @@ void View::drawWorld(std::vector<Level*>& levels, std::vector<Unit*>& units, Uni
 
 	drawLevel(levels);
 
-	drawWorldspaceUI(currentUnit, selectedUnit);
+	drawWorldspaceUI(currentUnit, selectedUnit, tileMap);
 
 	drawUnits(units);
 }
@@ -108,20 +108,44 @@ void View::drawUnits(std::vector<Unit*>& units)
 	}
 }
 
-void View::drawWorldspaceUI(Unit* currentUnit, Unit* selectedUnit)
+void View::drawWorldspaceUI(Unit* currentUnit, Unit* selectedUnit, TileMap* tileMap)
 {
-	Tile* tile = p_tileMap->getTileByPosition(p_controller->getMouseWorldPos());
-
-	if (tile != nullptr)
+	Tile* hoveredTile = tileMap->getTileByPosition(p_controller->getMouseWorldPos());
+	if (hoveredTile != nullptr)
 	{
-		Solengine::SpriteBatch* spriteBatch = p_mouseOverHighlight->getSpriteBatch();
+        Solengine::SpriteBatch* spriteBatch = p_highlight->getSpriteBatch();
+	    spriteBatch->begin();
+
+        p_highlight->draw(glm::vec2{ hoveredTile->m_xPos, hoveredTile->m_yPos }, hoveredTile->m_highlightColour );
+
+	    spriteBatch->end();
+	    spriteBatch->renderBatch();
+	}
+
+	Solengine::SpriteBatch* spriteBatch = p_walkableHighlight->getSpriteBatch();
+
+	if (m_redrawWalkableTiles)
+	{
+		std::cout << "redraw" << std::endl;
 		spriteBatch->begin();
 
-		p_mouseOverHighlight->draw(glm::vec2{ tile->m_xPos, tile->m_yPos }, { 150, 150, 150, 255 });
+		tileMap->resetWalkable();
+		
+		std::vector<Tile*> walkableTiles = tileMap->getWalkableTiles(currentUnit->getCoords(), floor(currentUnit->getEnergy()/5));
+
+		std::cout << tileMap->p_tiles[currentUnit->getCoords().y][currentUnit->getCoords().x]->p_neighbours[0]->m_xPos << std::endl;
+
+
+		for (size_t i = 0; i < walkableTiles.size(); i++)
+			p_walkableHighlight->draw(glm::vec2{ walkableTiles[i]->m_xPos, walkableTiles[i]->m_yPos }, walkableTiles[i]->m_viableColour);
+
 
 		spriteBatch->end();
-		spriteBatch->renderBatch();
+		m_redrawWalkableTiles = false;
 	}
+
+	spriteBatch->renderBatch();
+
 
 	if (selectedUnit != nullptr)
 	{

@@ -2,27 +2,20 @@
 
 #include <glm/glm.hpp>
 #include <iostream>
+#include <Solengine/Vertex.h>
+#include <vector>
 
-struct Tile
+class Tile
 {
-	Tile(bool isObstacle, bool isOccupied, int x, int y, int TILE_WIDTH)
-	{
-		m_isObstacle = isObstacle;
-		m_isOccupied = isOccupied;
-		m_xPos = x * TILE_WIDTH;
-		m_yPos = y * TILE_WIDTH;
+public:
+	Tile(bool isObstacle, bool isOccupied, int x, int y, int TILE_WIDTH);
+	~Tile();
 
-		m_tileWidth = TILE_WIDTH;
-
-		m_xCoord = x;
-		m_yCoord = y;
-	}
-	~Tile()
-	{
-	}
 
 	bool m_isObstacle;
 	bool m_isOccupied;
+
+	bool m_isWalkable;
 
 	int m_xPos;
 	int m_yPos;
@@ -30,5 +23,20 @@ struct Tile
 	int m_yCoord;
 
 	int m_tileWidth;
+
+	Solengine::ColourRGBA8 m_colour; 
+	Solengine::ColourRGBA8 m_highlightColour; 
+	Solengine::ColourRGBA8 m_viableColour;
+
+	void addNeighbour(Tile* tile) { p_neighbours.push_back(tile); }
+
+
+	void setWalkable(int stepsAvailable);
+
+	std::vector<Tile*> p_neighbours;
+
+private:
+
+
 };
 

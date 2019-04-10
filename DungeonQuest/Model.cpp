@@ -2,8 +2,7 @@
 
 #include <Solengine/ErrorHandler.h>
 
-
-Model::Model() : m_globalFrameCount(0) 
+Model::Model() 
 {
 }
 
@@ -18,10 +17,24 @@ void Model::init(float physicsSpeed)
 
 void Model::update(int pauseDuration, std::vector<Unit*> units, Unit* currentUnit)
 {
-	m_globalFrameCount++;
 	float adjustedDeltaTicks = (getDeltaTicks() - pauseDuration) * m_physicsSpeed;
+	
+	//check current unit's energy.
+	//set wakable tiles as current unit tile + energy/5 
+    // steps = energy/5 
+	// all tiles, isWalkable = false
+	// current tile [a][b]
+	// colour tiles i from [a][b]
+	//     
+	// if ![a+i][b].isObstacle ![a+i][b].isOccupied, [a][b].isWalkable = true
+	
 	updateAgents(adjustedDeltaTicks);
 }
+
+
+
+
+
 
 Uint32 Model::getDeltaTicks()
 {

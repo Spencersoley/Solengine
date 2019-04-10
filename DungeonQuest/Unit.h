@@ -20,7 +20,7 @@ public:
 	virtual void init(glm::vec2 coords, Solengine::SpriteBatch* spriteBatch) = 0;
 
 	glm::vec2 getPosition() const { return m_position; }	
-	glm::vec2 getCoords() const { return m_coords; }
+	glm::vec2 getCoords() const { return { floor(m_position.x / TILE_WIDTH), floor(m_position.y / TILE_WIDTH) }; }
 	bool getIsFriendly() const { return m_isFriendly; }
 
 	Solengine::SpriteBatch* getSpriteBatch() { return p_SOL_SB; }
@@ -51,6 +51,5 @@ protected:
 	Solengine::SpriteBatch* p_SOL_SB;
 
 	glm::vec2 m_position;
-	glm::vec2 m_coords;
-};
 
+};

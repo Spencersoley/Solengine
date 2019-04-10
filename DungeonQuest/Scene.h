@@ -44,7 +44,7 @@ private:
 	Controller m_controller;
 
 	std::vector<Level*> p_levels;
-	TileMap* p_tileMap;
+	TileMap* p_tileMap = nullptr;
 	std::vector<Unit*> p_units;
 
 	std::vector<UIElement*> p_UIElements;

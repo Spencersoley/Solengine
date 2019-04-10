@@ -21,7 +21,6 @@ private:
 	Uint32 getDeltaTicks();
 	void updateAgents(float adjustedDeltaTicks);
 
-	int m_globalFrameCount;
 	float m_physicsSpeed;
 
 

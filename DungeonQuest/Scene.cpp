@@ -93,7 +93,17 @@ void Scene::initScene()
 	p_levels.push_back(new Level(m_SOL_tileLevelLoader.ParseLevelData("Levels/DQlevel1.txt"), p_SOL_spriteBatches.back()));
 
 	p_tileMap = p_levels[0]->getTileMap();
-	m_view.setTileMap(p_tileMap);
+
+	for (size_t y = 0; y < p_tileMap->p_tiles.size(); y++)
+	{
+		for (size_t x = 0; x < p_tileMap->p_tiles[0].size(); x++)
+		{
+			std::cout << p_tileMap->p_tiles[y][x]->p_neighbours.size();
+		}
+
+		std::cout << std::endl;
+	}
+
 	m_model.setTileMap(p_tileMap);
 
 	//ADEPT INIT
@@ -151,11 +161,18 @@ void Scene::initScene()
 	p_UIElements.push_back(selectedUnitIcon);
 	m_view.setSelectedUnitIcon(selectedUnitIcon);
 
-	//Set mouse over tile highlight
+	//Set highlight
 	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
 	p_SOL_spriteBatches.back()->init();
-	UIIcon* p_mouseOverHighlight = new UIIcon(0.3f * m_screenWidth, 200, TILE_WIDTH, TILE_WIDTH, p_SOL_spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID);
-	m_view.setMouseOverHighlight(p_mouseOverHighlight);
+	UIIcon* p_highlight = new UIIcon(0.3f * m_screenWidth, 200, TILE_WIDTH, TILE_WIDTH, p_SOL_spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID);
+	m_view.setHighlight(p_highlight);
+
+	//Set walkable highlight
+	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
+	p_SOL_spriteBatches.back()->init();
+	UIIcon* p_walkableHighlight = new UIIcon(0.3f * m_screenWidth, 200, TILE_WIDTH, TILE_WIDTH, p_SOL_spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID);
+	m_view.setWalkableHighlight(p_walkableHighlight);
+
 
 	//Selection box
 	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
@@ -222,14 +239,18 @@ void Scene::gameLoop()
 		{
 			m_model.update(pauseDuration, p_units, p_currentUnit);
 
-			m_view.update(p_levels, p_units, p_UIElements, p_currentUnit, p_selectedUnit);
+			m_view.update(p_levels, p_units, p_UIElements, p_currentUnit, p_selectedUnit, p_tileMap);
 
 			//if unit is friendly
 			m_gameState = m_controller.playStateInput(p_currentUnit);
 
 			if (m_controller.getIsMouseDown()) setSelected(m_controller.selectionCheck(p_units));
 
-			if (m_gameState == Solengine::GameState::TURNOVER) nextTurn();
+			if (m_gameState == Solengine::GameState::TURNOVER)
+			{
+				nextTurn();
+				m_view.redrawWalkableTiles();
+			}
 
 			m_SOL_fpsManager.limitFPS(trackFPS, (int)DESIRED_TICKS_PER_FRAME);
 			pauseDuration = 0;

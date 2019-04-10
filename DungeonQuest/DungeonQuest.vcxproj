@@ -28,6 +28,7 @@
     <ClCompile Include="Rat.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Scout.cpp" />
+    <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="UIButton.cpp" />
     <ClCompile Include="UIElement.cpp" />

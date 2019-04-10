@@ -22,7 +22,7 @@ public:
 	glm::vec2 getScoutSpawnCoords() const { return m_scoutSpawnCoords; }
 	glm::vec2 getRatSpawnCoords() const { return m_ratSpawnCoords; }
 
-	TileMap* getTileMap() { return p_tileMap; }
+	TileMap* getTileMap() { return &m_tileMap; }
 
 	Solengine::SpriteBatch* getSpriteBatch() { return p_SOL_SB; }
 
@@ -32,7 +32,7 @@ private:
 	glm::vec2 m_scoutSpawnCoords;
 	glm::vec2 m_ratSpawnCoords;
 
-	TileMap* p_tileMap = nullptr;
+	TileMap m_tileMap;
 
 	Solengine::SpriteBatch* p_SOL_SB;
 };

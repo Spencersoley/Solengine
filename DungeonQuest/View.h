@@ -28,7 +28,7 @@ public:
 	~View();
 
 	void init(Controller* controller, Solengine::Camera2D* cam, Solengine::Camera2D* uiCam, int screenWidth, int screenHeight);
-	void update(std::vector<Level*>& levels, std::vector<Unit*>& units, std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* selectedUnit);
+	void update(std::vector<Level*>& levels, std::vector<Unit*>& units, std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* selectedUnit, TileMap* tileMap);
 
 	void setCurrentUnitNameTextBox(UIText* currentUnitNameTextBox) { p_currentUnitNameTextBox = currentUnitNameTextBox; }
 	void setCurrentUnitIcon(UIIcon* currentUnitIcon) { p_currentUnitIcon = currentUnitIcon;  }
@@ -40,19 +40,21 @@ public:
 	void setCurrentHealthText(UIText* currentHealthText) { p_currentHealthText = currentHealthText; }
 	void setSelectedHealthText(UIText* selectedHealthText) { p_selectedHealthText = selectedHealthText; }
 	void setSelectedEnergyText(UIText* selectedEnergyText) { p_selectedEnergyText = selectedEnergyText;  }
-	void setMouseOverHighlight(UIIcon* mouseOverHighlight) { p_mouseOverHighlight = mouseOverHighlight;  }
-	void setTileMap(TileMap* tileMap) { p_tileMap = tileMap; }
+	void setHighlight(UIIcon* mouseOverHighlight) { p_highlight = mouseOverHighlight;  }
+	void setWalkableHighlight(UIIcon* walkableHighlight) { p_walkableHighlight = walkableHighlight; }
+
+	void redrawWalkableTiles() { m_redrawWalkableTiles = true; }
 
 private:
-	void drawGame(std::vector<Level*>& levels, std::vector<Unit*>& units, std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* selectedUnit);
+	void drawGame(std::vector<Level*>& levels, std::vector<Unit*>& units, std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* selectedUnit, TileMap* tileMap);
 
 	void drawUI(std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* selectedUnit);
 
 
-	void drawWorld(std::vector<Level*>& levels, std::vector<Unit*>& units, Unit* currentUnit, Unit* selectedUnit);
+	void drawWorld(std::vector<Level*>& levels, std::vector<Unit*>& units, Unit* currentUnit, Unit* selectedUnit, TileMap* tileMap);
 	void drawLevel(std::vector<Level*>& levels);
 	void drawUnits(std::vector<Unit*>& units);
-	void drawWorldspaceUI(Unit* currentUnit, Unit* selectedUnit);
+	void drawWorldspaceUI(Unit* currentUnit, Unit* selectedUnit, TileMap* tileMap);
 
 	Controller* p_controller = nullptr;
 
@@ -69,9 +71,8 @@ private:
 	UIText* p_currentHealthText = nullptr;
 	UIText* p_selectedHealthText = nullptr;
 	UIText* p_selectedEnergyText = nullptr;
-	UIIcon* p_mouseOverHighlight = nullptr;
-
-	TileMap* p_tileMap = nullptr;
+	UIIcon* p_highlight = nullptr;
+	UIIcon* p_walkableHighlight = nullptr;
 
 	Solengine::Font* p_SOL_spriteFont;
 	
@@ -81,6 +82,9 @@ private:
 	int m_screenHeight;
 	int m_screenWidth;
 	int m_currentLevel;
+
+
+	bool m_redrawWalkableTiles = true;
 };
 
 //(2) update function, called from scene
