@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-UIButton::UIButton(int x, int y, int z, int w, GLuint texture, Solengine::SpriteBatch* spriteBatch)
+UIButton::UIButton(int x, int y, int z, int w, Solengine::SpriteBatch* spriteBatch, GLuint texture)
 {
 	m_xPos = x;
 	m_yPos = y;

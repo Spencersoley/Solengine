@@ -2,27 +2,19 @@
 
 #include <iostream>
 
-UIIcon::UIIcon(int x, int y, int z, int w, GLuint texture, Solengine::SpriteBatch* spriteBatch)
+//This is used when instantiating an icon with a fixed image
+UIIcon::UIIcon(int x, int y, int z, int w, Solengine::SpriteBatch* spriteBatch, GLuint texture, Solengine::ColourRGBA8 col)
 {
 	m_xPos = x;
 	m_yPos = y;
 	m_width = z;
 	m_height = w;
+	p_SOL_SB = spriteBatch;
 
 	m_textureID = texture;
-
-	p_SOL_SB = spriteBatch;
+	m_colour = col;
 }
 
-UIIcon::UIIcon(int x, int y, int z, int w, Solengine::SpriteBatch* spriteBatch)
-{
-	m_xPos = x;
-	m_yPos = y;
-	m_width = z;
-	m_height = w;
-
-	p_SOL_SB = spriteBatch;
-}
 UIIcon::~UIIcon()
 {
 }
@@ -50,12 +42,13 @@ void UIIcon::draw(Solengine::ColourRGBA8 colour)
 
 void UIIcon::draw(glm::vec2 pos)
 {
-	draw(pos, { 255, 255, 255, 255 } );
+	//if (m_col == nullptr) 
+		draw(pos, m_colour);
 }
 
 void UIIcon::draw()
 {
-	draw(glm::vec2{ m_xPos, m_yPos });
+	draw(glm::vec2{ m_xPos, m_yPos }, m_colour);
 }
 
 void UIIcon::updateIcon(GLuint textureID)

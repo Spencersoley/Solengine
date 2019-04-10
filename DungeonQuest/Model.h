@@ -13,8 +13,9 @@ public:
 	Model();
 	~Model();
 
-	void init(float physicsSpeed, int* turnCounter, Unit* currentUnit);
-	void update(int pauseDuration);
+	void init(float physicsSpeed);
+	void update(int pauseDuration, std::vector<Unit*> units, Unit* currentUnit);
+	void setTileMap(TileMap* tileMap) { p_tileMap = tileMap; }
 
 private:
 	Uint32 getDeltaTicks();
@@ -22,5 +23,8 @@ private:
 
 	int m_globalFrameCount;
 	float m_physicsSpeed;
+
+
+	TileMap* p_tileMap;
 };
 

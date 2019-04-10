@@ -12,7 +12,6 @@ Fighter::Fighter()
 	m_name = "Fighter";
 }
 
-
 Fighter::~Fighter()
 {
 }

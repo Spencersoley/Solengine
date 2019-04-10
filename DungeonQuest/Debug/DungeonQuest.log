@@ -1,12 +1,2 @@
-﻿  Scene.cpp
-c:\users\ssole\source\repos\solengineproject\dungeonquest\scene.cpp(137): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\dungeonquest\scene.cpp(144): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\dungeonquest\scene.cpp(153): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\dungeonquest\scene.cpp(159): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\dungeonquest\scene.cpp(168): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\dungeonquest\scene.cpp(173): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\dungeonquest\scene.cpp(178): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\dungeonquest\scene.cpp(183): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\dungeonquest\scene.cpp(188): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\dungeonquest\scene.cpp(193): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+﻿  Model.cpp
   DungeonQuest.vcxproj -> C:\Users\Ssole\source\repos\SolengineProject\Debug\DungeonQuest.exe

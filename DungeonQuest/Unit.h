@@ -33,6 +33,8 @@ public:
 	int getHealth() { return m_health; }
 	int getHealthMax() { return m_healthMax; }
 
+	void newTurn() { m_energy = m_energyMax; }
+
 
 protected:
 

@@ -44,11 +44,13 @@ private:
 	Controller m_controller;
 
 	std::vector<Level*> p_levels;
+	TileMap* p_tileMap;
 	std::vector<Unit*> p_units;
 
 	std::vector<UIElement*> p_UIElements;
 	UIIcon* p_selectionBox = nullptr;
 	UIIcon* p_currentUnitBox = nullptr;
+	UIIcon* p_mouseOverHighlight = nullptr;
 	Solengine::Font* p_SOL_spriteFont = nullptr;
 
 	//One for each sprite
@@ -56,6 +58,7 @@ private:
 
 	Unit* p_currentUnit = nullptr;
 	Unit* p_selectedUnit = nullptr;
+
 
 	int m_turnCounter;
 	int m_screenWidth;

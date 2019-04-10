@@ -28,6 +28,7 @@
     <ClCompile Include="Rat.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Scout.cpp" />
+    <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="UIButton.cpp" />
     <ClCompile Include="UIElement.cpp" />
     <ClCompile Include="UIIcon.cpp" />
@@ -45,6 +46,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Scout.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="TileMap.h" />
     <ClInclude Include="UIButton.h" />
     <ClInclude Include="UIElement.h" />
     <ClInclude Include="UIIcon.h" />

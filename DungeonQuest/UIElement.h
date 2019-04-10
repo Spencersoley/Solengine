@@ -20,7 +20,7 @@ protected:
 	int m_height;
 	int m_width;
 	Solengine::SpriteBatch* p_SOL_SB;
-
+	Solengine::ColourRGBA8 m_colour;
 	GLuint m_textureID;
 };
 

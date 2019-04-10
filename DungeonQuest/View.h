@@ -19,13 +19,15 @@
 #include "UIButton.h"
 #include "UIIcon.h"
 
+#include "Controller.h"
+
 class View
 {
 public:
 	View();
 	~View();
 
-	void init(Solengine::Camera2D* cam, Solengine::Camera2D* uiCam, int screenWidth, int screenHeight);
+	void init(Controller* controller, Solengine::Camera2D* cam, Solengine::Camera2D* uiCam, int screenWidth, int screenHeight);
 	void update(std::vector<Level*>& levels, std::vector<Unit*>& units, std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* selectedUnit);
 
 	void setCurrentUnitNameTextBox(UIText* currentUnitNameTextBox) { p_currentUnitNameTextBox = currentUnitNameTextBox; }
@@ -38,6 +40,8 @@ public:
 	void setCurrentHealthText(UIText* currentHealthText) { p_currentHealthText = currentHealthText; }
 	void setSelectedHealthText(UIText* selectedHealthText) { p_selectedHealthText = selectedHealthText; }
 	void setSelectedEnergyText(UIText* selectedEnergyText) { p_selectedEnergyText = selectedEnergyText;  }
+	void setMouseOverHighlight(UIIcon* mouseOverHighlight) { p_mouseOverHighlight = mouseOverHighlight;  }
+	void setTileMap(TileMap* tileMap) { p_tileMap = tileMap; }
 
 private:
 	void drawGame(std::vector<Level*>& levels, std::vector<Unit*>& units, std::vector<UIElement*>& uiElements, Unit* currentUnit, Unit* selectedUnit);
@@ -50,6 +54,7 @@ private:
 	void drawUnits(std::vector<Unit*>& units);
 	void drawWorldspaceUI(Unit* currentUnit, Unit* selectedUnit);
 
+	Controller* p_controller = nullptr;
 
 	Solengine::GLSLProgram m_SOL_shaderProgram;
 	Solengine::Window m_SOL_window;
@@ -64,7 +69,9 @@ private:
 	UIText* p_currentHealthText = nullptr;
 	UIText* p_selectedHealthText = nullptr;
 	UIText* p_selectedEnergyText = nullptr;
+	UIIcon* p_mouseOverHighlight = nullptr;
 
+	TileMap* p_tileMap = nullptr;
 
 	Solengine::Font* p_SOL_spriteFont;
 	

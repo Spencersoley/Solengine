@@ -2,10 +2,9 @@
 
 #include <Solengine/InputManager.h>
 #include <Solengine/GameState.h>
+#include <Solengine/Camera2D.h>
 
-#include "View.h"
 #include "Model.h"
-
 
 class Controller
 {
@@ -14,12 +13,15 @@ public:
 	~Controller();
 
 	void init(Solengine::Camera2D* cam, Model* model);
-	Solengine::GameState playStateInput();
+	Solengine::GameState playStateInput(Unit* p_currentUnit);
 	Solengine::GameState pauseStateInput();
 
-	void setMouseCoords(glm::vec2 mouseCoords) { m_mouseCoords = mouseCoords; }
+	void setMousePos(glm::vec2 mousePos) { m_mousePos = mousePos; }
+	glm::vec2 getMouseScreenPos() { return m_mousePos; }
+	glm::vec2 getMouseWorldPos() { return p_SOL_cam->screenToWorld(m_mousePos); }
 	void setIsMouseDown(bool mouseDown) { m_isMouseDown = mouseDown; }
 	bool getIsMouseDown() { return m_isMouseDown; }
+
 
 	Unit* selectionCheck(std::vector<Unit*> units);
 
@@ -28,11 +30,9 @@ private:
 
 	Model* p_model;
 
-
-
 	int* p_turnCounter;
 
-	glm::vec2 m_mouseCoords;
+	glm::vec2 m_mousePos;
 	bool m_isMouseDown;
 	bool m_nextTurn;
 

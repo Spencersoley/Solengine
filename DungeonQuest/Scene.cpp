@@ -9,6 +9,7 @@
 #include <Solengine/ResourceManager.h>
 #include <Solengine/SDLInitialiser.h>
 #include <Solengine/ErrorHandler.h>
+//#include <Solengine/Vertex.h>
 
 #include "UIButton.h"
 #include "UIText.h"
@@ -75,8 +76,8 @@ void Scene::initSystems()
 {
 	Solengine::initialiseSDL();
 	
-	m_model.init(m_physicsSpeed, &m_turnCounter, p_currentUnit);
-	m_view.init(&m_SOL_cam, &m_SOL_uiCam, m_screenWidth, m_screenHeight);
+	m_model.init(m_physicsSpeed);
+	m_view.init(&m_controller, &m_SOL_cam, &m_SOL_uiCam, m_screenWidth, m_screenHeight);
 	m_controller.init(&m_SOL_cam, &m_model);
 
 	initScene();
@@ -90,6 +91,10 @@ void Scene::initScene()
 	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
 	p_SOL_spriteBatches.back()->init();
 	p_levels.push_back(new Level(m_SOL_tileLevelLoader.ParseLevelData("Levels/DQlevel1.txt"), p_SOL_spriteBatches.back()));
+
+	p_tileMap = p_levels[0]->getTileMap();
+	m_view.setTileMap(p_tileMap);
+	m_model.setTileMap(p_tileMap);
 
 	//ADEPT INIT
 	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
@@ -123,13 +128,14 @@ void Scene::initScene()
 	//Sets ui backplate
 	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
 	p_SOL_spriteBatches.back()->init();
-	p_UIElements.push_back(new UIIcon(20, 0, m_screenWidth, 150, Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID, p_SOL_spriteBatches.back()));
+	p_UIElements.push_back(new UIIcon(20, 0, m_screenWidth, 150, p_SOL_spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID, { 100, 100, 100, 255 }));
 
 	//
 	//p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
 	//p_SOL_spriteBatches.back()->init();
 	//p_UIElements.push_back(new UIButton(40, 80, 150, 150, Solengine::ResourceManager::getTexture("Textures/zombie_pack/circle2.png").textureID, p_SOL_spriteBatches.back()));
 
+    
 
 	//Set current icon
 	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
@@ -145,20 +151,23 @@ void Scene::initScene()
 	p_UIElements.push_back(selectedUnitIcon);
 	m_view.setSelectedUnitIcon(selectedUnitIcon);
 
-
+	//Set mouse over tile highlight
+	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
+	p_SOL_spriteBatches.back()->init();
+	UIIcon* p_mouseOverHighlight = new UIIcon(0.3f * m_screenWidth, 200, TILE_WIDTH, TILE_WIDTH, p_SOL_spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID);
+	m_view.setMouseOverHighlight(p_mouseOverHighlight);
 
 	//Selection box
 	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
 	p_SOL_spriteBatches.back()->init();
-	p_selectionBox = new UIIcon(0.3f * m_screenWidth, 200, TILE_WIDTH, TILE_WIDTH, Solengine::ResourceManager::getTexture("Textures/zombie_pack/selection.png").textureID, p_SOL_spriteBatches.back());
+	p_selectionBox = new UIIcon(0.3f * m_screenWidth, 200, TILE_WIDTH, TILE_WIDTH, p_SOL_spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/selection.png").textureID);
 	m_view.setSelectionBox(p_selectionBox);
 
 	//Current unit box
 	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
 	p_SOL_spriteBatches.back()->init();
-	p_currentUnitBox = new UIIcon(0.3f * m_screenWidth, 200, TILE_WIDTH, TILE_WIDTH, Solengine::ResourceManager::getTexture("Textures/zombie_pack/selection.png").textureID, p_SOL_spriteBatches.back());
+	p_currentUnitBox = new UIIcon(0.3f * m_screenWidth, 200, TILE_WIDTH, TILE_WIDTH, p_SOL_spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/selection.png").textureID);
 	m_view.setCurrentUnitBox(p_currentUnitBox);
-
 
 	//TEXT ELEMENTS
 	//Set current name
@@ -211,12 +220,12 @@ void Scene::gameLoop()
 	{
 		while (m_gameState == Solengine::GameState::PLAY)
 		{
-			m_model.update(pauseDuration);
+			m_model.update(pauseDuration, p_units, p_currentUnit);
 
 			m_view.update(p_levels, p_units, p_UIElements, p_currentUnit, p_selectedUnit);
 
 			//if unit is friendly
-			m_gameState = m_controller.playStateInput();
+			m_gameState = m_controller.playStateInput(p_currentUnit);
 
 			if (m_controller.getIsMouseDown()) setSelected(m_controller.selectionCheck(p_units));
 
@@ -239,5 +248,6 @@ void Scene::nextTurn()
 {
 	p_currentUnit = p_units[++m_turnCounter%p_units.size()]; 
 	if (p_currentUnit == p_selectedUnit) p_selectedUnit = nullptr;  
+	p_currentUnit->newTurn();
 	m_gameState = Solengine::GameState::PLAY;
 }

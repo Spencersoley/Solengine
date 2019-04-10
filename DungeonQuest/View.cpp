@@ -14,7 +14,7 @@ View::~View()
 }
 
 //View needs a reference to everything we want to draw. we'll pass them all with init. We'll also create a window and initialise shader/spritebatch/camera here.
-void View::init(Solengine::Camera2D* cam, Solengine::Camera2D* uiCam, int screenwidth, int screenheight)
+void View::init(Controller* controller, Solengine::Camera2D* cam, Solengine::Camera2D* uiCam, int screenwidth, int screenheight)
 {
 	//Creates window
 	m_SOL_window.create("DQ", screenwidth, screenheight, 0);
@@ -26,11 +26,13 @@ void View::init(Solengine::Camera2D* cam, Solengine::Camera2D* uiCam, int screen
 	m_SOL_shaderProgram.addAttribute("vertexUV");
 	m_SOL_shaderProgram.linkShaders();
 
+	p_controller = controller;
 	//Obtain the cameras from the scene and intiialise/position them
 	p_SOL_cam = cam;
 	cam->init(screenwidth, screenheight);
 	p_SOL_uiCam = uiCam;
 	uiCam->init(screenwidth, screenheight);
+
 	
 	//Stores the screen dimensions
 	m_screenHeight = screenheight;
@@ -77,9 +79,9 @@ void View::drawWorld(std::vector<Level*>& levels, std::vector<Unit*>& units, Uni
 
 	drawLevel(levels);
 
-	drawUnits(units);
-
 	drawWorldspaceUI(currentUnit, selectedUnit);
+
+	drawUnits(units);
 }
 
 void View::drawLevel(std::vector<Level*>& levels)
@@ -108,6 +110,18 @@ void View::drawUnits(std::vector<Unit*>& units)
 
 void View::drawWorldspaceUI(Unit* currentUnit, Unit* selectedUnit)
 {
+	Tile* tile = p_tileMap->getTileByPosition(p_controller->getMouseWorldPos());
+
+	if (tile != nullptr)
+	{
+		Solengine::SpriteBatch* spriteBatch = p_mouseOverHighlight->getSpriteBatch();
+		spriteBatch->begin();
+
+		p_mouseOverHighlight->draw(glm::vec2{ tile->m_xPos, tile->m_yPos }, { 150, 150, 150, 255 });
+
+		spriteBatch->end();
+		spriteBatch->renderBatch();
+	}
 
 	if (selectedUnit != nullptr)
 	{
@@ -131,7 +145,6 @@ void View::drawWorldspaceUI(Unit* currentUnit, Unit* selectedUnit)
 		spriteBatch->end();
 		spriteBatch->renderBatch();
 	}
-;
 }
 
 // For now we can let this do everything every frame.

@@ -5,9 +5,10 @@
 
 struct Tile
 {
-	Tile(bool obstacle, int x, int y, int TILE_WIDTH)
+	Tile(bool isObstacle, bool isOccupied, int x, int y, int TILE_WIDTH)
 	{
-		m_obstacle = obstacle;
+		m_isObstacle = isObstacle;
+		m_isOccupied = isOccupied;
 		m_xPos = x * TILE_WIDTH;
 		m_yPos = y * TILE_WIDTH;
 
@@ -20,15 +21,14 @@ struct Tile
 	{
 	}
 
-
-	bool m_obstacle;
-
+	bool m_isObstacle;
+	bool m_isOccupied;
 
 	int m_xPos;
 	int m_yPos;
 	int m_xCoord;
 	int m_yCoord;
-	//* p_parent = nullptr;
+
 	int m_tileWidth;
 };
 

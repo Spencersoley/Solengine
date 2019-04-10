@@ -14,7 +14,7 @@ void Controller::init(Solengine::Camera2D* cam, Model* model)
 	p_model = model;
 }
 
-Solengine::GameState Controller::playStateInput()
+Solengine::GameState Controller::playStateInput(Unit* currentUnit)
 {
 	const float CAMERA_SPEED = 2.0f;
 	const float SCALE_SPEED = 0.1f;
@@ -33,7 +33,7 @@ Solengine::GameState Controller::playStateInput()
 
 					
 	//Check if mousedown occurs where buttons are
-	setMouseCoords(m_SOL_inputManager.getMouseCoords());
+	setMousePos(m_SOL_inputManager.getMouseCoords());
 	setIsMouseDown(m_SOL_inputManager.keyState(SDL_BUTTON_LEFT));
 
 	return state;
@@ -41,7 +41,7 @@ Solengine::GameState Controller::playStateInput()
 
 Unit* Controller::selectionCheck(std::vector<Unit*> units)
 {
-	glm::vec2 clickWorldPos = p_SOL_cam->screenToWorld(m_mouseCoords);
+	glm::vec2 clickWorldPos = p_SOL_cam->screenToWorld(m_mousePos);
 	for (size_t i = 0; i < units.size(); i++)
 	{
 		glm::vec2 unitPos = units[i]->getPosition();
@@ -52,9 +52,9 @@ Unit* Controller::selectionCheck(std::vector<Unit*> units)
 			return units[i];
 		}
 	}
-
 	return nullptr;
 }
+
 
 Solengine::GameState Controller::pauseStateInput()
 {

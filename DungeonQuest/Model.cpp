@@ -3,7 +3,7 @@
 #include <Solengine/ErrorHandler.h>
 
 
-Model::Model() : m_globalFrameCount(0)
+Model::Model() : m_globalFrameCount(0) 
 {
 }
 
@@ -11,12 +11,12 @@ Model::~Model()
 {
 }
 
-void Model::init(float physicsSpeed, int* turnCounter, Unit* currentUnit)
+void Model::init(float physicsSpeed)
 {
 	m_physicsSpeed = physicsSpeed;
 }
 
-void Model::update(int pauseDuration)
+void Model::update(int pauseDuration, std::vector<Unit*> units, Unit* currentUnit)
 {
 	m_globalFrameCount++;
 	float adjustedDeltaTicks = (getDeltaTicks() - pauseDuration) * m_physicsSpeed;
