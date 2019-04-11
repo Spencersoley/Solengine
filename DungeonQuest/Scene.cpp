@@ -43,25 +43,18 @@ Scene::Scene() :
 //Destructor
 Scene::~Scene()
 {
-	for (size_t i = 0; i < p_levels.size(); i++)
+	for (size_t i = 0; i < p_worldDrawables.size(); i++)
 	{
-		delete p_levels[i];
+		delete p_worldDrawables[i];
 	}
-	for (size_t i = 0; i < p_units.size(); i++)
+	for (size_t i = 0; i < p_worldDrawables.size(); i++)
 	{
-		delete p_units[i];
-	}
-	for (size_t i = 0; i < p_UIElements.size(); i++)
-	{
-		delete p_UIElements[i];
-	}
-	for (size_t i = 0; i < p_SOL_spriteBatches.size(); i++)
-	{
-		delete p_SOL_spriteBatches[i];
+		delete p_overlayDrawables[i];
 	}
 
+
 	delete p_SOL_spriteFont;
-	delete p_selectionBox;
+
 }
 
 //Runs the game
@@ -76,9 +69,8 @@ void Scene::initSystems()
 {
 	Solengine::initialiseSDL();
 	
-	m_model.init(m_physicsSpeed);
-	m_view.init(&m_controller, &m_SOL_cam, &m_SOL_uiCam, m_screenWidth, m_screenHeight);
-	m_controller.init(&m_SOL_cam, &m_model);
+	m_model.init(m_physicsSpeed, &m_SOL_cam);
+	m_view.init(&m_SOL_cam, &m_SOL_uiCam, m_screenWidth, m_screenHeight);
 
 	initScene();
 }
@@ -86,143 +78,128 @@ void Scene::initSystems()
 //Initialise the game content
 void Scene::initScene()
 {
+	//We're not actually using this, as each drawable holds its own spritebatch. Perhaps we can just drop this?
+	std::vector<Solengine::SpriteBatch*> spriteBatches;
 
-	//Set level
-	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
-	p_SOL_spriteBatches.back()->init();
-	p_levels.push_back(new Level(m_SOL_tileLevelLoader.ParseLevelData("Levels/DQlevel1.txt"), p_SOL_spriteBatches.back()));
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	p_levels.push_back(new Level(m_SOL_tileLevelLoader.ParseLevelData("Levels/DQlevel1.txt"), spriteBatches.back()));
+	p_worldDrawables.push_back(p_levels.back());
 
 	p_tileMap = p_levels[0]->getTileMap();
-
-	for (size_t y = 0; y < p_tileMap->p_tiles.size(); y++)
-	{
-		for (size_t x = 0; x < p_tileMap->p_tiles[0].size(); x++)
-		{
-			std::cout << p_tileMap->p_tiles[y][x]->p_neighbours.size();
-		}
-
-		std::cout << std::endl;
-	}
-
 	m_model.setTileMap(p_tileMap);
-
-	//ADEPT INIT
-	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
-	p_SOL_spriteBatches.back()->init();
-	p_units.push_back(new Adept());
-	p_units.back()->init(p_levels[m_currentLevel]->getAdeptSpawnCoords(), p_SOL_spriteBatches.back());
-	p_currentUnit = p_units[m_turnCounter];
-
-	//FIGHTER INIT
-	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
-	p_SOL_spriteBatches.back()->init();
-	p_units.push_back(new Fighter());
-	p_units.back()->init(p_levels[m_currentLevel]->getFighterSpawnCoords(), p_SOL_spriteBatches.back());
-
-	//SCOUT INIT
-	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
-	p_SOL_spriteBatches.back()->init();
-	p_units.push_back(new Scout());
-	p_units.back()->init(p_levels[m_currentLevel]->getScoutSpawnCoords(), p_SOL_spriteBatches.back());
-
-	//RATS
-	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
-	p_SOL_spriteBatches.back()->init();
-	p_units.push_back(new Rat());
-	p_units.back()->init(p_levels[m_currentLevel]->getRatSpawnCoords(), p_SOL_spriteBatches.back());
-
-
-
-	//UI//
 	
-	//Sets ui backplate
-	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
-	p_SOL_spriteBatches.back()->init();
-	p_UIElements.push_back(new UIIcon(20, 0, m_screenWidth, 150, p_SOL_spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID, { 100, 100, 100, 255 }));
 
-	//
-	//p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
-	//p_SOL_spriteBatches.back()->init();
-	//p_UIElements.push_back(new UIButton(40, 80, 150, 150, Solengine::ResourceManager::getTexture("Textures/zombie_pack/circle2.png").textureID, p_SOL_spriteBatches.back()));
-
-    
-
-	//Set current icon
-	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
-	p_SOL_spriteBatches.back()->init();
-	UIIcon* currentUnitIcon = new UIIcon(0.05f*m_screenWidth, 20, 150, 150, p_SOL_spriteBatches.back());
-	p_UIElements.push_back(currentUnitIcon);
-	m_view.setCurrentUnitIcon(currentUnitIcon);
-
-	//Set selected icon
-	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
-	p_SOL_spriteBatches.back()->init();
-	UIIcon* selectedUnitIcon = new UIIcon(0.6f*m_screenWidth, 20, 150, 150, p_SOL_spriteBatches.back());
-	p_UIElements.push_back(selectedUnitIcon);
-	m_view.setSelectedUnitIcon(selectedUnitIcon);
-
-	//Set highlight
-	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
-	p_SOL_spriteBatches.back()->init();
-	UIIcon* p_highlight = new UIIcon(0.3f * m_screenWidth, 200, TILE_WIDTH, TILE_WIDTH, p_SOL_spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID);
-	m_view.setHighlight(p_highlight);
+	//LAYER 1
 
 	//Set walkable highlight
-	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
-	p_SOL_spriteBatches.back()->init();
-	UIIcon* p_walkableHighlight = new UIIcon(0.3f * m_screenWidth, 200, TILE_WIDTH, TILE_WIDTH, p_SOL_spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID);
-	m_view.setWalkableHighlight(p_walkableHighlight);
-
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	UIIcon* hoverHighlight = new UIIcon(0.3f * m_screenWidth, 200, TILE_WIDTH, TILE_WIDTH, spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID);
+	m_model.setHoverHighlight(hoverHighlight);
+	p_worldDrawables.push_back(hoverHighlight);
 
 	//Selection box
-	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
-	p_SOL_spriteBatches.back()->init();
-	p_selectionBox = new UIIcon(0.3f * m_screenWidth, 200, TILE_WIDTH, TILE_WIDTH, p_SOL_spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/selection.png").textureID);
-	m_view.setSelectionBox(p_selectionBox);
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	UIIcon* selectionBox = new UIIcon(0.3f * m_screenWidth, 200, TILE_WIDTH, TILE_WIDTH, spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/selection.png").textureID);
+	m_model.setSelectionBox(selectionBox);
+	p_worldDrawables.push_back(selectionBox);
 
 	//Current unit box
-	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
-	p_SOL_spriteBatches.back()->init();
-	p_currentUnitBox = new UIIcon(0.3f * m_screenWidth, 200, TILE_WIDTH, TILE_WIDTH, p_SOL_spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/selection.png").textureID);
-	m_view.setCurrentUnitBox(p_currentUnitBox);
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	UIIcon* currentUnitBox = new UIIcon(0.3f * m_screenWidth, 200, TILE_WIDTH, TILE_WIDTH, spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/selection.png").textureID);
+	m_model.setCurrentUnitBox(currentUnitBox);
+	p_worldDrawables.push_back(currentUnitBox);
 
-	//TEXT ELEMENTS
+	//LAYER 2
+
+	//ADEPT INIT
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	p_units.push_back(new Adept());
+	p_units.back()->init(p_levels[m_currentLevel]->getAdeptSpawnCoords(), spriteBatches.back());
+	p_worldDrawables.push_back(p_units.back());
+
+	m_model.setCurrentUnit(p_units.back());
+	m_model.setSelectedUnit(p_units.back());
+	
+
+	//FIGHTER INIT
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	p_units.push_back(new Fighter());
+	p_units.back()->init(p_levels[m_currentLevel]->getFighterSpawnCoords(), spriteBatches.back());
+	p_worldDrawables.push_back(p_units.back());
+
+	//SCOUT INIT
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	p_units.push_back(new Scout());
+	p_units.back()->init(p_levels[m_currentLevel]->getScoutSpawnCoords(), spriteBatches.back());
+	p_worldDrawables.push_back(p_units.back());
+
+	//RATS INIT
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	p_units.push_back(new Rat());
+	p_units.back()->init(p_levels[m_currentLevel]->getRatSpawnCoords(), spriteBatches.back());
+	p_worldDrawables.push_back(p_units.back());
+
+    //LAYER 3 (Overlay)
+
+	//Sets ui backplate
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	p_overlayDrawables.push_back(new UIIcon(20, 0, m_screenWidth, 150, spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID, { 100, 100, 100, 255 }));
+
+	//Set current icon
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	UIIcon* currentUnitIcon = new UIIcon(0.05f*m_screenWidth, 20, 150, 150, spriteBatches.back());
+	m_model.setCurrentUnitIcon(currentUnitIcon);
+	p_overlayDrawables.push_back(currentUnitIcon);
+
+	//Set selected icon
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	UIIcon* selectedUnitIcon = new UIIcon(0.6f*m_screenWidth, 20, 150, 150, spriteBatches.back());
+	m_model.setSelectedUnitIcon(selectedUnitIcon);
+	p_overlayDrawables.push_back(selectedUnitIcon);
+
 	//Set current name
-	p_SOL_spriteBatches.push_back(new Solengine::SpriteBatch());
-	p_SOL_spriteBatches.back()->init();
-	p_SOL_spriteFont = new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, p_SOL_spriteBatches.back());
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	p_SOL_spriteFont = new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, spriteBatches.back());
 	UIText* currentUnitNameTextBox = new UIText(0.09f*m_screenWidth, 20, 1, p_SOL_spriteFont, "");
-	p_UIElements.push_back(currentUnitNameTextBox);
-	m_view.setCurrentUnitNameTextBox(currentUnitNameTextBox);
+	m_model.setCurrentUnitNameTextBox(currentUnitNameTextBox);
+	p_overlayDrawables.push_back(currentUnitNameTextBox);
 
 	//Set selected name
 	UIText* selectedUnitNameTextBox = new UIText(0.64f*m_screenWidth, 20, 1, p_SOL_spriteFont, "");
-	p_UIElements.push_back(selectedUnitNameTextBox);
-	m_view.setSelectedUnitNameTextBox(selectedUnitNameTextBox);
+	m_model.setSelectedUnitNameTextBox(selectedUnitNameTextBox);
+	p_overlayDrawables.push_back(selectedUnitNameTextBox);
 
 	//Set current energy
 	UIText* currentUnitEnergy = new UIText(0.15f*m_screenWidth, 80, 1, p_SOL_spriteFont, "Energy: ");
-	p_UIElements.push_back(currentUnitEnergy);
-	m_view.setCurrentEnergyText(currentUnitEnergy);
+	m_model.setCurrentUnitEnergyText(currentUnitEnergy);
+	p_overlayDrawables.push_back(currentUnitEnergy);
 
 	//Set current health
 	UIText* currentUnitHealth = new UIText(0.15f*m_screenWidth, 100, 1, p_SOL_spriteFont, "Health: ");
-	p_UIElements.push_back(currentUnitHealth);
-	m_view.setCurrentHealthText(currentUnitHealth);
+	m_model.setCurrentUnitHealthText(currentUnitHealth);
+	p_overlayDrawables.push_back(currentUnitHealth);
 	
 	//Set selected energy
 	UIText* selectedUnitEnergy = new UIText(0.85f*m_screenWidth, 80, 1, p_SOL_spriteFont, "Energy: ");
-	p_UIElements.push_back(selectedUnitEnergy);
-	m_view.setSelectedEnergyText(selectedUnitEnergy);
+	m_model.setSelectedEnergyText(selectedUnitEnergy);
+	p_overlayDrawables.push_back(selectedUnitEnergy);
 
     //Set selected health
 	UIText* selectedUnitHealth = new UIText(0.85f*m_screenWidth, 100, 1, p_SOL_spriteFont, "Health: ");
-	p_UIElements.push_back(selectedUnitHealth);
-	m_view.setSelectedHealthText(selectedUnitHealth);
-
-	//m_view.setSelectedUnitNameTextBox(selectedUnitNameTextBox);
-
-	//Current moveset
+	m_model.setSelectedHealthText(selectedUnitHealth);
+	p_overlayDrawables.push_back(selectedUnitHealth);
 }
 
 //Game loop
@@ -237,38 +214,23 @@ void Scene::gameLoop()
 	{
 		while (m_gameState == Solengine::GameState::PLAY)
 		{
-			m_model.update(pauseDuration, p_units, p_currentUnit);
+			m_gameState = m_model.update(pauseDuration, p_units);
 
-			m_view.update(p_levels, p_units, p_UIElements, p_currentUnit, p_selectedUnit, p_tileMap);
-
-			//if unit is friendly
-			m_gameState = m_controller.playStateInput(p_currentUnit);
-
-			if (m_controller.getIsMouseDown()) setSelected(m_controller.selectionCheck(p_units));
-
-			if (m_gameState == Solengine::GameState::TURNOVER)
-			{
-				nextTurn();
-				m_view.redrawWalkableTiles();
-			}
+			m_view.update(p_worldDrawables, p_overlayDrawables);
 
 			m_SOL_fpsManager.limitFPS(trackFPS, (int)DESIRED_TICKS_PER_FRAME);
 			pauseDuration = 0;
 		}
 
+
 		int pauseClockStart = SDL_GetTicks();
 		while (m_gameState == Solengine::GameState::PAUSE)
 		{
-			m_gameState = m_controller.pauseStateInput();
+			//inputVec = m_controller.keyInput();
+			//mousePos = m_controller.getMouseScreenPosition();
+			//m_gameState = m_controller.pauseStateInput();
 		}
 		pauseDuration = SDL_GetTicks() - pauseClockStart;
 	}
 }
 
-void Scene::nextTurn()
-{
-	p_currentUnit = p_units[++m_turnCounter%p_units.size()]; 
-	if (p_currentUnit == p_selectedUnit) p_selectedUnit = nullptr;  
-	p_currentUnit->newTurn();
-	m_gameState = Solengine::GameState::PLAY;
-}

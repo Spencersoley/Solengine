@@ -4,38 +4,37 @@
 
 UIText::UIText(int x, int y, int z, Solengine::Font* spriteFont, std::string message)
 {
-	m_xPos = x;
-	m_yPos = y;
+	m_isVisible = true;
+	m_pos = { x, y };
 	m_width = z;
 	m_height = z;
 	p_SOL_spriteFont = spriteFont;
 	p_SOL_SB = spriteFont->getSpriteBatch();
-
 	m_message = message;
+	m_colour = { 255, 255, 255, 255 };
 }
 
 UIText::~UIText()
 {
 }
 
-void UIText::draw()
+void UIText::redraw()
 {
-	if (m_trackedString != "") 
+	if (m_trackedString != "" && m_isVisible) 
 	{
-		static Solengine::ColourRGBA8 colour = { 255, 255, 255, 255 };
+		p_SOL_SB->begin();
 
-		glm::vec2 pos = { m_xPos, m_yPos };
-		glm::vec2 size = { m_width, m_height };
+	    p_SOL_spriteFont->draw((m_message + m_trackedString).c_str(), m_pos, { m_width, m_height }, 0.0f, m_colour);
 
-		//+ currentUnit->getName()).c_str()
-
-
-	    p_SOL_spriteFont->draw((m_message + m_trackedString).c_str(), pos, size, 0.0f, colour);
-		
+		p_SOL_SB->end();
+		p_SOL_SB->renderBatch();
 	}
 }
 
-void UIText::updateText(std::string trackedString)
+void UIText::draw()
 {
-	m_trackedString = trackedString;
+	if (m_trackedString != "" && m_isVisible)
+	{
+		p_SOL_SB->renderBatch();
+	}
 }

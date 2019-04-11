@@ -11,9 +11,11 @@ public:
 	UIText(int x, int y, int z, Solengine::Font* spriteFont, std::string message);
 	~UIText();
 
-	void draw();
+	void updateText(std::string trackedString) { m_trackedString = trackedString; }
 
-	void updateText(std::string trackedString);
+	void redraw();
+	void draw();
+	
 
 private:
 	std::string m_message;

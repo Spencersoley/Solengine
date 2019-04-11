@@ -4,25 +4,17 @@
 
 Rat::Rat()
 {
+	m_isVisible = true;
 	m_isFriendly = false;
 	m_energy = 20;
 	m_energyMax = 20;
 	m_health = 20;
 	m_healthMax = 20;
 	m_name = "Rat";
+
+	m_textureID = Solengine::ResourceManager::getTexture("Textures/zombie_pack/rat.png").textureID;
 }
 
 Rat::~Rat()
 {
 }
-
-void Rat::init(glm::vec2 coords, Solengine::SpriteBatch* spriteBatch)
-{
-	m_position.x = coords.x * TILE_WIDTH;
-	m_position.y = coords.y * TILE_WIDTH;
-
-	p_SOL_SB = spriteBatch;
-
-	m_textureID = Solengine::ResourceManager::getTexture("Textures/zombie_pack/rat.png").textureID;
-}
-

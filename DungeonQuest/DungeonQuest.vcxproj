@@ -20,7 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Adept.cpp" />
-    <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="Fighter.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -39,7 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Adept.h" />
-    <ClInclude Include="Controller.h" />
+    <ClInclude Include="Drawable.h" />
     <ClInclude Include="Fighter.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Model.h" />

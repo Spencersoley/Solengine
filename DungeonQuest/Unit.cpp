@@ -10,17 +10,14 @@ Unit::~Unit()
 {
 }
 
-void Unit::draw()
+void Unit::init(glm::vec2 coords, Solengine::SpriteBatch* spriteBatch)
 {
-	const glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
+	m_pos.x = coords.x * TILE_WIDTH;
+	m_pos.y = coords.y * TILE_WIDTH;
 
-	static Solengine::ColourRGBA8 colour = { 255, 255, 255, 255 };
+	m_colour = { 255, 255, 255, 255 };
+	m_width = TILE_WIDTH;
+	m_height = TILE_WIDTH;
 
-	glm::vec4 destRect;
-	destRect.x = m_position.x;
-	destRect.y = m_position.y;
-	destRect.z = AGENT_WIDTH;
-	destRect.w = AGENT_WIDTH;
-
-	p_SOL_SB->draw(destRect, uvRect, m_textureID, 0.0f, colour);
+	p_SOL_SB = spriteBatch;
 }

@@ -6,7 +6,5 @@ class Rat :  public Unit
 public:
 	Rat();
 	~Rat();
-
-	void init(glm::vec2 coords, Solengine::SpriteBatch* spriteBatch);
 };
 

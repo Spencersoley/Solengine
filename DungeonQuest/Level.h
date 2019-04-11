@@ -5,17 +5,20 @@
 
 #include <Solengine/SpriteBatch.h>
 
+#include "Drawable.h"
 #include "Tile.h"
 #include "TileMap.h"
 
 const int TILE_WIDTH = 64;
 
-class Level
+class Level : public Drawable
 {
 public:
 	//Load the level
 	Level(std::vector<std::string> levelData, Solengine::SpriteBatch* spriteBatch);
 	~Level();
+
+	void redraw();
 
 	glm::vec2 getAdeptSpawnCoords() const { return m_adeptSpawnCoords; }
 	glm::vec2 getFighterSpawnCoords() const { return m_fighterSpawnCoords; }
@@ -24,8 +27,6 @@ public:
 
 	TileMap* getTileMap() { return &m_tileMap; }
 
-	Solengine::SpriteBatch* getSpriteBatch() { return p_SOL_SB; }
-
 private:
 	glm::vec2 m_adeptSpawnCoords;
 	glm::vec2 m_fighterSpawnCoords;
@@ -33,6 +34,4 @@ private:
 	glm::vec2 m_ratSpawnCoords;
 
 	TileMap m_tileMap;
-
-	Solengine::SpriteBatch* p_SOL_SB;
 };

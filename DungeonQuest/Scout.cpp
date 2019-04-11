@@ -4,26 +4,16 @@
 
 Scout::Scout()
 {
+	m_isVisible = true;
 	m_isFriendly = true;
 	m_energy = 20;
 	m_energyMax = 20;
 	m_health = 21;
 	m_healthMax = 21;
 	m_name = "Scout";
-
+	m_textureID = Solengine::ResourceManager::getTexture("Textures/zombie_pack/scout.png").textureID;
 }
 
 Scout::~Scout()
 {
 }
-
-void Scout::init(glm::vec2 coords, Solengine::SpriteBatch* spriteBatch)
-{
-	m_position.x = coords.x * TILE_WIDTH;
-	m_position.y = coords.y * TILE_WIDTH;
-
-	p_SOL_SB = spriteBatch;
-
-	m_textureID = Solengine::ResourceManager::getTexture("Textures/zombie_pack/scout.png").textureID;
-}
-

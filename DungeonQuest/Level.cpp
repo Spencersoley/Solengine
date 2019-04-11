@@ -86,20 +86,13 @@ Level::Level(std::vector<std::string> levelData, Solengine::SpriteBatch* spriteB
 	}
 
 	m_tileMap.init(tileMap, TILE_WIDTH);
-
-	for (size_t y = 0; y < m_tileMap.p_tiles.size(); y++)
-	{
-		for (size_t x = 0; x < m_tileMap.p_tiles[0].size(); x++)
-		{
-			std::cout << m_tileMap.p_tiles[y][x]->p_neighbours.size();
-		}
-
-		std::cout << std::endl;
-	}
-
 }
 
 Level::~Level()
 {
+}
 
+void Level::redraw()
+{
+	p_SOL_SB->renderBatch();
 }
