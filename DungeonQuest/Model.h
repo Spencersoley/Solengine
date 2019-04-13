@@ -22,7 +22,6 @@ public:
 	void init(float physicsSpeed, Solengine::Camera2D* cam);
 	Solengine::GameState update(int pauseDuration, std::vector<Unit*> units);
 
-
 	bool getLeftMouse() { return m_SOL_inputManager.keyState(SDL_BUTTON_LEFT); }
 	glm::ivec2 getMouseScreenPosition() { return m_SOL_inputManager.getMouseCoords(); }
 	glm::ivec2 getMouseWorldPosition() { return p_SOL_cam->screenToWorld(getMouseScreenPosition()); }
@@ -31,7 +30,6 @@ public:
 	//
 	void setSelectedUnit(Unit* unit);
 	void setCurrentUnit(Unit* unit) { p_currentUnit = unit; }
-
 
 	//ui
 
@@ -48,7 +46,7 @@ public:
 	void setSelectionBox(UIIcon* selectionBox) { p_selectionBox = selectionBox; }
 
 	void setHoverHighlight(UIIcon* hoverHighlight) { p_hoverHighlight = hoverHighlight; }
-
+	void setWalkableHighlight(UIIcon* walkableHighlight) { p_walkableHighlight = walkableHighlight; }
 	void setTileMap(TileMap* tileMap) { p_tileMap = tileMap; }
 
 private:
@@ -58,32 +56,32 @@ private:
 	Unit* p_selectedUnit = nullptr;
 	Unit* p_currentUnit = nullptr;
 
-	UIText* p_currentUnitNameTextBox = nullptr;
-	UIIcon* p_currentUnitIcon = nullptr;
-	UIText* p_selectedUnitNameTextBox = nullptr;
-	UIIcon* p_selectedUnitIcon = nullptr;
-	UIIcon* p_selectionBox = nullptr;
-	UIIcon* p_currentUnitBox = nullptr;
-	UIText* p_currentUnitEnergyText = nullptr;
 	UIText* p_currentUnitHealthText = nullptr;
+    UIText* p_currentUnitEnergyText = nullptr;
+	UIIcon* p_currentUnitIcon = nullptr;
+	UIText* p_currentUnitNameTextBox = nullptr;
+    UIIcon* p_currentUnitBox = nullptr;
+	
+	UIIcon* p_selectedUnitIcon = nullptr;
+	UIText* p_selectedUnitNameTextBox = nullptr;
 	UIText* p_selectedUnitHealthText = nullptr;
 	UIText* p_selectedUnitEnergyText = nullptr;
+	UIIcon* p_selectionBox = nullptr;
+	
+	UIIcon* p_walkableHighlight = nullptr;
 	UIIcon* p_hoverHighlight = nullptr;
 	TileMap* p_tileMap;
 
-	Solengine::GameState nextTurn(std::vector<Unit*> units);
-	
 	int m_turnCounter;
 
 	float m_physicsSpeed;
 	
-
 	Uint32 getDeltaTicks();
-	//void turn(Unit* currentUnit);
+	void attemptMovement(glm::vec2 coords);
+	Solengine::GameState nextTurn(std::vector<Unit*> units);
 	Unit* selectionCheck(std::vector<Unit*> units);
 	void updateStatsDisplay(Unit* unit, UIIcon* icon, UIText* name, UIText* health, UIText* energy);
 	void highlightTile(std::vector<std::vector<Tile*>> tiles);
 	bool checkIfCoordsInBound(std::vector<std::vector<Tile*>> tiles, glm::ivec2 coords);
 	void setWalkableTiles(TileMap* tileMap, Unit* currentUnit);
-
 };

@@ -45,6 +45,8 @@ Solengine::GameState Model::update(int pauseDuration, std::vector<Unit*> units)
          state = nextTurn(units);
 
 
+	attemptMovement(getMouseCoordinates());
+
 	updateStatsDisplay(p_currentUnit, p_currentUnitIcon, p_currentUnitNameTextBox, p_currentUnitHealthText, p_currentUnitEnergyText);
 	updateStatsDisplay(p_selectedUnit, p_selectedUnitIcon, p_selectedUnitNameTextBox, p_selectedUnitHealthText, p_selectedUnitEnergyText);
 
@@ -64,6 +66,8 @@ Solengine::GameState Model::update(int pauseDuration, std::vector<Unit*> units)
 			p_selectionBox->setColour({ 255, 0, 0, 255 });
 	}
  
+	setWalkableTiles(p_tileMap, p_currentUnit);
+
 
 	if (state == Solengine::GameState::TURNOVER)
 		state == Solengine::GameState::PLAY;
@@ -78,6 +82,22 @@ Uint32 Model::getDeltaTicks()
 	prevTicks = SDL_GetTicks();
 	return deltaTicks;
 }
+
+void Model::attemptMovement(glm::vec2 coords)
+{
+	if (getLeftMouse())
+	{
+		if (p_tileMap->p_tiles[coords.y][coords.x]->m_isWalkable && !p_tileMap->p_tiles[coords.y][coords.x]->m_isOccupied)
+		{
+			int steps;
+			//get tile distance in steps (rough, not the right way to do this)
+			steps = (abs(coords.y - p_currentUnit->getCoords().y) + abs(coords.x - p_currentUnit->getCoords().x));
+			p_currentUnit->setPos({ coords.x*TILE_WIDTH, coords.y*TILE_WIDTH } );
+			p_currentUnit->removeEnergy(steps * 5);
+		}
+	}
+}
+
 
 void Model::setSelectedUnit(Unit* selectedUnit)
 {
@@ -185,10 +205,8 @@ bool Model::checkIfCoordsInBound(std::vector<std::vector<Tile*>> tiles, glm::ive
 void Model::setWalkableTiles(TileMap* tileMap, Unit* currentUnit)
 {
 	tileMap->resetWalkable();
-	//std::vector<Tile*> walkableTiles = tileMap->getWalkableTiles(currentUnit->getCoords(), floor(currentUnit->getEnergy() / 5));
-
-	//for (size_t i = 0; i < walkableTiles.size(); i++)
-		//p_walkableHighlight->draw(glm::vec2{ walkableTiles[i]->m_xPos, walkableTiles[i]->m_yPos }, walkableTiles[i]->m_viableColour);
+	std::vector<glm::vec2> walkableTiles = tileMap->getWalkablePos(currentUnit->getCoords(), floor(currentUnit->getEnergy() / 5));
+	p_walkableHighlight->setMultidraw(walkableTiles);	
 }
 
 Solengine::GameState Model::nextTurn(std::vector<Unit*> units)

@@ -40,7 +40,6 @@ void Tile::setWalkable(int stepsAvailable)
 				//if (p_neighbours[i]->m_isObstacle) continue;
 				//std::cout << p_neighbours[i]->m_xCoord << std::endl;
 				p_neighbours[i]->setWalkable(stepsAvailable);
-
 			}
 		}
 	}

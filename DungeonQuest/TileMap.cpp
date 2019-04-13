@@ -8,24 +8,24 @@ TileMap::~TileMap()
 {
 }
 
-void TileMap::init(std::vector<std::vector<Tile*>> tileMap, int tileWidth) 
+void TileMap::init(std::vector<std::vector<Tile*>> tiles, int tileWidth) 
 {
-	p_tiles = tileMap;
+	p_tiles = tiles;
 	m_tileWidth = tileWidth;
 }
 
 
-std::vector<Tile*> TileMap::getWalkableTiles(glm::vec2 coords, int stepsAvailable)
+std::vector<glm::vec2> TileMap::getWalkablePos(glm::vec2 coords, int stepsAvailable)
 {
 	p_tiles[coords.y][coords.x]->setWalkable(stepsAvailable + 1);
 
-	std::vector<Tile*> walkableTiles;
+	std::vector<glm::vec2> walkableTiles;
 	for (size_t y = 0; y < p_tiles.size(); y++)
 	{
 		for (size_t x = 0; x < p_tiles[0].size(); x++)
 		{
 			if (!p_tiles[y][x]->m_isObstacle && p_tiles[y][x]->m_isWalkable)
-				walkableTiles.push_back(p_tiles[y][x]);
+				walkableTiles.push_back(p_tiles[y][x]->getPos());
 		}
 	}
 	

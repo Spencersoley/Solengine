@@ -92,10 +92,20 @@ void Scene::initScene()
 
 	//LAYER 1
 
+
 	//Set walkable highlight
 	spriteBatches.push_back(new Solengine::SpriteBatch());
 	spriteBatches.back()->init();
+	UIIcon* walkableHighlight = new UIIcon(0.3f * m_screenWidth, 200, TILE_WIDTH, TILE_WIDTH, spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID);
+	walkableHighlight->setColour({ 0, 150, 0, 150 });
+	m_model.setWalkableHighlight(walkableHighlight);
+	p_worldDrawables.push_back(walkableHighlight);
+
+	//Set hover highlight
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
 	UIIcon* hoverHighlight = new UIIcon(0.3f * m_screenWidth, 200, TILE_WIDTH, TILE_WIDTH, spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID);
+	hoverHighlight->setColour({ 200, 200, 200, 100 });
 	m_model.setHoverHighlight(hoverHighlight);
 	p_worldDrawables.push_back(hoverHighlight);
 

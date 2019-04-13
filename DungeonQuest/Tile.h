@@ -29,7 +29,7 @@ public:
 	Solengine::ColourRGBA8 m_viableColour;
 
 	void addNeighbour(Tile* tile) { p_neighbours.push_back(tile); }
-
+	glm::vec2 getPos() const { return { m_xPos, m_yPos }; }
 
 	void setWalkable(int stepsAvailable);
 
