@@ -18,7 +18,7 @@ public:
 	Level(std::vector<std::string> levelData, Solengine::SpriteBatch* spriteBatch);
 	~Level();
 
-	void redraw();
+	void draw();
 
 	glm::vec2 getAdeptSpawnCoords() const { return m_adeptSpawnCoords; }
 	glm::vec2 getFighterSpawnCoords() const { return m_fighterSpawnCoords; }

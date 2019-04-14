@@ -13,7 +13,6 @@ public:
 
 	void updateText(std::string trackedString) { m_trackedString = trackedString; }
 
-	void redraw();
 	void draw();
 	
 

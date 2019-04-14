@@ -19,41 +19,48 @@ UIIcon::~UIIcon()
 {
 }
 
-void UIIcon::redraw()
+void UIIcon::draw()
 {
-	if (m_isVisible && m_textureID != -1 && m_multidraw.size() == 0)
+	if (m_isVisible && m_textureID != -1)
 	{
-		p_SOL_SB->begin();
+	    if (m_redraw)
+		{ 
+	        if (m_multidraw.size() == 0)
+			{ 
+			    p_SOL_SB->begin();
 
-		const glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
-		glm::vec4 destRect;
-		destRect.x = (float)m_pos.x;
-		destRect.y = (float)m_pos.y;
-		destRect.z = (float)m_width;
-		destRect.w = (float)m_height;
+			    const glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
+			    glm::vec4 destRect;
+			    destRect.x = (float)m_pos.x;
+			    destRect.y = (float)m_pos.y;
+			    destRect.z = (float)m_width;
+			    destRect.w = (float)m_height;
 
-		p_SOL_SB->draw(destRect, uvRect, m_textureID, 0.0f, m_colour);
+     			p_SOL_SB->draw(destRect, uvRect, m_textureID, 0.0f, m_colour);
+		    }
+			else
+			{
+				p_SOL_SB->begin();
 
-		p_SOL_SB->end();
-		p_SOL_SB->renderBatch();
-	}
-	else if (m_isVisible && m_textureID != -1)
-	{
-		p_SOL_SB->begin();
+				for (size_t i = 0; i < m_multidraw.size(); i++)
+				{
+					const glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
+					glm::vec4 destRect;
+					destRect.x = (float)m_multidraw[i].x;
+					destRect.y = (float)m_multidraw[i].y;
+					destRect.z = (float)m_width;
+					destRect.w = (float)m_height;
+
+					p_SOL_SB->draw(destRect, uvRect, m_textureID, 0.0f, m_colour);
+				}
+			}
+			
+			p_SOL_SB->end();
+			p_SOL_SB->renderBatch();
 		
-		for (size_t i = 0; i < m_multidraw.size(); i++)
-		{
-			const glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
-			glm::vec4 destRect;
-			destRect.x = (float)m_multidraw[i].x;
-			destRect.y = (float)m_multidraw[i].y;
-			destRect.z = (float)m_width;
-			destRect.w = (float)m_height;
-
-			p_SOL_SB->draw(destRect, uvRect, m_textureID, 0.0f, m_colour);
+			m_redraw = false;
 		}
-
-		p_SOL_SB->end();
-		p_SOL_SB->renderBatch();
+		else 
+		    p_SOL_SB->renderBatch();
 	}
 }

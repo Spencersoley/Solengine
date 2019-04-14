@@ -47,8 +47,6 @@ private:
 	std::vector<Drawable*> p_worldDrawables;
 	std::vector<Drawable*> p_overlayDrawables;
 
-	Solengine::Font* p_SOL_spriteFont = nullptr;
-
 	Unit* p_currentUnit = nullptr;
 	Unit* p_selectedUnit = nullptr;
 

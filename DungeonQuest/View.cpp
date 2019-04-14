@@ -76,6 +76,6 @@ void View::drawToCamera(std::vector<Drawable*> drawables, Solengine::Camera2D* c
 	glUniformMatrix4fv(pUniform, 1, GL_FALSE, &projectionMatrix[0][0]);
 
 	for (size_t i = 0; i < drawables.size(); i++)
-		drawables[i]->redraw();
+		drawables[i]->draw();
 }
 

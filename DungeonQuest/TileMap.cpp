@@ -17,7 +17,7 @@ void TileMap::init(std::vector<std::vector<Tile*>> tiles, int tileWidth)
 
 std::vector<glm::vec2> TileMap::getWalkablePos(glm::vec2 coords, int stepsAvailable)
 {
-	p_tiles[coords.y][coords.x]->setWalkable(stepsAvailable, stepsAvailable);
+	p_tiles[coords.y][coords.x]->setWalkable(stepsAvailable + 1, stepsAvailable + 1);
 
 	std::vector<glm::vec2> walkableTilePos;
 	for (size_t y = 0; y < p_tiles.size(); y++)
@@ -39,7 +39,6 @@ Tile* TileMap::getTileByPosition(glm::vec2 pos)
 		return nullptr;
 	else if (x >= p_tiles[0].size())
 		return nullptr;
-	
 
 	int y = floor(pos.y / m_tileWidth);
 	if (y < 0)

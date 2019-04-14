@@ -51,10 +51,6 @@ Scene::~Scene()
 	{
 		delete p_overlayDrawables[i];
 	}
-
-
-	delete p_SOL_spriteFont;
-
 }
 
 //Runs the game
@@ -80,6 +76,7 @@ void Scene::initScene()
 {
 	//We're not actually using this, as each drawable holds its own spritebatch. Perhaps we can just drop this?
 	std::vector<Solengine::SpriteBatch*> spriteBatches;
+	std::vector<Solengine::Font*> fontBatches;
 
 	spriteBatches.push_back(new Solengine::SpriteBatch());
 	spriteBatches.back()->init();
@@ -131,10 +128,8 @@ void Scene::initScene()
 	p_units.push_back(new Adept());
 	p_units.back()->init(p_levels[m_currentLevel]->getAdeptSpawnCoords(), spriteBatches.back());
 	p_worldDrawables.push_back(p_units.back());
-
 	m_model.setCurrentUnit(p_units.back());
 
-	
 
 	//FIGHTER INIT
 	spriteBatches.push_back(new Solengine::SpriteBatch());
@@ -182,33 +177,48 @@ void Scene::initScene()
 	//Set current name
 	spriteBatches.push_back(new Solengine::SpriteBatch());
 	spriteBatches.back()->init();
-	p_SOL_spriteFont = new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, spriteBatches.back());
-	UIText* currentUnitNameTextBox = new UIText(0.09f*m_screenWidth, 20, 1, p_SOL_spriteFont, "");
+	fontBatches.push_back(new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, spriteBatches.back()));
+	UIText* currentUnitNameTextBox = new UIText(0.09f*m_screenWidth, 20, 1, fontBatches.back(), "");
 	m_model.setCurrentUnitNameTextBox(currentUnitNameTextBox);
 	p_overlayDrawables.push_back(currentUnitNameTextBox);
 
 	//Set selected name
-	UIText* selectedUnitNameTextBox = new UIText(0.64f*m_screenWidth, 20, 1, p_SOL_spriteFont, "");
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	fontBatches.push_back(new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, spriteBatches.back()));
+	UIText* selectedUnitNameTextBox = new UIText(0.64f*m_screenWidth, 20, 1, fontBatches.back(), "");
 	m_model.setSelectedUnitNameTextBox(selectedUnitNameTextBox);
 	p_overlayDrawables.push_back(selectedUnitNameTextBox);
 
+	//Set current health
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	fontBatches.push_back(new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, spriteBatches.back()));
+	UIText* currentUnitHealth = new UIText(0.15f*m_screenWidth, 100, 1, fontBatches.back(), "Health: ");
+	m_model.setCurrentUnitHealthText(currentUnitHealth);
+	p_overlayDrawables.push_back(currentUnitHealth);
+
 	//Set current energy
-	UIText* currentUnitEnergy = new UIText(0.15f*m_screenWidth, 80, 1, p_SOL_spriteFont, "Energy: ");
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	fontBatches.push_back(new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, spriteBatches.back()));
+	UIText* currentUnitEnergy = new UIText(0.15f*m_screenWidth, 80, 1, fontBatches.back(), "Energy: ");
 	m_model.setCurrentUnitEnergyText(currentUnitEnergy);
 	p_overlayDrawables.push_back(currentUnitEnergy);
 
-	//Set current health
-	UIText* currentUnitHealth = new UIText(0.15f*m_screenWidth, 100, 1, p_SOL_spriteFont, "Health: ");
-	m_model.setCurrentUnitHealthText(currentUnitHealth);
-	p_overlayDrawables.push_back(currentUnitHealth);
-	
 	//Set selected energy
-	UIText* selectedUnitEnergy = new UIText(0.85f*m_screenWidth, 80, 1, p_SOL_spriteFont, "Energy: ");
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	fontBatches.push_back(new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, spriteBatches.back()));
+	UIText* selectedUnitEnergy = new UIText(0.85f*m_screenWidth, 80, 1, fontBatches.back(), "Energy: ");
 	m_model.setSelectedEnergyText(selectedUnitEnergy);
 	p_overlayDrawables.push_back(selectedUnitEnergy);
 
     //Set selected health
-	UIText* selectedUnitHealth = new UIText(0.85f*m_screenWidth, 100, 1, p_SOL_spriteFont, "Health: ");
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	fontBatches.emplace_back(new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, spriteBatches.back()));
+	UIText* selectedUnitHealth = new UIText(0.85f*m_screenWidth, 100, 1, fontBatches.back(), "Health: ");
 	m_model.setSelectedHealthText(selectedUnitHealth);
 	p_overlayDrawables.push_back(selectedUnitHealth);
 }
@@ -220,6 +230,8 @@ void Scene::gameLoop()
 	static int pauseDuration = 0;
 	//When initialised to true, this enables fps console announcing
 	bool trackFPS = m_announceFPS;
+
+	m_model.awake();
 
 	while (m_gameState != Solengine::GameState::EXIT)
 	{

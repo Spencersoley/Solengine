@@ -8,7 +8,7 @@ public:
 	UIIcon(int x, int y, int z, int w, Solengine::SpriteBatch* spriteBatch, GLuint texture = -1, Solengine::ColourRGBA8 col = { 255, 255, 255, 255 });
 	~UIIcon();
 
-	void redraw();
+	void draw();
 
 	void setMultidraw(std::vector<glm::vec2> multidraw) { m_multidraw = multidraw; }
 

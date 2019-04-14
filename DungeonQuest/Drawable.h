@@ -8,8 +8,9 @@ public:
 	Drawable();
 	virtual ~Drawable();
 
-	virtual void redraw();
 	virtual void draw();
+
+	void redraw() { m_redraw = true; }
 
 	Solengine::SpriteBatch* getSpriteBatch() { return p_SOL_SB; }
 
@@ -26,6 +27,8 @@ public:
 protected:
 	Solengine::SpriteBatch* p_SOL_SB;
 
+
+	bool m_redraw;
 	glm::ivec2 m_pos;
 	int m_height;
 	int m_width;

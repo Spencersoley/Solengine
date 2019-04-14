@@ -98,7 +98,6 @@ Level::Level(std::vector<std::string> levelData, Solengine::SpriteBatch* spriteB
 		}
 	}
 
-
 	for (size_t y = 0; y < tileMap.size(); y++)
 	{
 		for (size_t x = 0; x < tileMap[0].size(); x++)
@@ -116,7 +115,7 @@ Level::~Level()
 {
 }
 
-void Level::redraw()
+void Level::draw()
 {
 	p_SOL_SB->renderBatch();
 }

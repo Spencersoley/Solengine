@@ -20,6 +20,9 @@ public:
 	~Model();
 
 	void init(float physicsSpeed, Solengine::Camera2D* cam);
+
+	void awake();
+	
 	Solengine::GameState update(int pauseDuration, std::vector<Unit*> units);
 
 	bool getLeftMouse() { return m_SOL_inputManager.keyState(SDL_BUTTON_LEFT); }
@@ -82,7 +85,10 @@ private:
 	Solengine::GameState nextTurn(std::vector<Unit*> units);
 	Unit* selectionCheck(std::vector<Unit*> units);
 	void updateStatsDisplay(Unit* unit, UIIcon* icon, UIText* name, UIText* health, UIText* energy);
-	void highlightTile(std::vector<std::vector<Tile*>> tiles);
+	void highlightTile(std::vector<std::vector<Tile*>> tiles, glm::ivec2 mouseCoords);
 	bool checkIfCoordsInBound(std::vector<std::vector<Tile*>> tiles, glm::ivec2 coords);
 	void setWalkableTiles(TileMap* tileMap, Unit* currentUnit);
+	void updateSelectedUnitBox(Unit* selectedUnit, UIIcon* selectionBox);
+    void updateCurrentUnitBox(Unit* currentUnit, UIIcon* currentUnitBox);
+
 };

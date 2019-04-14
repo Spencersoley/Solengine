@@ -18,23 +18,23 @@ UIText::~UIText()
 {
 }
 
-void UIText::redraw()
-{
-	if (m_trackedString != "" && m_isVisible) 
-	{
-		p_SOL_SB->begin();
-
-	    p_SOL_spriteFont->draw((m_message + m_trackedString).c_str(), m_pos, { m_width, m_height }, 0.0f, m_colour);
-
-		p_SOL_SB->end();
-		p_SOL_SB->renderBatch();
-	}
-}
-
 void UIText::draw()
 {
 	if (m_trackedString != "" && m_isVisible)
 	{
-		p_SOL_SB->renderBatch();
+		if (m_redraw)
+		{
+			p_SOL_SB->begin();
+
+			p_SOL_spriteFont->draw((m_message + m_trackedString).c_str(), m_pos, { m_width, m_height }, 0.0f, m_colour);
+
+			p_SOL_SB->end();
+			p_SOL_SB->renderBatch();
+
+			m_redraw = false;
+		}
+		else
+			p_SOL_SB->renderBatch();
 	}
 }
+
