@@ -133,7 +133,7 @@ void Scene::initScene()
 	p_worldDrawables.push_back(p_units.back());
 
 	m_model.setCurrentUnit(p_units.back());
-	m_model.setSelectedUnit(p_units.back());
+
 	
 
 	//FIGHTER INIT
@@ -142,6 +142,7 @@ void Scene::initScene()
 	p_units.push_back(new Fighter());
 	p_units.back()->init(p_levels[m_currentLevel]->getFighterSpawnCoords(), spriteBatches.back());
 	p_worldDrawables.push_back(p_units.back());
+	m_model.setSelectedUnit(p_units.back());
 
 	//SCOUT INIT
 	spriteBatches.push_back(new Solengine::SpriteBatch());

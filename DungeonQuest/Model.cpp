@@ -36,7 +36,6 @@ Solengine::GameState Model::update(int pauseDuration, std::vector<Unit*> units)
 
 	if (getLeftMouse())                               setSelectedUnit(selectionCheck(units));
 
-	//setWalkableTiles(p_tileMap, p_currentUnit);
 
 	highlightTile(p_tileMap->p_tiles);
 
@@ -72,6 +71,21 @@ Solengine::GameState Model::update(int pauseDuration, std::vector<Unit*> units)
 	if (state == Solengine::GameState::TURNOVER)
 		state == Solengine::GameState::PLAY;
 
+
+
+	if (getLeftMouse())
+	{
+		for (size_t y = 0; y < p_tileMap->p_tiles.size(); y++)
+		{
+			for (size_t x = 0; x < p_tileMap->p_tiles[0].size(); x++)
+			{
+				std::cout << p_tileMap->p_tiles[y][x]->m_stepDistance;
+			}
+			std::cout << std::endl;
+		}
+		std::cout << std::endl;
+	}
+
 	return state;
 }
 
@@ -85,23 +99,24 @@ Uint32 Model::getDeltaTicks()
 
 void Model::attemptMovement(glm::vec2 coords)
 {
-	if (getLeftMouse())
+	if (getRightMouse())
 	{
 		if (p_tileMap->p_tiles[coords.y][coords.x]->m_isWalkable && !p_tileMap->p_tiles[coords.y][coords.x]->m_isOccupied)
 		{
-			int steps;
-			//get tile distance in steps (rough, not the right way to do this)
-			steps = (abs(coords.y - p_currentUnit->getCoords().y) + abs(coords.x - p_currentUnit->getCoords().x));
+			p_tileMap->p_tiles[p_currentUnit->getCoords().y][p_currentUnit->getCoords().x]->setOccupied(false);
+			
+			int steps = (abs(coords.y - p_currentUnit->getCoords().y) + abs(coords.x - p_currentUnit->getCoords().x));
 			p_currentUnit->setPos({ coords.x*TILE_WIDTH, coords.y*TILE_WIDTH } );
-			p_currentUnit->removeEnergy(steps * 5);
+			p_currentUnit->removeEnergy(p_tileMap->p_tiles[coords.y][coords.x]->m_stepDistance * 5);         //Has innacuracies as distance to tile != steps to tile
+			
+			p_tileMap->p_tiles[coords.y][coords.x]->setOccupied(true);
 		}
 	}
 }
 
-
 void Model::setSelectedUnit(Unit* selectedUnit)
 {
-	if (p_selectedUnit != selectedUnit)
+	if (p_selectedUnit != selectedUnit && p_currentUnit != selectedUnit)
 	{
 		p_selectedUnit = selectedUnit;
 		updateStatsDisplay(selectedUnit, p_selectedUnitIcon, p_selectedUnitNameTextBox, p_selectedUnitHealthText, p_selectedUnitEnergyText);
@@ -118,7 +133,7 @@ Unit* Model::selectionCheck(std::vector<Unit*> units)
 
 		if (clickWorldPos.x >= unitPos.x && clickWorldPos.x <= unitPos.x + TILE_WIDTH
 			&& clickWorldPos.y >= unitPos.y && clickWorldPos.y <= unitPos.y + TILE_WIDTH)
-			     return units[i];
+			 return units[i];
 	}
 	return nullptr;
 }
@@ -211,6 +226,7 @@ void Model::setWalkableTiles(TileMap* tileMap, Unit* currentUnit)
 
 Solengine::GameState Model::nextTurn(std::vector<Unit*> units)
 {
+	p_currentUnit->resetEnergy();
 	p_currentUnit = units[++m_turnCounter%units.size()];
 	if (p_currentUnit == p_selectedUnit) 
 		p_selectedUnit = nullptr;

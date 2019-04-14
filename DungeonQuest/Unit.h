@@ -28,6 +28,7 @@ public:
 	int getHealth() { return m_health; }
 	int getHealthMax() { return m_healthMax; }
 
+	void resetEnergy() { m_energy = m_energyMax; }
 	void removeEnergy(int energyUsed) { m_energy -= energyUsed; }
 
 	void newTurn() { m_energy = m_energyMax; }

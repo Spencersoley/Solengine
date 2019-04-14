@@ -23,6 +23,7 @@ public:
 	Solengine::GameState update(int pauseDuration, std::vector<Unit*> units);
 
 	bool getLeftMouse() { return m_SOL_inputManager.keyState(SDL_BUTTON_LEFT); }
+	bool getRightMouse() { return m_SOL_inputManager.keyState(SDL_BUTTON_RIGHT); }
 	glm::ivec2 getMouseScreenPosition() { return m_SOL_inputManager.getMouseCoords(); }
 	glm::ivec2 getMouseWorldPosition() { return p_SOL_cam->screenToWorld(getMouseScreenPosition()); }
 	glm::ivec2 getMouseCoordinates() { return { floor(getMouseWorldPosition().x / 64), floor(getMouseWorldPosition().y / 64) }; }

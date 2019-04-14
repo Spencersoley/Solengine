@@ -77,12 +77,36 @@ Level::Level(std::vector<std::string> levelData, Solengine::SpriteBatch* spriteB
 	{
 		for (size_t x = 0; x < tileMap[0].size(); x++)
 		{
-			if (y > 0) tileMap[y][x]->addNeighbour(tileMap[y - 1][x]);
-			if (y < tileMap.size() - 1) tileMap[y][x]->addNeighbour(tileMap[y + 1][x]);
-			if (x > 0) tileMap[y][x]->addNeighbour(tileMap[y][x - 1]);
-			if (x < tileMap[0].size() - 1) tileMap[y][x]->addNeighbour(tileMap[y][x + 1]);
+			if (!tileMap[y][x]->m_isObstacle)
+			{
+				if (y > 0)
+					if (!tileMap[y - 1][x]->m_isObstacle)
+						tileMap[y][x]->addNeighbour(tileMap[y - 1][x]);
 
+				if (y < tileMap.size() - 1)
+					if (!tileMap[y + 1][x]->m_isObstacle)
+						tileMap[y][x]->addNeighbour(tileMap[y + 1][x]);
+
+				if (x > 0)
+					if (!tileMap[y][x - 1]->m_isObstacle)
+						tileMap[y][x]->addNeighbour(tileMap[y][x - 1]);
+
+				if (x < tileMap[0].size() - 1)
+					if (!tileMap[y][x + 1]->m_isObstacle)
+						tileMap[y][x]->addNeighbour(tileMap[y][x + 1]);
+			}
 		}
+	}
+
+
+	for (size_t y = 0; y < tileMap.size(); y++)
+	{
+		for (size_t x = 0; x < tileMap[0].size(); x++)
+		{
+			std::cout << tileMap[y][x]->p_neighbours.size();
+		}
+
+		std::cout << std::endl;
 	}
 
 	m_tileMap.init(tileMap, TILE_WIDTH);

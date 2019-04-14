@@ -11,11 +11,11 @@ public:
 	Tile(bool isObstacle, bool isOccupied, int x, int y, int TILE_WIDTH);
 	~Tile();
 
-
 	bool m_isObstacle;
 	bool m_isOccupied;
 
 	bool m_isWalkable;
+	int m_stepDistance;
 
 	int m_xPos;
 	int m_yPos;
@@ -31,7 +31,8 @@ public:
 	void addNeighbour(Tile* tile) { p_neighbours.push_back(tile); }
 	glm::vec2 getPos() const { return { m_xPos, m_yPos }; }
 
-	void setWalkable(int stepsAvailable);
+	void setWalkable(int stepsAvailable, int stepDistance);
+	void setOccupied(bool occupied) { m_isOccupied = occupied; }
 
 	std::vector<Tile*> p_neighbours;
 
