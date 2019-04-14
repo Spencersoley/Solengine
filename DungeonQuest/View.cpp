@@ -13,14 +13,15 @@ View::~View()
 {
 }
 
-//View needs a reference to everything we want to draw. we'll pass them all with init. We'll also create a window and initialise shader/spritebatch/camera here.
-void View::init(Solengine::Camera2D* cam, Solengine::Camera2D* uiCam, int screenwidth, int screenheight)
+void View::init(Solengine::Camera2D* cam, Solengine::Camera2D* uiCam, 
+	            int screenwidth, int screenheight)
 {
 	//Creates window
 	m_SOL_window.create("DQ", screenwidth, screenheight, 0);
 
 	//Initialises the shader programs
-	m_SOL_shaderProgram.compileShaders("Shaders/colourShading.vert", "Shaders/colourShading.frag");
+	m_SOL_shaderProgram.compileShaders("Shaders/colourShading.vert", 
+		                               "Shaders/colourShading.frag");
 	m_SOL_shaderProgram.addAttribute("vertexPosition");
 	m_SOL_shaderProgram.addAttribute("vertexColour");
 	m_SOL_shaderProgram.addAttribute("vertexUV");
@@ -31,22 +32,23 @@ void View::init(Solengine::Camera2D* cam, Solengine::Camera2D* uiCam, int screen
 	cam->init(screenwidth, screenheight);
 	p_SOL_uiCam = uiCam;
 	uiCam->init(screenwidth, screenheight);
-
 	
 	//Stores the screen dimensions
 	m_screenHeight = screenheight;
 	m_screenWidth = screenwidth;
 }
 
-void View::update(std::vector<Drawable*> worldDrawables, std::vector<Drawable*> overlayDrawables)
+void View::update(std::vector<Drawable*> worldDrawables, 
+	              std::vector<Drawable*> overlayDrawables)
 {
 	p_SOL_cam->update();
 	p_SOL_uiCam->update();
-	p_SOL_uiCam->setPosition(glm::vec2(m_screenWidth / 2, m_screenHeight / 2));
+    p_SOL_uiCam->setPosition(glm::vec2(m_screenWidth / 2, m_screenHeight / 2));
 	drawGame(worldDrawables, overlayDrawables);
 }
 
-void View::drawGame(std::vector<Drawable*> worldDrawables, std::vector<Drawable*> overlayDrawables)
+void View::drawGame(std::vector<Drawable*> worldDrawables, 
+	                std::vector<Drawable*> overlayDrawables)
 {
 	//Set base depth
 	glClearDepth(1.0);
@@ -60,7 +62,8 @@ void View::drawGame(std::vector<Drawable*> worldDrawables, std::vector<Drawable*
 	GLint textureUniform = m_SOL_shaderProgram.getUniformLocation("mySampler");
 	glUniform1i(textureUniform, 0);
 
-	// NTS: anything that changes/moves must be redrawn. Otherwise we simply rerender.
+	// NTS: anything that changes/moves must be redrawn. 
+	// Otherwise we simply rerender.
 
 	drawToCamera(worldDrawables, p_SOL_cam);
 	drawToCamera(overlayDrawables, p_SOL_uiCam);
@@ -69,7 +72,8 @@ void View::drawGame(std::vector<Drawable*> worldDrawables, std::vector<Drawable*
 	m_SOL_window.swapBuffer();
 }
 
-void View::drawToCamera(std::vector<Drawable*> drawables, Solengine::Camera2D* cam)
+void View::drawToCamera(std::vector<Drawable*> drawables, 
+	                    Solengine::Camera2D* cam)
 {
 	glm::mat4 projectionMatrix = cam->getCameraMatrix();
 	GLint pUniform = m_SOL_shaderProgram.getUniformLocation("P");

@@ -1,6 +1,6 @@
-#include "Model.h"
+#include "Solengine/ErrorHandler.h"
 
-#include <Solengine/ErrorHandler.h>
+#include "Model.h"
 
 Model::Model() 
 {
@@ -18,47 +18,61 @@ void Model::init(float physicsSpeed, Solengine::Camera2D* cam)
 
 void Model::awake()
 {
-	setWalkableTiles(p_tileMap, p_currentUnit);
+	updateTileStates(p_tileMap, p_currentUnit);
 	updateCurrentUnitBox(p_currentUnit, p_currentUnitBox);
 	updateSelectedUnitBox(p_selectedUnit, p_selectionBox);
-	updateStatsDisplay(p_currentUnit, p_currentUnitIcon, p_currentUnitNameTextBox, p_currentUnitHealthText, p_currentUnitEnergyText);
-	updateStatsDisplay(p_selectedUnit, p_selectedUnitIcon, p_selectedUnitNameTextBox, p_selectedUnitHealthText, p_selectedUnitEnergyText);
+	updateStatsDisplay(p_currentUnit, p_currentUnitIcon, 
+		               p_currentUnitNameText, p_currentUnitHealthText, 
+		               p_currentUnitEnergyText);
+	updateStatsDisplay(p_selectedUnit, p_selectedUnitIcon, 
+		               p_selectedUnitNameText, p_selectedUnitHealthText,
+		               p_selectedUnitEnergyText);
 }
 
-Solengine::GameState Model::update(int pauseDuration, std::vector<Unit*> units)
+Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 {
-	float adjustedDeltaTicks = (getDeltaTicks() - pauseDuration) * m_physicsSpeed;
+	float adjustedDeltaTicks = (getDeltaTicks() - pauseDur) * m_physicsSpeed;
 
 	const float CAMERA_SPEED = 2.0f;
 	const float SCALE_SPEED = 0.1f;
 	const int SCROLL_SPEED = 5;
 
-	 Solengine::GameState state = m_SOL_inputManager.processInput();
+	Solengine::GameState state = m_SOL_inputManager.processInput();
 
-	 static glm::ivec2 previousMouseCoords;
-	 glm::ivec2 mouseCoords = getMouseCoordinates();
+	static glm::ivec2 previousMouseCoords;
+	glm::ivec2 mouseCoords = getMouseCoordinates();
 
-	if (m_SOL_inputManager.keyPress(SDLK_p))          state = Solengine::GameState::PAUSE;
-	if (m_SOL_inputManager.keyPress(SDLK_r))          state = Solengine::GameState::TURNOVER;
-	if (m_SOL_inputManager.keyState(SDLK_w))          p_SOL_cam->shiftPosition(glm::vec2{ 0, SCROLL_SPEED });
-	if (m_SOL_inputManager.keyState(SDLK_s))          p_SOL_cam->shiftPosition(glm::vec2{ 0, -SCROLL_SPEED });
-	if (m_SOL_inputManager.keyState(SDLK_a))          p_SOL_cam->shiftPosition(glm::vec2{ -SCROLL_SPEED, 0 });
-	if (m_SOL_inputManager.keyState(SDLK_d))          p_SOL_cam->shiftPosition(glm::vec2{ SCROLL_SPEED, 0 });
+	if (m_SOL_inputManager.keyPress(SDLK_p))
+	    state = Solengine::GameState::PAUSE;
 
-	if (getLeftMouse())                               setSelectedUnit(selectionCheck(units));
-	if (getRightMouse())                              attemptMovement(getMouseCoordinates());
+	if (m_SOL_inputManager.keyPress(SDLK_r))
+	    state = Solengine::GameState::TURNOVER;
 
-	if (mouseCoords != previousMouseCoords)           highlightTile(p_tileMap->p_tiles, mouseCoords);
+	if (m_SOL_inputManager.keyState(SDLK_w))
+		p_SOL_cam->shiftPosition(glm::vec2{ 0, SCROLL_SPEED });
 
-
-	if (state == Solengine::GameState::TURNOVER)
-         state = nextTurn(units);
-
+	if (m_SOL_inputManager.keyState(SDLK_s))
+		p_SOL_cam->shiftPosition(glm::vec2{ 0, -SCROLL_SPEED });
 	
-	if (state == Solengine::GameState::TURNOVER)
-		state == Solengine::GameState::PLAY;
+	if (m_SOL_inputManager.keyState(SDLK_a))
+		p_SOL_cam->shiftPosition(glm::vec2{ -SCROLL_SPEED, 0 });
+
+	if (m_SOL_inputManager.keyState(SDLK_d))
+		p_SOL_cam->shiftPosition(glm::vec2{ SCROLL_SPEED, 0 });
+
+	if (getLeftMouse())
+		setSelectedUnit(selectionCheck(units, mouseCoords));
+
+	if (getRightMouse())
+		movement(getMouseCoordinates(), p_tileMap, p_currentUnit);
+
+	if (mouseCoords != previousMouseCoords)
+		updateHighlight(p_tileMap->p_tiles, mouseCoords, p_hoverHighlight);
 
 
+	if (state == Solengine::GameState::TURNOVER)                                   
+		state = nextTurn(units, p_currentUnit, p_selectedUnit);
+	
 	previousMouseCoords = mouseCoords;
 
 	return state;
@@ -72,24 +86,27 @@ Uint32 Model::getDeltaTicks()
 	return deltaTicks;
 }
 
-void Model::attemptMovement(glm::vec2 coords)
+void Model::movement(glm::ivec2 coords, TileMap* tileMap, Unit* currentUnit)
 {
-	if (p_tileMap->p_tiles[coords.y][coords.x]->m_isWalkable && !p_tileMap->p_tiles[coords.y][coords.x]->m_isOccupied)
+	Tile* tarTile = tileMap->getTileByCoords(coords);
+	Tile* currentTile = tileMap->getTileByCoords(currentUnit->getCoords());
+	if (tarTile->m_isWalkable && !tarTile->m_isOccupied)
 	{
-		p_tileMap->p_tiles[p_currentUnit->getCoords().y][p_currentUnit->getCoords().x]->setOccupied(false);
-			
-		int steps = (abs(coords.y - p_currentUnit->getCoords().y) + abs(coords.x - p_currentUnit->getCoords().x));
-		p_currentUnit->setPos({ coords.x*TILE_WIDTH, coords.y*TILE_WIDTH } );
-		p_currentUnit->removeEnergy(p_tileMap->p_tiles[coords.y][coords.x]->m_stepDistance * 5);         //Has innacuracies as distance to tile != steps to tile
-			
-		p_tileMap->p_tiles[coords.y][coords.x]->setOccupied(true);
+        currentUnit->setPos({ coords.x * TILE_WIDTH, coords.y * TILE_WIDTH } );
+        currentUnit->removeEnergy(tarTile->getDist() 
+			                      * currentUnit->getMoveCost());         
 
-		setWalkableTiles(p_tileMap, p_currentUnit);
+		currentTile->setOccupied(false);
+		tarTile->setOccupied(true);
 
-		updateCurrentUnitBox(p_currentUnit, p_currentUnitBox);
-		updateStatsDisplay(p_currentUnit, p_currentUnitIcon, p_currentUnitNameTextBox, p_currentUnitHealthText, p_currentUnitEnergyText);
+		updateTileStates(tileMap, currentUnit);
+
+		updateCurrentUnitBox(currentUnit, p_currentUnitBox);
+        updateStatsDisplay(currentUnit, p_currentUnitIcon, 
+                           p_currentUnitNameText, p_currentUnitHealthText,
+			               p_currentUnitEnergyText);
 		
-		p_currentUnit->redraw();
+		currentUnit->redraw();
 	}
 }
 
@@ -98,37 +115,30 @@ void Model::setSelectedUnit(Unit* selectedUnit)
 	if (p_selectedUnit != selectedUnit && p_currentUnit != selectedUnit)
 	{
 		p_selectedUnit = selectedUnit;
-		updateStatsDisplay(selectedUnit, p_selectedUnitIcon, p_selectedUnitNameTextBox, p_selectedUnitHealthText, p_selectedUnitEnergyText);
+		updateStatsDisplay(selectedUnit, p_selectedUnitIcon, 
+			               p_selectedUnitNameText, p_selectedUnitHealthText, 
+			               p_selectedUnitEnergyText);
 
-		updateSelectedUnitBox(p_selectedUnit, p_selectionBox);
-		updateStatsDisplay(p_selectedUnit, p_selectedUnitIcon, p_selectedUnitNameTextBox, p_selectedUnitHealthText, p_selectedUnitEnergyText);
+		updateSelectedUnitBox(selectedUnit, p_selectionBox);
 	}
 }
 
-Unit* Model::selectionCheck(std::vector<Unit*> units)
+Unit* Model::selectionCheck(std::vector<Unit*> units, glm::ivec2 coords)
 {
-	glm::vec2 clickWorldPos = getMouseWorldPosition();
-
 	for (size_t i = 0; i < units.size(); i++)
-	{
-		glm::vec2 unitPos = units[i]->getPos();
-
-		if (clickWorldPos.x >= unitPos.x && clickWorldPos.x <= unitPos.x + TILE_WIDTH
-			&& clickWorldPos.y >= unitPos.y && clickWorldPos.y <= unitPos.y + TILE_WIDTH)
-			 return units[i];
-	}
+		if (units[i]->getCoords() == coords) return units[i];
+	
 	return nullptr;
 }
 
-void Model::updateStatsDisplay(Unit* unit, UIIcon* icon, UIText* name, UIText* health, UIText* energy)
+void Model::updateStatsDisplay(Unit* unit, UIIcon* icon, UIText* name, 
+	                           UIText* health, UIText* energy)
 {
 	//set icon
 	if (icon != nullptr) //selected
 	{
-		if (unit != nullptr)
-			icon->setTexture(unit->getTextureID());
-		else
-			icon->setTexture(-1);
+		if (unit != nullptr) icon->setTexture(unit->getTextureID());
+		else icon->setTexture(-1);
 
 		icon->redraw();
 	}
@@ -136,10 +146,8 @@ void Model::updateStatsDisplay(Unit* unit, UIIcon* icon, UIText* name, UIText* h
 	//set name
 	if (name != nullptr) //selected
 	{
-		if (unit != nullptr)
-			name->updateText(unit->getName());
-		else 
-			name->updateText("");
+		if (unit != nullptr) name->updateText(unit->getName());
+		else name->updateText("");
 
 		name->redraw();
 	}
@@ -147,10 +155,10 @@ void Model::updateStatsDisplay(Unit* unit, UIIcon* icon, UIText* name, UIText* h
 	//set health
 	if (health != nullptr)
 	{
-		if (unit != nullptr)
-			health->updateText(std::to_string(unit->getHealth()) + "/" + std::to_string(unit->getHealthMax()));
-		else
-			health->updateText("");
+		if (unit != nullptr) 
+			health->updateText(std::to_string(unit->getHealth())
+                               + "/" + std::to_string(unit->getHealthMax()));
+		else health->updateText("");
 
 		health->redraw();
 	}
@@ -158,67 +166,66 @@ void Model::updateStatsDisplay(Unit* unit, UIIcon* icon, UIText* name, UIText* h
 	//set energy
 	if (energy != nullptr)
 	{
-		if (unit != nullptr)
-			energy->updateText(std::to_string(unit->getEnergy()) + "/" + std::to_string(unit->getEnergyMax()));
-		else
-			energy->updateText("");
+        if (unit != nullptr) 
+			energy->updateText(std::to_string(unit->getEnergy()) 
+			                   + "/" + std::to_string(unit->getEnergyMax()));
+		else energy->updateText("");
 
 		energy->redraw();
 	}
-
 }
 
-void Model::highlightTile(std::vector<std::vector<Tile*>> tiles, glm::ivec2 mouseCoords)
+void Model::updateHighlight(std::vector<std::vector<Tile*>> tiles,
+	                      glm::ivec2 mouseCoords, UIIcon* hoverHighlight)
 {
 	if (checkIfCoordsInBound(tiles, mouseCoords))
 	{
 		if (!tiles[mouseCoords.y][mouseCoords.x]->m_isObstacle)
 		{
-			p_hoverHighlight->setVisible(true);
-			p_hoverHighlight->setPos(mouseCoords * TILE_WIDTH);
-			p_hoverHighlight->redraw();
+			hoverHighlight->setVisible(true);
+			hoverHighlight->setPos(mouseCoords * TILE_WIDTH);
+			hoverHighlight->redraw();
 		}
-		else
-		{
-			p_hoverHighlight->setVisible(false);
-		}
+		else hoverHighlight->setVisible(false);
 	}
-    else
-	    p_hoverHighlight->setVisible(false);
-
+    else hoverHighlight->setVisible(false);
 }
 
-bool Model::checkIfCoordsInBound(std::vector<std::vector<Tile*>> tiles, glm::ivec2 coords)
+bool Model::checkIfCoordsInBound(std::vector<std::vector<Tile*>> tiles, 
+	                             glm::ivec2 coords)
 {
 	if ((size_t)coords.x >= tiles[0].size()) return false;
-	if (coords.x < 0) return false;
-	if ((size_t)coords.y >= tiles.size()) return false;
-	if (coords.y < 0) return false;
+	if (coords.x < 0)                        return false;
+	if ((size_t)coords.y >= tiles.size())    return false;
+	if (coords.y < 0)                        return false;
 
 	return true;
 }
 
-void Model::setWalkableTiles(TileMap* tileMap, Unit* currentUnit)
+void Model::updateTileStates(TileMap* tileMap, Unit* currentUnit)
 {
 	tileMap->resetWalkable();
-	std::vector<glm::vec2> walkableTiles = tileMap->getWalkablePos(currentUnit->getCoords(), floor(currentUnit->getEnergy() / 5));
+	std::vector<glm::vec2> walkableTiles = tileMap->
+		getWalkablePos(currentUnit->getCoords(), 
+                       floor(currentUnit->getEnergy() 
+						     / currentUnit->getMoveCost()));
 	p_walkableHighlight->setMultidraw(walkableTiles);	
 	p_walkableHighlight->redraw();
 }
 
-Solengine::GameState Model::nextTurn(std::vector<Unit*> units)
+Solengine::GameState Model::nextTurn(std::vector<Unit*> units, 
+	                                 Unit* currentUnit, Unit* selectedUnit)
 {
-	p_currentUnit->resetEnergy();
-	p_currentUnit = units[++m_turnCounter%units.size()];
-	if (p_currentUnit == p_selectedUnit) 
-		p_selectedUnit = nullptr;
+	currentUnit->resetEnergy();
+	currentUnit = units[++m_turnCounter%units.size()];
+	setCurrentUnit(currentUnit);
+	if (currentUnit == selectedUnit) setSelectedUnit(nullptr);
 
-	setWalkableTiles(p_tileMap, p_currentUnit);
+	updateTileStates(p_tileMap, currentUnit);
 
-	updateCurrentUnitBox(p_currentUnit, p_currentUnitBox);
-	updateSelectedUnitBox(p_selectedUnit, p_selectionBox);
-	updateStatsDisplay(p_currentUnit, p_currentUnitIcon, p_currentUnitNameTextBox, p_currentUnitHealthText, p_currentUnitEnergyText);
-	updateStatsDisplay(p_selectedUnit, p_selectedUnitIcon, p_selectedUnitNameTextBox, p_selectedUnitHealthText, p_selectedUnitEnergyText);
+	updateCurrentUnitBox(currentUnit, p_currentUnitBox);
+	updateStatsDisplay(currentUnit, p_currentUnitIcon, p_currentUnitNameText, 
+		               p_currentUnitHealthText, p_currentUnitEnergyText);
 
 	return Solengine::GameState::PLAY;
 }
@@ -231,26 +238,23 @@ void Model::updateCurrentUnitBox(Unit* currentUnit, UIIcon* currentUnitBox)
 		currentUnitBox->setPos(currentUnit->getPos());
 		currentUnitBox->setColour({ 0, 0, 255, 255 });
 	}
-	else
-		currentUnitBox->setVisible(false);
+	else currentUnitBox->setVisible(false);
 
 	currentUnitBox->redraw();
 }
 
-void Model::updateSelectedUnitBox(Unit* selectedUnit, UIIcon* selectionBox)
+void Model::updateSelectedUnitBox(Unit* selectedUnit, UIIcon* selectBox)
 {
 	if (selectedUnit != nullptr)
 	{
-		selectionBox->setVisible(true);
-		selectionBox->setPos(selectedUnit->getPos());
+		selectBox->setVisible(true);
+		selectBox->setPos(selectedUnit->getPos());
 
-		if (selectedUnit->getIsFriendly())
-			selectionBox->setColour({ 0, 255, 0, 255 });
-		else
-			selectionBox->setColour({ 255, 0, 0, 255 });
+        if (selectedUnit->getIsFriendly()) 
+			selectBox->setColour({ 0, 255, 0, 255 });
+		else selectBox->setColour({ 255, 0, 0, 255 });
 	}
-	else
-		selectionBox->setVisible(false);
+	else selectBox->setVisible(false);
 
-	selectionBox->redraw();
+	selectBox->redraw();
 }

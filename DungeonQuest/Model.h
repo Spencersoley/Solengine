@@ -4,11 +4,8 @@
 #include <Solengine/GameState.h>
 #include <Solengine/Camera2D.h>
 #include <Solengine/InputManager.h>
-//#include <GL/glew.h>
-//#include <vector>
-//#include <glm/glm.hpp>
+
 #include "Unit.h"
-#include "UIElement.h"
 #include "UIText.h"
 #include "UIButton.h"
 #include "UIIcon.h"
@@ -22,35 +19,87 @@ public:
 	void init(float physicsSpeed, Solengine::Camera2D* cam);
 
 	void awake();
-	
+
 	Solengine::GameState update(int pauseDuration, std::vector<Unit*> units);
+	
+	//GETTERS
+	bool getLeftMouse()
+	{
+		return m_SOL_inputManager.keyState(SDL_BUTTON_LEFT);
+	}
 
-	bool getLeftMouse() { return m_SOL_inputManager.keyState(SDL_BUTTON_LEFT); }
-	bool getRightMouse() { return m_SOL_inputManager.keyState(SDL_BUTTON_RIGHT); }
-	glm::ivec2 getMouseScreenPosition() { return m_SOL_inputManager.getMouseCoords(); }
-	glm::ivec2 getMouseWorldPosition() { return p_SOL_cam->screenToWorld(getMouseScreenPosition()); }
-	glm::ivec2 getMouseCoordinates() { return { floor(getMouseWorldPosition().x / 64), floor(getMouseWorldPosition().y / 64) }; }
+	bool getRightMouse()
+	{
+		return m_SOL_inputManager.keyState(SDL_BUTTON_RIGHT);
+	}
 
-	//
+	glm::ivec2 getMouseScreenPos()
+	{
+		return m_SOL_inputManager.getMouseCoords();
+	}
+
+	glm::ivec2 getMouseWorldPos()
+	{
+		return p_SOL_cam->screenToWorld(getMouseScreenPos());
+	}
+
+	//SETTERS
 	void setSelectedUnit(Unit* unit);
-	void setCurrentUnit(Unit* unit) { p_currentUnit = unit; }
 
-	//ui
+	glm::ivec2 getMouseCoordinates()
+	{
+		return flatten(getMouseWorldPos(), TILE_WIDTH);
+	}
 
-	void setCurrentUnitIcon(UIIcon* currentUnitIcon) { p_currentUnitIcon = currentUnitIcon; }
-	void setCurrentUnitNameTextBox(UIText* currentUnitNameTextBox) { p_currentUnitNameTextBox = currentUnitNameTextBox; }
-	void setCurrentUnitHealthText(UIText* currentUnitHealthText) { p_currentUnitHealthText = currentUnitHealthText; }
-	void setCurrentUnitEnergyText(UIText* currentUnitEnergyText) { p_currentUnitEnergyText = currentUnitEnergyText; }
-	void setCurrentUnitBox(UIIcon* currentUnitBox) { p_currentUnitBox = currentUnitBox; }
+	glm::ivec2 flatten(glm::ivec2 vec2, int c)
+	{
+		return { floor(vec2.x / c), floor(vec2.y / c) };
+	}
 
-	void setSelectedUnitIcon(UIIcon* selectedUnitIcon) { p_selectedUnitIcon = selectedUnitIcon; }
-	void setSelectedUnitNameTextBox(UIText* selectedUnitNameText) { p_selectedUnitNameTextBox = selectedUnitNameText; }
-	void setSelectedHealthText(UIText* selectedUnitHealthText) { p_selectedUnitHealthText = selectedUnitHealthText; }
-	void setSelectedEnergyText(UIText* selectedUnitEnergyText) { p_selectedUnitEnergyText = selectedUnitEnergyText; }
-	void setSelectionBox(UIIcon* selectionBox) { p_selectionBox = selectionBox; }
+    void setCurrentUnit(Unit* unit) { p_currentUnit = unit; }                   
 
-	void setHoverHighlight(UIIcon* hoverHighlight) { p_hoverHighlight = hoverHighlight; }
-	void setWalkableHighlight(UIIcon* walkableHighlight) { p_walkableHighlight = walkableHighlight; }
+	void setCurrentUnitIcon(UIIcon* icon) { p_currentUnitIcon = icon; }
+
+	void setCurrentUnitNameText(UIText* text) 
+	{
+		p_currentUnitNameText = text; 
+	}
+
+	void setCurrentUnitHealthText(UIText* text) 
+	{
+		p_currentUnitHealthText = text;
+	}
+
+	void setCurrentUnitEnergyText(UIText* text) 
+	{
+		p_currentUnitEnergyText = text;
+	}
+
+	void setCurrentUnitBox(UIIcon* icon) { p_currentUnitBox = icon; }
+
+	void setSelectedUnitIcon(UIIcon* icon) { p_selectedUnitIcon = icon; }
+
+	void setSelectedUnitNameText(UIText* text) 
+	{
+		p_selectedUnitNameText = text; 
+	}
+
+	void setSelectedHealthText(UIText* text)
+	{ 
+		p_selectedUnitHealthText = text; 
+	}
+
+	void setSelectedEnergyText(UIText* text) 
+	{ 
+		p_selectedUnitEnergyText = text;
+	}
+
+	void setSelectionBox(UIIcon* icon) { p_selectionBox = icon; }
+
+	void setHoverHighlight(UIIcon* icon) { p_hoverHighlight = icon; }
+
+    void setWalkableHighlight(UIIcon* icon) { p_walkableHighlight = icon; }
+
 	void setTileMap(TileMap* tileMap) { p_tileMap = tileMap; }
 
 private:
@@ -60,14 +109,15 @@ private:
 	Unit* p_selectedUnit = nullptr;
 	Unit* p_currentUnit = nullptr;
 
+	
+	UIIcon* p_currentUnitIcon = nullptr;
+	UIText* p_currentUnitNameText = nullptr;
 	UIText* p_currentUnitHealthText = nullptr;
     UIText* p_currentUnitEnergyText = nullptr;
-	UIIcon* p_currentUnitIcon = nullptr;
-	UIText* p_currentUnitNameTextBox = nullptr;
     UIIcon* p_currentUnitBox = nullptr;
 	
 	UIIcon* p_selectedUnitIcon = nullptr;
-	UIText* p_selectedUnitNameTextBox = nullptr;
+	UIText* p_selectedUnitNameText = nullptr;
 	UIText* p_selectedUnitHealthText = nullptr;
 	UIText* p_selectedUnitEnergyText = nullptr;
 	UIIcon* p_selectionBox = nullptr;
@@ -77,17 +127,21 @@ private:
 	TileMap* p_tileMap;
 
 	int m_turnCounter;
-
 	float m_physicsSpeed;
 	
 	Uint32 getDeltaTicks();
-	void attemptMovement(glm::vec2 coords);
-	Solengine::GameState nextTurn(std::vector<Unit*> units);
-	Unit* selectionCheck(std::vector<Unit*> units);
-	void updateStatsDisplay(Unit* unit, UIIcon* icon, UIText* name, UIText* health, UIText* energy);
-	void highlightTile(std::vector<std::vector<Tile*>> tiles, glm::ivec2 mouseCoords);
-	bool checkIfCoordsInBound(std::vector<std::vector<Tile*>> tiles, glm::ivec2 coords);
-	void setWalkableTiles(TileMap* tileMap, Unit* currentUnit);
+	void movement(glm::ivec2 coords, TileMap* tileMap, Unit* currentUnit);
+	Solengine::GameState nextTurn(std::vector<Unit*> units, Unit* currentUnit, 
+		                          Unit* selectedUnit);
+	Unit* selectionCheck(std::vector<Unit*> units, glm::ivec2 coords);
+
+	void updateHighlight(std::vector<std::vector<Tile*>> tiles,
+		               glm::ivec2 mouseCoords, UIIcon* hoverHighlight);
+	bool checkIfCoordsInBound(std::vector<std::vector<Tile*>> tiles, 
+		                      glm::ivec2 coords);
+	void updateTileStates(TileMap* tileMap, Unit* currentUnit);
+	void updateStatsDisplay(Unit* unit, UIIcon* icon, UIText* name,
+	                     	UIText* health, UIText* energy);
 	void updateSelectedUnitBox(Unit* selectedUnit, UIIcon* selectionBox);
     void updateCurrentUnitBox(Unit* currentUnit, UIIcon* currentUnitBox);
 

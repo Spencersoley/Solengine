@@ -1,8 +1,9 @@
 #pragma once
 
+#include <Solengine/SpriteBatch.h>
+
 #include <glm/glm.hpp>
 
-#include "Solengine/SpriteBatch.h"
 #include "Level.h"
 #include "Drawable.h"
 
@@ -16,12 +17,20 @@ public:
 	Unit();
 	virtual ~Unit();
 
-	void init(glm::vec2 coords, Solengine::SpriteBatch* spriteBatch);
+	void init(glm::ivec2 coords, Solengine::SpriteBatch* spriteBatch);
 
-	glm::vec2 getCoords() const { return { floor(m_pos.x / TILE_WIDTH), floor(m_pos.y / TILE_WIDTH) }; }
+    glm::ivec2 getCoords() const 
+	{ 
+        return { floor(m_pos.x / TILE_WIDTH), floor(m_pos.y / TILE_WIDTH) }; 
+	}
+
 	bool getIsFriendly() const { return m_isFriendly; }
+    int getMoveCost() { return m_movementCost; }
 
-	std::string getName() const { if (m_name == "") return "__"; else return m_name; }
+	std::string getName() const 
+	{ 
+        if (m_name == "") return "__"; else return m_name;
+	}
 	
 	int getEnergy() { return m_energy; }
 	int getEnergyMax() { return m_energyMax; }
@@ -33,9 +42,11 @@ public:
 
 	void newTurn() { m_energy = m_energyMax; }
 
+	
 
 protected:
 
+	int m_movementCost;
 	int m_energy;
 	int m_energyMax;
 	int m_health;

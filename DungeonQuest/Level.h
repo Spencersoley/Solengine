@@ -6,7 +6,6 @@
 #include <Solengine/SpriteBatch.h>
 
 #include "Drawable.h"
-#include "Tile.h"
 #include "TileMap.h"
 
 const int TILE_WIDTH = 64;
@@ -15,7 +14,7 @@ class Level : public Drawable
 {
 public:
 	//Load the level
-	Level(std::vector<std::string> levelData, Solengine::SpriteBatch* spriteBatch);
+	Level(std::vector<std::string> levelData, Solengine::SpriteBatch* batch);
 	~Level();
 
 	void draw();

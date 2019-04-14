@@ -14,9 +14,6 @@
 
 #include "Model.h"
 #include "View.h"
-
-#include "Unit.h"
-#include "UIElement.h"
 #include "Level.h"
 
 class Scene
@@ -38,7 +35,6 @@ private:
 	Solengine::Camera2D m_SOL_uiCam;
 	Model m_model;
 	View m_view;
-
 
 	std::vector<Level*> p_levels;
 	TileMap* p_tileMap = nullptr;

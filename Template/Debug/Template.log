@@ -1,7 +1,5 @@
 ﻿  Controller.cpp
-  Level.cpp
   Main.cpp
-  Model.cpp
   Scene.cpp
   View.cpp
 c:\users\ssole\source\repos\solengineproject\template\view.cpp(29): error C2661: 'Solengine::Font::Font': no overloaded function takes 2 arguments

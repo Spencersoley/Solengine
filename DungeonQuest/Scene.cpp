@@ -1,19 +1,14 @@
 #include "Scene.h"
 
+#include "Solengine/ResourceManager.h"
+#include "Solengine/SDLInitialiser.h"
+#include "Solengine/ErrorHandler.h"
+
 #include <iostream>
 #include <string>
 #include <random>
 #include <ctime>
 #include <algorithm>
-
-#include <Solengine/ResourceManager.h>
-#include <Solengine/SDLInitialiser.h>
-#include <Solengine/ErrorHandler.h>
-//#include <Solengine/Vertex.h>
-
-#include "UIButton.h"
-#include "UIText.h"
-#include "UIIcon.h"
 
 #include "Adept.h"
 #include "Fighter.h"
@@ -178,17 +173,17 @@ void Scene::initScene()
 	spriteBatches.push_back(new Solengine::SpriteBatch());
 	spriteBatches.back()->init();
 	fontBatches.push_back(new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, spriteBatches.back()));
-	UIText* currentUnitNameTextBox = new UIText(0.09f*m_screenWidth, 20, 1, fontBatches.back(), "");
-	m_model.setCurrentUnitNameTextBox(currentUnitNameTextBox);
-	p_overlayDrawables.push_back(currentUnitNameTextBox);
+	UIText* currentUnitNameText = new UIText(0.09f*m_screenWidth, 20, 1, fontBatches.back(), "");
+	m_model.setCurrentUnitNameText(currentUnitNameText);
+	p_overlayDrawables.push_back(currentUnitNameText);
 
 	//Set selected name
 	spriteBatches.push_back(new Solengine::SpriteBatch());
 	spriteBatches.back()->init();
 	fontBatches.push_back(new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, spriteBatches.back()));
-	UIText* selectedUnitNameTextBox = new UIText(0.64f*m_screenWidth, 20, 1, fontBatches.back(), "");
-	m_model.setSelectedUnitNameTextBox(selectedUnitNameTextBox);
-	p_overlayDrawables.push_back(selectedUnitNameTextBox);
+	UIText* selectedUnitNameText = new UIText(0.64f*m_screenWidth, 20, 1, fontBatches.back(), "");
+	m_model.setSelectedUnitNameText(selectedUnitNameText);
+	p_overlayDrawables.push_back(selectedUnitNameText);
 
 	//Set current health
 	spriteBatches.push_back(new Solengine::SpriteBatch());

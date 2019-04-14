@@ -1,8 +1,9 @@
 #pragma once
 
+#include <Solengine/Vertex.h>
+
 #include <glm/glm.hpp>
 #include <iostream>
-#include <Solengine/Vertex.h>
 #include <vector>
 
 class Tile
@@ -24,12 +25,19 @@ public:
 
 	int m_tileWidth;
 
-	Solengine::ColourRGBA8 m_colour; 
-	Solengine::ColourRGBA8 m_highlightColour; 
+	Solengine::ColourRGBA8 m_colour;
+	Solengine::ColourRGBA8 m_highlightColour;
 	Solengine::ColourRGBA8 m_viableColour;
 
 	void addNeighbour(Tile* tile) { p_neighbours.push_back(tile); }
 	glm::vec2 getPos() const { return { m_xPos, m_yPos }; }
+
+	int getDist() { return m_stepDistance; }
+	void setDist(int dist) { m_stepDistance = dist; }
+	bool getIsObstacle() { return m_isObstacle; }
+	void setIsObstacle(bool set) { m_isObstacle = set; }
+	bool getIsWalkable() { return m_isWalkable; }
+	void setIsWalkable(bool set) { m_isWalkable = set; }
 
 	void setWalkable(int stepsAvailable, int stepDistance);
 	void setOccupied(bool occupied) { m_isOccupied = occupied; }
@@ -38,6 +46,4 @@ public:
 
 private:
 
-
 };
-

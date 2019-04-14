@@ -15,8 +15,12 @@ public:
 	int getWidth() const { return p_tiles[0].size(); }
 	int getHeight() const { return p_tiles.size(); }
 
-	std::vector<glm::vec2> getWalkablePos(glm::vec2 coords, int stepsAvailable);
-	Tile* getTileByPosition(glm::vec2 pos);	
+    std::vector<glm::vec2> getWalkablePos(glm::ivec2 coords, int steps);
+	Tile* getTileByPosition(glm::ivec2 pos);	
+    Tile* getTileByCoords(glm::ivec2 coords) 
+	{ 
+		return p_tiles[coords.y][coords.x]; 
+	}
 
 	void resetWalkable();
 

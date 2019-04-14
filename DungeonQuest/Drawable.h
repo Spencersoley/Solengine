@@ -27,7 +27,6 @@ public:
 protected:
 	Solengine::SpriteBatch* p_SOL_SB;
 
-
 	bool m_redraw;
 	glm::ivec2 m_pos;
 	int m_height;
