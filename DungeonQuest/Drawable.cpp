@@ -28,7 +28,6 @@ void Drawable::draw()
 
 			m_redraw = false;
 		}
-		else 
-			p_SOL_SB->renderBatch();
+		else p_SOL_SB->renderBatch();
 	}
 }

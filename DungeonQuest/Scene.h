@@ -46,6 +46,7 @@ private:
 	Unit* p_currentUnit = nullptr;
 	Unit* p_selectedUnit = nullptr;
 
+	SpellBook m_spellBook;
 
 	int m_turnCounter;
 	int m_screenWidth;

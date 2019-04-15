@@ -2,8 +2,10 @@
 
 #include "Solengine/ResourceManager.h"
 
-Scout::Scout()
+Scout::Scout(SpellBook* sb)
 {
+	m_moveSet.init(sb);
+	p_spellBook = sb;
 	m_isVisible = true;
 	m_isFriendly = true;
 	m_movementCost = 5;
@@ -14,6 +16,7 @@ Scout::Scout()
 	m_name = "Scout";
 	m_textureID = Solengine::ResourceManager::getTexture(
 		          "Textures/zombie_pack/scout.png").textureID;
+	m_moveSet.addSpell(sb->strike(), 0);
 }
 
 Scout::~Scout()

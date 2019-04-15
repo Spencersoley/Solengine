@@ -25,9 +25,12 @@
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="MoveSet.cpp" />
     <ClCompile Include="Rat.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Scout.cpp" />
+    <ClCompile Include="Spell.cpp" />
+    <ClCompile Include="SpellBook.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="UIButton.cpp" />
@@ -43,9 +46,12 @@
     <ClInclude Include="Fighter.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="MoveSet.h" />
     <ClInclude Include="Rat.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Scout.h" />
+    <ClInclude Include="Spell.h" />
+    <ClInclude Include="SpellBook.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="UIButton.h" />

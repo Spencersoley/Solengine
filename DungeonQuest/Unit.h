@@ -6,10 +6,10 @@
 
 #include "Level.h"
 #include "Drawable.h"
+#include "MoveSet.h"
 
 const float AGENT_WIDTH = 64.0f;
 const float AGENT_RADIUS = AGENT_WIDTH / 2.0f;
-//const int TILE_WIDTH = 64;
 
 class Unit : public Drawable
 {
@@ -29,7 +29,8 @@ public:
 
 	std::string getName() const 
 	{ 
-        if (m_name == "") return "__"; else return m_name;
+        if (m_name == "") return "__";
+		else return m_name;
 	}
 	
 	int getEnergy() { return m_energy; }
@@ -42,9 +43,11 @@ public:
 
 	void newTurn() { m_energy = m_energyMax; }
 
-	
+	MoveSet m_moveSet;
 
 protected:
+
+	SpellBook* p_spellBook;
 
 	int m_movementCost;
 	int m_energy;

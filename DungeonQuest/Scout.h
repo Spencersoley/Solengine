@@ -5,7 +5,7 @@
 class Scout : public Unit
 {
 public:
-	Scout();
+	Scout(SpellBook* sb);
 	~Scout();
 };
 

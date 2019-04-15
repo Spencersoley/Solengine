@@ -84,7 +84,7 @@ Level::Level(std::vector<std::string> levelData, Solengine::SpriteBatch* batch)
 			}
 		}
 
-		if (tileRow.size() > 0) tileMap.push_back(tileRow);
+		if (!tileRow.empty()) tileMap.push_back(tileRow);
 	}
 	batch->end();
 

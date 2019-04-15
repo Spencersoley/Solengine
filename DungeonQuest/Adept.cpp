@@ -2,8 +2,10 @@
 
 #include "Solengine/ResourceManager.h"
 
-Adept::Adept()
+Adept::Adept(SpellBook* sb)
 {
+	m_moveSet.init(sb);
+	p_spellBook = sb;
 	m_isVisible = true;
 	m_isFriendly = true;
 	m_movementCost = 5;
@@ -13,7 +15,9 @@ Adept::Adept()
 	m_healthMax = 20;
 	m_name = "Adept";
 	m_textureID = Solengine::ResourceManager::getTexture(
-		         "Textures/zombie_pack/adept.png").textureID;
+		"Textures/zombie_pack/adept.png").textureID;
+	m_moveSet.addSpell(sb->strike(), 0);
+	m_moveSet.addSpell(sb->slash(), 1);
 }
 
 Adept::~Adept()

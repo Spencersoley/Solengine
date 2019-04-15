@@ -24,7 +24,7 @@ void UIIcon::draw()
 	if (m_isVisible && m_textureID != -1)
 	    if (m_redraw)
 		{ 
-	        if (m_multidraw.size() == 0)
+	        if (m_multidraw.empty())
 			{ 
 			    p_SOL_SB->begin();
 

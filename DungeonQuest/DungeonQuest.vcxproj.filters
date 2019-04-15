@@ -29,6 +29,12 @@
     <Filter Include="Source Files\Core">
       <UniqueIdentifier>{5e067a1c-bf37-4a75-a7d3-f35f12ad6ad5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Spells">
+      <UniqueIdentifier>{5729700f-9710-4cb7-9e62-294c82c022e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Spells">
+      <UniqueIdentifier>{35205e00-9817-485a-ab0e-71b4806212ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -82,6 +88,15 @@
     <ClCompile Include="Drawable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SpellBook.cpp">
+      <Filter>Source Files\Spells</Filter>
+    </ClCompile>
+    <ClCompile Include="Spell.cpp">
+      <Filter>Source Files\Spells</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveSet.cpp">
+      <Filter>Source Files\Spells</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Level.h">
@@ -131,6 +146,15 @@
     </ClInclude>
     <ClInclude Include="Drawable.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpellBook.h">
+      <Filter>Header Files\Spells</Filter>
+    </ClInclude>
+    <ClInclude Include="Spell.h">
+      <Filter>Header Files\Spells</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveSet.h">
+      <Filter>Header Files\Spells</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

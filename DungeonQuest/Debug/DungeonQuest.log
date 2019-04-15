@@ -1,2 +1,3 @@
-﻿  Main.cpp
+﻿  Model.cpp
+c:\users\ssole\source\repos\solengineproject\dungeonquest\model.cpp(276): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
   DungeonQuest.vcxproj -> C:\Users\Ssole\source\repos\SolengineProject\Debug\DungeonQuest.exe

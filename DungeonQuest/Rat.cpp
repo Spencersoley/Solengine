@@ -2,8 +2,10 @@
 
 #include "Solengine/ResourceManager.h"
 
-Rat::Rat()
+Rat::Rat(SpellBook* sb)
 {
+	m_moveSet.init(sb);
+	p_spellBook = sb;
 	m_isVisible = true;
 	m_isFriendly = false;
 	m_movementCost = 5;
@@ -14,6 +16,8 @@ Rat::Rat()
 	m_name = "Rat";
 	m_textureID = Solengine::ResourceManager::getTexture(
 		          "Textures/zombie_pack/rat.png").textureID;
+	m_moveSet.addSpell(sb->strike(), 0);
+
 }
 
 Rat::~Rat()

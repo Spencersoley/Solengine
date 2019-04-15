@@ -96,7 +96,7 @@ void Scene::initScene()
 	//Set hover highlight
 	spriteBatches.push_back(new Solengine::SpriteBatch());
 	spriteBatches.back()->init();
-	UIIcon* hoverHighlight = new UIIcon(0.3f * m_screenWidth, 200, TILE_WIDTH, TILE_WIDTH, spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID);
+	UIIcon* hoverHighlight = new UIIcon(0.3f * m_screenWidth, 200, TILE_WIDTH, TILE_WIDTH, spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/Aim.png").textureID);
 	hoverHighlight->setColour({ 200, 200, 200, 100 });
 	m_model.setHoverHighlight(hoverHighlight);
 	p_worldDrawables.push_back(hoverHighlight);
@@ -120,7 +120,7 @@ void Scene::initScene()
 	//ADEPT INIT
 	spriteBatches.push_back(new Solengine::SpriteBatch());
 	spriteBatches.back()->init();
-	p_units.push_back(new Adept());
+	p_units.push_back(new Adept(&m_spellBook));
 	p_units.back()->init(p_levels[m_currentLevel]->getAdeptSpawnCoords(), spriteBatches.back());
 	p_worldDrawables.push_back(p_units.back());
 	m_model.setCurrentUnit(p_units.back());
@@ -129,7 +129,7 @@ void Scene::initScene()
 	//FIGHTER INIT
 	spriteBatches.push_back(new Solengine::SpriteBatch());
 	spriteBatches.back()->init();
-	p_units.push_back(new Fighter());
+	p_units.push_back(new Fighter(&m_spellBook));
 	p_units.back()->init(p_levels[m_currentLevel]->getFighterSpawnCoords(), spriteBatches.back());
 	p_worldDrawables.push_back(p_units.back());
 	m_model.setSelectedUnit(p_units.back());
@@ -137,14 +137,14 @@ void Scene::initScene()
 	//SCOUT INIT
 	spriteBatches.push_back(new Solengine::SpriteBatch());
 	spriteBatches.back()->init();
-	p_units.push_back(new Scout());
+	p_units.push_back(new Scout(&m_spellBook));
 	p_units.back()->init(p_levels[m_currentLevel]->getScoutSpawnCoords(), spriteBatches.back());
 	p_worldDrawables.push_back(p_units.back());
 
 	//RATS INIT
 	spriteBatches.push_back(new Solengine::SpriteBatch());
 	spriteBatches.back()->init();
-	p_units.push_back(new Rat());
+	p_units.push_back(new Rat(&m_spellBook));
 	p_units.back()->init(p_levels[m_currentLevel]->getRatSpawnCoords(), spriteBatches.back());
 	p_worldDrawables.push_back(p_units.back());
 
@@ -216,6 +216,78 @@ void Scene::initScene()
 	UIText* selectedUnitHealth = new UIText(0.85f*m_screenWidth, 100, 1, fontBatches.back(), "Health: ");
 	m_model.setSelectedHealthText(selectedUnitHealth);
 	p_overlayDrawables.push_back(selectedUnitHealth);
+
+	//Set attack 1 
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	fontBatches.emplace_back(new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, spriteBatches.back()));
+	UIText* spellOneText = new UIText(0.25f*m_screenWidth, 100, 1, fontBatches.back(), " 1: ");
+	m_model.setSpellText(spellOneText);
+	p_overlayDrawables.push_back(spellOneText);
+
+	//Set attack 2 text
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	fontBatches.emplace_back(new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, spriteBatches.back()));
+	UIText* spellTwoText = new UIText(0.25f*m_screenWidth, 80, 1, fontBatches.back(), " 2: ");
+	m_model.setSpellText(spellTwoText);
+	p_overlayDrawables.push_back(spellTwoText);
+
+	//Set attack 3 text
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	fontBatches.emplace_back(new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, spriteBatches.back()));
+	UIText* spellThreeText = new UIText(0.25f*m_screenWidth, 60, 1, fontBatches.back(), " 3: ");
+	m_model.setSpellText(spellThreeText);
+	p_overlayDrawables.push_back(spellThreeText);
+
+	//Set attack 4 text
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	fontBatches.emplace_back(new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, spriteBatches.back()));
+	UIText* spellFourText = new UIText(0.25f*m_screenWidth, 40, 1, fontBatches.back(), " 4: ");
+	m_model.setSpellText(spellFourText);
+	p_overlayDrawables.push_back(spellFourText);
+
+	//Set attack 1 stats
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	fontBatches.emplace_back(new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, spriteBatches.back()));
+	UIText* spellOneStats = new UIText(0.40f*m_screenWidth, 100, 1, fontBatches.back(), " ");
+	m_model.setSpellStats(spellOneStats);
+	p_overlayDrawables.push_back(spellOneStats);
+
+	//Set attack 2 stats
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	fontBatches.emplace_back(new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, spriteBatches.back()));
+	UIText* spellTwoStats = new UIText(0.40f*m_screenWidth, 80, 1, fontBatches.back(), " ");
+	m_model.setSpellStats(spellTwoStats);
+	p_overlayDrawables.push_back(spellTwoStats);
+
+	//Set attack 3 stats
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	fontBatches.emplace_back(new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, spriteBatches.back()));
+	UIText* spellThreeStats = new UIText(0.40f*m_screenWidth, 60, 1, fontBatches.back(), " ");
+	m_model.setSpellStats(spellThreeStats);
+	p_overlayDrawables.push_back(spellThreeStats);
+
+	//Set attack 4 stats
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	fontBatches.emplace_back(new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, spriteBatches.back()));
+	UIText* spellFourStats = new UIText(0.40f*m_screenWidth, 40, 1, fontBatches.back(), " ");
+	m_model.setSpellStats(spellFourStats);
+	p_overlayDrawables.push_back(spellFourStats);
+
+	//Set current attack box
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	UIIcon* currentSpellBox = new UIIcon(0.25f * m_screenWidth, 100, 100, 20, spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/Panel.png").textureID);
+	m_model.setSelectedSpellBox(currentSpellBox);
+	p_overlayDrawables.push_back(currentSpellBox);
+
 }
 
 //Game loop

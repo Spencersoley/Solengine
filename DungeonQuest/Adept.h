@@ -5,7 +5,7 @@
 class Adept : public Unit
 {
 public:
-	Adept();
+	Adept(SpellBook* sb);
 	~Adept();
 };
 

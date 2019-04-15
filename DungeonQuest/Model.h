@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL/SDL.h>
+
 #include <Solengine/GameState.h>
 #include <Solengine/Camera2D.h>
 #include <Solengine/InputManager.h>
@@ -94,7 +95,14 @@ public:
 		p_selectedUnitEnergyText = text;
 	}
 
+    // These get pushed back in order
+	void setSpellText(UIText* text) { p_spellText.push_back(text); }
+
+	void setSpellStats(UIText* text) { p_spellStats.push_back(text); }
+
 	void setSelectionBox(UIIcon* icon) { p_selectionBox = icon; }
+	
+	void setSelectedSpellBox(UIIcon* icon) { p_selectedSpellBox = icon; }
 
 	void setHoverHighlight(UIIcon* icon) { p_hoverHighlight = icon; }
 
@@ -106,10 +114,16 @@ private:
 	Solengine::InputManager m_SOL_inputManager;
 	Solengine::Camera2D* p_SOL_cam;
 	
+	int m_currentSpellIndex = 0;
+
+	void changeSpell(int spell);
+	void changeSpell();
+
+	void updateSelectedSpellBox();
+	
 	Unit* p_selectedUnit = nullptr;
 	Unit* p_currentUnit = nullptr;
 
-	
 	UIIcon* p_currentUnitIcon = nullptr;
 	UIText* p_currentUnitNameText = nullptr;
 	UIText* p_currentUnitHealthText = nullptr;
@@ -121,7 +135,12 @@ private:
 	UIText* p_selectedUnitHealthText = nullptr;
 	UIText* p_selectedUnitEnergyText = nullptr;
 	UIIcon* p_selectionBox = nullptr;
+
+	UIIcon* p_selectedSpellBox = nullptr;
 	
+	std::vector<UIText*> p_spellText;
+	std::vector<UIText*> p_spellStats;
+
 	UIIcon* p_walkableHighlight = nullptr;
 	UIIcon* p_hoverHighlight = nullptr;
 	TileMap* p_tileMap;
@@ -144,5 +163,6 @@ private:
 	                     	UIText* health, UIText* energy);
 	void updateSelectedUnitBox(Unit* selectedUnit, UIIcon* selectionBox);
     void updateCurrentUnitBox(Unit* currentUnit, UIIcon* currentUnitBox);
+	void updateSpellDisplay(Unit* currentUnit);
 
 };

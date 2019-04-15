@@ -27,6 +27,9 @@ void Model::awake()
 	updateStatsDisplay(p_selectedUnit, p_selectedUnitIcon, 
 		               p_selectedUnitNameText, p_selectedUnitHealthText,
 		               p_selectedUnitEnergyText);
+	updateSpellDisplay(p_currentUnit);
+
+	updateSelectedSpellBox();
 }
 
 Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
@@ -60,11 +63,17 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 	if (m_SOL_inputManager.keyState(SDLK_d))
 		p_SOL_cam->shiftPosition(glm::vec2{ SCROLL_SPEED, 0 });
 
-	if (getLeftMouse())
-		setSelectedUnit(selectionCheck(units, mouseCoords));
+	if (m_SOL_inputManager.keyPress(SDLK_f))
+		changeSpell();
 
-	if (getRightMouse())
-		movement(getMouseCoordinates(), p_tileMap, p_currentUnit);
+	if (getMouseScreenPos().y < 470) //exclude backplate
+	{
+		if (getLeftMouse())
+			setSelectedUnit(selectionCheck(units, mouseCoords));
+
+		if (getRightMouse())
+			movement(getMouseCoordinates(), p_tileMap, p_currentUnit);
+	}
 
 	if (mouseCoords != previousMouseCoords)
 		updateHighlight(p_tileMap->p_tiles, mouseCoords, p_hoverHighlight);
@@ -74,6 +83,8 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 		state = nextTurn(units, p_currentUnit, p_selectedUnit);
 	
 	previousMouseCoords = mouseCoords;
+
+	//470
 
 	return state;
 }
@@ -131,6 +142,36 @@ Unit* Model::selectionCheck(std::vector<Unit*> units, glm::ivec2 coords)
 	return nullptr;
 }
 
+void Model::changeSpell(int spell)
+{
+	if (p_currentUnit->m_moveSet.p_spells[spell]->getCost() != 0)
+		m_currentSpellIndex = spell;
+
+	updateSelectedSpellBox();
+}
+
+void Model::changeSpell()
+{
+	m_currentSpellIndex++;
+	m_currentSpellIndex = m_currentSpellIndex % 4;
+	if (p_currentUnit->m_moveSet.p_spells[m_currentSpellIndex]->getCost() == 0)
+		changeSpell();
+
+	updateSelectedSpellBox();
+}
+
+/*
+void Model::updateSpellDisplay()
+{
+	for (size_t i = 0; i < p_spellStats.size(); i++)
+	{
+		if (p_spellText == nullptr) continue;
+	
+		p_spellStats[i]->updateText(p_spell);
+	}
+}
+*/
+
 void Model::updateStatsDisplay(Unit* unit, UIIcon* icon, UIText* name, 
 	                           UIText* health, UIText* energy)
 {
@@ -175,6 +216,31 @@ void Model::updateStatsDisplay(Unit* unit, UIIcon* icon, UIText* name,
 	}
 }
 
+void Model::updateSelectedSpellBox()
+{
+	p_selectedSpellBox->setPos(p_spellText[m_currentSpellIndex]->getPos());
+	p_selectedSpellBox->redraw();
+}
+
+void Model::updateSpellDisplay(Unit* currentUnit)
+{
+	for (size_t i = 0; i < p_spellText.size(); i++)
+	{
+		if (i < currentUnit->m_moveSet.moveSetSize())
+		{
+			p_spellText[i]->updateText(currentUnit->m_moveSet.getSpell(i)->getName());
+			p_spellText[i]->setVisible(true);
+		}
+		else
+		{
+			p_spellText[i]->updateText(" ");
+			p_spellText[i]->setVisible(false);
+		}
+        
+		p_spellText[i]->redraw();
+	}
+}
+
 void Model::updateHighlight(std::vector<std::vector<Tile*>> tiles,
 	                      glm::ivec2 mouseCoords, UIIcon* hoverHighlight)
 {
@@ -213,23 +279,6 @@ void Model::updateTileStates(TileMap* tileMap, Unit* currentUnit)
 	p_walkableHighlight->redraw();
 }
 
-Solengine::GameState Model::nextTurn(std::vector<Unit*> units, 
-	                                 Unit* currentUnit, Unit* selectedUnit)
-{
-	currentUnit->resetEnergy();
-	currentUnit = units[++m_turnCounter%units.size()];
-	setCurrentUnit(currentUnit);
-	if (currentUnit == selectedUnit) setSelectedUnit(nullptr);
-
-	updateTileStates(p_tileMap, currentUnit);
-
-	updateCurrentUnitBox(currentUnit, p_currentUnitBox);
-	updateStatsDisplay(currentUnit, p_currentUnitIcon, p_currentUnitNameText, 
-		               p_currentUnitHealthText, p_currentUnitEnergyText);
-
-	return Solengine::GameState::PLAY;
-}
-
 void Model::updateCurrentUnitBox(Unit* currentUnit, UIIcon* currentUnitBox)
 {
 	if (currentUnit != nullptr)
@@ -257,4 +306,23 @@ void Model::updateSelectedUnitBox(Unit* selectedUnit, UIIcon* selectBox)
 	else selectBox->setVisible(false);
 
 	selectBox->redraw();
+}
+
+Solengine::GameState Model::nextTurn(std::vector<Unit*> units,
+	Unit* currentUnit, Unit* selectedUnit)
+{
+	currentUnit->resetEnergy();
+	currentUnit = units[++m_turnCounter%units.size()];
+	setCurrentUnit(currentUnit);
+	if (currentUnit == selectedUnit) setSelectedUnit(nullptr);
+
+	updateTileStates(p_tileMap, currentUnit);
+
+	updateCurrentUnitBox(currentUnit, p_currentUnitBox);
+	updateStatsDisplay(currentUnit, p_currentUnitIcon, p_currentUnitNameText,
+		p_currentUnitHealthText, p_currentUnitEnergyText);
+	updateSpellDisplay(currentUnit);
+	changeSpell(0);
+
+	return Solengine::GameState::PLAY;
 }

@@ -5,7 +5,7 @@
 class Fighter : public Unit
 {
 public:
-	Fighter();
+	Fighter(SpellBook* sb);
 	~Fighter();
 };
 

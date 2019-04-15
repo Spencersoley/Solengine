@@ -2,10 +2,10 @@
 
 #include "Unit.h"
 
-class Rat :  public Unit
+class Rat : public Unit
 {
 public:
-	Rat();
+	Rat(SpellBook* sb);
 	~Rat();
 };
 
