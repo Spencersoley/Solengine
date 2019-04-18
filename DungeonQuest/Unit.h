@@ -7,6 +7,7 @@
 #include "Level.h"
 #include "Drawable.h"
 #include "MoveSet.h"
+#include "UIIcon.h"
 
 const float AGENT_WIDTH = 64.0f;
 const float AGENT_RADIUS = AGENT_WIDTH / 2.0f;
@@ -38,16 +39,41 @@ public:
 	int getHealth() { return m_health; }
 	int getHealthMax() { return m_healthMax; }
 
+	void setEnergy(int nrg) { m_energy = nrg; }
+
 	void resetEnergy() { m_energy = m_energyMax; }
 	void removeEnergy(int energyUsed) { m_energy -= energyUsed; }
+
+	void removeHealth(int dmg) { m_health -= dmg; }
 
 	void newTurn() { m_energy = m_energyMax; }
 
 	MoveSet m_moveSet;
 
+	void setHealthbar(UIIcon* hb, UIIcon* hbb)
+	{
+		p_healthbar = hb;
+		p_healthbarBackplate = hbb;
+	}
+
+	void updateHealthbar() 
+	{ 
+		p_healthbar->resizeWidth(((float)getHealth() / (float)getHealthMax()) 
+			                      * p_healthbarBackplate->getWidth());
+		p_healthbar->setPos({ getPos().x + int(0.25 * TILE_WIDTH),
+			                getPos().y + int(0.9 * TILE_WIDTH) });
+		p_healthbarBackplate->setPos({ getPos().x + int(0.25 * TILE_WIDTH), 
+			                         getPos().y + int(0.9 * TILE_WIDTH) });
+	}
+
+
 protected:
 
 	SpellBook* p_spellBook;
+
+	UIIcon* p_healthbar = nullptr;
+	UIIcon* p_healthbarBackplate = nullptr;
+
 
 	int m_movementCost;
 	int m_energy;

@@ -17,8 +17,10 @@ public:
 	void setTexture(GLuint textureID) { m_textureID = textureID; }
 	GLuint getTextureID() const { return m_textureID; }
 
-	void setPos(glm::ivec2 pos) { m_pos = pos; }
+	void setPos(glm::ivec2 pos) { m_pos = pos; redraw(); }
 	glm::ivec2 getPos() { return m_pos; }
+
+	int getWidth() { return m_width; }
 
 	void setColour(Solengine::ColourRGBA8 col) { m_colour = col; }
 

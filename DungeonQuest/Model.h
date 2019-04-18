@@ -19,7 +19,7 @@ public:
 
 	void init(float physicsSpeed, Solengine::Camera2D* cam);
 
-	void awake();
+	void awake(std::vector<Unit*> units);
 
 	Solengine::GameState update(int pauseDuration, std::vector<Unit*> units);
 	
@@ -116,7 +116,6 @@ private:
 	
 	int m_currentSpellIndex = 0;
 
-	void changeSpell(int spell);
 	void changeSpell();
 
 	void updateSelectedSpellBox();
@@ -149,13 +148,17 @@ private:
 	float m_physicsSpeed;
 	
 	Uint32 getDeltaTicks();
-	void movement(glm::ivec2 coords, TileMap* tileMap, Unit* currentUnit);
+	bool movement(glm::ivec2 coords, TileMap* tileMap, Unit* currentUnit);
+	bool attack(glm::ivec2 coords, TileMap* tileMap, Unit* currentUnit, std::vector<Unit*> units);
 	Solengine::GameState nextTurn(std::vector<Unit*> units, Unit* currentUnit, 
 		                          Unit* selectedUnit);
 	Unit* selectionCheck(std::vector<Unit*> units, glm::ivec2 coords);
 
 	void updateHighlight(std::vector<std::vector<Tile*>> tiles,
 		               glm::ivec2 mouseCoords, UIIcon* hoverHighlight);
+	void updateHighlightColour(glm::ivec2 mouseCoords, UIIcon* hoverHighlight);
+	bool checkIfTileReachable(glm::ivec2 mouseCoords, glm::ivec2 unitCoords, int spellRange);
+
 	bool checkIfCoordsInBound(std::vector<std::vector<Tile*>> tiles, 
 		                      glm::ivec2 coords);
 	void updateTileStates(TileMap* tileMap, Unit* currentUnit);

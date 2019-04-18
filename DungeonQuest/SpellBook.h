@@ -16,7 +16,7 @@ struct Strike : Spell
 	Strike() 
 	{
 		m_name = "Strike"; 
-		m_range = 1;
+		m_range = 3;
 		m_damage = 3;
 		m_cost = 4;
 	};
@@ -28,7 +28,7 @@ struct Slash : Spell
 	Slash()
 	{
 		m_name = "Slash";
-		m_range = 2; 
+		m_range = 1; 
 		m_damage = 3;
 		m_cost = 5;
 	};

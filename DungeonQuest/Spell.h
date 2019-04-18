@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+class Unit;
+
 class Spell
 {
 public:
@@ -13,6 +15,8 @@ public:
 	int getRange() { return m_range; }
 	int getDamage() { return m_damage; }
 	int getCost() { return m_cost; }
+
+	void cast(Unit* caster, Unit* target);
 
 protected:
 	std::string m_name;

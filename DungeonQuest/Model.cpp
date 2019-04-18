@@ -16,7 +16,7 @@ void Model::init(float physicsSpeed, Solengine::Camera2D* cam)
 	p_SOL_cam = cam;
 }
 
-void Model::awake()
+void Model::awake(std::vector<Unit*> units)
 {
 	updateTileStates(p_tileMap, p_currentUnit);
 	updateCurrentUnitBox(p_currentUnit, p_currentUnitBox);
@@ -30,6 +30,9 @@ void Model::awake()
 	updateSpellDisplay(p_currentUnit);
 
 	updateSelectedSpellBox();
+
+	for (size_t i = 0; i < units.size(); i++) 
+		units[i]->updateHealthbar();
 }
 
 Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
@@ -64,15 +67,23 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 		p_SOL_cam->shiftPosition(glm::vec2{ SCROLL_SPEED, 0 });
 
 	if (m_SOL_inputManager.keyPress(SDLK_f))
+	{
 		changeSpell();
+		updateHighlight(p_tileMap->p_tiles, mouseCoords, p_hoverHighlight);
+	}
 
 	if (getMouseScreenPos().y < 470) //exclude backplate
 	{
-		if (getLeftMouse())
+		if (m_SOL_inputManager.keyPress(SDL_BUTTON_LEFT))
+		{
 			setSelectedUnit(selectionCheck(units, mouseCoords));
-
-		if (getRightMouse())
-			movement(getMouseCoordinates(), p_tileMap, p_currentUnit);
+		}
+			
+		if (m_SOL_inputManager.keyPress(SDL_BUTTON_RIGHT))
+		{
+			if (!movement(mouseCoords, p_tileMap, p_currentUnit))
+			    attack(mouseCoords, p_tileMap, p_currentUnit, units);
+		}		
 	}
 
 	if (mouseCoords != previousMouseCoords)
@@ -97,7 +108,7 @@ Uint32 Model::getDeltaTicks()
 	return deltaTicks;
 }
 
-void Model::movement(glm::ivec2 coords, TileMap* tileMap, Unit* currentUnit)
+bool Model::movement(glm::ivec2 coords, TileMap* tileMap, Unit* currentUnit)
 {
 	Tile* tarTile = tileMap->getTileByCoords(coords);
 	Tile* currentTile = tileMap->getTileByCoords(currentUnit->getCoords());
@@ -118,7 +129,52 @@ void Model::movement(glm::ivec2 coords, TileMap* tileMap, Unit* currentUnit)
 			               p_currentUnitEnergyText);
 		
 		currentUnit->redraw();
+
+		currentUnit->updateHealthbar();
+
+		return true;
 	}
+
+	return false;
+}
+
+bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit, 
+	               std::vector<Unit*> units)
+{
+	Unit* tarUnit = selectionCheck(units, mouseCoords);
+    
+	if (tarUnit != nullptr)
+	{
+		if (checkIfTileReachable(currentUnit->getCoords(), tarUnit->getCoords(),
+			currentUnit->m_moveSet.p_spells[m_currentSpellIndex]->getRange())
+			&& currentUnit->m_moveSet.p_spells[m_currentSpellIndex]->getCost()
+			<= currentUnit->getEnergy())
+		{
+			if (currentUnit != tarUnit)
+			{
+				currentUnit->m_moveSet.p_spells[m_currentSpellIndex]->cast(currentUnit, tarUnit);
+				updateTileStates(tileMap, currentUnit);
+
+				updateStatsDisplay(currentUnit, p_currentUnitIcon,
+					p_currentUnitNameText, p_currentUnitHealthText,
+					p_currentUnitEnergyText);
+				updateStatsDisplay(tarUnit, p_selectedUnitIcon,
+					p_selectedUnitNameText, p_selectedUnitHealthText,
+					p_selectedUnitEnergyText);
+				setSelectedUnit(tarUnit);
+
+				tarUnit->updateHealthbar();
+
+				return true;
+			}
+		}
+
+		else std::cout << "out of range " << std::endl;
+	}
+
+
+
+	return false;
 }
 
 void Model::setSelectedUnit(Unit* selectedUnit)
@@ -142,14 +198,6 @@ Unit* Model::selectionCheck(std::vector<Unit*> units, glm::ivec2 coords)
 	return nullptr;
 }
 
-void Model::changeSpell(int spell)
-{
-	if (p_currentUnit->m_moveSet.p_spells[spell]->getCost() != 0)
-		m_currentSpellIndex = spell;
-
-	updateSelectedSpellBox();
-}
-
 void Model::changeSpell()
 {
 	m_currentSpellIndex++;
@@ -159,18 +207,6 @@ void Model::changeSpell()
 
 	updateSelectedSpellBox();
 }
-
-/*
-void Model::updateSpellDisplay()
-{
-	for (size_t i = 0; i < p_spellStats.size(); i++)
-	{
-		if (p_spellText == nullptr) continue;
-	
-		p_spellStats[i]->updateText(p_spell);
-	}
-}
-*/
 
 void Model::updateStatsDisplay(Unit* unit, UIIcon* icon, UIText* name, 
 	                           UIText* health, UIText* energy)
@@ -248,6 +284,7 @@ void Model::updateHighlight(std::vector<std::vector<Tile*>> tiles,
 	{
 		if (!tiles[mouseCoords.y][mouseCoords.x]->m_isObstacle)
 		{
+			updateHighlightColour(mouseCoords, hoverHighlight);
 			hoverHighlight->setVisible(true);
 			hoverHighlight->setPos(mouseCoords * TILE_WIDTH);
 			hoverHighlight->redraw();
@@ -255,6 +292,28 @@ void Model::updateHighlight(std::vector<std::vector<Tile*>> tiles,
 		else hoverHighlight->setVisible(false);
 	}
     else hoverHighlight->setVisible(false);
+}
+
+void Model::updateHighlightColour(glm::ivec2 mouseCoords, UIIcon* hoverHighlight)
+{
+	if (checkIfTileReachable(mouseCoords, p_currentUnit->getCoords(),
+		p_currentUnit->m_moveSet.p_spells[m_currentSpellIndex]->getRange()))
+		hoverHighlight->setColour({ 0, 200, 50, 100 });
+	else hoverHighlight->setColour({ 200, 200, 200, 100 });
+}
+
+bool Model::checkIfTileReachable(glm::ivec2 mouseCoords, glm::ivec2 unitCoords, int spellRange)
+{
+	float tileDist = (mouseCoords.x - unitCoords.x) * (mouseCoords.x - unitCoords.x)
+		+ (mouseCoords.y - unitCoords.y) * (mouseCoords.y - unitCoords.y);
+
+	tileDist = sqrt(tileDist);
+
+	if (spellRange < tileDist) return false;
+
+	// if target not in sight return false
+
+	return true;
 }
 
 bool Model::checkIfCoordsInBound(std::vector<std::vector<Tile*>> tiles, 
@@ -321,8 +380,9 @@ Solengine::GameState Model::nextTurn(std::vector<Unit*> units,
 	updateCurrentUnitBox(currentUnit, p_currentUnitBox);
 	updateStatsDisplay(currentUnit, p_currentUnitIcon, p_currentUnitNameText,
 		p_currentUnitHealthText, p_currentUnitEnergyText);
+	m_currentSpellIndex = 0;
 	updateSpellDisplay(currentUnit);
-	changeSpell(0);
+	updateSelectedSpellBox();
 
 	return Solengine::GameState::PLAY;
 }

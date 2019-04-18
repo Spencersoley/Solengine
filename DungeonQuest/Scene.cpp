@@ -122,6 +122,18 @@ void Scene::initScene()
 	spriteBatches.back()->init();
 	p_units.push_back(new Adept(&m_spellBook));
 	p_units.back()->init(p_levels[m_currentLevel]->getAdeptSpawnCoords(), spriteBatches.back());
+	
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	UIIcon* hb = new UIIcon(0, 0, 0.5f * TILE_WIDTH, 0.1f * TILE_WIDTH, spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID);
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	UIIcon* hbb = new UIIcon(0, 0, 0.5f * TILE_WIDTH, 0.1f * TILE_WIDTH, spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID);
+	p_units.back()->setHealthbar(hb, hbb);
+	p_worldDrawables.push_back(hbb);
+	p_worldDrawables.push_back(hb);
+	hb->setColour({ 0, 255, 0, 255 });
+	hbb->setColour({ 222, 0, 0, 255 });
 	p_worldDrawables.push_back(p_units.back());
 	m_model.setCurrentUnit(p_units.back());
 
@@ -131,6 +143,18 @@ void Scene::initScene()
 	spriteBatches.back()->init();
 	p_units.push_back(new Fighter(&m_spellBook));
 	p_units.back()->init(p_levels[m_currentLevel]->getFighterSpawnCoords(), spriteBatches.back());
+
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	hb = new UIIcon(0, 0, 0.5f * TILE_WIDTH, 0.1f * TILE_WIDTH, spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID);
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	hbb = new UIIcon(0, 0, 0.5f * TILE_WIDTH, 0.1f * TILE_WIDTH, spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID);
+	p_units.back()->setHealthbar(hb, hbb);
+	p_worldDrawables.push_back(hbb);
+	p_worldDrawables.push_back(hb);
+	hb->setColour({ 0, 255, 0, 255 });
+	hbb->setColour({ 222, 0, 0, 255 });
 	p_worldDrawables.push_back(p_units.back());
 	m_model.setSelectedUnit(p_units.back());
 
@@ -139,6 +163,18 @@ void Scene::initScene()
 	spriteBatches.back()->init();
 	p_units.push_back(new Scout(&m_spellBook));
 	p_units.back()->init(p_levels[m_currentLevel]->getScoutSpawnCoords(), spriteBatches.back());
+
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	hb = new UIIcon(0, 0, 0.5f * TILE_WIDTH, 0.1f * TILE_WIDTH, spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID);
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	hbb = new UIIcon(0, 0, 0.5f * TILE_WIDTH, 0.1f * TILE_WIDTH, spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID);
+	p_units.back()->setHealthbar(hb, hbb);
+	p_worldDrawables.push_back(hbb);
+	p_worldDrawables.push_back(hb);
+	hb->setColour({ 0, 255, 0, 255 });
+	hbb->setColour({ 222, 0, 0, 255 });
 	p_worldDrawables.push_back(p_units.back());
 
 	//RATS INIT
@@ -146,6 +182,18 @@ void Scene::initScene()
 	spriteBatches.back()->init();
 	p_units.push_back(new Rat(&m_spellBook));
 	p_units.back()->init(p_levels[m_currentLevel]->getRatSpawnCoords(), spriteBatches.back());
+
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	hb = new UIIcon(0, 0, 0.5f * TILE_WIDTH, 0.1f * TILE_WIDTH, spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID);
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	hbb = new UIIcon(0, 0, 0.5f * TILE_WIDTH, 0.1f * TILE_WIDTH, spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID);
+	p_units.back()->setHealthbar(hb, hbb);
+	p_worldDrawables.push_back(hbb);
+	p_worldDrawables.push_back(hb);
+	hb->setColour({ 0, 255, 0, 255 });
+	hbb->setColour({ 222, 0, 0, 255 });
 	p_worldDrawables.push_back(p_units.back());
 
     //LAYER 3 (Overlay)
@@ -298,7 +346,7 @@ void Scene::gameLoop()
 	//When initialised to true, this enables fps console announcing
 	bool trackFPS = m_announceFPS;
 
-	m_model.awake();
+	m_model.awake(p_units);
 
 	while (m_gameState != Solengine::GameState::EXIT)
 	{

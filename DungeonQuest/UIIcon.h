@@ -12,6 +12,9 @@ public:
 
 	void draw();
 
+	void resizeWidth(int w) { m_width = w; }
+
+
 	void setMultidraw(std::vector<glm::vec2> mdraw) { m_multidraw = mdraw; }
 
 private:
