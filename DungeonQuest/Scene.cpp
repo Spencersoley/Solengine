@@ -336,6 +336,34 @@ void Scene::initScene()
 	m_model.setSelectedSpellBox(currentSpellBox);
 	p_overlayDrawables.push_back(currentSpellBox);
 
+
+	//COMBAT LOG
+	std::vector<UIText*> texts;
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	fontBatches.emplace_back(new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, spriteBatches.back()));
+	UIText* logLineOne = new UIText(0.36f*m_screenWidth, 100, 1, fontBatches.back(), " ");
+	texts.push_back(logLineOne);
+	p_overlayDrawables.push_back(logLineOne);
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	fontBatches.emplace_back(new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, spriteBatches.back()));
+	UIText* logLineTwo = new UIText(0.36f*m_screenWidth, 80, 1, fontBatches.back(), " ");
+	texts.push_back(logLineTwo);
+	p_overlayDrawables.push_back(logLineTwo);
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	fontBatches.emplace_back(new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, spriteBatches.back()));
+	UIText* logLineThree = new UIText(0.36f*m_screenWidth, 60, 1, fontBatches.back(), " ");
+	texts.push_back(logLineThree);
+	p_overlayDrawables.push_back(logLineThree);
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	fontBatches.emplace_back(new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, spriteBatches.back()));
+	UIText* logLineFour = new UIText(0.36f*m_screenWidth, 40, 1, fontBatches.back(), " ");
+	texts.push_back(logLineFour);
+	p_overlayDrawables.push_back(logLineFour);
+	m_model.setCombatLog(texts);
 }
 
 //Game loop

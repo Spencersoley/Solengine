@@ -76,7 +76,8 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 	{
 		if (m_SOL_inputManager.keyPress(SDL_BUTTON_LEFT))
 		{
-			setSelectedUnit(selectionCheck(units, mouseCoords));
+			if (!movement(mouseCoords, p_tileMap, p_currentUnit))
+			    setSelectedUnit(selectionCheck(units, mouseCoords));
 		}
 			
 		if (m_SOL_inputManager.keyPress(SDL_BUTTON_RIGHT))
@@ -169,7 +170,10 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
 			}
 		}
 
-		else std::cout << "out of range " << std::endl;
+		m_combatLog.announce(tarUnit->getName() + " is out of range of " + 
+			                 currentUnit->getName() + "'s " + 
+			                 currentUnit->m_moveSet.p_spells[m_currentSpellIndex]
+			                 ->getName() );
 	}
 
 
@@ -298,8 +302,8 @@ void Model::updateHighlightColour(glm::ivec2 mouseCoords, UIIcon* hoverHighlight
 {
 	if (checkIfTileReachable(mouseCoords, p_currentUnit->getCoords(),
 		p_currentUnit->m_moveSet.p_spells[m_currentSpellIndex]->getRange()))
-		hoverHighlight->setColour({ 0, 200, 50, 100 });
-	else hoverHighlight->setColour({ 200, 200, 200, 100 });
+		hoverHighlight->setColour({ 255, 15, 15, 200 });
+	else hoverHighlight->setColour({ 100, 100, 100, 200 });
 }
 
 bool Model::checkIfTileReachable(glm::ivec2 mouseCoords, glm::ivec2 unitCoords, int spellRange)

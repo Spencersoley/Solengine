@@ -10,6 +10,7 @@
 #include "UIText.h"
 #include "UIButton.h"
 #include "UIIcon.h"
+#include "CombatLog.h"
 
 class Model
 {
@@ -110,10 +111,14 @@ public:
 
 	void setTileMap(TileMap* tileMap) { p_tileMap = tileMap; }
 
+	void setCombatLog(std::vector<UIText*> texts) { m_combatLog.setTexts(texts); }
+
 private:
 	Solengine::InputManager m_SOL_inputManager;
 	Solengine::Camera2D* p_SOL_cam;
 	
+	CombatLog m_combatLog;
+
 	int m_currentSpellIndex = 0;
 
 	void changeSpell();
