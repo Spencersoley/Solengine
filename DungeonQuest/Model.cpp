@@ -146,34 +146,51 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
     
 	if (tarUnit != nullptr)
 	{
-		if (checkIfTileReachable(currentUnit->getCoords(), tarUnit->getCoords(),
-			currentUnit->m_moveSet.p_spells[m_currentSpellIndex]->getRange())
-			&& currentUnit->m_moveSet.p_spells[m_currentSpellIndex]->getCost()
+		if (currentUnit->m_moveSet.p_spells[m_currentSpellIndex]->getCost()
 			<= currentUnit->getEnergy())
 		{
-			if (currentUnit != tarUnit)
-			{
-				currentUnit->m_moveSet.p_spells[m_currentSpellIndex]->cast(currentUnit, tarUnit);
-				updateTileStates(tileMap, currentUnit);
+		    if (checkIfTileReachable(currentUnit->getCoords(), tarUnit->getCoords(),
+			currentUnit->m_moveSet.p_spells[m_currentSpellIndex]->getRange()))
+		    { 
+				if (currentUnit != tarUnit)
+				{
+					currentUnit->m_moveSet.p_spells[m_currentSpellIndex]->cast(currentUnit, tarUnit);
+					updateTileStates(tileMap, currentUnit);
 
-				updateStatsDisplay(currentUnit, p_currentUnitIcon,
-					p_currentUnitNameText, p_currentUnitHealthText,
-					p_currentUnitEnergyText);
-				updateStatsDisplay(tarUnit, p_selectedUnitIcon,
-					p_selectedUnitNameText, p_selectedUnitHealthText,
-					p_selectedUnitEnergyText);
-				setSelectedUnit(tarUnit);
+					updateStatsDisplay(currentUnit, p_currentUnitIcon,
+						p_currentUnitNameText, p_currentUnitHealthText,
+						p_currentUnitEnergyText);
+					updateStatsDisplay(tarUnit, p_selectedUnitIcon,
+						p_selectedUnitNameText, p_selectedUnitHealthText,
+						p_selectedUnitEnergyText);
+					setSelectedUnit(tarUnit);
 
-				tarUnit->updateHealthbar();
+					tarUnit->updateHealthbar();
 
-				return true;
-			}
+
+					m_combatLog.announce("EVENT: " + currentUnit->getName() +
+						" hit " + tarUnit->getName() +
+						" with " + currentUnit->
+						m_moveSet.p_spells[m_currentSpellIndex]->
+						getName() + " for " + std::to_string(currentUnit->
+							m_moveSet.p_spells[m_currentSpellIndex]->getDamage())
+						+ " damage");
+
+					return true;
+				}
+				else m_combatLog.announce("WARNING! " + currentUnit->getName()
+					+ " can't attack itself!");
+			
+		    }
+	    	else m_combatLog.announce("WARNING! " + tarUnit->getName() + 
+                  " is out of range of " + 
+	     		  currentUnit->getName() + "'s " + 
+                  currentUnit->m_moveSet.p_spells[m_currentSpellIndex]
+                  ->getName() );
 		}
-
-		m_combatLog.announce(tarUnit->getName() + " is out of range of " + 
-			                 currentUnit->getName() + "'s " + 
-			                 currentUnit->m_moveSet.p_spells[m_currentSpellIndex]
-			                 ->getName() );
+		else m_combatLog.announce("WARNING! " + currentUnit->getName() +
+			" has no NRG for " + currentUnit->
+			m_moveSet.p_spells[m_currentSpellIndex]->getName());
 	}
 
 
@@ -308,16 +325,12 @@ void Model::updateHighlightColour(glm::ivec2 mouseCoords, UIIcon* hoverHighlight
 
 bool Model::checkIfTileReachable(glm::ivec2 mouseCoords, glm::ivec2 unitCoords, int spellRange)
 {
-	float tileDist = (mouseCoords.x - unitCoords.x) * (mouseCoords.x - unitCoords.x)
+	int tileDist = (mouseCoords.x - unitCoords.x) * (mouseCoords.x - unitCoords.x)
 		+ (mouseCoords.y - unitCoords.y) * (mouseCoords.y - unitCoords.y);
 
-	tileDist = sqrt(tileDist);
+	if (spellRange < sqrt((float)tileDist)) return false;
 
-	if (spellRange < tileDist) return false;
-
-	// if target not in sight return false
-
-	return true;
+    return true;
 }
 
 bool Model::checkIfCoordsInBound(std::vector<std::vector<Tile*>> tiles, 
@@ -336,7 +349,7 @@ void Model::updateTileStates(TileMap* tileMap, Unit* currentUnit)
 	tileMap->resetWalkable();
 	std::vector<glm::vec2> walkableTiles = tileMap->
 		getWalkablePos(currentUnit->getCoords(), 
-                       floor(currentUnit->getEnergy() 
+                       (int)floor(currentUnit->getEnergy() 
 						     / currentUnit->getMoveCost()));
 	p_walkableHighlight->setMultidraw(walkableTiles);	
 	p_walkableHighlight->redraw();

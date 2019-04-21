@@ -30,13 +30,13 @@ std::vector<glm::vec2> TileMap::getWalkablePos(glm::ivec2 coords, int steps)
 
 Tile* TileMap::getTileByPosition(glm::ivec2 pos)
 {
-	int x = floor(pos.x / m_tileWidth);
+	int x = (int)floor(pos.x / m_tileWidth);
 	if (x < 0) return nullptr;
-	else if (x >= p_tiles[0].size()) return nullptr;
+	else if ((size_t)x >= p_tiles[0].size()) return nullptr;
 
-	int y = floor(pos.y / m_tileWidth);
+	int y = (int)floor(pos.y / m_tileWidth);
 	if (y < 0) return nullptr;
-	else if (y >= p_tiles.size()) return nullptr;
+	else if ((size_t)y >= p_tiles.size()) return nullptr;
 
 	if (p_tiles[y][x]->getIsObstacle()) return nullptr;
 

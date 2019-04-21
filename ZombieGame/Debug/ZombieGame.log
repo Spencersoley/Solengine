@@ -1,12 +1,19 @@
-﻿  Controller.cpp
+﻿  Agent.cpp
+  Bullet.cpp
+  Controller.cpp
   Model.cpp
+  Pathfinder.cpp
   View.cpp
 c:\users\ssole\source\repos\solengineproject\zombiegame\view.cpp(30): error C2661: 'Solengine::Font::Font': no overloaded function takes 2 arguments
 c:\users\ssole\source\repos\solengineproject\zombiegame\view.cpp(149): error C2664: 'void Solengine::Font::draw(const char *,glm::vec2,glm::vec2,float,Solengine::ColourRGBA8,Solengine::Justification)': cannot convert argument 1 from 'Solengine::SpriteBatch' to 'const char *'
   c:\users\ssole\source\repos\solengineproject\zombiegame\view.cpp(149): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
 c:\users\ssole\source\repos\solengineproject\zombiegame\view.cpp(153): error C2664: 'void Solengine::Font::draw(const char *,glm::vec2,glm::vec2,float,Solengine::ColourRGBA8,Solengine::Justification)': cannot convert argument 1 from 'Solengine::SpriteBatch' to 'const char *'
   c:\users\ssole\source\repos\solengineproject\zombiegame\view.cpp(153): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+  Gun.cpp
+  Human.cpp
+  Level.cpp
   Main.cpp
   Scene.cpp
   Player.cpp
+  Zombie.cpp
   Generating Code...

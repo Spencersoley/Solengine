@@ -52,7 +52,7 @@ public:
 		for (size_t i = 0; i < p_text.size(), i < m_log.size(); i++)
 		{
 			if (m_log[i].second == 0) p_text[i]->updateText(m_log[i].first);
-			else p_text[i]->updateText(m_log[i].first + " " + std::to_string(m_log[i].second + 1));
+			else p_text[i]->updateText(m_log[i].first + " (" + std::to_string(m_log[i].second + 1) + ")");
 
 			p_text[i]->redraw();
 		}

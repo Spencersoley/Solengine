@@ -58,8 +58,8 @@ public:
 
 	void updateHealthbar() 
 	{ 
-		p_healthbar->resizeWidth(((float)getHealth() / (float)getHealthMax()) 
-			                      * p_healthbarBackplate->getWidth());
+		p_healthbar->resizeWidth((int)((float)getHealth() * p_healthbarBackplate->getWidth() 
+			                     / (float)getHealthMax()));
 		p_healthbar->setPos({ getPos().x + int(0.25 * TILE_WIDTH),
 			                getPos().y + int(0.9 * TILE_WIDTH) });
 		p_healthbarBackplate->setPos({ getPos().x + int(0.25 * TILE_WIDTH), 
