@@ -113,6 +113,7 @@ public:
 
 	void setCombatLog(std::vector<UIText*> texts) { m_combatLog.setTexts(texts); }
 
+
 private:
 	Solengine::InputManager m_SOL_inputManager;
 	Solengine::Camera2D* p_SOL_cam;

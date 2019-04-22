@@ -44,7 +44,14 @@ public:
 	void resetEnergy() { m_energy = m_energyMax; }
 	void removeEnergy(int energyUsed) { m_energy -= energyUsed; }
 
-	void removeHealth(int dmg) { m_health -= dmg; }
+	void removeHealth(int dmg){ m_health -= dmg; }
+
+	void death()
+	{
+		m_delete = true;
+		p_healthbar->m_delete = true;
+		p_healthbarBackplate->m_delete = true;
+	}
 
 	void newTurn() { m_energy = m_energyMax; }
 

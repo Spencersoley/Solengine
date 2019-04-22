@@ -1,25 +1,2 @@
-﻿  Adept.cpp
-  Drawable.cpp
-  Fighter.cpp
-  Level.cpp
-  Log.cpp
-  Main.cpp
-  Model.cpp
-  MoveSet.cpp
-  Rat.cpp
-  Scene.cpp
-  Scout.cpp
-  Spell.cpp
-  SpellBook.cpp
-  Tile.cpp
-  TileMap.cpp
-  UIButton.cpp
-  UIElement.cpp
-  UIIcon.cpp
-  UIText.cpp
-  Unit.cpp
-  Generating Code...
-  Compiling...
-  View.cpp
-  Generating Code...
+﻿  Model.cpp
   DungeonQuest.vcxproj -> C:\Users\Ssole\source\repos\SolengineProject\Debug\DungeonQuest.exe

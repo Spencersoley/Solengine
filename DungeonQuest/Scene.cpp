@@ -381,7 +381,25 @@ void Scene::gameLoop()
 		while (m_gameState == Solengine::GameState::PLAY)
 		{
 			m_gameState = m_model.update(pauseDuration, p_units);
+			
 
+			for (size_t i = 0; i < p_units.size(); i++)
+				if (p_units[i]->m_delete)
+				{
+					p_units[i] = p_units.back();
+					p_units.pop_back();
+				}
+
+			for (size_t i = 0; i < p_worldDrawables.size(); i++)
+				if (p_worldDrawables[i]->m_delete)
+				{
+					delete p_worldDrawables[i];
+					//since order is important here we can't just popback!
+					for (size_t j = i; j < p_worldDrawables.size() - 1; j++)
+						p_worldDrawables[j] = p_worldDrawables[j + 1];
+					p_worldDrawables.pop_back();
+				}
+		
 			m_view.update(p_worldDrawables, p_overlayDrawables);
 
 			m_SOL_fpsManager.limitFPS(trackFPS, (int)DESIRED_TICKS_PER_FRAME);

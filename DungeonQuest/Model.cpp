@@ -176,6 +176,14 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
 							m_moveSet.p_spells[m_currentSpellIndex]->getDamage())
 						+ " damage");
 
+					if (tarUnit->getHealth() < 1)
+					{
+						tarUnit->death();
+						m_combatLog.announce("EVENT! " + tarUnit->getName() + " has died!");
+						setSelectedUnit(nullptr);
+						tileMap->getTileByCoords(tarUnit->getCoords())->m_isOccupied = false;
+					}
+
 					return true;
 				}
 				else m_combatLog.announce("WARNING! " + currentUnit->getName()
@@ -192,8 +200,6 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
 			" has no NRG for " + currentUnit->
 			m_moveSet.p_spells[m_currentSpellIndex]->getName());
 	}
-
-
 
 	return false;
 }
@@ -361,7 +367,7 @@ void Model::updateCurrentUnitBox(Unit* currentUnit, UIIcon* currentUnitBox)
 	{
 		currentUnitBox->setVisible(true);
 		currentUnitBox->setPos(currentUnit->getPos());
-		currentUnitBox->setColour({ 0, 0, 255, 255 });
+		currentUnitBox->setColour({ 30, 100, 100, 255 });
 	}
 	else currentUnitBox->setVisible(false);
 
@@ -390,6 +396,8 @@ Solengine::GameState Model::nextTurn(std::vector<Unit*> units,
 	currentUnit->resetEnergy();
 	currentUnit = units[++m_turnCounter%units.size()];
 	setCurrentUnit(currentUnit);
+	p_SOL_cam->setPosition(currentUnit->getPos() - glm::ivec2(0.5f * (float)TILE_WIDTH, 0.5f * (float)TILE_WIDTH));
+	//focus camera around currentUnit
 	if (currentUnit == selectedUnit) setSelectedUnit(nullptr);
 
 	updateTileStates(p_tileMap, currentUnit);

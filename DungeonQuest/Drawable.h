@@ -22,6 +22,8 @@ public:
 
 	int getWidth() { return m_width; }
 
+	bool m_delete = false;
+
 	void setColour(Solengine::ColourRGBA8 col) { m_colour = col; }
 
 	void setVisible(bool set) { m_isVisible = set; }
