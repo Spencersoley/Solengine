@@ -76,7 +76,7 @@ Level::Level(std::vector<std::string> levelData, Solengine::SpriteBatch* batch)
 							"Textures/zombie_pack/DQtile.png").textureID, 
 					        0.0f, tileColour);
 				tileRow.push_back(new Tile(false, true, x, y, TILE_WIDTH));
-				m_ratSpawnCoords = glm::vec2{ x , y };
+				m_ratSpawnCoords.push_back({ x , y });
 				break;
 			default:
 

@@ -77,6 +77,11 @@ public:
 		p_currentUnitEnergyText = text;
 	}
 
+	void setCurrentUnitSpeedText(UIText* text)
+	{
+		p_currentUnitSpeedText = text;
+	}
+
 	void setCurrentUnitBox(UIIcon* icon) { p_currentUnitBox = icon; }
 
 	void setSelectedUnitIcon(UIIcon* icon) { p_selectedUnitIcon = icon; }
@@ -94,6 +99,11 @@ public:
 	void setSelectedEnergyText(UIText* text) 
 	{ 
 		p_selectedUnitEnergyText = text;
+	}
+
+	void setSelectedUnitSpeedText(UIText* text)
+	{
+		p_selectedUnitSpeedText = text;
 	}
 
     // These get pushed back in order
@@ -133,12 +143,14 @@ private:
 	UIText* p_currentUnitNameText = nullptr;
 	UIText* p_currentUnitHealthText = nullptr;
     UIText* p_currentUnitEnergyText = nullptr;
+	UIText* p_currentUnitSpeedText = nullptr;
     UIIcon* p_currentUnitBox = nullptr;
 	
 	UIIcon* p_selectedUnitIcon = nullptr;
 	UIText* p_selectedUnitNameText = nullptr;
 	UIText* p_selectedUnitHealthText = nullptr;
 	UIText* p_selectedUnitEnergyText = nullptr;
+	UIText* p_selectedUnitSpeedText = nullptr;
 	UIIcon* p_selectionBox = nullptr;
 
 	UIIcon* p_selectedSpellBox = nullptr;
@@ -169,7 +181,7 @@ private:
 		                      glm::ivec2 coords);
 	void updateTileStates(TileMap* tileMap, Unit* currentUnit);
 	void updateStatsDisplay(Unit* unit, UIIcon* icon, UIText* name,
-	                     	UIText* health, UIText* energy);
+	                     	UIText* health, UIText* energy, UIText* speed);
 	void updateSelectedUnitBox(Unit* selectedUnit, UIIcon* selectionBox);
     void updateCurrentUnitBox(Unit* currentUnit, UIIcon* currentUnitBox);
 	void updateSpellDisplay(Unit* currentUnit);

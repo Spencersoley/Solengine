@@ -9,6 +9,7 @@ Adept::Adept(SpellBook* sb)
 	m_isVisible = true;
 	m_isFriendly = true;
 	m_movementCost = 5;
+	m_speed = 14;
 	m_energy = 20;
 	m_energyMax = 20;
 	m_health = 20;

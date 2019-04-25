@@ -27,7 +27,7 @@ public:
 private:
 	void initSystems();
 	void initScene();
-	void gameLoop();
+	void gameLoop(Model* model, View* view);
 
 	Solengine::TileLevelLoader m_SOL_tileLevelLoader;
 	Solengine::FPSManager m_SOL_fpsManager;
@@ -51,7 +51,6 @@ private:
 	int m_turnCounter;
 	int m_screenWidth;
 	int m_screenHeight;
-	Solengine::GameState m_gameState;
 	int m_currentLevel;
 	int m_fpsMax;
 	float m_physicsSpeed;

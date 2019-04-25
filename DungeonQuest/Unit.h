@@ -38,6 +38,9 @@ public:
 	int getEnergyMax() { return m_energyMax; }
 	int getHealth() { return m_health; }
 	int getHealthMax() { return m_healthMax; }
+	int getSpeed() { return m_speed; }
+
+	int getTurnPoints() { return m_turnPoints; }
 
 	void setEnergy(int nrg) { m_energy = nrg; }
 
@@ -53,7 +56,11 @@ public:
 		p_healthbarBackplate->m_delete = true;
 	}
 
-	void newTurn() { m_energy = m_energyMax; }
+	void newTurn() 
+	{  
+		m_turnPoints += m_speed;
+		m_energy = m_energyMax; 
+	}
 
 	MoveSet m_moveSet;
 
@@ -87,6 +94,10 @@ protected:
 	int m_energyMax;
 	int m_health;
 	int m_healthMax;
+	int m_speed;
+
+
+	int m_turnPoints;
 	bool m_isFriendly;
 	std::string m_name;
 };

@@ -80,9 +80,6 @@ void View::drawToCamera(std::vector<Drawable*> drawables,
 	glUniformMatrix4fv(pUniform, 1, GL_FALSE, &projectionMatrix[0][0]);
 
 	for (size_t i = 0; i < drawables.size(); i++)
-	{ 
-		if (drawables[i] == nullptr)  std::cout << "WHAT";
-		else drawables[i]->draw();
-	}
+		if (drawables[i] != nullptr) drawables[i]->draw();
 }
 

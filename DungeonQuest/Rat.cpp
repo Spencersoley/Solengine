@@ -9,6 +9,7 @@ Rat::Rat(SpellBook* sb)
 	m_isVisible = true;
 	m_isFriendly = false;
 	m_movementCost = 5;
+	m_speed = 10;
 	m_energy = 20;
 	m_energyMax = 20;
 	m_health = 20;

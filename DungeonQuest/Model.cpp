@@ -18,30 +18,38 @@ void Model::init(float physicsSpeed, Solengine::Camera2D* cam)
 
 void Model::awake(std::vector<Unit*> units)
 {
+	for (size_t i = 0; i < units.size(); i++)
+		units[i]->newTurn();
+
+	for (size_t i = 0; i < units.size(); i++)
+		if (units[i]->getSpeed() < p_currentUnit->getSpeed()) p_currentUnit = units[i];
+
 	updateTileStates(p_tileMap, p_currentUnit);
 	updateCurrentUnitBox(p_currentUnit, p_currentUnitBox);
 	updateSelectedUnitBox(p_selectedUnit, p_selectionBox);
 	updateStatsDisplay(p_currentUnit, p_currentUnitIcon, 
 		               p_currentUnitNameText, p_currentUnitHealthText, 
-		               p_currentUnitEnergyText);
+		               p_currentUnitEnergyText, p_currentUnitSpeedText);
 	updateStatsDisplay(p_selectedUnit, p_selectedUnitIcon, 
 		               p_selectedUnitNameText, p_selectedUnitHealthText,
-		               p_selectedUnitEnergyText);
+		               p_selectedUnitEnergyText, p_selectedUnitSpeedText);
 	updateSpellDisplay(p_currentUnit);
 
 	updateSelectedSpellBox();
 
 	for (size_t i = 0; i < units.size(); i++) 
 		units[i]->updateHealthbar();
+
 }
 
 Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 {
-	float adjustedDeltaTicks = (getDeltaTicks() - pauseDur) * m_physicsSpeed;
+	const float physSpeed = m_physicsSpeed;
+	float adjustedDeltaTicks = (getDeltaTicks() - pauseDur) * physSpeed;
 
 	const float CAMERA_SPEED = 2.0f;
 	const float SCALE_SPEED = 0.1f;
-	const int SCROLL_SPEED = 5;
+	float SCROLL_SPEED = 20 * adjustedDeltaTicks;
 
 	Solengine::GameState state = m_SOL_inputManager.processInput();
 
@@ -127,7 +135,7 @@ bool Model::movement(glm::ivec2 coords, TileMap* tileMap, Unit* currentUnit)
 		updateCurrentUnitBox(currentUnit, p_currentUnitBox);
         updateStatsDisplay(currentUnit, p_currentUnitIcon, 
                            p_currentUnitNameText, p_currentUnitHealthText,
-			               p_currentUnitEnergyText);
+			               p_currentUnitEnergyText, p_currentUnitSpeedText);
 		
 		currentUnit->redraw();
 
@@ -159,10 +167,10 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
 
 					updateStatsDisplay(currentUnit, p_currentUnitIcon,
 						p_currentUnitNameText, p_currentUnitHealthText,
-						p_currentUnitEnergyText);
+						p_currentUnitEnergyText, p_currentUnitSpeedText);
 					updateStatsDisplay(tarUnit, p_selectedUnitIcon,
 						p_selectedUnitNameText, p_selectedUnitHealthText,
-						p_selectedUnitEnergyText);
+						p_selectedUnitEnergyText, p_selectedUnitSpeedText);
 					setSelectedUnit(tarUnit);
 
 					tarUnit->updateHealthbar();
@@ -211,7 +219,7 @@ void Model::setSelectedUnit(Unit* selectedUnit)
 		p_selectedUnit = selectedUnit;
 		updateStatsDisplay(selectedUnit, p_selectedUnitIcon, 
 			               p_selectedUnitNameText, p_selectedUnitHealthText, 
-			               p_selectedUnitEnergyText);
+			               p_selectedUnitEnergyText, p_selectedUnitSpeedText);
 
 		updateSelectedUnitBox(selectedUnit, p_selectionBox);
 	}
@@ -236,7 +244,7 @@ void Model::changeSpell()
 }
 
 void Model::updateStatsDisplay(Unit* unit, UIIcon* icon, UIText* name, 
-	                           UIText* health, UIText* energy)
+	                           UIText* health, UIText* energy, UIText* speed)
 {
 	//set icon
 	if (icon != nullptr) //selected
@@ -276,6 +284,15 @@ void Model::updateStatsDisplay(Unit* unit, UIIcon* icon, UIText* name,
 		else energy->updateText("");
 
 		energy->redraw();
+	}
+
+	if (speed != nullptr)
+	{
+		if (unit != nullptr)
+			speed->updateText(std::to_string(unit->getSpeed()));
+		else speed->updateText("");
+
+		speed->redraw();
 	}
 }
 
@@ -367,7 +384,7 @@ void Model::updateCurrentUnitBox(Unit* currentUnit, UIIcon* currentUnitBox)
 	{
 		currentUnitBox->setVisible(true);
 		currentUnitBox->setPos(currentUnit->getPos());
-		currentUnitBox->setColour({ 30, 100, 100, 255 });
+		currentUnitBox->setColour({ 0, 255, 0, 255 });
 	}
 	else currentUnitBox->setVisible(false);
 
@@ -382,7 +399,7 @@ void Model::updateSelectedUnitBox(Unit* selectedUnit, UIIcon* selectBox)
 		selectBox->setPos(selectedUnit->getPos());
 
         if (selectedUnit->getIsFriendly()) 
-			selectBox->setColour({ 0, 255, 0, 255 });
+			selectBox->setColour({ 200, 200, 200, 255 });
 		else selectBox->setColour({ 255, 0, 0, 255 });
 	}
 	else selectBox->setVisible(false);
@@ -394,17 +411,22 @@ Solengine::GameState Model::nextTurn(std::vector<Unit*> units,
 	Unit* currentUnit, Unit* selectedUnit)
 {
 	currentUnit->resetEnergy();
-	currentUnit = units[++m_turnCounter%units.size()];
+
+	currentUnit->newTurn();
+
+	for (size_t i = 0; i < units.size(); i++)
+		if (units[i]->getTurnPoints() < currentUnit->getTurnPoints()) currentUnit = units[i];
+
 	setCurrentUnit(currentUnit);
 	p_SOL_cam->setPosition(currentUnit->getPos() - glm::ivec2(0.5f * (float)TILE_WIDTH, 0.5f * (float)TILE_WIDTH));
-	//focus camera around currentUnit
+
 	if (currentUnit == selectedUnit) setSelectedUnit(nullptr);
 
 	updateTileStates(p_tileMap, currentUnit);
 
 	updateCurrentUnitBox(currentUnit, p_currentUnitBox);
 	updateStatsDisplay(currentUnit, p_currentUnitIcon, p_currentUnitNameText,
-		p_currentUnitHealthText, p_currentUnitEnergyText);
+		p_currentUnitHealthText, p_currentUnitEnergyText, p_currentUnitSpeedText);
 	m_currentSpellIndex = 0;
 	updateSpellDisplay(currentUnit);
 	updateSelectedSpellBox();

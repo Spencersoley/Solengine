@@ -26,11 +26,10 @@
 Scene::Scene() :
 	m_screenWidth(1200),
 	m_screenHeight(600),
-	m_gameState(Solengine::GameState::PLAY),
 	m_currentLevel(0),
 	m_turnCounter(0),
-	m_fpsMax(60),
 	m_physicsSpeed(0.02f),
+	m_fpsMax(600),
 	m_announceFPS(false)
 {
 }
@@ -39,20 +38,17 @@ Scene::Scene() :
 Scene::~Scene()
 {
 	for (size_t i = 0; i < p_worldDrawables.size(); i++)
-	{
 		delete p_worldDrawables[i];
-	}
-	for (size_t i = 0; i < p_worldDrawables.size(); i++)
-	{
+	
+	for (size_t i = 0; i < p_overlayDrawables.size(); i++)
 		delete p_overlayDrawables[i];
-	}
 }
 
 //Runs the game
 void Scene::run()
 {
 	initSystems();
-	gameLoop();
+	gameLoop(&m_model, &m_view);
 }
 
 //Initialise SDL, glew, OpenGL, shaders, fps manager and level
@@ -178,24 +174,28 @@ void Scene::initScene()
 	p_worldDrawables.push_back(p_units.back());
 
 	//RATS INIT
-	spriteBatches.push_back(new Solengine::SpriteBatch());
-	spriteBatches.back()->init();
-	p_units.push_back(new Rat(&m_spellBook));
-	p_units.back()->init(p_levels[m_currentLevel]->getRatSpawnCoords(), spriteBatches.back());
 
-	spriteBatches.push_back(new Solengine::SpriteBatch());
-	spriteBatches.back()->init();
-	hb = new UIIcon(0, 0, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH), spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID);
-	spriteBatches.push_back(new Solengine::SpriteBatch());
-	spriteBatches.back()->init();
-	hbb = new UIIcon(0, 0, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH), spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID);
-	p_units.back()->setHealthbar(hb, hbb);
-	p_worldDrawables.push_back(hbb);
-	p_worldDrawables.push_back(hb);
-	hb->setColour({ 0, 255, 0, 255 });
-	hbb->setColour({ 222, 0, 0, 255 });
-	p_worldDrawables.push_back(p_units.back());
+	for (int i = 0; i < p_levels[m_currentLevel]->getRatCount(); i++)
+	{
+		spriteBatches.push_back(new Solengine::SpriteBatch());
+		spriteBatches.back()->init();
+		p_units.push_back(new Rat(&m_spellBook));
+		p_units.back()->init(p_levels[m_currentLevel]->getRatSpawnCoords(i), spriteBatches.back());
 
+		spriteBatches.push_back(new Solengine::SpriteBatch());
+		spriteBatches.back()->init();
+		hb = new UIIcon(0, 0, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH), spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID);
+		spriteBatches.push_back(new Solengine::SpriteBatch());
+		spriteBatches.back()->init();
+		hbb = new UIIcon(0, 0, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH), spriteBatches.back(), Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID);
+		p_units.back()->setHealthbar(hb, hbb);
+		p_worldDrawables.push_back(hbb);
+		p_worldDrawables.push_back(hb);
+		hb->setColour({ 0, 255, 0, 255 });
+		hbb->setColour({ 222, 0, 0, 255 });
+		p_worldDrawables.push_back(p_units.back());
+
+	}
     //LAYER 3 (Overlay)
 
 	//Sets ui backplate
@@ -249,6 +249,15 @@ void Scene::initScene()
 	m_model.setCurrentUnitEnergyText(currentUnitEnergy);
 	p_overlayDrawables.push_back(currentUnitEnergy);
 
+	//Set current speed
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	fontBatches.push_back(new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, spriteBatches.back()));
+	UIText* currentUnitSpeed = new UIText((int)(0.15f*m_screenWidth), 60, 1, fontBatches.back(), "SPD: ");
+	m_model.setCurrentUnitSpeedText(currentUnitSpeed);
+	p_overlayDrawables.push_back(currentUnitSpeed);
+
+
 	//Set selected energy
 	spriteBatches.push_back(new Solengine::SpriteBatch());
 	spriteBatches.back()->init();
@@ -264,6 +273,15 @@ void Scene::initScene()
 	UIText* selectedUnitHealth = new UIText((int)(0.85f*m_screenWidth), 100, 1, fontBatches.back(), "HP: ");
 	m_model.setSelectedHealthText(selectedUnitHealth);
 	p_overlayDrawables.push_back(selectedUnitHealth);
+
+
+	//Set selected speed
+	spriteBatches.push_back(new Solengine::SpriteBatch());
+	spriteBatches.back()->init();
+	fontBatches.emplace_back(new Solengine::Font("Fonts/Roboto-Regular.ttf", 16, spriteBatches.back()));
+	UIText* selectedUnitSpeed = new UIText((int)(0.85f*m_screenWidth), 80, 1, fontBatches.back(), "SPD: ");
+	m_model.setSelectedUnitSpeedText(selectedUnitSpeed);
+	p_overlayDrawables.push_back(selectedUnitSpeed);
 
 	//Set attack 1 
 	spriteBatches.push_back(new Solengine::SpriteBatch());
@@ -367,26 +385,28 @@ void Scene::initScene()
 }
 
 //Game loop
-void Scene::gameLoop()
+void Scene::gameLoop(Model* model, View* view)
 {
 	const float DESIRED_TICKS_PER_FRAME = 1000 / (float)m_fpsMax;
 	static int pauseDuration = 0;
 	//When initialised to true, this enables fps console announcing
 	bool trackFPS = m_announceFPS;
 
-	m_model.awake(p_units);
+	Solengine::GameState gameState = Solengine::GameState::PLAY;
 
-	while (m_gameState != Solengine::GameState::EXIT)
+	model->awake(p_units);
+
+	while (gameState != Solengine::GameState::EXIT)
 	{
-		while (m_gameState == Solengine::GameState::PLAY)
-		{
-			m_gameState = m_model.update(pauseDuration, p_units);
-			
-
+		while (gameState == Solengine::GameState::PLAY)
+		{	
+			gameState = model->update(pauseDuration, p_units);
+					
 			for (size_t i = 0; i < p_units.size(); i++)
 				if (p_units[i]->m_delete)
 				{
-					p_units[i] = p_units.back();
+					for (size_t j = i; j < p_units.size() - 1; j++)
+						p_units[j] = p_units[j + 1];
 					p_units.pop_back();
 				}
 
@@ -400,21 +420,22 @@ void Scene::gameLoop()
 					p_worldDrawables.pop_back();
 				}
 		
-			m_view.update(p_worldDrawables, p_overlayDrawables);
-
+			view->update(p_worldDrawables, p_overlayDrawables);
+			
 			m_SOL_fpsManager.limitFPS(trackFPS, (int)DESIRED_TICKS_PER_FRAME);
 			pauseDuration = 0;
 		}
-
-
+		
+		/*
 		int pauseClockStart = SDL_GetTicks();
-		while (m_gameState == Solengine::GameState::PAUSE)
+		while (gameState == Solengine::GameState::PAUSE)
 		{
-			//inputVec = m_controller.keyInput();
-			//mousePos = m_controller.getMouseScreenPosition();
-			//m_gameState = m_controller.pauseStateInput();
+			
+
 		}
+		
 		pauseDuration = SDL_GetTicks() - pauseClockStart;
+		*/
 	}
 }
 
