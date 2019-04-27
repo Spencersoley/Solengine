@@ -18,8 +18,11 @@ public:
     std::vector<glm::vec2> getWalkablePos(glm::ivec2 coords, int steps);
 	Tile* getTileByPosition(glm::ivec2 pos);	
     Tile* getTileByCoords(glm::ivec2 coords) 
-	{ 
-		return p_tiles[coords.y][coords.x]; 
+	{   
+		if (coords.y < p_tiles.size() && coords.x < p_tiles[0].size())
+		    return p_tiles[coords.y][coords.x]; 
+
+		return nullptr;
 	}
 
 	void resetWalkable();

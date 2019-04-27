@@ -7,7 +7,8 @@
 class UIText : public UIElement
 {
 public:
-	UIText(int x, int y, int z, Solengine::Font* font, std::string msg);
+	UIText(int x, int y, int z, Solengine::Font* font, std::string msg,
+		Solengine::ColourRGBA8 col = { 255, 255, 255, 255 });
 	~UIText();
 
 	void updateText(std::string tString) { m_trackedString = tString; }

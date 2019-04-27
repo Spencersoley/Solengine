@@ -36,10 +36,7 @@ namespace Solengine
 	void Font::init(const char* font, int size, char cs, char ce) 
 	{
 		// Initialize SDL_ttf
-		if (!TTF_WasInit())
-		{
-			TTF_Init();
-		}
+		if (!TTF_WasInit()) TTF_Init();
 
 		TTF_Font* f = TTF_OpenFont(font, size);
 		if (f == nullptr) 
@@ -51,9 +48,9 @@ namespace Solengine
 		m_fontHeight = TTF_FontHeight(f);
 		m_regStart = cs;
 		m_regLength = ce - cs + 1;
-		int padding = size / 8;
+		float padding =(float)size / 8;
 
-		// First neasure all the regions
+		// First measure all the regions
 		glm::ivec4* glyphRects = new glm::ivec4[m_regLength];
 		int i = 0, advance;
 		for (char c = cs; c <= ce; c++) 
@@ -273,19 +270,13 @@ namespace Solengine
 	{
 		glm::vec2 tp = position;
 		// Apply justification
-		if (just == Justification::MIDDLE) 
-		{
-			tp.x -= measure(s).x * scaling.x / 2;
-		}
-		else if (just == Justification::RIGHT)
-		{
-			tp.x -= measure(s).x * scaling.x;
-		}
+		if (just == Justification::MIDDLE) tp.x -= measure(s).x * scaling.x / 2;
+		else if (just == Justification::RIGHT) tp.x -= measure(s).x * scaling.x;
 
-		for (int si = 0; s[si] != 0; si++) 
+		for (int i = 0; s[i] != 0; i++) 
 		{
-			char c = s[si];
-			if (s[si] == '\n') 
+			char c = s[i];
+			if (s[i] == '\n') 
 			{
 				tp.y += m_fontHeight * scaling.y;
 				tp.x = position.x;
@@ -294,13 +285,11 @@ namespace Solengine
 			{
 				// Check for correct glyph
 				int gi = c - m_regStart;
-				if (gi < 0 || gi >= m_regLength)
-					gi = m_regLength;
+				if (gi < 0 || gi >= m_regLength) gi = m_regLength;
 				glm::vec4 destRect(tp, p_glyphs[gi].size * scaling);
 				p_SOL_SB->draw(destRect, p_glyphs[gi].uvRect, m_texID, depth, tint);
 				tp.x += p_glyphs[gi].size.x * scaling.x;
 			}
 		}
 	}
-
 }

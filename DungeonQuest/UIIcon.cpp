@@ -3,7 +3,7 @@
 #include <iostream>
 
 UIIcon::UIIcon(int x, int y, int z, int w, Solengine::SpriteBatch* batch, 
-	           GLuint texture, Solengine::ColourRGBA8 col)
+	GLuint texture, Solengine::ColourRGBA8 col)
 {
 	m_pos = { x, y };
 	m_width = z;

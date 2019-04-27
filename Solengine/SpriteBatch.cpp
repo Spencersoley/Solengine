@@ -6,16 +6,16 @@ namespace Solengine
 {
 	SpriteBatch::SpriteBatch() : m_VBO(0), m_VAO(0)
 	{
-
+		createVertexArray();
 	}
 
 	SpriteBatch::~SpriteBatch()
 	{
 	}
-
+	
 	void SpriteBatch::init()
 	{
-		createVertexArray();
+		//createVertexArray();
 	}
 
 	void SpriteBatch::begin(GlyphSortType sortType/* = GlyphSortType::TEXTURE*/)

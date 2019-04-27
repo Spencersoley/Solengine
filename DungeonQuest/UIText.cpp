@@ -2,7 +2,8 @@
 
 #include <iostream>
 
-UIText::UIText(int x, int y, int z, Solengine::Font* font, std::string msg)
+UIText::UIText(int x, int y, int z, Solengine::Font* font, std::string msg,
+	Solengine::ColourRGBA8 col)
 {
 	m_isVisible = true;
 	m_pos = { x, y };
@@ -11,7 +12,7 @@ UIText::UIText(int x, int y, int z, Solengine::Font* font, std::string msg)
 	p_SOL_spriteFont = font;
 	p_SOL_SB = font->getSpriteBatch();
 	m_message = msg;
-	m_colour = { 255, 255, 255, 255 };
+	m_colour = col;
 }
 
 UIText::~UIText()

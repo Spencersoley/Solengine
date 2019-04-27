@@ -1,17 +1,9 @@
-﻿  Camera2D.cpp
-  ErrorHandler.cpp
-  Font.cpp
-  FPSManager.cpp
-  GLSLProgram.cpp
-  ImageLoader.cpp
-  InputManager.cpp
-  IOManager.cpp
-  picoPNG.cpp
-  ResourceManager.cpp
-  SDLInitialiser.cpp
-  SpriteBatch.cpp
-  TextureCache.cpp
-  TileLevelLoader.cpp
-  Window.cpp
-  Generating Code...
+﻿  Font.cpp
+c:\users\ssole\source\repos\solengineproject\solengine\font.cpp(71): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\solengine\font.cpp(72): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\solengine\font.cpp(118): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\solengine\font.cpp(121): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\solengine\font.cpp(149): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\solengine\font.cpp(151): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\solengine\font.cpp(155): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
   Solengine.vcxproj -> C:\Users\Ssole\source\repos\SolengineProject\Debug\Solengine.lib

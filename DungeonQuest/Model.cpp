@@ -121,6 +121,9 @@ bool Model::movement(glm::ivec2 coords, TileMap* tileMap, Unit* currentUnit)
 {
 	Tile* tarTile = tileMap->getTileByCoords(coords);
 	Tile* currentTile = tileMap->getTileByCoords(currentUnit->getCoords());
+	
+	if (tarTile == nullptr) return false;
+	
 	if (tarTile->m_isWalkable && !tarTile->m_isOccupied)
 	{
         currentUnit->setPos({ coords.x * TILE_WIDTH, coords.y * TILE_WIDTH } );
@@ -143,7 +146,7 @@ bool Model::movement(glm::ivec2 coords, TileMap* tileMap, Unit* currentUnit)
 
 		return true;
 	}
-
+	
 	return false;
 }
 
