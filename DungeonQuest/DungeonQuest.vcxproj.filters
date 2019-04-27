@@ -97,9 +97,6 @@
     <ClCompile Include="MoveSet.cpp">
       <Filter>Source Files\Spells</Filter>
     </ClCompile>
-    <ClCompile Include="Log.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Level.h">

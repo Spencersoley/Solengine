@@ -24,8 +24,8 @@
 
 //Constructor will initialise private member variables
 Scene::Scene() :
-	m_screenWidth(1200),
-	m_screenHeight(600),
+	m_screenWidth(1200), 
+	m_screenHeight(600), 
 	m_currentLevel(0),
 	m_turnCounter(0),
 	m_physicsSpeed(0.02f),
@@ -70,6 +70,8 @@ void Scene::initScene()
 	Solengine::ColourRGBA8 col1 = { 255, 155, 40, 255 };
 	Solengine::ColourRGBA8 col2 = { 155, 155, 155, 255 };
 
+	int sW = m_screenWidth;
+	int sH = m_screenHeight;
 
 	//const char* font1 = "Fonts/Px437_VGA_SquarePx.ttf"; @ 24
 	const char* font1 = "Fonts/Px437_VGA_SquarePx.ttf";
@@ -84,31 +86,31 @@ void Scene::initScene()
 	//LAYER 1
 
 	//Set walkable highlight
-	UIIcon* walkableHighlight = new UIIcon((int)(0.3f * m_screenWidth), 200,
-		TILE_WIDTH, TILE_WIDTH, new Solengine::SpriteBatch(),
+	UIIcon* walkableHighlight = new UIIcon({ 0, 0 }, TILE_WIDTH, TILE_WIDTH,
+		new Solengine::SpriteBatch(),
 		Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID,
 		{ 0, 150, 0, 150 });
 	m_model.setWalkableHighlight(walkableHighlight);
 	worldDrawables.push_back(walkableHighlight);
 
 	//Set hover highlight
-	UIIcon* hoverHighlight = new UIIcon((int)(0.3f * m_screenWidth), 200, 
-		TILE_WIDTH, TILE_WIDTH, new Solengine::SpriteBatch(),
+	UIIcon* hoverHighlight = new UIIcon({ 0, 0 }, TILE_WIDTH, TILE_WIDTH,
+		new Solengine::SpriteBatch(),
 		Solengine::ResourceManager::getTexture("Textures/zombie_pack/Aim.png").textureID,
 		{ 200, 200, 200, 100 });
 	m_model.setHoverHighlight(hoverHighlight);
 	worldDrawables.push_back(hoverHighlight);
 
 	//Selection box
-	UIIcon* selectionBox = new UIIcon((int)(0.3f * m_screenWidth), 200, 
-		TILE_WIDTH, TILE_WIDTH, new Solengine::SpriteBatch(),
+	UIIcon* selectionBox = new UIIcon({ 0, 0 }, TILE_WIDTH, TILE_WIDTH,
+		new Solengine::SpriteBatch(),
 		Solengine::ResourceManager::getTexture("Textures/zombie_pack/selection.png").textureID);
 	m_model.setSelectionBox(selectionBox);
 	worldDrawables.push_back(selectionBox);
 
 	//Current unit box
-	UIIcon* currentUnitBox = new UIIcon((int)(0.3f * m_screenWidth), 200, 
-		TILE_WIDTH, TILE_WIDTH, new Solengine::SpriteBatch(),
+	UIIcon* currentUnitBox = new UIIcon({ 0, 0 }, TILE_WIDTH, TILE_WIDTH,
+		new Solengine::SpriteBatch(),
 		Solengine::ResourceManager::getTexture("Textures/zombie_pack/selection.png").textureID);
 	m_model.setCurrentUnitBox(currentUnitBox);
 	worldDrawables.push_back(currentUnitBox);
@@ -118,13 +120,13 @@ void Scene::initScene()
 	//ADEPT INIT
 	p_units.push_back(new Adept(&m_spellBook));
 	p_units.back()->init(p_levels[m_currentLevel]->getAdeptSpawnCoords(), new Solengine::SpriteBatch());
-	
-	UIIcon* hb = new UIIcon(0, 0, (int)(0.5f * TILE_WIDTH), 
-		(int)(0.1f * TILE_WIDTH), new Solengine::SpriteBatch(),
+
+	UIIcon* hb = new UIIcon({ 0, 0 }, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH),
+		new Solengine::SpriteBatch(),
 		Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID,
 		{ 0, 255, 0, 255 });
-	UIIcon* hbb = new UIIcon(0, 0, (int)(0.5f * TILE_WIDTH), 
-		(int)(0.1f * TILE_WIDTH), new Solengine::SpriteBatch(),
+	UIIcon* hbb = new UIIcon({ 0, 0 }, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH),
+		new Solengine::SpriteBatch(),
 		Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID,
 		{ 222, 0, 0, 255 });
 	p_units.back()->setHealthbar(hb, hbb);
@@ -139,11 +141,11 @@ void Scene::initScene()
 	p_units.back()->init(p_levels[m_currentLevel]->getFighterSpawnCoords(),
 		new Solengine::SpriteBatch());
 
-	hb = new UIIcon(0, 0, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH),
+	hb = new UIIcon({ 0, 0 }, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH),
 		new Solengine::SpriteBatch(),
 		Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID,
 		{ 0, 255, 0, 255 });
-	hbb = new UIIcon(0, 0, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH),
+	hbb = new UIIcon({ 0, 0 }, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH),
 		new Solengine::SpriteBatch(),
 		Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID,
 		{ 222, 0, 0, 255 });
@@ -155,15 +157,15 @@ void Scene::initScene()
 
 	//SCOUT INIT
 	p_units.push_back(new Scout(&m_spellBook));
-	p_units.back()->init(p_levels[m_currentLevel]->getScoutSpawnCoords(), 
+	p_units.back()->init(p_levels[m_currentLevel]->getScoutSpawnCoords(),
 		new Solengine::SpriteBatch());
 
 
-	hb = new UIIcon(0, 0, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH), 
+	hb = new UIIcon({ 0, 0 }, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH),
 		new Solengine::SpriteBatch(),
 		Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID,
 		{ 0, 255, 0, 255 });
-	hbb = new UIIcon(0, 0, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH), 
+	hbb = new UIIcon({ 0, 0 }, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH),
 		new Solengine::SpriteBatch(),
 		Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID,
 		{ 222, 0, 0, 255 });
@@ -173,7 +175,7 @@ void Scene::initScene()
 	worldDrawables.push_back(p_units.back());
 
 	//ENEMY INIT
-	
+
 	for (int i = 0; i < p_levels[m_currentLevel]->getEnemyCount(); i++)
 	{
 		p_units.push_back(new Rat(&m_spellBook));
@@ -181,11 +183,11 @@ void Scene::initScene()
 		p_units.back()->init(p_levels[m_currentLevel]->getEnemySpawnCoords(i),
 			new Solengine::SpriteBatch());
 
-		hb = new UIIcon(0, 0, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH), 
+		hb = new UIIcon({ 0, 0 }, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH),
 			new Solengine::SpriteBatch(),
-			Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID, 
+			Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID,
 			{ 0, 255, 0, 255 });
-		hbb = new UIIcon(0, 0, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH), 
+		hbb = new UIIcon({ 0, 0 }, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH),
 			new Solengine::SpriteBatch(),
 			Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID,
 			{ 222, 0, 0, 255 });
@@ -195,134 +197,142 @@ void Scene::initScene()
 		worldDrawables.push_back(hb);
 		worldDrawables.push_back(p_units.back());
 	}
-    //LAYER 3 (Overlay)
+	//LAYER 3 (Overlay)
+
 
 	//Sets ui backplate
-	overlayDrawables.push_back(new UIIcon(20, 10, m_screenWidth, 150, 
+	overlayDrawables.push_back(new UIIcon({ 0.017f*sW, 0 }, sW, 0.25f*sH,
 		new Solengine::SpriteBatch(),
-		Solengine::ResourceManager::getTexture("Textures/zombie_pack/Backplate1.png").textureID, 
+		Solengine::ResourceManager::getTexture("Textures/zombie_pack/Backplate1.png").textureID,
 		{ 200, 200, 200, 255 }));
 
+	//sets combatlog scroll
+	UIIcon* scrollIcon = new UIIcon({ 0.754f*sW, 0.055*sH }, 0.008f*sW, 0.14f*sH,
+		new Solengine::SpriteBatch(),
+		Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID,
+		col1);
+	m_model.setScrollIcon(scrollIcon);
+	overlayDrawables.push_back(scrollIcon);
+
 	//Set current icon
-	UIIcon* currentUnitIcon = new UIIcon((int)(0.02f*m_screenWidth), 
-		20, 150, 150, new Solengine::SpriteBatch());
+	UIIcon* currentUnitIcon = new UIIcon({ 0.02f*sW, 0.033f*sH }, 0.25*sH, 0.25*sH,
+		new Solengine::SpriteBatch());
 	m_model.setCurrentUnitIcon(currentUnitIcon);
 	overlayDrawables.push_back(currentUnitIcon);       //collect in vector
 
 	//Set selected icon
-	UIIcon* selectedUnitIcon = new UIIcon((int)(0.75f*m_screenWidth), 
-		20, 150, 150, new Solengine::SpriteBatch());
+	UIIcon* selectedUnitIcon = new UIIcon({ 0.75f*sW, 0.033f*sH }, 0.25*sH, 0.25*sH,
+		new Solengine::SpriteBatch());
 	m_model.setSelectedUnitIcon(selectedUnitIcon);
 	overlayDrawables.push_back(selectedUnitIcon);       //collect in vector
 
 	//Set current name
-	UIText* currentUnitNameText = new UIText((int)(0.06f*m_screenWidth), 20, 1, 
+	UIText* currentUnitNameText = new UIText({ 0.06f*sW, 0.033f*sH }, 1,
 		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
 		"", col1);
 	m_model.setCurrentUnitNameText(currentUnitNameText);   //assign use
 	overlayDrawables.push_back(currentUnitNameText);     //collect in vector
 
 	//Set selected name
-	UIText* selectedUnitNameText = new UIText((int)(0.80f*m_screenWidth), 20, 1,
+	UIText* selectedUnitNameText = new UIText({ 0.8f*sW, 0.033f*sH }, 1,
 		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
 		"", col1);
 	m_model.setSelectedUnitNameText(selectedUnitNameText);
 	overlayDrawables.push_back(selectedUnitNameText);     //collect in vector
 
 	//Set current health
-	UIText* currentUnitHealth = new UIText((int)(0.12f*m_screenWidth), 100, 1,
+	UIText* currentUnitHealth = new UIText({ 0.12f*sW, 0.166f*sH }, 1,
 		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
 		"HP: ", col1);
 	m_model.setCurrentUnitHealthText(currentUnitHealth);
 	overlayDrawables.push_back(currentUnitHealth);
 
 	//Set current energy
-	UIText* currentUnitEnergy = new UIText((int)(0.12f*m_screenWidth), 80, 1,
+	UIText* currentUnitEnergy = new UIText({ 0.12f*sW , 0.133f*sH }, 1,
 		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
 		"NRG: ", col1);
 	m_model.setCurrentUnitEnergyText(currentUnitEnergy);
 	overlayDrawables.push_back(currentUnitEnergy);
 
 	//Set current speed
-	UIText* currentUnitSpeed = new UIText((int)(0.12f*m_screenWidth), 60, 1,
+	UIText* currentUnitSpeed = new UIText({ 0.12f*sW, 0.1f*sH }, 1,
 		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
 		"SPD: ", col1);
 	m_model.setCurrentUnitSpeedText(currentUnitSpeed);
 	overlayDrawables.push_back(currentUnitSpeed);
 
-	//Set selected energy
-	UIText* selectedUnitEnergy = new UIText((int)(0.87f*m_screenWidth), 80, 1, 
-		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
-		"NRG: ", col1);
-	m_model.setSelectedEnergyText(selectedUnitEnergy);
-	overlayDrawables.push_back(selectedUnitEnergy);
-
-    //Set selected health
-	UIText* selectedUnitHealth = new UIText((int)(0.87f*m_screenWidth), 100, 1,
+	//Set selected health
+	UIText* selectedUnitHealth = new UIText({ 0.87f*sW, 0.166f*sH }, 1,
 		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
 		"HP: ", col1);
 	m_model.setSelectedHealthText(selectedUnitHealth);
 	overlayDrawables.push_back(selectedUnitHealth);
 
+	//Set selected energy
+	UIText* selectedUnitEnergy = new UIText({ 0.87f*sW, 0.133f*sH }, 1,
+		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
+		"NRG: ", col1);
+	m_model.setSelectedEnergyText(selectedUnitEnergy);
+	overlayDrawables.push_back(selectedUnitEnergy); 
+
 	//Set selected speed
-	UIText* selectedUnitSpeed = new UIText((int)(0.87f*m_screenWidth), 60, 1,
+	UIText* selectedUnitSpeed = new UIText({ 0.87f*sW, 0.1f*sH }, 1,
 		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
 		"SPD: ", col1);
 	m_model.setSelectedUnitSpeedText(selectedUnitSpeed);
 	overlayDrawables.push_back(selectedUnitSpeed);
 
 	//Set attack 1 
-	UIText* spellOneText = new UIText((int)(0.20f*m_screenWidth), 100, 1, 
+	UIText* spellOneText = new UIText({ 0.20f*sW, 0.166f*sH }, 1,
 		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
 		" 1: ", col1);
 	m_model.setSpellText(spellOneText);
 	overlayDrawables.push_back(spellOneText);
 
 	//Set attack 2 text
-	UIText* spellTwoText = new UIText((int)(0.20f*m_screenWidth), 80, 1, 
+	UIText* spellTwoText = new UIText({0.20f*sW, 0.133f*sH}, 1,
 		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
 		" 2: ", col1);
 	m_model.setSpellText(spellTwoText);
 	overlayDrawables.push_back(spellTwoText);
 
 	//Set attack 3 text
-
-	UIText* spellThreeText = new UIText((int)(0.20f*m_screenWidth), 60, 1, 
+	UIText* spellThreeText = new UIText({ 0.20f*sW, 0.1f*sH }, 1,
 		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
 		" 3: ", col1);
 	m_model.setSpellText(spellThreeText);
 	overlayDrawables.push_back(spellThreeText);
 
 	//Set attack 4 text
-	UIText* spellFourText = new UIText((int)(0.20f*m_screenWidth), 40, 1, 
+	UIText* spellFourText = new UIText({ 0.20f*sW, 0.066f*sH }, 1,
 		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
 		" 4: ", col1);
 	m_model.setSpellText(spellFourText);
 	overlayDrawables.push_back(spellFourText);
 
 	//Set attack 1 stats
-	UIText* spellOneStats = new UIText((int)(0.40f*m_screenWidth), 100, 1, 
+	UIText* spellOneStats = new UIText({ 0.40f*sW, 0.166f*sH }, 1,
 		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
 		" ", col1);
 	m_model.setSpellStats(spellOneStats);
 	overlayDrawables.push_back(spellOneStats);
 
 	//Set attack 2 stats
-	UIText* spellTwoStats = new UIText((int)(0.40f*m_screenWidth), 80, 1, 
+	UIText* spellTwoStats = new UIText({ 0.40f*sW, 0.133f*sH }, 1,
 		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
 		" ", col1);
 	m_model.setSpellStats(spellTwoStats);
 	overlayDrawables.push_back(spellTwoStats);
 
 	//Set attack 3 stats
-	UIText* spellThreeStats = new UIText((int)(0.40f*m_screenWidth), 60, 1, 
+	UIText* spellThreeStats = new UIText({ 0.40f*sW, 0.1f*sH }, 1,
 		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
 		" ", col1);
 	m_model.setSpellStats(spellThreeStats);
 	overlayDrawables.push_back(spellThreeStats);
 
 	//Set attack 4 stats
-	UIText* spellFourStats = new UIText((int)(0.40f*m_screenWidth), 40, 1, 
+	UIText* spellFourStats = new UIText({ 0.40f*sW, 0.066f*sH }, 1,
 		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
 		" ", col1);
 	m_model.setSpellStats(spellFourStats);
@@ -330,27 +340,27 @@ void Scene::initScene()
 
 	//Set current attack box
 
-	UIIcon* currentSpellBox = new UIIcon((int)(0.23f * m_screenWidth),
-		100, 100, 20, new Solengine::SpriteBatch(),
+	UIIcon* currentSpellBox = new UIIcon({0.23f * sW, 0.1666f*sH}, 0.1666f*sH, 0.0333f*sH,
+		new Solengine::SpriteBatch(),
 		Solengine::ResourceManager::getTexture("Textures/zombie_pack/Panel.png").textureID);
 	m_model.setSelectedSpellBox(currentSpellBox);
 	overlayDrawables.push_back(currentSpellBox);
 
 	//COMBAT LOG
 	std::vector<UIText*> texts;
-	UIText* logLineOne = new UIText((int)(0.32f*m_screenWidth), 100, 1,
+	UIText* logLineOne = new UIText({ 0.32f*sW, 0.066f*sH }, 1,
 		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
-		" ", col2);
+		" ", col1);
 	overlayDrawables.push_back(logLineOne);
-	UIText* logLineTwo = new UIText((int)(0.32f*m_screenWidth), 80, 1,
+	UIText* logLineTwo = new UIText({ 0.32f*sW, 0.1f*sH}, 1,
 		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
 		" ", col2);
 	overlayDrawables.push_back(logLineTwo);
-	UIText* logLineThree = new UIText((int)(0.32f*m_screenWidth), 60, 1, 
+	UIText* logLineThree = new UIText({ 0.32f*sW, 0.133f*sH }, 1,
 		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
 		" ", col2);
 	overlayDrawables.push_back(logLineThree);
-	UIText* logLineFour = new UIText((int)(0.32f*m_screenWidth), 40, 1, 
+	UIText* logLineFour = new UIText({ 0.32f*sW, 0.166*sH }, 1,
 		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
 		" ", col2);
 	overlayDrawables.push_back(logLineFour);

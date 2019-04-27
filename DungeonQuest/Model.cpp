@@ -74,6 +74,12 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 	if (m_SOL_inputManager.keyState(SDLK_d))
 		p_SOL_cam->shiftPosition(glm::vec2{ SCROLL_SPEED, 0 });
 
+	if (m_SOL_inputManager.keyPress(SDLK_c))
+		m_combatLog.cycleUp();
+
+	if (m_SOL_inputManager.keyPress(SDLK_v))
+		m_combatLog.cycleDown();
+
 	if (m_SOL_inputManager.keyPress(SDLK_f))
 	{
 		changeSpell();
@@ -98,13 +104,11 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 	if (mouseCoords != previousMouseCoords)
 		updateHighlight(p_tileMap->p_tiles, mouseCoords, p_hoverHighlight);
 
-
 	if (state == Solengine::GameState::TURNOVER)                                   
 		state = nextTurn(units, p_currentUnit, p_selectedUnit);
 	
 	previousMouseCoords = mouseCoords;
 
-	//470
 
 	return state;
 }
@@ -198,8 +202,7 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
 					return true;
 				}
 				else m_combatLog.announce("WARNING! " + currentUnit->getName()
-					+ " can't attack itself!");
-			
+					+ " can't attack itself!");		
 		    }
 	    	else m_combatLog.announce("WARNING! " + tarUnit->getName() + 
                   " is out of range of " + 
@@ -250,7 +253,7 @@ void Model::updateStatsDisplay(Unit* unit, UIIcon* icon, UIText* name,
 	                           UIText* health, UIText* energy, UIText* speed)
 {
 	//set icon
-	if (icon != nullptr) //selected
+	if (icon != nullptr) 
 	{
 		if (unit != nullptr) icon->setTexture(unit->getTextureID());
 		else icon->setTexture(-1);
@@ -259,7 +262,7 @@ void Model::updateStatsDisplay(Unit* unit, UIIcon* icon, UIText* name,
 	}
 
 	//set name
-	if (name != nullptr) //selected
+	if (name != nullptr)
 	{
 		if (unit != nullptr) name->updateText(unit->getName());
 		else name->updateText("");

@@ -121,7 +121,13 @@ public:
 
 	void setTileMap(TileMap* tileMap) { p_tileMap = tileMap; }
 
-	void setCombatLog(std::vector<UIText*> texts) { m_combatLog.setTexts(texts); }
+	void setCombatLog(std::vector<UIText*> texts) 
+	{
+		m_combatLog.setTexts(texts);
+	
+	}
+
+	void setScrollIcon(UIIcon* icon) { m_combatLog.setScrollIcon(icon); }
 
 
 private:

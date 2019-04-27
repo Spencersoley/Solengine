@@ -21,6 +21,7 @@ public:
 	glm::ivec2 getPos() { return m_pos; }
 
 	int getWidth() { return m_width; }
+	int getHeight() { return m_height; }
 
 	bool m_delete = false;
 
