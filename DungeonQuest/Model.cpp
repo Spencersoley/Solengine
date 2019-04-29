@@ -75,10 +75,10 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 		p_SOL_cam->shiftPosition(glm::vec2{ SCROLL_SPEED, 0 });
 
 	if (m_SOL_inputManager.keyPress(SDLK_c))
-		m_combatLog.cycleUp();
+		m_combatLog.scrollCombatLog(true);
 
 	if (m_SOL_inputManager.keyPress(SDLK_v))
-		m_combatLog.cycleDown();
+		m_combatLog.scrollCombatLog(false);
 
 	if (m_SOL_inputManager.keyPress(SDLK_f))
 	{

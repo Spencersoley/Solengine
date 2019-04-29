@@ -52,10 +52,9 @@ public:
 		m_logDisplay = 0;
 		changeDisplayedLines(m_logDisplay);
 
-
-		if (m_log.size() > 4 && m_log.size() < 14)
+		if (m_log.size() > 4 && m_log.size() < 50)
 		{
-			scrollIcon->resizeHeight(scrollIcon->getHeight()*0.8f);
+			scrollIcon->resizeHeight(scrollIconStartHeight * (4.0f / m_log.size()));
 			scrollIcon->redraw();
 		}
 
@@ -68,23 +67,17 @@ public:
 		else p_text[0]->setColour({ 155, 155, 155, 255 });
 	}
 
-	void cycleUp()
+	void scrollCombatLog(bool scrollUp)
 	{
-		if (m_logDisplay + 4 < m_log.size())
-		{
-			m_logDisplay++;
-			changeDisplayedLines(m_logDisplay);
-		}
+		if (m_logDisplay + 4 < m_log.size() && scrollUp) m_logDisplay++;
+		else if (m_logDisplay > 0 && !scrollUp) m_logDisplay--;
+		else return; 
+		
+		changeDisplayedLines(m_logDisplay);
+		scrollIcon->setPos({ scrollIcon->getPos().x, scrollIconStartYPos + (scrollIconStartHeight * ((float)m_logDisplay / m_log.size())) });
+		scrollIcon->redraw();
 	}
 
-	void cycleDown()
-	{
-		if (m_logDisplay > 0) 
-		{
-			m_logDisplay--;
-			changeDisplayedLines(m_logDisplay);
-		}
-	}
 
 	void changeDisplayedLines(int start)
 	{
