@@ -197,8 +197,17 @@ void Scene::initScene()
 		worldDrawables.push_back(hb);
 		worldDrawables.push_back(p_units.back());
 	}
-	//LAYER 3 (Overlay)
 
+	UIFloatingText* floatingDamage = new UIFloatingText({ 0, 0 }, 1,
+		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
+		"", { 255, 0, 0, 255 } );
+	worldDrawables.push_back(floatingDamage);
+	m_model.setFloatingDamage(floatingDamage);
+	//floatingDamage->updateText("asda");
+
+
+
+	//LAYER 3 (Overlay)
 
 	//Sets ui backplate
 	overlayDrawables.push_back(new UIIcon({ 0.017f*sW, 0 }, sW, 0.25f*sH,
@@ -220,25 +229,12 @@ void Scene::initScene()
 	m_model.setCurrentUnitIcon(currentUnitIcon);
 	overlayDrawables.push_back(currentUnitIcon);       //collect in vector
 
-	//Set selected icon
-	UIIcon* selectedUnitIcon = new UIIcon({ 0.75f*sW, 0.033f*sH }, 0.25*sH, 0.25*sH,
-		new Solengine::SpriteBatch());
-	m_model.setSelectedUnitIcon(selectedUnitIcon);
-	overlayDrawables.push_back(selectedUnitIcon);       //collect in vector
-
 	//Set current name
 	UIText* currentUnitNameText = new UIText({ 0.06f*sW, 0.033f*sH }, 1,
 		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
 		"", col1);
 	m_model.setCurrentUnitNameText(currentUnitNameText);   //assign use
 	overlayDrawables.push_back(currentUnitNameText);     //collect in vector
-
-	//Set selected name
-	UIText* selectedUnitNameText = new UIText({ 0.8f*sW, 0.033f*sH }, 1,
-		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
-		"", col1);
-	m_model.setSelectedUnitNameText(selectedUnitNameText);
-	overlayDrawables.push_back(selectedUnitNameText);     //collect in vector
 
 	//Set current health
 	UIText* currentUnitHealth = new UIText({ 0.12f*sW, 0.166f*sH }, 1,
@@ -260,6 +256,20 @@ void Scene::initScene()
 		"SPD: ", col1);
 	m_model.setCurrentUnitSpeedText(currentUnitSpeed);
 	overlayDrawables.push_back(currentUnitSpeed);
+
+
+	//Set selected icon
+	UIIcon* selectedUnitIcon = new UIIcon({ 0.75f*sW, 0.033f*sH }, 0.25*sH, 0.25*sH,
+		new Solengine::SpriteBatch());
+	m_model.setSelectedUnitIcon(selectedUnitIcon);
+	overlayDrawables.push_back(selectedUnitIcon);       //collect in vector
+
+	//Set selected name
+	UIText* selectedUnitNameText = new UIText({ 0.8f*sW, 0.033f*sH }, 1,
+		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
+		"", col1);
+	m_model.setSelectedUnitNameText(selectedUnitNameText);
+	overlayDrawables.push_back(selectedUnitNameText);     //collect in vector
 
 	//Set selected health
 	UIText* selectedUnitHealth = new UIText({ 0.87f*sW, 0.166f*sH }, 1,

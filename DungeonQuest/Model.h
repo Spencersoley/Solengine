@@ -7,7 +7,7 @@
 #include <Solengine/InputManager.h>
 
 #include "Unit.h"
-#include "UIText.h"
+#include "UIFloatingText.h"
 #include "UIButton.h"
 #include "UIIcon.h"
 #include "CombatLog.h"
@@ -121,14 +121,11 @@ public:
 
 	void setTileMap(TileMap* tileMap) { p_tileMap = tileMap; }
 
-	void setCombatLog(std::vector<UIText*> texts) 
-	{
-		m_combatLog.setTexts(texts);
-	
-	}
+	void setCombatLog(std::vector<UIText*> texts) { m_combatLog.setTexts(texts); }
+
+	void setFloatingDamage(UIFloatingText* fd) { p_floatingDamage = fd;  }
 
 	void setScrollIcon(UIIcon* icon) { m_combatLog.setScrollIcon(icon); }
-
 
 private:
 	Solengine::InputManager m_SOL_inputManager;
@@ -160,6 +157,13 @@ private:
 	UIIcon* p_selectionBox = nullptr;
 
 	UIIcon* p_selectedSpellBox = nullptr;
+
+	UIFloatingText* p_floatingDamage = nullptr;
+	UIIcon* pasd = nullptr;
+	UIIcon* pasdds = nullptr;
+	UIIcon* pasdfsd = nullptr;
+	UIIcon* pafdssd = nullptr;
+	UIIcon* pasdasd = nullptr;
 	
 	std::vector<UIText*> p_spellText;
 	std::vector<UIText*> p_spellStats;

@@ -109,6 +109,8 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 	
 	previousMouseCoords = mouseCoords;
 
+	p_floatingDamage->update(adjustedDeltaTicks);
+
 
 	return state;
 }
@@ -182,14 +184,17 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
 
 					tarUnit->updateHealthbar();
 
+					std::string dmgstr = std::to_string(currentUnit->
+						m_moveSet.p_spells[m_currentSpellIndex]->getDamage());
 
 					m_combatLog.announce("EVENT: " + currentUnit->getName() +
 						" hit " + tarUnit->getName() +
 						" with " + currentUnit->
 						m_moveSet.p_spells[m_currentSpellIndex]->
-						getName() + " for " + std::to_string(currentUnit->
-							m_moveSet.p_spells[m_currentSpellIndex]->getDamage())
-						+ " damage");
+						getName() + " for " + dmgstr + " damage");
+
+					p_floatingDamage->activate("-" + dmgstr, {tarUnit->getPos().x + 0.6f*TILE_WIDTH, 
+						tarUnit->getPos().y + 0.6f*TILE_WIDTH });
 
 					if (tarUnit->getHealth() < 1)
 					{

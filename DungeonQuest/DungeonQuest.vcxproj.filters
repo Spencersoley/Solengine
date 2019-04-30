@@ -97,6 +97,9 @@
     <ClCompile Include="MoveSet.cpp">
       <Filter>Source Files\Spells</Filter>
     </ClCompile>
+    <ClCompile Include="UIFloatingText.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Level.h">
@@ -158,6 +161,9 @@
     </ClInclude>
     <ClInclude Include="CombatLog.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIFloatingText.h">
+      <Filter>Header Files\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

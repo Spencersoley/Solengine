@@ -17,6 +17,7 @@ public:
 	void setTexture(GLuint textureID) { m_textureID = textureID; }
 	GLuint getTextureID() const { return m_textureID; }
 
+	void movePos(glm::ivec2 pos) { m_pos += pos; redraw(); }
 	void setPos(glm::ivec2 pos) { m_pos = pos; redraw(); }
 	glm::ivec2 getPos() { return m_pos; }
 
