@@ -1,5 +1,7 @@
 #include "Drawable.h"
 
+#include <iostream>
+
 Drawable::Drawable()
 {
 	m_redraw = true;

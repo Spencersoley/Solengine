@@ -198,15 +198,6 @@ void Scene::initScene()
 		worldDrawables.push_back(p_units.back());
 	}
 
-	UIFloatingText* floatingDamage = new UIFloatingText({ 0, 0 }, 1,
-		new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
-		"", { 255, 0, 0, 255 } );
-	worldDrawables.push_back(floatingDamage);
-	m_model.setFloatingDamage(floatingDamage);
-	//floatingDamage->updateText("asda");
-
-
-
 	//LAYER 3 (Overlay)
 
 	//Sets ui backplate
@@ -399,7 +390,10 @@ void Scene::gameLoop(Model* model, View* view)
 		while (gameState == Solengine::GameState::PLAY)
 		{	
 			gameState = model->update(pauseDuration, p_units);
-					
+				
+			std::vector<VisualEffect*> visualEffects = model->getEffects();
+
+
 			for (size_t i = 0; i < p_units.size(); i++)
 				if (p_units[i]->m_delete)
 				{
@@ -417,8 +411,10 @@ void Scene::gameLoop(Model* model, View* view)
 						p_worldDrawables[j] = p_worldDrawables[j + 1];
 					p_worldDrawables.pop_back();
 				}
+
+	
 		
-			view->update(p_worldDrawables, p_overlayDrawables);
+			view->update(p_worldDrawables, visualEffects, p_overlayDrawables);
 			
 			m_SOL_fpsManager.limitFPS(trackFPS, (int)DESIRED_TICKS_PER_FRAME);
 			pauseDuration = 0;

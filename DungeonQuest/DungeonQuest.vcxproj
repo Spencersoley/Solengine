@@ -40,6 +40,7 @@
     <ClCompile Include="UIText.cpp" />
     <ClCompile Include="Unit.cpp" />
     <ClCompile Include="View.cpp" />
+    <ClCompile Include="VisualEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Adept.h" />
@@ -63,6 +64,7 @@
     <ClInclude Include="UIText.h" />
     <ClInclude Include="Unit.h" />
     <ClInclude Include="View.h" />
+    <ClInclude Include="VisualEffect.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

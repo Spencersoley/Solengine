@@ -109,7 +109,15 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 	
 	previousMouseCoords = mouseCoords;
 
-	p_floatingDamage->update(adjustedDeltaTicks);
+	for (size_t i = 0; i < p_visualEffects.size(); i++)
+		if (!p_visualEffects[i]->updateEffect(adjustedDeltaTicks))
+		{
+			p_visualEffects[i] = p_visualEffects.back();
+			p_visualEffects.pop_back();
+			i--;
+		}
+
+
 
 
 	return state;
@@ -193,8 +201,17 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
 						m_moveSet.p_spells[m_currentSpellIndex]->
 						getName() + " for " + dmgstr + " damage");
 
-					p_floatingDamage->activate("-" + dmgstr, {tarUnit->getPos().x + 0.6f*TILE_WIDTH, 
-						tarUnit->getPos().y + 0.6f*TILE_WIDTH });
+
+					/////////////////////////////
+	                p_visualEffects.push_back(new UIFloatingText({ 0, 0 }, 1,
+						new Solengine::Font("Fonts/Px437_VGA_SquarePx.ttf", 24,
+					      	 new Solengine::SpriteBatch()),
+						 "", { 255, 0, 0, 255 }));
+
+					p_visualEffects.back()->activate("-" + dmgstr, { tarUnit->getPos().x + 0.6f*TILE_WIDTH,
+						 	tarUnit->getPos().y + 0.6f*TILE_WIDTH });
+
+					 ////////////////////////
 
 					if (tarUnit->getHealth() < 1)
 					{
@@ -443,4 +460,10 @@ Solengine::GameState Model::nextTurn(std::vector<Unit*> units,
 	updateSelectedSpellBox();
 
 	return Solengine::GameState::PLAY;
+}
+
+std::vector<VisualEffect*> Model::getEffects()
+{
+
+	return p_visualEffects;
 }

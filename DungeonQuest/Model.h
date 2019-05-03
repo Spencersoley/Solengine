@@ -123,15 +123,18 @@ public:
 
 	void setCombatLog(std::vector<UIText*> texts) { m_combatLog.setTexts(texts); }
 
-	void setFloatingDamage(UIFloatingText* fd) { p_floatingDamage = fd;  }
-
 	void setScrollIcon(UIIcon* icon) { m_combatLog.setScrollIcon(icon); }
+
+	std::vector<VisualEffect*> getEffects();
+
 
 private:
 	Solengine::InputManager m_SOL_inputManager;
 	Solengine::Camera2D* p_SOL_cam;
 	
 	CombatLog m_combatLog;
+
+	std::vector<VisualEffect*> p_visualEffects;
 
 	int m_currentSpellIndex = 0;
 
@@ -158,7 +161,6 @@ private:
 
 	UIIcon* p_selectedSpellBox = nullptr;
 
-	UIFloatingText* p_floatingDamage = nullptr;
 	UIIcon* pasd = nullptr;
 	UIIcon* pasdds = nullptr;
 	UIIcon* pasdfsd = nullptr;

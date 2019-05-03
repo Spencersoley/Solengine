@@ -1,9 +1,10 @@
 #pragma once
 #include "UIText.h"
+#include "VisualEffect.h"
 
 #include <iostream>
 
-class UIFloatingText : public UIText
+class UIFloatingText : public UIText, public VisualEffect
 {
 public:
 	UIFloatingText(glm::vec2 v, int size, Solengine::Font* font, std::string msg,
@@ -11,38 +12,30 @@ public:
 	~UIFloatingText();
 
 	float m_duration = 0; //in milisec
-	
+
+	void draw() { UIText::draw(); }
+
 	void activate(std::string txt, glm::ivec2 pos)
 	{
-		setPos(pos);
+		Drawable::setPos(pos);
 		updateText(txt);
-		setVisible(true);
+		Drawable::setVisible(true);
 		m_duration = 10;
 	}
 
-	void update(float adjustedDeltaTicks)
+	bool updateEffect(float adjustedDeltaTicks)
 	{
+		Drawable::redraw();
 		static int framesPassed = 0;
-		if (m_duration > 0) 
+		if (m_duration > 0)
 		{
 			framesPassed++;
 			m_duration -= adjustedDeltaTicks;
-			std::cout << m_duration << std::endl;
-			
-			if (framesPassed % 10 == 0) movePos({ 0, 1 });
-		}
-		else
-		{
-			deactivate();
-			framesPassed = 0;
-		}
-	}
 
-	void deactivate()
-	{
-		updateText(" ");
-		setVisible(false);
-		
+			if (framesPassed % 10 == 0) Drawable::movePos({ 0, 1 });      //We can stabilise the speed of effects. How should we do this?
+
+			return true;
+		}
+		else return false;
 	}
 };
-
