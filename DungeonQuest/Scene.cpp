@@ -391,7 +391,7 @@ void Scene::gameLoop(Model* model, View* view)
 		{	
 			gameState = model->update(pauseDuration, p_units);
 				
-			std::vector<VisualEffect*> visualEffects = model->getEffects();
+			std::vector<Drawable*> visualEffects = model->getEffects();
 
 
 			for (size_t i = 0; i < p_units.size(); i++)

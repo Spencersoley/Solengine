@@ -35,12 +35,10 @@
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="UIButton.cpp" />
     <ClCompile Include="UIElement.cpp" />
-    <ClCompile Include="UIFloatingText.cpp" />
     <ClCompile Include="UIIcon.cpp" />
     <ClCompile Include="UIText.cpp" />
     <ClCompile Include="Unit.cpp" />
     <ClCompile Include="View.cpp" />
-    <ClCompile Include="VisualEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Adept.h" />
@@ -59,12 +57,10 @@
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="UIButton.h" />
     <ClInclude Include="UIElement.h" />
-    <ClInclude Include="UIFloatingText.h" />
     <ClInclude Include="UIIcon.h" />
     <ClInclude Include="UIText.h" />
     <ClInclude Include="Unit.h" />
     <ClInclude Include="View.h" />
-    <ClInclude Include="VisualEffect.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

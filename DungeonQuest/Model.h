@@ -7,7 +7,7 @@
 #include <Solengine/InputManager.h>
 
 #include "Unit.h"
-#include "UIFloatingText.h"
+#include "UIText.h"
 #include "UIButton.h"
 #include "UIIcon.h"
 #include "CombatLog.h"
@@ -125,7 +125,7 @@ public:
 
 	void setScrollIcon(UIIcon* icon) { m_combatLog.setScrollIcon(icon); }
 
-	std::vector<VisualEffect*> getEffects();
+	std::vector<Drawable*> getEffects();
 
 
 private:
@@ -134,7 +134,7 @@ private:
 	
 	CombatLog m_combatLog;
 
-	std::vector<VisualEffect*> p_visualEffects;
+	std::vector<Drawable*> p_visualEffects;
 
 	int m_currentSpellIndex = 0;
 

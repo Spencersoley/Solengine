@@ -22,17 +22,15 @@ public:
 	void init(Solengine::Camera2D* cam, Solengine::Camera2D* uiCam, 
 		      int screenWidth, int screenHeight);
     void update(std::vector<Drawable*> worldDrawables, 
-		        std::vector<VisualEffect*> visualEffectDrawables,
+		        std::vector<Drawable*> visualEffectDrawables,
 		        std::vector<Drawable*> overlayDrawables);
 
 private:
 	void drawGame(std::vector<Drawable*> worldDrawables, 
-		          std::vector<VisualEffect*> visualEffectDrawables,
+		          std::vector<Drawable*> visualEffectDrawables,
 		          std::vector<Drawable*> overlayDrawables);
 	void drawToCamera(std::vector<Drawable*> drawables, 
 		              Solengine::Camera2D* cam);
-	void drawToCameraVE(std::vector<VisualEffect*> drawables,
-		Solengine::Camera2D* cam);
 
 	Solengine::Camera2D* p_SOL_cam = nullptr;
 	Solengine::Camera2D* p_SOL_uiCam = nullptr;

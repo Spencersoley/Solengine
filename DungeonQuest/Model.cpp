@@ -117,9 +117,6 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 			i--;
 		}
 
-
-
-
 	return state;
 }
 
@@ -203,7 +200,7 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
 
 
 					/////////////////////////////
-	                p_visualEffects.push_back(new UIFloatingText({ 0, 0 }, 1,
+	                p_visualEffects.push_back(new UIText({ 0, 0 }, 1,
 						new Solengine::Font("Fonts/Px437_VGA_SquarePx.ttf", 24,
 					      	 new Solengine::SpriteBatch()),
 						 "", { 255, 0, 0, 255 }));
@@ -462,7 +459,7 @@ Solengine::GameState Model::nextTurn(std::vector<Unit*> units,
 	return Solengine::GameState::PLAY;
 }
 
-std::vector<VisualEffect*> Model::getEffects()
+std::vector<Drawable*> Model::getEffects()
 {
 
 	return p_visualEffects;

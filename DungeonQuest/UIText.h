@@ -16,6 +16,12 @@ public:
 
 	void draw();
 
+	float m_duration;
+
+	void activate(std::string txt, glm::ivec2 pos);
+	bool updateEffect(float adjustedTicks);
+
+
 protected:
 	std::string m_message;
 

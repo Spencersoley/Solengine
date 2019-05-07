@@ -3,15 +3,18 @@
 
 #include <iostream>
 
-class VisualEffect : public Drawable 
+class VisualEffect 
 {
 public:
 	VisualEffect();
-	~VisualEffect();
+	virtual ~VisualEffect();
 
-	void draw() {}
+	virtual void draw() = 0;
 
 	virtual bool updateEffect(float adjustedDeltaTicks) = 0;
 	virtual void activate(std::string txt, glm::ivec2 pos) = 0;
+
+protected: 
+	float m_duration = 0;
 };
 

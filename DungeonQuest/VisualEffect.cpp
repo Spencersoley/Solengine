@@ -10,3 +10,4 @@ VisualEffect::~VisualEffect()
 {
 }
 
+//Diamond problem

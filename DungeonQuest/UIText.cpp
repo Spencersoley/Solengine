@@ -38,3 +38,33 @@ void UIText::draw()
 		else p_SOL_SB->renderBatch();
 }
 
+
+void UIText::activate(std::string txt, glm::ivec2 pos)
+{
+	setPos(pos);
+	updateText(txt);
+	setVisible(true);
+	m_duration = 10;
+}
+
+bool UIText::updateEffect(float adjustedDeltaTicks)
+{
+	redraw();
+	static int framesPassed = 0;
+	if (m_duration > 0)
+	{
+		framesPassed++;
+		m_duration -= adjustedDeltaTicks;
+
+		if (framesPassed % 10 == 0)
+		{
+			movePos({ 0, 1 });      //We can stabilise the speed of effects. How should we do this?
+			if (framesPassed > 1000) framesPassed = 0;
+		}
+
+		return true;
+	}
+	else return false;
+}
+
+
