@@ -35,21 +35,21 @@ Level::Level(std::vector<std::string> levelData, Solengine::SpriteBatch* batch)
 			case 'X':
 				batch->draw(destRect, uvRect, 
 					        Solengine::ResourceManager::getTexture(
-						    "Textures/zombie_pack/light_bricks.png").textureID, 
+						    "Textures/DQ_pack/light_bricks.png").textureID, 
 					        0.0f, whiteColour);
 				tileRow.push_back(new Tile(true, false, x, y, TILE_WIDTH));
 				break;
 			case '.':
                 batch->draw(destRect, uvRect, 
 					        Solengine::ResourceManager::getTexture(
-                            "Textures/zombie_pack/DQtile.png").textureID, 
+                            "Textures/DQ_pack/DQtile.png").textureID, 
 					        0.0f, tileColour);
 				tileRow.push_back(new Tile(false, false, x, y, TILE_WIDTH));
 				break;
 			case 'A':
 				batch->draw(destRect, uvRect, 
 					        Solengine::ResourceManager::getTexture(
-						   "Textures/zombie_pack/DQtile.png").textureID, 
+						   "Textures/DQ_pack/DQtile.png").textureID, 
 					        0.0f, tileColour);
 				tileRow.push_back(new Tile(false, true, x, y, TILE_WIDTH));
 				m_adeptSpawnCoords = glm::vec2{ x , y };
@@ -57,7 +57,7 @@ Level::Level(std::vector<std::string> levelData, Solengine::SpriteBatch* batch)
 			case 'F':
 				batch->draw(destRect, uvRect, 
 					        Solengine::ResourceManager::getTexture(
-					        "Textures/zombie_pack/DQtile.png").textureID, 
+					        "Textures/DQ_pack/DQtile.png").textureID, 
 					        0.0f, tileColour);
 				tileRow.push_back(new Tile(false, true, x, y, TILE_WIDTH));
 				m_fighterSpawnCoords = glm::vec2{ x , y };
@@ -65,7 +65,7 @@ Level::Level(std::vector<std::string> levelData, Solengine::SpriteBatch* batch)
 			case 'S':
 				batch->draw(destRect, uvRect, 
 					        Solengine::ResourceManager::getTexture(
-							"Textures/zombie_pack/DQtile.png").textureID, 
+							"Textures/DQ_pack/DQtile.png").textureID, 
 					        0.0f, tileColour);
 				tileRow.push_back(new Tile(false, true, x, y, TILE_WIDTH));
 				m_scoutSpawnCoords = glm::vec2{ x , y };
@@ -73,7 +73,7 @@ Level::Level(std::vector<std::string> levelData, Solengine::SpriteBatch* batch)
 			case 'R':
 				batch->draw(destRect, uvRect, 
 					        Solengine::ResourceManager::getTexture(
-							"Textures/zombie_pack/DQtile.png").textureID, 
+							"Textures/DQ_pack/DQtile.png").textureID, 
 					        0.0f, tileColour);
 				tileRow.push_back(new Tile(false, true, x, y, TILE_WIDTH));
 				m_enemySpawnCoords.push_back({ x , y });

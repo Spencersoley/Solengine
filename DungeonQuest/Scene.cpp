@@ -88,7 +88,7 @@ void Scene::initScene()
 	//Set walkable highlight
 	UIIcon* walkableHighlight = new UIIcon({ 0, 0 }, TILE_WIDTH, TILE_WIDTH,
 		new Solengine::SpriteBatch(),
-		Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID,
+		Solengine::ResourceManager::getTexture("Textures/DQ_pack/DQtile.png").textureID,
 		{ 0, 150, 0, 150 });
 	m_model.setWalkableHighlight(walkableHighlight);
 	worldDrawables.push_back(walkableHighlight);
@@ -96,7 +96,7 @@ void Scene::initScene()
 	//Set hover highlight
 	UIIcon* hoverHighlight = new UIIcon({ 0, 0 }, TILE_WIDTH, TILE_WIDTH,
 		new Solengine::SpriteBatch(),
-		Solengine::ResourceManager::getTexture("Textures/zombie_pack/Aim.png").textureID,
+		Solengine::ResourceManager::getTexture("Textures/DQ_pack/Aim.png").textureID,
 		{ 200, 200, 200, 100 });
 	m_model.setHoverHighlight(hoverHighlight);
 	worldDrawables.push_back(hoverHighlight);
@@ -104,14 +104,14 @@ void Scene::initScene()
 	//Selection box
 	UIIcon* selectionBox = new UIIcon({ 0, 0 }, TILE_WIDTH, TILE_WIDTH,
 		new Solengine::SpriteBatch(),
-		Solengine::ResourceManager::getTexture("Textures/zombie_pack/selection.png").textureID);
+		Solengine::ResourceManager::getTexture("Textures/DQ_pack/selection.png").textureID);
 	m_model.setSelectionBox(selectionBox);
 	worldDrawables.push_back(selectionBox);
 
 	//Current unit box
 	UIIcon* currentUnitBox = new UIIcon({ 0, 0 }, TILE_WIDTH, TILE_WIDTH,
 		new Solengine::SpriteBatch(),
-		Solengine::ResourceManager::getTexture("Textures/zombie_pack/selection.png").textureID);
+		Solengine::ResourceManager::getTexture("Textures/DQ_pack/selection.png").textureID);
 	m_model.setCurrentUnitBox(currentUnitBox);
 	worldDrawables.push_back(currentUnitBox);
 
@@ -123,11 +123,11 @@ void Scene::initScene()
 
 	UIIcon* hb = new UIIcon({ 0, 0 }, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH),
 		new Solengine::SpriteBatch(),
-		Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID,
+		Solengine::ResourceManager::getTexture("Textures/DQ_pack/DQtile.png").textureID,
 		{ 0, 255, 0, 255 });
 	UIIcon* hbb = new UIIcon({ 0, 0 }, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH),
 		new Solengine::SpriteBatch(),
-		Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID,
+		Solengine::ResourceManager::getTexture("Textures/DQ_pack/DQtile.png").textureID,
 		{ 222, 0, 0, 255 });
 	p_units.back()->setHealthbar(hb, hbb);
 	worldDrawables.push_back(hbb);
@@ -143,11 +143,11 @@ void Scene::initScene()
 
 	hb = new UIIcon({ 0, 0 }, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH),
 		new Solengine::SpriteBatch(),
-		Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID,
+		Solengine::ResourceManager::getTexture("Textures/DQ_pack/DQtile.png").textureID,
 		{ 0, 255, 0, 255 });
 	hbb = new UIIcon({ 0, 0 }, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH),
 		new Solengine::SpriteBatch(),
-		Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID,
+		Solengine::ResourceManager::getTexture("Textures/DQ_pack/DQtile.png").textureID,
 		{ 222, 0, 0, 255 });
 	p_units.back()->setHealthbar(hb, hbb);
 	worldDrawables.push_back(hbb);
@@ -163,11 +163,11 @@ void Scene::initScene()
 
 	hb = new UIIcon({ 0, 0 }, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH),
 		new Solengine::SpriteBatch(),
-		Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID,
+		Solengine::ResourceManager::getTexture("Textures/DQ_pack/DQtile.png").textureID,
 		{ 0, 255, 0, 255 });
 	hbb = new UIIcon({ 0, 0 }, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH),
 		new Solengine::SpriteBatch(),
-		Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID,
+		Solengine::ResourceManager::getTexture("Textures/DQ_pack/DQtile.png").textureID,
 		{ 222, 0, 0, 255 });
 	p_units.back()->setHealthbar(hb, hbb);
 	worldDrawables.push_back(hbb);
@@ -185,11 +185,11 @@ void Scene::initScene()
 
 		hb = new UIIcon({ 0, 0 }, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH),
 			new Solengine::SpriteBatch(),
-			Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID,
+			Solengine::ResourceManager::getTexture("Textures/DQ_pack/DQtile.png").textureID,
 			{ 0, 255, 0, 255 });
 		hbb = new UIIcon({ 0, 0 }, (int)(0.5f * TILE_WIDTH), (int)(0.1f * TILE_WIDTH),
 			new Solengine::SpriteBatch(),
-			Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID,
+			Solengine::ResourceManager::getTexture("Textures/DQ_pack/DQtile.png").textureID,
 			{ 222, 0, 0, 255 });
 
 		p_units.back()->setHealthbar(hb, hbb);
@@ -203,13 +203,13 @@ void Scene::initScene()
 	//Sets ui backplate
 	overlayDrawables.push_back(new UIIcon({ 0.017f*sW, 0 }, sW, 0.25f*sH,
 		new Solengine::SpriteBatch(),
-		Solengine::ResourceManager::getTexture("Textures/zombie_pack/Backplate1.png").textureID,
+		Solengine::ResourceManager::getTexture("Textures/DQ_pack/Backplate1.png").textureID,
 		{ 200, 200, 200, 255 }));
 
 	//sets combatlog scroll
 	UIIcon* scrollIcon = new UIIcon({ 0.754f*sW, 0.055*sH }, 0.008f*sW, 0.14f*sH,
 		new Solengine::SpriteBatch(),
-		Solengine::ResourceManager::getTexture("Textures/zombie_pack/DQtile.png").textureID,
+		Solengine::ResourceManager::getTexture("Textures/DQ_pack/DQtile.png").textureID,
 		col1);
 	m_model.setScrollIcon(scrollIcon);
 	overlayDrawables.push_back(scrollIcon);
@@ -343,7 +343,7 @@ void Scene::initScene()
 
 	UIIcon* currentSpellBox = new UIIcon({0.23f * sW, 0.1666f*sH}, 0.1666f*sH, 0.0333f*sH,
 		new Solengine::SpriteBatch(),
-		Solengine::ResourceManager::getTexture("Textures/zombie_pack/Panel.png").textureID);
+		Solengine::ResourceManager::getTexture("Textures/DQ_pack/Panel.png").textureID);
 	m_model.setSelectedSpellBox(currentSpellBox);
 	overlayDrawables.push_back(currentSpellBox);
 

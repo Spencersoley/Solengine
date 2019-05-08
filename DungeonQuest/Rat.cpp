@@ -16,7 +16,7 @@ Rat::Rat(SpellBook* sb)
 	m_healthMax = 20;
 	m_name = "Rat";
 	m_textureID = Solengine::ResourceManager::getTexture(
-		          "Textures/zombie_pack/rat.png").textureID;
+		          "Textures/DQ_pack/rat.png").textureID;
 	m_moveSet.addSpell(sb->strike(), 0);
 
 }

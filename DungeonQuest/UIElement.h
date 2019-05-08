@@ -10,5 +10,11 @@ class UIElement : public Drawable
 public:
 	UIElement();
 	virtual ~UIElement();
+
+	float m_duration;
+
+	int m_framesPassed = 0;
+
+	bool updateEffect(float adjustedTicks);
 };
 

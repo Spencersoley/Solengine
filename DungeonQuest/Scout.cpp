@@ -16,7 +16,7 @@ Scout::Scout(SpellBook* sb)
 	m_healthMax = 21;
 	m_name = "Scout";
 	m_textureID = Solengine::ResourceManager::getTexture(
-		          "Textures/zombie_pack/scout.png").textureID;
+		          "Textures/DQ_pack/scout.png").textureID;
 	m_moveSet.addSpell(sb->strike(), 0);
 }
 

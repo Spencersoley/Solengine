@@ -16,7 +16,7 @@ Adept::Adept(SpellBook* sb)
 	m_healthMax = 20;
 	m_name = "Adept";
 	m_textureID = Solengine::ResourceManager::getTexture(
-		"Textures/zombie_pack/adept.png").textureID;
+		"Textures/DQ_pack/adept.png").textureID;
 	m_moveSet.addSpell(sb->strike(), 0);
 	m_moveSet.addSpell(sb->slash(), 1);
 }

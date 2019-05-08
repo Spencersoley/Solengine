@@ -109,6 +109,7 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 	
 	previousMouseCoords = mouseCoords;
 
+	
 	for (size_t i = 0; i < p_visualEffects.size(); i++)
 		if (!p_visualEffects[i]->updateEffect(adjustedDeltaTicks))
 		{
@@ -116,6 +117,7 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 			p_visualEffects.pop_back();
 			i--;
 		}
+		
 
 	return state;
 }
@@ -208,6 +210,12 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
 					p_visualEffects.back()->activate("-" + dmgstr, { tarUnit->getPos().x + 0.6f*TILE_WIDTH,
 						 	tarUnit->getPos().y + 0.6f*TILE_WIDTH });
 
+					p_visualEffects.push_back(new UIIcon({ 0, 0 }, 32, 32,
+						new Solengine::SpriteBatch(),
+						Solengine::ResourceManager::getTexture("Textures/DQ_pack/flame.png").textureID,
+						{ 222, 50, 0, 255 }));
+
+					p_visualEffects.back()->activate( { tarUnit->getPos().x + 0.1f*TILE_WIDTH, tarUnit->getPos().y } );
 					 ////////////////////////
 
 					if (tarUnit->getHealth() < 1)

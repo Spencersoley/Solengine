@@ -16,7 +16,7 @@ Fighter::Fighter(SpellBook* sb)
 	m_healthMax = 22;
 	m_name = "Fighter";
 	m_textureID = Solengine::ResourceManager::getTexture(
-		          "Textures/zombie_pack/fighter.png").textureID;
+		          "Textures/DQ_pack/fighter.png").textureID;
 	m_moveSet.addSpell(sb->slash(), 0);
 	m_moveSet.addSpell(sb->strike(), 1);
 }

@@ -11,9 +11,10 @@ public:
 
 	void draw();
 
+	void activate(glm::ivec2 pos);
+
 	void resizeWidth(int w) { m_width = w; }
 	void resizeHeight(int h) { m_height = h; }
-
 
 	void setMultidraw(std::vector<glm::vec2> mdraw) { m_multidraw = mdraw; }
 

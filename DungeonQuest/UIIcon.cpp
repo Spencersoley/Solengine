@@ -12,7 +12,6 @@ UIIcon::UIIcon(glm::vec2 v, int width, int height, Solengine::SpriteBatch* batch
 	m_isVisible = true;
 	m_textureID = texture;
 	m_colour = col;
-
 }
 
 UIIcon::~UIIcon()
@@ -24,11 +23,11 @@ void UIIcon::draw()
 	if (m_isVisible && m_textureID != -1)
 	    if (m_redraw)
 		{ 
+			p_SOL_SB->begin();
+			const glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
+
 	        if (m_multidraw.empty())
 			{ 
-			    p_SOL_SB->begin();
-
-			    const glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
                 glm::vec4 destRect((float)m_pos.x, (float)m_pos.y, 
 					               (float)m_width, (float)m_height);
 
@@ -36,11 +35,8 @@ void UIIcon::draw()
 		    }
 			else
 			{
-				p_SOL_SB->begin();
-
 				for (size_t i = 0; i < m_multidraw.size(); i++)
 				{
-					const glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
                     glm::vec4 destRect((float)m_multidraw[i].x, 
 						               m_multidraw[i].y, (float)m_width, 
 						               (float)m_height);
@@ -55,4 +51,11 @@ void UIIcon::draw()
 			m_redraw = false;
 		}
 		else p_SOL_SB->renderBatch();
+}
+
+void UIIcon::activate(glm::ivec2 pos)
+{
+	setPos(pos);
+	setVisible(true);
+	m_duration = 10;
 }

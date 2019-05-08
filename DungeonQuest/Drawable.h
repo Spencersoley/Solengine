@@ -21,8 +21,9 @@ public:
 	void setPos(glm::ivec2 pos) { m_pos = pos; redraw(); }
 	glm::ivec2 getPos() { return m_pos; }
 
-	virtual void activate(std::string txt, glm::ivec2 pos) {};
-	virtual bool updateEffect(float adjustedTicks) { return false; };
+	virtual void activate(glm::ivec2 pos) {}
+	virtual void activate(std::string str, glm::ivec2 pos) {}
+	virtual bool updateEffect(float adjustedTicks) { return false; }
 
 	int getWidth() { return m_width; }
 	int getHeight() { return m_height; }
