@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <glm/glm.hpp>
+#include "UIIcon.h"
 
 View::View()
 {
@@ -13,15 +14,15 @@ View::~View()
 {
 }
 
-void View::init(Solengine::Camera2D* cam, Solengine::Camera2D* uiCam, 
-	            int screenwidth, int screenheight)
+void View::init(Solengine::Camera2D* cam, Solengine::Camera2D* uiCam,
+	int screenwidth, int screenheight)
 {
 	//Creates window
 	m_SOL_window.create("DQ", screenwidth, screenheight, 0);
 
 	//Initialises the shader programs
-	m_SOL_shaderProgram.compileShaders("Shaders/colourShading.vert", 
-		                               "Shaders/colourShading.frag");
+	m_SOL_shaderProgram.compileShaders("Shaders/colourShading.vert",
+		"Shaders/colourShading.frag");
 	m_SOL_shaderProgram.addAttribute("vertexPosition");
 	m_SOL_shaderProgram.addAttribute("vertexColour");
 	m_SOL_shaderProgram.addAttribute("vertexUV");
@@ -32,10 +33,11 @@ void View::init(Solengine::Camera2D* cam, Solengine::Camera2D* uiCam,
 	cam->init(screenwidth, screenheight);
 	p_SOL_uiCam = uiCam;
 	uiCam->init(screenwidth, screenheight);
-	
+
 	//Stores the screen dimensions
 	m_screenHeight = screenheight;
 	m_screenWidth = screenwidth;
+
 }
 
 void View::update(std::vector<Drawable*> worldDrawables, 

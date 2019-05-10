@@ -1,6 +1,17 @@
-﻿  Model.cpp
+﻿  Main.cpp
 c:\users\ssole\source\repos\solengineproject\dungeonquest\tilemap.h(22): warning C4018: '<': signed/unsigned mismatch
 c:\users\ssole\source\repos\solengineproject\dungeonquest\combatlog.h(44): warning C4018: '>': signed/unsigned mismatch
 c:\users\ssole\source\repos\solengineproject\dungeonquest\combatlog.h(57): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
 c:\users\ssole\source\repos\solengineproject\dungeonquest\combatlog.h(72): warning C4018: '<': signed/unsigned mismatch
+  Scene.cpp
+c:\users\ssole\source\repos\solengineproject\dungeonquest\tilemap.h(22): warning C4018: '<': signed/unsigned mismatch
+c:\users\ssole\source\repos\solengineproject\dungeonquest\combatlog.h(44): warning C4018: '>': signed/unsigned mismatch
+c:\users\ssole\source\repos\solengineproject\dungeonquest\combatlog.h(57): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\dungeonquest\combatlog.h(72): warning C4018: '<': signed/unsigned mismatch
+c:\users\ssole\source\repos\solengineproject\dungeonquest\scene.cpp(207): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\dungeonquest\scene.cpp(213): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\dungeonquest\scene.cpp(221): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\dungeonquest\scene.cpp(256): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\dungeonquest\scene.cpp(347): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
   DungeonQuest.vcxproj -> C:\Users\Ssole\source\repos\SolengineProject\Debug\DungeonQuest.exe

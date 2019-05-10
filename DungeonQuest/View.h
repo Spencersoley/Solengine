@@ -12,6 +12,7 @@
 #include <glm/glm.hpp>
 
 #include "VisualEffect.h"
+#include "UIIcon.h"
 
 class View
 {
@@ -24,6 +25,8 @@ public:
     void update(std::vector<Drawable*> worldDrawables, 
 		        std::vector<Drawable*> visualEffectDrawables,
 		        std::vector<Drawable*> overlayDrawables);
+
+	void drawLoadScreen(UIIcon* loadScreen);
 
 private:
 	void drawGame(std::vector<Drawable*> worldDrawables, 

@@ -18,6 +18,8 @@ void Model::init(float physicsSpeed, Solengine::Camera2D* cam)
 
 void Model::awake(std::vector<Unit*> units)
 {
+	Solengine::ResourceManager::getTexture("Textures/DQ_pack/flame.png");
+
 	for (size_t i = 0; i < units.size(); i++)
 		units[i]->newTurn();
 

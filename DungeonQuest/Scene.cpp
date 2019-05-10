@@ -56,8 +56,11 @@ void Scene::initSystems()
 {
 	Solengine::initialiseSDL();
 	
-	m_model.init(m_physicsSpeed, &m_SOL_cam);
 	m_view.init(&m_SOL_cam, &m_SOL_uiCam, m_screenWidth, m_screenHeight);
+
+	loadingScreen();
+
+	m_model.init(m_physicsSpeed, &m_SOL_cam);
 
 	initScene();
 }
@@ -433,3 +436,21 @@ void Scene::gameLoop(Model* model, View* view)
 	}
 }
 
+void Scene::loadingScreen()
+{
+	UIIcon* loadScreen = new UIIcon({ -m_screenWidth / 16, 0 }, m_screenWidth / 8, m_screenWidth / 8,
+		new Solengine::SpriteBatch(),
+		Solengine::ResourceManager::getTexture("Textures/DQ_pack/flame.png").textureID,
+		{ 255, 50, 0, 255 });
+
+	//Set current health
+	UIText* loadText = new UIText({ -m_screenWidth / 3.5f, -m_screenWidth / 8 }, 2,
+		new Solengine::Font("Fonts/Px437_VGA_SquarePx.ttf", 48, new Solengine::SpriteBatch()),
+		"Welcome to DUNGEONQUEST", { 255, 100, 0, 255 });
+	loadText->updateText(" ");
+
+	m_view.update(std::vector<Drawable*> {}, std::vector<Drawable*> {}, std::vector<Drawable*> {loadScreen, loadText});
+
+	delete loadText;
+	delete loadScreen;
+}

@@ -27,6 +27,7 @@ public:
 private:
 	void initSystems();
 	void initScene();
+	void loadingScreen();
 	void gameLoop(Model* model, View* view);
 
 	Solengine::TileLevelLoader m_SOL_tileLevelLoader;
