@@ -10,10 +10,12 @@ Model::~Model()
 {
 }
 
-void Model::init(float physicsSpeed, Solengine::Camera2D* cam)
+void Model::init(float physicsSpeed, Solengine::Camera2D* cam, int sw, int sh)
 {
 	m_physicsSpeed = physicsSpeed;
 	p_SOL_cam = cam;
+	m_screenHeight = sh;
+	m_screenWidth = sw;
 }
 
 void Model::awake(std::vector<Unit*> units)
@@ -37,6 +39,9 @@ void Model::awake(std::vector<Unit*> units)
 
 	updateSelectedSpellBox();
 
+	for (size_t i = 0; i < p_spellText.size(); i++) 
+		p_mouseoverable.push_back(p_spellText[i]);
+
 	for (size_t i = 0; i < units.size(); i++) 
 		units[i]->updateHealthbar();
 
@@ -50,6 +55,8 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 	const float CAMERA_SPEED = 2.0f;
 	const float SCALE_SPEED = 0.1f;
 	float SCROLL_SPEED = 20 * adjustedDeltaTicks;
+
+	entityNeedsDeletion(0);
 
 	Solengine::GameState state = m_SOL_inputManager.processInput();
 
@@ -86,7 +93,11 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 		updateHighlight(p_tileMap->p_tiles, mouseCoords, p_hoverHighlight);
 	}
 
-	if (getMouseScreenPos().y < 470) //exclude backplate
+
+	//////////////     Mouse Control       /////////////////
+	glm::vec2 msp = getMouseScreenPos();
+
+	if (msp.y > 130) //exclude backplate
 	{
 		if (m_SOL_inputManager.keyPress(SDL_BUTTON_LEFT))
 		{
@@ -99,16 +110,27 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 			if (!movement(mouseCoords, p_tileMap, p_currentUnit))
 			    attack(mouseCoords, p_tileMap, p_currentUnit, units);
 		}		
-	}
 
-	if (mouseCoords != previousMouseCoords)
-		updateHighlight(p_tileMap->p_tiles, mouseCoords, p_hoverHighlight);
+		if (mouseCoords != previousMouseCoords)
+			updateHighlight(p_tileMap->p_tiles, mouseCoords, p_hoverHighlight);
+	}
+	else 
+	{
+		updateHighlight(p_tileMap->p_tiles, { 0, 0 }, p_hoverHighlight);
+
+		for (size_t i = 0; i < p_mouseoverable.size(); i++)
+		{
+			if (p_mouseoverable[i]->checkMouseover(msp))
+				if (m_SOL_inputManager.keyPress(SDL_BUTTON_LEFT)) std::cout << "Interact" << std::endl;
+		}
+		//get exact position, return if mouseover
+		//needs a vector of mouseoverables?
+	}
+	
 
 	if (state == Solengine::GameState::TURNOVER)                                   
 		state = nextTurn(units, p_currentUnit, p_selectedUnit);
 	
-	previousMouseCoords = mouseCoords;
-
 	
 	for (size_t i = 0; i < p_visualEffects.size(); i++)
 		if (!p_visualEffects[i]->updateEffect(adjustedDeltaTicks))
@@ -119,6 +141,7 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 		}
 		
 
+	previousMouseCoords = mouseCoords;
 	return state;
 }
 
@@ -220,13 +243,13 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
 
 					if (tarUnit->getHealth() < 1)
 					{
+						entityNeedsDeletion(1);
 						tarUnit->death();
 						m_combatLog.announce("EVENT! " + tarUnit->getName() + " has died!");
 						setSelectedUnit(nullptr);
 						tileMap->getTileByCoords(tarUnit->getCoords())->m_isOccupied = false;
 					}
 
-					//delete castSpell;
 					return true;
 				}
 				else m_combatLog.announce("WARNING! " + currentUnit->getName()
@@ -452,7 +475,7 @@ Solengine::GameState Model::nextTurn(std::vector<Unit*> units,
 		if (units[i]->getTurnPoints() < currentUnit->getTurnPoints()) currentUnit = units[i];
 
 	setCurrentUnit(currentUnit);
-	p_SOL_cam->setPosition(currentUnit->getPos() - glm::ivec2(0.5f * (float)TILE_WIDTH, 0.5f * (float)TILE_WIDTH));
+	p_SOL_cam->setPosition(currentUnit->getPos() - glm::vec2(0.5f * TILE_WIDTH, 0.5f * TILE_WIDTH));
 
 	if (currentUnit == selectedUnit) setSelectedUnit(nullptr);
 

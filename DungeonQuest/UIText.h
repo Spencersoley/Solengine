@@ -8,13 +8,13 @@ class UIText : public UIElement
 {
 public:
 	UIText() {};
-	UIText(glm::vec2 v, int size, Solengine::Font* font, std::string msg,
+	UIText(glm::vec2 v, float size, Solengine::Font* font, std::string msg,
 		Solengine::ColourRGBA8 col = { 255, 255, 255, 255 });
 	~UIText();
 
 	void draw();
 
-	void activate(std::string txt, glm::ivec2 pos);
+	void activate(std::string txt, glm::vec2 pos);
 
     void updateText(std::string tString) { m_trackedString = tString; }
 

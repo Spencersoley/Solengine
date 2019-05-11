@@ -32,6 +32,36 @@ public:
 		scrollIconStartHeight = icon->getHeight();
 	}
 
+	std::vector<Drawable*> init(int sW, int sH)
+	{
+		Solengine::ColourRGBA8 col1 = { 255, 155, 40, 255 };
+		Solengine::ColourRGBA8 col2 = { 155, 155, 155, 255 };
+
+		const char* font1 = "Fonts/Px437_VGA_SquarePx.ttf";
+		int fontSize = 32;
+		std::vector<Drawable*> texts;
+
+		UIText* logLineOne = new UIText({ 0.32f*sW, 0.066f*sH }, 0.8f,
+			new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
+			" ", col1);
+		texts.push_back(logLineOne);
+		UIText* logLineTwo = new UIText({ 0.32f*sW, 0.1f*sH }, 0.8f,
+			new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
+			" ", col2);
+		texts.push_back(logLineTwo);
+		UIText* logLineThree = new UIText({ 0.32f*sW, 0.133f*sH }, 0.8f,
+			new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
+			" ", col2);
+		texts.push_back(logLineThree);
+		UIText* logLineFour = new UIText({ 0.32f*sW, 0.166*sH }, 0.8f,
+			new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
+			" ", col2);
+		texts.push_back(logLineFour);
+		
+		p_text = { logLineOne, logLineTwo, logLineThree, logLineFour };
+
+		return texts;
+	}
 	void setTexts(std::vector<UIText*> text) { p_text = text; }
 
 	void announce(std::string msg)
@@ -77,7 +107,6 @@ public:
 		scrollIcon->setPos({ scrollIcon->getPos().x, scrollIconStartYPos + (scrollIconStartHeight * ((float)m_logDisplay / m_log.size())) });
 		scrollIcon->redraw();
 	}
-
 
 	void changeDisplayedLines(int start)
 	{

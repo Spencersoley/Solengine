@@ -10,7 +10,7 @@ Unit::~Unit()
 {
 }
 
-void Unit::init(glm::ivec2 coords, Solengine::SpriteBatch* spriteBatch)
+void Unit::init(glm::vec2 coords, Solengine::SpriteBatch* spriteBatch)
 {
 	m_pos.x = coords.x * TILE_WIDTH;
 	m_pos.y = coords.y * TILE_WIDTH;

@@ -23,6 +23,7 @@
     <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="Fighter.cpp" />
     <ClCompile Include="Level.cpp" />
+    <ClCompile Include="LoadingScreen.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="MoveSet.cpp" />
@@ -46,6 +47,7 @@
     <ClInclude Include="Fighter.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="CombatLog.h" />
+    <ClInclude Include="LoadingScreen.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="MoveSet.h" />
     <ClInclude Include="Rat.h" />

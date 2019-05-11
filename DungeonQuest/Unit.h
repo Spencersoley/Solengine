@@ -18,35 +18,31 @@ public:
 	Unit();
 	virtual ~Unit();
 
-	void init(glm::ivec2 coords, Solengine::SpriteBatch* spriteBatch);
+	void init(glm::vec2 coords, Solengine::SpriteBatch* spriteBatch);
 
     glm::ivec2 getCoords() const 
 	{ 
         return { floor(m_pos.x / TILE_WIDTH), floor(m_pos.y / TILE_WIDTH) }; 
 	}
 
-	bool getIsFriendly() const { return m_isFriendly; }
-    int getMoveCost() { return m_movementCost; }
-
 	std::string getName() const 
 	{ 
         if (m_name == "") return "__";
 		else return m_name;
 	}
-	
+	bool getIsFriendly() const { return m_isFriendly; }
+	int getMoveCost() { return m_movementCost; }
 	int getEnergy() { return m_energy; }
 	int getEnergyMax() { return m_energyMax; }
 	int getHealth() { return m_health; }
 	int getHealthMax() { return m_healthMax; }
 	int getSpeed() { return m_speed; }
-
 	int getTurnPoints() { return m_turnPoints; }
 
 	void setEnergy(int nrg) { m_energy = nrg; }
 
 	void resetEnergy() { m_energy = m_energyMax; }
 	void removeEnergy(int energyUsed) { m_energy -= energyUsed; }
-
 	void removeHealth(int dmg){ m_health -= dmg; }
 
 	void death()
@@ -72,14 +68,13 @@ public:
 
 	void updateHealthbar() 
 	{ 
-		p_healthbar->resizeWidth((int)((float)getHealth() * p_healthbarBackplate->getWidth() 
-			                     / (float)getHealthMax()));
-		p_healthbar->setPos({ getPos().x + int(0.25 * TILE_WIDTH),
-			                getPos().y + int(0.9 * TILE_WIDTH) });
-		p_healthbarBackplate->setPos({ getPos().x + int(0.25 * TILE_WIDTH), 
-			                         getPos().y + int(0.9 * TILE_WIDTH) });
+		p_healthbar->resizeWidth(((float)getHealth() * p_healthbarBackplate->getWidth() 
+            / (float)getHealthMax()));
+		p_healthbar->setPos({ getPos().x + 0.25 * TILE_WIDTH,
+	        getPos().y + 0.9 * TILE_WIDTH });
+		p_healthbarBackplate->setPos({ getPos().x + 0.25 * TILE_WIDTH, 
+            getPos().y + 0.9 * TILE_WIDTH });
 	}
-
 
 protected:
 

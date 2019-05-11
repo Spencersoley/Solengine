@@ -1,10 +1,4 @@
-﻿  Controller.cpp
-  Level.cpp
-  Main.cpp
-  Model.cpp
-  Scene.cpp
-  View.cpp
+﻿  View.cpp
 c:\users\ssole\source\repos\solengineproject\template\view.cpp(29): error C2661: 'Solengine::Font::Font': no overloaded function takes 2 arguments
 c:\users\ssole\source\repos\solengineproject\template\view.cpp(103): error C2664: 'void Solengine::Font::draw(const char *,glm::vec2,glm::vec2,float,Solengine::ColourRGBA8,Solengine::Justification)': cannot convert argument 1 from 'Solengine::SpriteBatch' to 'const char *'
   c:\users\ssole\source\repos\solengineproject\template\view.cpp(103): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
-  Generating Code...

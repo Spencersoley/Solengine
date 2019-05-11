@@ -27,6 +27,8 @@ public:
 
 	TileMap* getTileMap() { return &m_tileMap; }
 
+	bool checkMouseover(glm::vec2 mousePos) { return false; }
+
 private:
 	glm::vec2 m_adeptSpawnCoords;
 	glm::vec2 m_fighterSpawnCoords;

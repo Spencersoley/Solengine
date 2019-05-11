@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-UIText::UIText(glm::vec2 v, int size, Solengine::Font* font, std::string msg,
+UIText::UIText(glm::vec2 v, float size, Solengine::Font* font, std::string msg,
 	Solengine::ColourRGBA8 col)
 {
 	m_isVisible = true;
@@ -38,8 +38,7 @@ void UIText::draw()
 		else p_SOL_SB->renderBatch();
 }
 
-
-void UIText::activate(std::string txt, glm::ivec2 pos)
+void UIText::activate(std::string txt, glm::vec2 pos)
 {
 	setPos(pos);
 	updateText(txt);

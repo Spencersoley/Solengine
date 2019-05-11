@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-UIIcon::UIIcon(glm::vec2 v, int width, int height, Solengine::SpriteBatch* batch,
+UIIcon::UIIcon(glm::vec2 v, float width, float height, Solengine::SpriteBatch* batch,
 	GLuint texture, Solengine::ColourRGBA8 col)
 {
 	m_pos = (glm::ivec2)v;
@@ -28,8 +28,8 @@ void UIIcon::draw()
 
 	        if (m_multidraw.empty())
 			{ 
-                glm::vec4 destRect((float)m_pos.x, (float)m_pos.y, 
-					               (float)m_width, (float)m_height);
+                glm::vec4 destRect(m_pos.x, m_pos.y, 
+					               m_width, m_height);
 
                 p_SOL_SB->draw(destRect, uvRect, m_textureID, 0.0f, m_colour);
 		    }
@@ -37,9 +37,9 @@ void UIIcon::draw()
 			{
 				for (size_t i = 0; i < m_multidraw.size(); i++)
 				{
-                    glm::vec4 destRect((float)m_multidraw[i].x, 
-						               m_multidraw[i].y, (float)m_width, 
-						               (float)m_height);
+                    glm::vec4 destRect(m_multidraw[i].x, 
+						               m_multidraw[i].y, m_width, 
+						               m_height);
 	
 					p_SOL_SB->draw(destRect, uvRect, m_textureID, 0.0f, 
 						           m_colour);
@@ -53,7 +53,7 @@ void UIIcon::draw()
 		else p_SOL_SB->renderBatch();
 }
 
-void UIIcon::activate(glm::ivec2 pos)
+void UIIcon::activate(glm::vec2 pos)
 {
 	setPos(pos);
 	setVisible(true);

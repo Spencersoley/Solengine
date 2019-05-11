@@ -18,7 +18,7 @@ public:
 	Model();
 	~Model();
 
-	void init(float physicsSpeed, Solengine::Camera2D* cam);
+	void init(float physicsSpeed, Solengine::Camera2D* cam, int sw, int sh);
 
 	void awake(std::vector<Unit*> units);
 
@@ -35,14 +35,20 @@ public:
 		return m_SOL_inputManager.keyState(SDL_BUTTON_RIGHT);
 	}
 
-	glm::ivec2 getMouseScreenPos()
+	glm::ivec2 getMouseScreenInputPos()
 	{
 		return m_SOL_inputManager.getMouseCoords();
 	}
 
+	glm::ivec2 getMouseScreenPos()
+	{
+		glm::ivec2 msp = getMouseScreenInputPos();
+		return { msp.x, m_screenHeight - msp.y };
+	}
+
 	glm::ivec2 getMouseWorldPos()
 	{
-		return p_SOL_cam->screenToWorld(getMouseScreenPos());
+		return p_SOL_cam->screenToWorld(getMouseScreenInputPos());
 	}
 
 	//SETTERS
@@ -123,23 +129,32 @@ public:
 
 	void setCombatLog(std::vector<UIText*> texts) { m_combatLog.setTexts(texts); }
 
+	CombatLog* getCombatLog() { return &m_combatLog; }
+
 	void setScrollIcon(UIIcon* icon) { m_combatLog.setScrollIcon(icon); }
 
 	std::vector<Drawable*> getEffects();
+
+	bool deleteCheck() { return m_entityNeedsDeletion; }
 
 
 private:
 	Solengine::InputManager m_SOL_inputManager;
 	Solengine::Camera2D* p_SOL_cam;
 	
-	CombatLog m_combatLog;
+	CombatLog m_combatLog = CombatLog();
 
 	std::vector<Drawable*> p_visualEffects;
+
+	std::vector<UIElement*> p_mouseoverable;
+
+	int  m_screenHeight;
+	int m_screenWidth;
 
 	int m_currentSpellIndex = 0;
 
 	void changeSpell();
-
+	void entityNeedsDeletion(bool set) { m_entityNeedsDeletion = set; }
 	void updateSelectedSpellBox();
 	
 	Unit* p_selectedUnit = nullptr;
@@ -160,12 +175,6 @@ private:
 	UIIcon* p_selectionBox = nullptr;
 
 	UIIcon* p_selectedSpellBox = nullptr;
-
-	UIIcon* pasd = nullptr;
-	UIIcon* pasdds = nullptr;
-	UIIcon* pasdfsd = nullptr;
-	UIIcon* pafdssd = nullptr;
-	UIIcon* pasdasd = nullptr;
 	
 	std::vector<UIText*> p_spellText;
 	std::vector<UIText*> p_spellStats;
@@ -174,6 +183,8 @@ private:
 	UIIcon* p_hoverHighlight = nullptr;
 	TileMap* p_tileMap;
 
+	// used in 'deleteCheck()' function
+	bool m_entityNeedsDeletion = false; 
 	int m_turnCounter;
 	float m_physicsSpeed;
 	

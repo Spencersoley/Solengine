@@ -27,8 +27,10 @@ public:
 private:
 	void initSystems();
 	void initScene();
-	void loadingScreen();
+
 	void gameLoop(Model* model, View* view);
+
+	void deleteEntity();
 
 	Solengine::TileLevelLoader m_SOL_tileLevelLoader;
 	Solengine::FPSManager m_SOL_fpsManager;
