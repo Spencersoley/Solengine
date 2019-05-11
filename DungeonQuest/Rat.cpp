@@ -17,7 +17,7 @@ Rat::Rat(SpellBook* sb)
 	m_name = "Rat";
 	m_textureID = Solengine::ResourceManager::getTexture(
 		          "Textures/DQ_pack/rat.png").textureID;
-	m_moveSet.addSpell(sb->strike(), 0);
+	m_moveSet.addSpell(sb->claw(), 0);
 
 }
 

@@ -17,8 +17,7 @@ Fighter::Fighter(SpellBook* sb)
 	m_name = "Fighter";
 	m_textureID = Solengine::ResourceManager::getTexture(
 		          "Textures/DQ_pack/fighter.png").textureID;
-	m_moveSet.addSpell(sb->slash(), 0);
-	m_moveSet.addSpell(sb->strike(), 1);
+	m_moveSet.addSpell(sb->strike(), 0);
 }
 
 Fighter::~Fighter()

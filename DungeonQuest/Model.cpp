@@ -18,8 +18,6 @@ void Model::init(float physicsSpeed, Solengine::Camera2D* cam)
 
 void Model::awake(std::vector<Unit*> units)
 {
-	Solengine::ResourceManager::getTexture("Textures/DQ_pack/flame.png");
-
 	for (size_t i = 0; i < units.size(); i++)
 		units[i]->newTurn();
 
@@ -180,7 +178,8 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
 		    { 
 				if (currentUnit != tarUnit)
 				{
-					currentUnit->m_moveSet.p_spells[m_currentSpellIndex]->cast(currentUnit, tarUnit);
+					Spell* castSpell = currentUnit->m_moveSet.p_spells[m_currentSpellIndex];
+					castSpell->cast(currentUnit, tarUnit);
 					updateTileStates(tileMap, currentUnit);
 
 					updateStatsDisplay(currentUnit, p_currentUnitIcon,
@@ -193,14 +192,13 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
 
 					tarUnit->updateHealthbar();
 
-					std::string dmgstr = std::to_string(currentUnit->
-						m_moveSet.p_spells[m_currentSpellIndex]->getDamage());
+					std::string dmgstr = std::to_string(
+						castSpell->getDamage());
 
 					m_combatLog.announce("EVENT: " + currentUnit->getName() +
 						" hit " + tarUnit->getName() +
-						" with " + currentUnit->
-						m_moveSet.p_spells[m_currentSpellIndex]->
-						getName() + " for " + dmgstr + " damage");
+						" with " + castSpell->getName() + 
+						" for " + dmgstr + " damage");
 
 
 					/////////////////////////////
@@ -214,8 +212,8 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
 
 					p_visualEffects.push_back(new UIIcon({ 0, 0 }, 32, 32,
 						new Solengine::SpriteBatch(),
-						Solengine::ResourceManager::getTexture("Textures/DQ_pack/flame.png").textureID,
-						{ 222, 50, 0, 255 }));
+						castSpell->getTextureID(),
+						castSpell->getColour()));
 
 					p_visualEffects.back()->activate( { tarUnit->getPos().x + 0.1f*TILE_WIDTH, tarUnit->getPos().y } );
 					 ////////////////////////
@@ -228,6 +226,7 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
 						tileMap->getTileByCoords(tarUnit->getCoords())->m_isOccupied = false;
 					}
 
+					//delete castSpell;
 					return true;
 				}
 				else m_combatLog.announce("WARNING! " + currentUnit->getName()

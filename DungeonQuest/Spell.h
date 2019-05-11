@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <Solengine/Vertex.h>
 
 class Unit;
 
@@ -15,6 +16,8 @@ public:
 	int getRange() { return m_range; }
 	int getDamage() { return m_damage; }
 	int getCost() { return m_cost; }
+	int getTextureID() { return m_textureID; }
+	Solengine::ColourRGBA8 getColour() { return m_colour; }
 
 	void cast(Unit* caster, Unit* target);
 
@@ -23,5 +26,7 @@ protected:
 	int m_range;
 	int m_damage;
 	int m_cost;
+	Solengine::ColourRGBA8 m_colour;
+	unsigned int m_textureID;
 };
 

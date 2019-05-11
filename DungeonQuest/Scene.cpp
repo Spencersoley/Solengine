@@ -17,10 +17,8 @@
 
 //TODO:
 // Limit basic camera movement
-// Add UI overlay
-// Figure out better texturing for UI overlay
-
-// Can we move level sprite batch to view?
+// STatus effects etc
+// Mouseover tooltip on spells
 
 //Constructor will initialise private member variables
 Scene::Scene() :
@@ -68,6 +66,8 @@ void Scene::initSystems()
 //Initialise the game content
 void Scene::initScene()
 {
+	m_spellBook.initSpells();
+
 	std::vector<Drawable*> worldDrawables;
 	std::vector<Drawable*> overlayDrawables;
 	Solengine::ColourRGBA8 col1 = { 255, 155, 40, 255 };
@@ -440,7 +440,7 @@ void Scene::loadingScreen()
 {
 	UIIcon* loadScreen = new UIIcon({ -m_screenWidth / 16, 0 }, m_screenWidth / 8, m_screenWidth / 8,
 		new Solengine::SpriteBatch(),
-		Solengine::ResourceManager::getTexture("Textures/DQ_pack/flame.png").textureID,
+		Solengine::ResourceManager::getTexture("Textures/DQ_pack/icon_flame.png").textureID,
 		{ 255, 50, 0, 255 });
 
 	//Set current health

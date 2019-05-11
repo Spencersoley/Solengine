@@ -17,8 +17,8 @@ Adept::Adept(SpellBook* sb)
 	m_name = "Adept";
 	m_textureID = Solengine::ResourceManager::getTexture(
 		"Textures/DQ_pack/adept.png").textureID;
-	m_moveSet.addSpell(sb->strike(), 0);
-	m_moveSet.addSpell(sb->slash(), 1);
+	m_moveSet.addSpell(sb->enflame(), 0);
+
 }
 
 Adept::~Adept()
