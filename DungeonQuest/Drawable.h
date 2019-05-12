@@ -14,7 +14,7 @@ public:
 
 	void redraw() { m_redraw = true; }
 
-	Solengine::SpriteBatch* getSpriteBatch() { return p_SOL_SB; }
+	//Solengine::SpriteBatch* getSpriteBatch() { return p_SOL_SB; }
 
 	void setTexture(GLuint textureID) { m_textureID = textureID; }
 	GLuint getTextureID() const { return m_textureID; }
@@ -36,7 +36,7 @@ public:
 	bool m_delete = false;
 
 protected:
-	Solengine::SpriteBatch* p_SOL_SB;
+	Solengine::SpriteBatch m_SOL_SB;
 
 	bool m_redraw;
 	glm::vec2 m_pos;

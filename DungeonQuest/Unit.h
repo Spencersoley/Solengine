@@ -18,7 +18,7 @@ public:
 	Unit();
 	virtual ~Unit();
 
-	void init(glm::vec2 coords, Solengine::SpriteBatch* spriteBatch);
+	void init(glm::vec2 coords);
 
     glm::ivec2 getCoords() const 
 	{ 
@@ -83,14 +83,12 @@ protected:
 	UIIcon* p_healthbar = nullptr;
 	UIIcon* p_healthbarBackplate = nullptr;
 
-
 	int m_movementCost;
 	int m_energy;
 	int m_energyMax;
 	int m_health;
 	int m_healthMax;
 	int m_speed;
-
 
 	int m_turnPoints;
 	bool m_isFriendly;

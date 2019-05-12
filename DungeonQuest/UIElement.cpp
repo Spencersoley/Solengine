@@ -26,12 +26,3 @@ bool UIElement::updateEffect(float adjustedDeltaTicks)
 
 	return true;
 }
-
-bool UIElement::checkMouseover(glm::vec2 mousePos)
-{
-	if (mousePos.x > m_pos.x && mousePos.x < m_pos.x + 30 //return true;
-		&& mousePos.y > m_pos.y && mousePos.y < m_pos.y + 30) 
-		return true;
-
-	return false;
-}

@@ -6,10 +6,9 @@
 #include <fstream>
 #include <iostream>
 
-Level::Level(std::vector<std::string> levelData, Solengine::SpriteBatch* batch)
+Level::Level(std::vector<std::string> levelData)
 {
-	p_SOL_SB = batch;
-	batch->begin();
+	m_SOL_SB.begin();
 
 	glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
 	Solengine::ColourRGBA8 whiteColour = { 255, 255, 255, 255 };
@@ -33,21 +32,21 @@ Level::Level(std::vector<std::string> levelData, Solengine::SpriteBatch* batch)
 			switch (tile)
 			{
 			case 'X':
-				batch->draw(destRect, uvRect, 
+				m_SOL_SB.draw(destRect, uvRect,
 					        Solengine::ResourceManager::getTexture(
 						    "Textures/DQ_pack/light_bricks.png").textureID, 
 					        0.0f, whiteColour);
 				tileRow.push_back(new Tile(true, false, x, y, TILE_WIDTH));
 				break;
 			case '.':
-                batch->draw(destRect, uvRect, 
+				m_SOL_SB.draw(destRect, uvRect,
 					        Solengine::ResourceManager::getTexture(
                             "Textures/DQ_pack/DQtile.png").textureID, 
 					        0.0f, tileColour);
 				tileRow.push_back(new Tile(false, false, x, y, TILE_WIDTH));
 				break;
 			case 'A':
-				batch->draw(destRect, uvRect, 
+				m_SOL_SB.draw(destRect, uvRect,
 					        Solengine::ResourceManager::getTexture(
 						   "Textures/DQ_pack/DQtile.png").textureID, 
 					        0.0f, tileColour);
@@ -55,7 +54,7 @@ Level::Level(std::vector<std::string> levelData, Solengine::SpriteBatch* batch)
 				m_adeptSpawnCoords = glm::vec2{ x , y };
 				break;
 			case 'F':
-				batch->draw(destRect, uvRect, 
+				m_SOL_SB.draw(destRect, uvRect,
 					        Solengine::ResourceManager::getTexture(
 					        "Textures/DQ_pack/DQtile.png").textureID, 
 					        0.0f, tileColour);
@@ -63,7 +62,7 @@ Level::Level(std::vector<std::string> levelData, Solengine::SpriteBatch* batch)
 				m_fighterSpawnCoords = glm::vec2{ x , y };
 				break;
 			case 'S':
-				batch->draw(destRect, uvRect, 
+				m_SOL_SB.draw(destRect, uvRect,
 					        Solengine::ResourceManager::getTexture(
 							"Textures/DQ_pack/DQtile.png").textureID, 
 					        0.0f, tileColour);
@@ -71,7 +70,7 @@ Level::Level(std::vector<std::string> levelData, Solengine::SpriteBatch* batch)
 				m_scoutSpawnCoords = glm::vec2{ x , y };
 				break;
 			case 'R':
-				batch->draw(destRect, uvRect, 
+				m_SOL_SB.draw(destRect, uvRect,
 					        Solengine::ResourceManager::getTexture(
 							"Textures/DQ_pack/DQtile.png").textureID, 
 					        0.0f, tileColour);
@@ -86,7 +85,7 @@ Level::Level(std::vector<std::string> levelData, Solengine::SpriteBatch* batch)
 
 		if (!tileRow.empty()) tileMap.push_back(tileRow);
 	}
-	batch->end();
+	m_SOL_SB.end();
 
 	//set neighbours
 
@@ -120,5 +119,5 @@ Level::~Level()
 
 void Level::draw()
 {
-	p_SOL_SB->renderBatch();
+	m_SOL_SB.renderBatch();
 }

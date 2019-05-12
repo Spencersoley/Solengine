@@ -1,6 +1,7 @@
 #pragma once
 
-#include "UIElement.h"
+#include "UIIcon.h"
+#include "UIText.h"
 
 class UIButton : public UIElement
 {
@@ -9,5 +10,17 @@ public:
 		     GLuint texture = -1, 
 		     Solengine::ColourRGBA8 col = { 255, 255, 255, 255 });
 	~UIButton();
+
+
+	bool checkMouseover(glm::vec2 mousePos);
+
+	void setBaseImage(UIIcon* baseImage) { m_baseImage = baseImage; }
+
+
+	UIIcon* m_baseImage;
+	UIIcon* m_buttonImage;
+	UIText* m_buttonText; 
+
+
 };
 

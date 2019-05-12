@@ -18,6 +18,8 @@ Scout::Scout(SpellBook* sb)
 	m_textureID = Solengine::ResourceManager::getTexture(
 		          "Textures/DQ_pack/scout.png").textureID;
 	m_moveSet.addSpell(sb->strike(), 0);
+	m_moveSet.addSpell(sb->enflame(), 1);
+	m_moveSet.addSpell(sb->claw(), 2);
 }
 
 Scout::~Scout()

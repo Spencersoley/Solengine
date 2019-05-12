@@ -42,20 +42,16 @@ public:
 		std::vector<Drawable*> texts;
 
 		UIText* logLineOne = new UIText({ 0.32f*sW, 0.066f*sH }, 0.8f,
-			new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
-			" ", col1);
+			new Solengine::Font(font1, fontSize), " ", col1);
 		texts.push_back(logLineOne);
 		UIText* logLineTwo = new UIText({ 0.32f*sW, 0.1f*sH }, 0.8f,
-			new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
-			" ", col2);
+			new Solengine::Font(font1, fontSize), " ", col2);
 		texts.push_back(logLineTwo);
 		UIText* logLineThree = new UIText({ 0.32f*sW, 0.133f*sH }, 0.8f,
-			new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
-			" ", col2);
+			new Solengine::Font(font1, fontSize), " ", col2);
 		texts.push_back(logLineThree);
 		UIText* logLineFour = new UIText({ 0.32f*sW, 0.166*sH }, 0.8f,
-			new Solengine::Font(font1, fontSize, new Solengine::SpriteBatch()),
-			" ", col2);
+			new Solengine::Font(font1, fontSize), " ", col2);
 		texts.push_back(logLineFour);
 		
 		p_text = { logLineOne, logLineTwo, logLineThree, logLineFour };

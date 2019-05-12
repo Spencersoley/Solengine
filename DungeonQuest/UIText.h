@@ -23,6 +23,7 @@ protected:
 
 	std::string m_trackedString;
 
+	Solengine::SpriteBatch* p_SOL_SB = nullptr;
 	Solengine::Font* p_SOL_spriteFont = nullptr;
 };
 

@@ -118,19 +118,29 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 	{
 		updateHighlight(p_tileMap->p_tiles, { 0, 0 }, p_hoverHighlight);
 
+
+		//Doesn't work as intended. Perhaps we should create dedicated button images?
+		/*
 		for (size_t i = 0; i < p_mouseoverable.size(); i++)
 		{
 			if (p_mouseoverable[i]->checkMouseover(msp))
-				if (m_SOL_inputManager.keyPress(SDL_BUTTON_LEFT)) std::cout << "Interact" << std::endl;
+				if (m_SOL_inputManager.keyPress(SDL_BUTTON_LEFT))
+				{
+					if (p_mouseoverable[i] == p_spellText[i])
+					{
+						m_currentSpellIndex = i;
+						if (p_currentUnit->m_moveSet.p_spells[m_currentSpellIndex]->getCost() == 0)
+							changeSpell();   
+						updateSelectedSpellBox();
+					}			
+				}
+
 		}
-		//get exact position, return if mouseover
-		//needs a vector of mouseoverables?
+		*/
 	}
 	
-
 	if (state == Solengine::GameState::TURNOVER)                                   
 		state = nextTurn(units, p_currentUnit, p_selectedUnit);
-	
 	
 	for (size_t i = 0; i < p_visualEffects.size(); i++)
 		if (!p_visualEffects[i]->updateEffect(adjustedDeltaTicks))
@@ -225,16 +235,14 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
 
 
 					/////////////////////////////
-	                p_visualEffects.push_back(new UIText({ 0, 0 }, 1,
-						new Solengine::Font("Fonts/Px437_VGA_SquarePx.ttf", 24,
-					      	 new Solengine::SpriteBatch()),
+	                p_visualEffects.push_back(new UIText({ 0, 0 }, 1.0f,
+						new Solengine::Font("Fonts/Px437_VGA_SquarePx.ttf", 48),
 						 "", { 255, 0, 0, 255 }));
 
 					p_visualEffects.back()->activate("-" + dmgstr, { tarUnit->getPos().x + 0.6f*TILE_WIDTH,
 						 	tarUnit->getPos().y + 0.6f*TILE_WIDTH });
 
-					p_visualEffects.push_back(new UIIcon({ 0, 0 }, 32, 32,
-						new Solengine::SpriteBatch(),
+					p_visualEffects.push_back(new UIIcon({ 0, 0 }, 48, 48,
 						castSpell->getTextureID(),
 						castSpell->getColour()));
 

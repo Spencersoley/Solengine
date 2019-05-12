@@ -19,6 +19,7 @@ UIText::~UIText()
 {
 }
 
+//we'll continue to use pointers here for now
 void UIText::draw()
 {
 	if (m_trackedString != "" && m_isVisible)

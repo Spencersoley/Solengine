@@ -15,8 +15,6 @@ public:
 
 	int m_framesPassed = 0;
 
-	bool checkMouseover(glm::vec2 mousePos);
-
 	bool updateEffect(float adjustedTicks);
 };
 

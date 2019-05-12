@@ -21,10 +21,8 @@ int closestPow2(int i)
 
 namespace Solengine 
 {
-	Font::Font(const char* font, int size, char cs, char ce, SpriteBatch* spriteBatch)
+	Font::Font(const char* font, int size, char cs, char ce)
 	{
-		p_SOL_SB = spriteBatch;
-
 		init(font, size, cs, ce);
 	}
 
@@ -287,7 +285,7 @@ namespace Solengine
 				int gi = c - m_regStart;
 				if (gi < 0 || gi >= m_regLength) gi = m_regLength;
 				glm::vec4 destRect(tp, p_glyphs[gi].size * scaling);
-				p_SOL_SB->draw(destRect, p_glyphs[gi].uvRect, m_texID, depth, tint);
+				m_SOL_SB.draw(destRect, p_glyphs[gi].uvRect, m_texID, depth, tint);
 				tp.x += p_glyphs[gi].size.x * scaling.x;
 			}
 		}

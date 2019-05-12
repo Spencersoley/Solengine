@@ -17,19 +17,19 @@ void Drawable::draw()
 	{
 		if (m_redraw)
 		{
-			p_SOL_SB->begin();
+			m_SOL_SB.begin();
 
 			const glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
 			glm::vec4 destRect(m_pos.x, m_pos.y, 
 				               m_width, m_height);
 
-            p_SOL_SB->draw(destRect, uvRect, m_textureID, 0.0f, m_colour);
+            m_SOL_SB.draw(destRect, uvRect, m_textureID, 0.0f, m_colour);
 
-			p_SOL_SB->end();
-			p_SOL_SB->renderBatch();
+			m_SOL_SB.end();
+			m_SOL_SB.renderBatch();
 
 			m_redraw = false;
 		}
-		else p_SOL_SB->renderBatch();
+		else m_SOL_SB.renderBatch();
 	}
 }

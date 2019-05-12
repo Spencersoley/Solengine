@@ -1,9 +1,9 @@
 ﻿  Font.cpp
-c:\users\ssole\source\repos\solengineproject\solengine\font.cpp(71): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\solengine\font.cpp(72): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\solengine\font.cpp(118): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\solengine\font.cpp(121): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\solengine\font.cpp(69): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\solengine\font.cpp(70): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\solengine\font.cpp(116): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\solengine\font.cpp(119): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\solengine\font.cpp(147): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
 c:\users\ssole\source\repos\solengineproject\solengine\font.cpp(149): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\solengine\font.cpp(151): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\solengine\font.cpp(155): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ssole\source\repos\solengineproject\solengine\font.cpp(153): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
   Solengine.vcxproj -> C:\Users\Ssole\source\repos\SolengineProject\Debug\Solengine.lib

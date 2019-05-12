@@ -14,7 +14,7 @@ class Level : public Drawable
 {
 public:
 	//Load the level
-	Level(std::vector<std::string> levelData, Solengine::SpriteBatch* batch);
+	Level(std::vector<std::string> levelData);
 	~Level();
 
 	void draw();
