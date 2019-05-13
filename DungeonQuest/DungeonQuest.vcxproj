@@ -36,6 +36,7 @@
     <ClCompile Include="UIText.cpp" />
     <ClCompile Include="Unit.cpp" />
     <ClCompile Include="UnitCompendium.cpp" />
+    <ClCompile Include="UnitSpawner.cpp" />
     <ClCompile Include="View.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -56,6 +57,7 @@
     <ClInclude Include="UIText.h" />
     <ClInclude Include="Unit.h" />
     <ClInclude Include="UnitCompendium.h" />
+    <ClInclude Include="UnitSpawner.h" />
     <ClInclude Include="View.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

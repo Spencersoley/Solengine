@@ -23,7 +23,12 @@ public:
 	glm::vec2 getFighterSpawnCoords() const { return m_fighterSpawnCoords; }
 	glm::vec2 getScoutSpawnCoords() const { return m_scoutSpawnCoords; }
 	int getEnemyCount() const { return m_enemySpawnCoords.size(); }
-	glm::vec2 getEnemySpawnCoords(int i) const { return m_enemySpawnCoords[i]; }
+	glm::vec2 getEnemySpawnCoords() 
+	{ 
+		glm::vec2 spawnCoords = m_enemySpawnCoords[m_enemySpawnCoords.size() - 1];
+		m_enemySpawnCoords.pop_back();
+		return spawnCoords; 
+	}
 
 	TileMap* getTileMap() { return &m_tileMap; }
 

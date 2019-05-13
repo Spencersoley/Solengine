@@ -91,6 +91,7 @@
     <ClCompile Include="UnitCompendium.cpp">
       <Filter>Source Files\Unit</Filter>
     </ClCompile>
+    <ClCompile Include="UnitSpawner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Level.h">
@@ -147,5 +148,6 @@
     <ClInclude Include="UnitCompendium.h">
       <Filter>Header Files\Unit</Filter>
     </ClInclude>
+    <ClInclude Include="UnitSpawner.h" />
   </ItemGroup>
 </Project>

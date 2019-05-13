@@ -26,7 +26,7 @@ Level::Level(std::vector<std::string> levelData)
 			char tile = levelData[y][x];
 
             glm::vec4 destRect(x * TILE_WIDTH, y * TILE_WIDTH, 
-				               TILE_WIDTH, TILE_WIDTH);
+                TILE_WIDTH, TILE_WIDTH);
 
 			//Process tile
 			switch (tile)
@@ -78,7 +78,6 @@ Level::Level(std::vector<std::string> levelData)
 				m_enemySpawnCoords.push_back({ x , y });
 				break;
 			default:
-
 				break;
 			}
 		}

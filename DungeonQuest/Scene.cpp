@@ -10,8 +10,8 @@
 #include <ctime>
 #include <algorithm>
 
-#include "UnitCompendium.h"
 #include "LoadingScreen.h"
+#include "UnitSpawner.h"
 
 
 //TODO:
@@ -121,74 +121,32 @@ void Scene::initScene()
 
 	//LAYER 2
 
+	UnitSpawner unitSpawner;
+	unitSpawner.init(&m_spellBook, p_levels, m_currentLevel);
+	std::vector<Drawable*> tempDraw;
+
 	//ADEPT INIT
-	p_units.push_back(new Adept(&m_spellBook));
-	p_units.back()->init(p_levels[m_currentLevel]->getAdeptSpawnCoords());
-
-	UIIcon* hb = new UIIcon({ 0, 0 }, 0.5f * TILE_WIDTH, 0.1f * TILE_WIDTH,
-		Solengine::ResourceManager::getTexture("Textures/DQ_pack/DQtile.png").textureID,
-		{ 0, 255, 0, 255 });
-	UIIcon* hbb = new UIIcon({ 0, 0 }, 0.5f * TILE_WIDTH, 0.1f * TILE_WIDTH,
-		Solengine::ResourceManager::getTexture("Textures/DQ_pack/DQtile.png").textureID,
-		{ 222, 0, 0, 255 });
-	p_units.back()->setHealthbar(hb, hbb);
-	worldDrawables.push_back(hbb);
-	worldDrawables.push_back(hb);
-	worldDrawables.push_back(p_units.back());
-	m_model.setCurrentUnit(p_units.back());
-
+	p_units.push_back(unitSpawner.spawnAdept());
+	tempDraw = unitSpawner.getDrawables(p_units.back());
+	worldDrawables.insert(worldDrawables.end(), tempDraw.begin(), tempDraw.end());
 
 	//FIGHTER INIT
-	p_units.push_back(new Fighter(&m_spellBook));
-	p_units.back()->init(p_levels[m_currentLevel]->getFighterSpawnCoords());
-
-	hb = new UIIcon({ 0, 0 }, 0.5f * TILE_WIDTH, 0.1f * TILE_WIDTH,
-		Solengine::ResourceManager::getTexture("Textures/DQ_pack/DQtile.png").textureID,
-		{ 0, 255, 0, 255 });
-	hbb = new UIIcon({ 0, 0 }, 0.5f * TILE_WIDTH, 0.1f * TILE_WIDTH,
-		Solengine::ResourceManager::getTexture("Textures/DQ_pack/DQtile.png").textureID,
-		{ 222, 0, 0, 255 });
-	p_units.back()->setHealthbar(hb, hbb);
-	worldDrawables.push_back(hbb);
-	worldDrawables.push_back(hb);
-	worldDrawables.push_back(p_units.back());
-	m_model.setSelectedUnit(p_units.back());
+	p_units.push_back(unitSpawner.spawnFighter());
+	tempDraw = unitSpawner.getDrawables(p_units.back());
+	worldDrawables.insert(worldDrawables.end(), tempDraw.begin(), tempDraw.end());
 
 	//SCOUT INIT
-	p_units.push_back(new Scout(&m_spellBook));
-	p_units.back()->init(p_levels[m_currentLevel]->getScoutSpawnCoords());
-
-
-	hb = new UIIcon({ 0, 0 }, 0.5f * TILE_WIDTH, 0.1f * TILE_WIDTH,
-		Solengine::ResourceManager::getTexture("Textures/DQ_pack/DQtile.png").textureID,
-		{ 0, 255, 0, 255 });
-	hbb = new UIIcon({ 0, 0 }, 0.5f * TILE_WIDTH, 0.1f * TILE_WIDTH,
-		Solengine::ResourceManager::getTexture("Textures/DQ_pack/DQtile.png").textureID,
-		{ 222, 0, 0, 255 });
-	p_units.back()->setHealthbar(hb, hbb);
-	worldDrawables.push_back(hbb);
-	worldDrawables.push_back(hb);
-	worldDrawables.push_back(p_units.back());
+	p_units.push_back(unitSpawner.spawnScout());
+	tempDraw = unitSpawner.getDrawables(p_units.back());
+	worldDrawables.insert(worldDrawables.end(), tempDraw.begin(), tempDraw.end());
 
 	//ENEMY INIT
-
-	for (int i = 0; i < p_levels[m_currentLevel]->getEnemyCount(); i++)
+	int enemyCount = p_levels[m_currentLevel]->getEnemyCount();
+	for (int i = 0; i < enemyCount; i++)
 	{
-		p_units.push_back(new Rat(&m_spellBook));
-
-		p_units.back()->init(p_levels[m_currentLevel]->getEnemySpawnCoords(i));
-
-		hb = new UIIcon({ 0, 0 }, 0.5f * TILE_WIDTH, 0.1f * TILE_WIDTH,
-			Solengine::ResourceManager::getTexture("Textures/DQ_pack/DQtile.png").textureID,
-			{ 0, 255, 0, 255 });
-		hbb = new UIIcon({ 0, 0 }, 0.5f * TILE_WIDTH, 0.1f * TILE_WIDTH,
-			Solengine::ResourceManager::getTexture("Textures/DQ_pack/DQtile.png").textureID,
-			{ 222, 0, 0, 255 });
-
-		p_units.back()->setHealthbar(hb, hbb);
-		worldDrawables.push_back(hbb);
-		worldDrawables.push_back(hb);
-		worldDrawables.push_back(p_units.back());
+		p_units.push_back(unitSpawner.spawnRat());
+		tempDraw = unitSpawner.getDrawables(p_units.back());
+		worldDrawables.insert(worldDrawables.end(), tempDraw.begin(), tempDraw.end());
 	}
 
 	//LAYER 3 (Overlay)

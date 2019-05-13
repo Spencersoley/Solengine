@@ -18,6 +18,7 @@ public:
 	Unit();
 	virtual ~Unit();
 
+	// GETTERS //
     glm::ivec2 getCoords() const { return { floor(m_pos.x / TILE_WIDTH), floor(m_pos.y / TILE_WIDTH) }; }
 	std::string getName() const { return (m_name == "") ? "_" : m_name; }
 	bool getIsFriendly() const { return m_isFriendly; }
@@ -29,13 +30,15 @@ public:
 	int getSpeed() const { return m_speed; }
 	int getTurnPoints() const { return m_turnPoints; }
 	MoveSet* getMoveSet() { return &m_moveSet; }
+	UIIcon* getHB() { return p_healthbar; }
+	UIIcon* getHBB() { return p_healthbarBackplate; }
 
-
+	// SETTERS //
 	void setEnergy(int nrg) { m_energy = nrg; }
 	void resetEnergy() { m_energy = m_energyMax; }
 	void removeEnergy(int energyUsed) { m_energy -= energyUsed; }
 	void removeHealth(int dmg){ m_health -= dmg; }
-	void setHealthbar(UIIcon* hb, UIIcon* hbb) { p_healthbar = hb; p_healthbarBackplate = hbb; }
+	void setHealthbar(std::pair<UIIcon*, UIIcon*> h) { p_healthbar = h.first; p_healthbarBackplate = h.second; }
 
 	void init(glm::vec2 coords);
 
@@ -43,7 +46,6 @@ public:
 
 	void newTurn();
 
-	
 
 	void updateHealthbar();
 

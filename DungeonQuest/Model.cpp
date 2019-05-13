@@ -20,6 +20,8 @@ void Model::init(float physicsSpeed, Solengine::Camera2D* cam, int sw, int sh)
 
 void Model::awake(std::vector<Unit*> units)
 {
+	setCurrentUnit(units[0]);
+
 	for (size_t i = 0; i < units.size(); i++)
 		units[i]->newTurn();
 
