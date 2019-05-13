@@ -11,13 +11,12 @@ public:
 	Spell();
 	virtual ~Spell();
 
-	std::string getName() { return m_name; }
-	
-	int getRange() { return m_range; }
-	int getDamage() { return m_damage; }
-	int getCost() { return m_cost; }
-	int getTextureID() { return m_textureID; }
-	Solengine::ColourRGBA8 getColour() { return m_colour; }
+	std::string getName() const { return m_name; }
+	int getRange() const { return m_range; }
+	int getDamage() const { return m_damage; }
+	int getCost() const { return m_cost; }
+	int getTextureID() const { return m_textureID; }
+	Solengine::ColourRGBA8 getColour() const { return m_colour; }
 
 	void cast(Unit* caster, Unit* target);
 

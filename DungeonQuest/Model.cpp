@@ -203,15 +203,15 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
     
 	if (tarUnit != nullptr)
 	{
-		if (currentUnit->m_moveSet.p_spells[m_currentSpellIndex]->getCost()
+		if (currentUnit->getMoveSet()->p_spells[m_currentSpellIndex]->getCost()
 			<= currentUnit->getEnergy())
 		{
 		    if (checkIfTileReachable(currentUnit->getCoords(), tarUnit->getCoords(),
-			currentUnit->m_moveSet.p_spells[m_currentSpellIndex]->getRange()))
+			currentUnit->getMoveSet()->p_spells[m_currentSpellIndex]->getRange()))
 		    { 
 				if (currentUnit != tarUnit)
 				{
-					Spell* castSpell = currentUnit->m_moveSet.p_spells[m_currentSpellIndex];
+					Spell* castSpell = currentUnit->getMoveSet()->p_spells[m_currentSpellIndex];
 					castSpell->cast(currentUnit, tarUnit);
 					updateTileStates(tileMap, currentUnit);
 
@@ -266,12 +266,12 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
 	    	else m_combatLog.announce("WARNING! " + tarUnit->getName() + 
                   " is out of range of " + 
 	     		  currentUnit->getName() + "'s " + 
-                  currentUnit->m_moveSet.p_spells[m_currentSpellIndex]
+                  currentUnit->getMoveSet()->p_spells[m_currentSpellIndex]
                   ->getName() );
 		}
 		else m_combatLog.announce("WARNING! " + currentUnit->getName() +
 			" has no NRG for " + currentUnit->
-			m_moveSet.p_spells[m_currentSpellIndex]->getName());
+			getMoveSet()->p_spells[m_currentSpellIndex]->getName());
 	}
 
 	return false;
@@ -302,7 +302,7 @@ void Model::changeSpell()
 {
 	m_currentSpellIndex++;
 	m_currentSpellIndex = m_currentSpellIndex % 4;
-	if (p_currentUnit->m_moveSet.p_spells[m_currentSpellIndex]->getCost() == 0)
+	if (p_currentUnit->getMoveSet()->p_spells[m_currentSpellIndex]->getCost() == 0)
 		changeSpell();
 
 	updateSelectedSpellBox();
@@ -371,9 +371,9 @@ void Model::updateSpellDisplay(Unit* currentUnit)
 {
 	for (size_t i = 0; i < p_spellText.size(); i++)
 	{
-		if (i < currentUnit->m_moveSet.moveSetSize())
+		if (i < currentUnit->getMoveSet()->getMoveSetSize())
 		{
-			p_spellText[i]->updateText(currentUnit->m_moveSet.getSpell(i)->getName());
+			p_spellText[i]->updateText(currentUnit->getMoveSet()->getSpell(i)->getName());
 			p_spellText[i]->setVisible(true);
 		}
 		else
@@ -406,7 +406,7 @@ void Model::updateHighlight(std::vector<std::vector<Tile*>> tiles,
 void Model::updateHighlightColour(glm::ivec2 mouseCoords, UIIcon* hoverHighlight)
 {
 	if (checkIfTileReachable(mouseCoords, p_currentUnit->getCoords(),
-		p_currentUnit->m_moveSet.p_spells[m_currentSpellIndex]->getRange()))
+		p_currentUnit->getMoveSet()->p_spells[m_currentSpellIndex]->getRange()))
 		hoverHighlight->setColour({ 255, 15, 15, 200 });
 	else hoverHighlight->setColour({ 100, 100, 100, 200 });
 }

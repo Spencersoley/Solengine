@@ -1,14 +1,9 @@
 #include "Spell.h"
-
 #include "Unit.h"
 
-Spell::Spell()
-{
-}
+Spell::Spell() {}
 
-Spell::~Spell()
-{
-}
+Spell::~Spell() {}
 
 void Spell::cast(Unit* caster, Unit* target)
 {

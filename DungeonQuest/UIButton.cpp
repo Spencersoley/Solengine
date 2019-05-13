@@ -2,15 +2,16 @@
 
 #include <iostream>
 
-UIButton::UIButton(glm::vec2 v, float width, float height, Solengine::SpriteBatch* batch,
-	               GLuint texture, Solengine::ColourRGBA8 col)
+UIButton::UIButton(glm::vec2 v, float width, float height,
+    GLuint texture, Solengine::ColourRGBA8 col)
 {
 	m_pos = (glm::ivec2)v;
 	m_width = width;
 	m_height = height;
-	m_isVisible = true;
 	m_textureID = texture;
 	m_colour = col;
+
+	m_isVisible = true;
 }
 
 UIButton::~UIButton()

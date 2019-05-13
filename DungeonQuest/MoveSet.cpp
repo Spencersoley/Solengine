@@ -1,12 +1,8 @@
 #include "MoveSet.h"
 
-MoveSet::MoveSet()
-{
-}
+MoveSet::MoveSet() {}
 
-MoveSet::~MoveSet()
-{
-}
+MoveSet::~MoveSet() {}
 
 void MoveSet::init(SpellBook* sb)
 {
@@ -14,6 +10,7 @@ void MoveSet::init(SpellBook* sb)
 		p_spells.push_back(sb->nullSpell());
 }
 
+//Index is important as we'll be adding functionality for replacing spells
 void MoveSet::addSpell(Spell* spell, int index)
 {
 	p_spells[index] = spell;

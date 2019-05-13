@@ -55,19 +55,7 @@
     <ClCompile Include="UIText.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Adept.cpp">
-      <Filter>Source Files\Unit</Filter>
-    </ClCompile>
-    <ClCompile Include="Fighter.cpp">
-      <Filter>Source Files\Unit</Filter>
-    </ClCompile>
     <ClCompile Include="Unit.cpp">
-      <Filter>Source Files\Unit</Filter>
-    </ClCompile>
-    <ClCompile Include="Scout.cpp">
-      <Filter>Source Files\Unit</Filter>
-    </ClCompile>
-    <ClCompile Include="Rat.cpp">
       <Filter>Source Files\Unit</Filter>
     </ClCompile>
     <ClCompile Include="TileMap.cpp">
@@ -100,6 +88,9 @@
     <ClCompile Include="LoadingScreen.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
+    <ClCompile Include="UnitCompendium.cpp">
+      <Filter>Source Files\Unit</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Level.h">
@@ -121,18 +112,6 @@
       <Filter>Header Files\UI</Filter>
     </ClInclude>
     <ClInclude Include="Unit.h">
-      <Filter>Header Files\Unit</Filter>
-    </ClInclude>
-    <ClInclude Include="Adept.h">
-      <Filter>Header Files\Unit</Filter>
-    </ClInclude>
-    <ClInclude Include="Fighter.h">
-      <Filter>Header Files\Unit</Filter>
-    </ClInclude>
-    <ClInclude Include="Scout.h">
-      <Filter>Header Files\Unit</Filter>
-    </ClInclude>
-    <ClInclude Include="Rat.h">
       <Filter>Header Files\Unit</Filter>
     </ClInclude>
     <ClInclude Include="TileMap.h">
@@ -164,6 +143,9 @@
     </ClInclude>
     <ClInclude Include="CombatLog.h">
       <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitCompendium.h">
+      <Filter>Header Files\Unit</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

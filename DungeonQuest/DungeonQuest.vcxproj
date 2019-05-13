@@ -19,17 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Adept.cpp" />
     <ClCompile Include="Drawable.cpp" />
-    <ClCompile Include="Fighter.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LoadingScreen.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="MoveSet.cpp" />
-    <ClCompile Include="Rat.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Scout.cpp" />
     <ClCompile Include="Spell.cpp" />
     <ClCompile Include="SpellBook.cpp" />
     <ClCompile Include="Tile.cpp" />
@@ -39,20 +35,17 @@
     <ClCompile Include="UIIcon.cpp" />
     <ClCompile Include="UIText.cpp" />
     <ClCompile Include="Unit.cpp" />
+    <ClCompile Include="UnitCompendium.cpp" />
     <ClCompile Include="View.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Adept.h" />
     <ClInclude Include="Drawable.h" />
-    <ClInclude Include="Fighter.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="CombatLog.h" />
     <ClInclude Include="LoadingScreen.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="MoveSet.h" />
-    <ClInclude Include="Rat.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="Scout.h" />
     <ClInclude Include="Spell.h" />
     <ClInclude Include="SpellBook.h" />
     <ClInclude Include="Tile.h" />
@@ -62,6 +55,7 @@
     <ClInclude Include="UIIcon.h" />
     <ClInclude Include="UIText.h" />
     <ClInclude Include="Unit.h" />
+    <ClInclude Include="UnitCompendium.h" />
     <ClInclude Include="View.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

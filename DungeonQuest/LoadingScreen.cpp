@@ -16,7 +16,8 @@ LoadingScreen::LoadingScreen(int screenWidth, int screenHeight, View* view)
 		"Welcome to DUNGEONQUEST!", { 255, 100, 0, 255 });
 	loadText->updateText(" ");
 
-	view->update(std::vector<Drawable*> {}, std::vector<Drawable*> {}, std::vector<Drawable*> {loadScreen, loadText});
+	view->update(std::vector<Drawable*> {}, std::vector<Drawable*> {}, 
+		std::vector<Drawable*> {loadScreen, loadText});
 
 	delete loadText;
 	delete loadScreen;

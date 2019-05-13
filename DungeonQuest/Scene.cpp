@@ -10,10 +10,7 @@
 #include <ctime>
 #include <algorithm>
 
-#include "Adept.h"
-#include "Fighter.h"
-#include "Scout.h"
-#include "Rat.h"
+#include "UnitCompendium.h"
 #include "LoadingScreen.h"
 
 
@@ -26,6 +23,7 @@
 // single sprite handler (Rather than batcher)
 // damage randomizer (crit handling etc)
 // rework movement and energy
+// add pause screen
 
 //Constructor will initialise private member variables
 Scene::Scene() :
@@ -289,36 +287,12 @@ void Scene::initScene()
 	m_model.setSpellText(spellFourText);
 	overlayDrawables.push_back(spellFourText);
 
-	//Set attack 1 stats
-	UIText* spellOneStats = new UIText({ 0.40f*sW, 0.166f*sH }, textSize,
-		new Solengine::Font(font1, fontSize), " ", col1);
-	m_model.setSpellStats(spellOneStats);
-	overlayDrawables.push_back(spellOneStats);
-
-	//Set attack 2 stats
-	UIText* spellTwoStats = new UIText({ 0.40f*sW, 0.133f*sH }, textSize,
-		new Solengine::Font(font1, fontSize), " ", col1);
-	m_model.setSpellStats(spellTwoStats);
-	overlayDrawables.push_back(spellTwoStats);
-
-	//Set attack 3 stats
-	UIText* spellThreeStats = new UIText({ 0.40f*sW, 0.1f*sH }, textSize,
-		new Solengine::Font(font1, fontSize), " ", col1);
-	m_model.setSpellStats(spellThreeStats);
-	overlayDrawables.push_back(spellThreeStats);
-
-	//Set attack 4 stats
-	UIText* spellFourStats = new UIText({ 0.40f*sW, 0.066f*sH }, textSize,
-		new Solengine::Font(font1, fontSize), " ", col1);
-	m_model.setSpellStats(spellFourStats);
-	overlayDrawables.push_back(spellFourStats);
 
 	//Set current attack box
-
-	UIIcon* currentSpellBox = new UIIcon({0.23f * sW, 0.1666f*sH}, 0.1666f*sH, 0.0333f*sH,
+	UIIcon* selectedSpellBox = new UIIcon({0.23f * sW, 0.1666f*sH}, 0.1666f*sH, 0.0333f*sH,
 		Solengine::ResourceManager::getTexture("Textures/DQ_pack/Panel.png").textureID);
-	m_model.setSelectedSpellBox(currentSpellBox);
-	overlayDrawables.push_back(currentSpellBox);
+	m_model.setSelectedSpellBox(selectedSpellBox);
+	overlayDrawables.push_back(selectedSpellBox);
 
 	//COMBAT LOG
 
@@ -362,7 +336,6 @@ void Scene::gameLoop(Model* model, View* view)
 		while (gameState == Solengine::GameState::PAUSE)
 		{
 			
-
 		}
 		
 		pauseDuration = SDL_GetTicks() - pauseClockStart;

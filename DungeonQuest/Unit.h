@@ -18,68 +18,40 @@ public:
 	Unit();
 	virtual ~Unit();
 
-	void init(glm::vec2 coords);
-
-    glm::ivec2 getCoords() const 
-	{ 
-        return { floor(m_pos.x / TILE_WIDTH), floor(m_pos.y / TILE_WIDTH) }; 
-	}
-
-	std::string getName() const 
-	{ 
-        if (m_name == "") return "__";
-		else return m_name;
-	}
+    glm::ivec2 getCoords() const { return { floor(m_pos.x / TILE_WIDTH), floor(m_pos.y / TILE_WIDTH) }; }
+	std::string getName() const { return (m_name == "") ? "_" : m_name; }
 	bool getIsFriendly() const { return m_isFriendly; }
-	int getMoveCost() { return m_movementCost; }
-	int getEnergy() { return m_energy; }
-	int getEnergyMax() { return m_energyMax; }
-	int getHealth() { return m_health; }
-	int getHealthMax() { return m_healthMax; }
-	int getSpeed() { return m_speed; }
-	int getTurnPoints() { return m_turnPoints; }
+	int getMoveCost() const { return m_movementCost; }
+	int getEnergy() const { return m_energy; }
+	int getEnergyMax() const { return m_energyMax; }
+	int getHealth() const  { return m_health; }
+	int getHealthMax()  const { return m_healthMax; }
+	int getSpeed() const { return m_speed; }
+	int getTurnPoints() const { return m_turnPoints; }
+	MoveSet* getMoveSet() { return &m_moveSet; }
+
 
 	void setEnergy(int nrg) { m_energy = nrg; }
-
 	void resetEnergy() { m_energy = m_energyMax; }
 	void removeEnergy(int energyUsed) { m_energy -= energyUsed; }
 	void removeHealth(int dmg){ m_health -= dmg; }
+	void setHealthbar(UIIcon* hb, UIIcon* hbb) { p_healthbar = hb; p_healthbarBackplate = hbb; }
 
-	void death()
-	{
-		m_delete = true;
-		p_healthbar->m_delete = true;
-		p_healthbarBackplate->m_delete = true;
-	}
+	void init(glm::vec2 coords);
 
-	void newTurn() 
-	{  
-		m_turnPoints += m_speed;
-		m_energy = m_energyMax; 
-	}
+	void death();
 
-	MoveSet m_moveSet;
+	void newTurn();
 
-	void setHealthbar(UIIcon* hb, UIIcon* hbb)
-	{
-		p_healthbar = hb;
-		p_healthbarBackplate = hbb;
-	}
+	
 
-	void updateHealthbar() 
-	{ 
-		p_healthbar->resizeWidth(((float)getHealth() * p_healthbarBackplate->getWidth() 
-            / (float)getHealthMax()));
-		p_healthbar->setPos({ getPos().x + 0.25 * TILE_WIDTH,
-	        getPos().y + 0.9 * TILE_WIDTH });
-		p_healthbarBackplate->setPos({ getPos().x + 0.25 * TILE_WIDTH, 
-            getPos().y + 0.9 * TILE_WIDTH });
-	}
+	void updateHealthbar();
 
 protected:
 
-	SpellBook* p_spellBook;
+	MoveSet m_moveSet;
 
+	SpellBook* p_spellBook;
 	UIIcon* p_healthbar = nullptr;
 	UIIcon* p_healthbarBackplate = nullptr;
 

@@ -19,8 +19,7 @@ public:
 	void addSpell(Spell* s, int index);
 
 	Spell* getSpell(int index);
-
-	size_t moveSetSize() { return p_spells.size(); }
+	size_t getMoveSetSize() const { return p_spells.size(); }
 
 	std::vector<Spell*> p_spells;	
 };

@@ -25,97 +25,51 @@ public:
 	Solengine::GameState update(int pauseDuration, std::vector<Unit*> units);
 	
 	//GETTERS
-	bool getLeftMouse()
-	{
-		return m_SOL_inputManager.keyState(SDL_BUTTON_LEFT);
-	}
+	bool getLeftMouse() { return m_SOL_inputManager.keyState(SDL_BUTTON_LEFT); }
 
-	bool getRightMouse()
-	{
-		return m_SOL_inputManager.keyState(SDL_BUTTON_RIGHT);
-	}
+	bool getRightMouse() { return m_SOL_inputManager.keyState(SDL_BUTTON_RIGHT); }
 
-	glm::ivec2 getMouseScreenInputPos()
-	{
-		return m_SOL_inputManager.getMouseCoords();
-	}
+	glm::ivec2 getMouseScreenInputPos() { return m_SOL_inputManager.getMouseCoords(); }
 
-	glm::ivec2 getMouseScreenPos()
-	{
-		glm::ivec2 msp = getMouseScreenInputPos();
-		return { msp.x, m_screenHeight - msp.y };
-	}
+	glm::ivec2 getMouseScreenPos()  { glm::ivec2 msp = getMouseScreenInputPos(); return { msp.x, m_screenHeight - msp.y }; }
 
-	glm::ivec2 getMouseWorldPos()
-	{
-		return p_SOL_cam->screenToWorld(getMouseScreenInputPos());
-	}
+	glm::ivec2 getMouseWorldPos() { return p_SOL_cam->screenToWorld(getMouseScreenInputPos()); }
+
+	glm::ivec2 getMouseCoordinates() { return flatten(getMouseWorldPos(), TILE_WIDTH); }
+
+	glm::ivec2 flatten(glm::ivec2 vec2, int c) { return { floor(vec2.x / c), floor(vec2.y / c) }; }
+
+	CombatLog* getCombatLog() { return &m_combatLog; }
 
 	//SETTERS
 	void setSelectedUnit(Unit* unit);
-
-	glm::ivec2 getMouseCoordinates()
-	{
-		return flatten(getMouseWorldPos(), TILE_WIDTH);
-	}
-
-	glm::ivec2 flatten(glm::ivec2 vec2, int c)
-	{
-		return { floor(vec2.x / c), floor(vec2.y / c) };
-	}
 
     void setCurrentUnit(Unit* unit) { p_currentUnit = unit; }                   
 
 	void setCurrentUnitIcon(UIIcon* icon) { p_currentUnitIcon = icon; }
 
-	void setCurrentUnitNameText(UIText* text) 
-	{
-		p_currentUnitNameText = text; 
-	}
+	void setCurrentUnitNameText(UIText* text) { p_currentUnitNameText = text; }
 
-	void setCurrentUnitHealthText(UIText* text) 
-	{
-		p_currentUnitHealthText = text;
-	}
+	void setCurrentUnitHealthText(UIText* text) { p_currentUnitHealthText = text; }
 
-	void setCurrentUnitEnergyText(UIText* text) 
-	{
-		p_currentUnitEnergyText = text;
-	}
+	void setCurrentUnitEnergyText(UIText* text) { p_currentUnitEnergyText = text; }
 
-	void setCurrentUnitSpeedText(UIText* text)
-	{
-		p_currentUnitSpeedText = text;
-	}
+	void setCurrentUnitSpeedText(UIText* text) { p_currentUnitSpeedText = text; }
 
 	void setCurrentUnitBox(UIIcon* icon) { p_currentUnitBox = icon; }
 
 	void setSelectedUnitIcon(UIIcon* icon) { p_selectedUnitIcon = icon; }
 
-	void setSelectedUnitNameText(UIText* text) 
-	{
-		p_selectedUnitNameText = text; 
-	}
+	void setSelectedUnitNameText(UIText* text) { p_selectedUnitNameText = text; }
 
-	void setSelectedHealthText(UIText* text)
-	{ 
-		p_selectedUnitHealthText = text; 
-	}
+	void setSelectedHealthText(UIText* text) { p_selectedUnitHealthText = text; }
 
-	void setSelectedEnergyText(UIText* text) 
-	{ 
-		p_selectedUnitEnergyText = text;
-	}
+	void setSelectedEnergyText(UIText* text) { p_selectedUnitEnergyText = text; }
 
-	void setSelectedUnitSpeedText(UIText* text)
-	{
-		p_selectedUnitSpeedText = text;
-	}
+	void setSelectedUnitSpeedText(UIText* text) { p_selectedUnitSpeedText = text; }
 
     // These get pushed back in order
 	void setSpellText(UIText* text) { p_spellText.push_back(text); }
-
-	void setSpellStats(UIText* text) { p_spellStats.push_back(text); }
 
 	void setSelectionBox(UIIcon* icon) { p_selectionBox = icon; }
 	
@@ -129,8 +83,6 @@ public:
 
 	void setCombatLog(std::vector<UIText*> texts) { m_combatLog.setTexts(texts); }
 
-	CombatLog* getCombatLog() { return &m_combatLog; }
-
 	void setScrollIcon(UIIcon* icon) { m_combatLog.setScrollIcon(icon); }
 
 	std::vector<Drawable*> getEffects();
@@ -141,16 +93,13 @@ public:
 private:
 	Solengine::InputManager m_SOL_inputManager;
 	Solengine::Camera2D* p_SOL_cam;
-	
-	CombatLog m_combatLog = CombatLog();
+	CombatLog m_combatLog;
 
 	std::vector<Drawable*> p_visualEffects;
-
 	std::vector<UIElement*> p_mouseoverable;
 
 	int  m_screenHeight;
 	int m_screenWidth;
-
 	int m_currentSpellIndex = 0;
 
 	void changeSpell();
@@ -177,7 +126,6 @@ private:
 	UIIcon* p_selectedSpellBox = nullptr;
 	
 	std::vector<UIText*> p_spellText;
-	std::vector<UIText*> p_spellStats;
 
 	UIIcon* p_walkableHighlight = nullptr;
 	UIIcon* p_hoverHighlight = nullptr;

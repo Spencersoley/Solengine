@@ -10,28 +10,27 @@ public:
 	Drawable();
 	virtual ~Drawable();
 
+	// Setters //
+	void setColour(Solengine::ColourRGBA8 col) { m_colour = col; }
+	void setVisible(bool set) { m_isVisible = set; }
+	void setTexture(GLuint textureID) { m_textureID = textureID; }
+	void setPos(glm::vec2 pos) { m_pos = pos; redraw(); }
+	
+	// Getters //
+	glm::vec2 getPos() const { return m_pos; }
+	GLuint getTextureID() const { return m_textureID; }
+	float getWidth() const { return m_width; }
+	float getHeight() const { return m_height; }
+
 	virtual void draw();
 
 	void redraw() { m_redraw = true; }
 
-	//Solengine::SpriteBatch* getSpriteBatch() { return p_SOL_SB; }
-
-	void setTexture(GLuint textureID) { m_textureID = textureID; }
-	GLuint getTextureID() const { return m_textureID; }
 
 	void movePos(glm::vec2 pos) { m_pos += pos; redraw(); }
-	void setPos(glm::vec2 pos) { m_pos = pos; redraw(); }
-	glm::vec2 getPos() { return m_pos; }
-
 	virtual void activate(glm::vec2 pos) {}
 	virtual void activate(std::string str, glm::vec2 pos) {}
 	virtual bool updateEffect(float adjustedTicks) { return false; }
-
-	float getWidth() { return m_width; }
-	float getHeight() { return m_height; }
-
-	void setColour(Solengine::ColourRGBA8 col) { m_colour = col; }
-	void setVisible(bool set) { m_isVisible = set; }
 
 	bool m_delete = false;
 

@@ -13,8 +13,6 @@ public:
 
 	float m_duration;
 
-	int m_framesPassed = 0;
-
 	bool updateEffect(float adjustedTicks);
 };
 

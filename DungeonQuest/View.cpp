@@ -6,13 +6,9 @@
 #include <glm/glm.hpp>
 #include "UIIcon.h"
 
-View::View()
-{
-}
+View::View() {}
 
-View::~View()
-{
-}
+View::~View() {}
 
 void View::init(Solengine::Camera2D* cam, Solengine::Camera2D* uiCam,
 	int screenwidth, int screenheight)
@@ -41,8 +37,8 @@ void View::init(Solengine::Camera2D* cam, Solengine::Camera2D* uiCam,
 }
 
 void View::update(std::vector<Drawable*> worldDrawables, 
-	              std::vector<Drawable*> visualEffectDrawables,
-	              std::vector<Drawable*> overlayDrawables)
+	std::vector<Drawable*> visualEffectDrawables,
+    std::vector<Drawable*> overlayDrawables)
 {
 	p_SOL_cam->update();
 	p_SOL_uiCam->update();
@@ -51,8 +47,8 @@ void View::update(std::vector<Drawable*> worldDrawables,
 }
 
 void View::drawGame(std::vector<Drawable*> worldDrawables, 
-	                std::vector<Drawable*> visualEffectDrawables,
-	                std::vector<Drawable*> overlayDrawables)
+    std::vector<Drawable*> visualEffectDrawables,
+	std::vector<Drawable*> overlayDrawables)
 {
 	//Set base depth
 	glClearDepth(1.0);
@@ -78,7 +74,7 @@ void View::drawGame(std::vector<Drawable*> worldDrawables,
 }
 
 void View::drawToCamera(std::vector<Drawable*> drawables, 
-	                    Solengine::Camera2D* cam)
+    Solengine::Camera2D* cam)
 {
 	glm::mat4 projectionMatrix = cam->getCameraMatrix();
 	GLint pUniform = m_SOL_shaderProgram.getUniformLocation("P");

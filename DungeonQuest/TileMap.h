@@ -12,9 +12,9 @@ public:
 
 	void init(std::vector<std::vector<Tile*>> tileMap, int tileWidth);
 
+	// Getters //
 	int getWidth() const { return p_tiles[0].size(); }
 	int getHeight() const { return p_tiles.size(); }
-
     std::vector<glm::vec2> getWalkablePos(glm::ivec2 coords, int steps);
 	Tile* getTileByPosition(glm::ivec2 pos);	
     Tile* getTileByCoords(glm::ivec2 coords) 
