@@ -171,7 +171,9 @@
     <ClInclude Include="picoPNG.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SDLInitialiser.h" />
+    <ClInclude Include="SpriteBase.h" />
     <ClInclude Include="SpriteBatch.h" />
+    <ClInclude Include="SpriteSingle.h" />
     <ClInclude Include="TextureCache.h" />
     <ClInclude Include="TileLevelLoader.h" />
     <ClInclude Include="Vertex.h" />
@@ -190,6 +192,7 @@
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="SDLInitialiser.cpp" />
     <ClCompile Include="SpriteBatch.cpp" />
+    <ClCompile Include="SpriteSingle.cpp" />
     <ClCompile Include="TextureCache.cpp" />
     <ClCompile Include="TileLevelLoader.cpp" />
     <ClCompile Include="Window.cpp" />

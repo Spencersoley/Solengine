@@ -1,6 +1,7 @@
 #pragma once
 
 #include "UIElement.h"
+#include <Solengine/SpriteBatch.h>
 
 class UIIcon : public UIElement
 {

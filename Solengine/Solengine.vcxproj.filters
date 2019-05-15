@@ -19,6 +19,12 @@
     <Filter Include="Source Files\Textures">
       <UniqueIdentifier>{0154942b-d7c4-4108-a7fe-8947c91ced99}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Textures\Sprites">
+      <UniqueIdentifier>{f37ee50c-e6af-4e77-a7dc-2b480b34cb46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Textures\Sprites">
+      <UniqueIdentifier>{bc481156-b7e6-4c23-8d84-ed8855ec13ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLSLProgram.h">
@@ -63,9 +69,6 @@
     <ClInclude Include="ResourceManager.h">
       <Filter>Header Files\Textures</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteBatch.h">
-      <Filter>Header Files\Textures</Filter>
-    </ClInclude>
     <ClInclude Include="GameState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -74,6 +77,15 @@
     </ClInclude>
     <ClInclude Include="TileLevelLoader.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteBatch.h">
+      <Filter>Header Files\Textures\Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteSingle.h">
+      <Filter>Header Files\Textures\Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteBase.h">
+      <Filter>Header Files\Textures\Sprites</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -110,9 +122,6 @@
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Source Files\Textures</Filter>
     </ClCompile>
-    <ClCompile Include="SpriteBatch.cpp">
-      <Filter>Source Files\Textures</Filter>
-    </ClCompile>
     <ClCompile Include="TextureCache.cpp">
       <Filter>Source Files\Textures</Filter>
     </ClCompile>
@@ -121,6 +130,12 @@
     </ClCompile>
     <ClCompile Include="TileLevelLoader.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteBatch.cpp">
+      <Filter>Source Files\Textures\Sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteSingle.cpp">
+      <Filter>Source Files\Textures\Sprites</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

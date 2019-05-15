@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Solengine/SpriteBatch.h>
+#include <Solengine/SpriteSingle.h>
 
 #include <iostream>
 
@@ -10,13 +11,13 @@ public:
 	Drawable();
 	virtual ~Drawable();
 
-	// Setters //
+	// SETTERS //
 	void setColour(Solengine::ColourRGBA8 col) { m_colour = col; }
 	void setVisible(bool set) { m_isVisible = set; }
 	void setTexture(GLuint textureID) { m_textureID = textureID; }
 	void setPos(glm::vec2 pos) { m_pos = pos; redraw(); }
 	
-	// Getters //
+	// GETTERS //
 	glm::vec2 getPos() const { return m_pos; }
 	GLuint getTextureID() const { return m_textureID; }
 	float getWidth() const { return m_width; }
@@ -35,7 +36,7 @@ public:
 	bool m_delete = false;
 
 protected:
-	Solengine::SpriteBatch m_SOL_SB;
+	Solengine::SpriteBase* p_SOL_S = nullptr;
 
 	bool m_redraw;
 	glm::vec2 m_pos;

@@ -9,14 +9,7 @@ namespace Solengine
 		createVertexArray();
 	}
 
-	SpriteBatch::~SpriteBatch()
-	{
-	}
-	
-	void SpriteBatch::init()
-	{
-		//createVertexArray();
-	}
+	SpriteBatch::~SpriteBatch() {}
 
 	void SpriteBatch::begin(GlyphSortType sortType/* = GlyphSortType::TEXTURE*/)
 	{
@@ -95,7 +88,7 @@ namespace Solengine
 	}
 
 	//Renders the entire spritebatch to screen
-	void SpriteBatch::renderBatch()
+	void SpriteBatch::render()
 	{
 		glBindVertexArray(m_VAO);
 

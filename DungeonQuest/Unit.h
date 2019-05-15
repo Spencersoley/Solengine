@@ -1,7 +1,5 @@
 #pragma once
 
-#include <Solengine/SpriteBatch.h>
-
 #include <glm/glm.hpp>
 
 #include "Level.h"

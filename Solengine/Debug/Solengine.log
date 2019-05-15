@@ -6,4 +6,7 @@ c:\users\ssole\source\repos\solengineproject\solengine\font.cpp(119): warning C4
 c:\users\ssole\source\repos\solengineproject\solengine\font.cpp(147): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
 c:\users\ssole\source\repos\solengineproject\solengine\font.cpp(149): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
 c:\users\ssole\source\repos\solengineproject\solengine\font.cpp(153): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  SpriteBatch.cpp
+  SpriteSingle.cpp
+  Generating Code...
   Solengine.vcxproj -> C:\Users\Ssole\source\repos\SolengineProject\Debug\Solengine.lib

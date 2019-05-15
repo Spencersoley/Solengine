@@ -2,9 +2,9 @@
 
 #include "Solengine/ResourceManager.h"
 
-Unit::Unit() {}
+Unit::Unit() { p_SOL_S = new Solengine::SpriteSingle(); }
 
-Unit::~Unit() {}
+Unit::~Unit() { delete p_SOL_S; }
 
 void Unit::init(glm::vec2 coords)
 {
@@ -28,7 +28,6 @@ void Unit::newTurn()
 	m_turnPoints += m_speed;
 	m_energy = m_energyMax;
 }
-
 
 void Unit::updateHealthbar()
 {
