@@ -29,8 +29,8 @@ public:
 
 
 	void movePos(glm::vec2 pos) { m_pos += pos; redraw(); }
-	virtual void activate(glm::vec2 pos) {}
-	virtual void activate(std::string str, glm::vec2 pos) {}
+	virtual void activate(glm::vec2 pos, float duration) {}
+	virtual void activate(std::string str, glm::vec2 pos, float duration) {}
 	virtual bool updateEffect(float adjustedTicks) { return false; }
 
 	bool m_delete = false;

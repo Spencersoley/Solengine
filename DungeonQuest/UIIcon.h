@@ -12,7 +12,7 @@ public:
 
 	void draw();
 
-	void activate(glm::vec2 pos);
+	void activate(glm::vec2 pos, float duration);
 
 	void resizeWidth(float w) { m_width = w; }
 	void resizeHeight(float h) { m_height = h; }

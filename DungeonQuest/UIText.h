@@ -14,7 +14,7 @@ public:
 
 	void draw();
 
-	void activate(std::string txt, glm::vec2 pos);
+	void activate(std::string txt, glm::vec2 pos, float duration);
 
     void updateText(std::string tString) { m_trackedString = tString; }
 

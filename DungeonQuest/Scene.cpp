@@ -18,12 +18,11 @@
 // Limit basic camera movement
 // Status effects etc
 // Mouseover tooltip on spells
-// Compedium of units
 // Button functionality
-// single sprite handler (Rather than batcher)
 // damage randomizer (crit handling etc)
-// rework movement and energy
 // add pause screen
+// LERP movement
+
 
 //Constructor will initialise private member variables
 Scene::Scene() :
@@ -155,6 +154,7 @@ void Scene::initScene()
 	overlayDrawables.push_back(new UIIcon({ 0.017f*sW, 0 }, sW, 0.25f*sH,
 		Solengine::ResourceManager::getTexture("Textures/DQ_pack/Backplate1.png").textureID,
 		{ 200, 200, 200, 255 }));
+	m_model.setUIPanelHeight(overlayDrawables.back()->getHeight() - 20);
 
 	//Set combatlog scroll
 	UIIcon* scrollIcon = new UIIcon({ 0.754f*sW, 0.055*sH }, 0.008f*sW, 0.14f*sH,

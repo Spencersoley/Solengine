@@ -96,10 +96,17 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 	}
 
 
+	if (lockTime > 0) lockTime -= adjustedDeltaTicks;
+	else if (lockTime < 0) lockTime = 0;
+	std::cout << lockTime;
+
+
 	//////////////     Mouse Control       /////////////////
 	glm::vec2 msp = getMouseScreenPos();
 
-	if (msp.y > 130) //exclude backplate
+	static int overlayCutoff = m_UIpanelHeight;
+
+	if (msp.y > overlayCutoff) //exclude backplate
 	{
 		if (m_SOL_inputManager.keyPress(SDL_BUTTON_LEFT))
 		{
@@ -167,6 +174,8 @@ Uint32 Model::getDeltaTicks()
 
 bool Model::movement(glm::ivec2 coords, TileMap* tileMap, Unit* currentUnit)
 {
+	if (lockTime) return false;
+
 	Tile* tarTile = tileMap->getTileByCoords(coords);
 	Tile* currentTile = tileMap->getTileByCoords(currentUnit->getCoords());
 	
@@ -201,82 +210,88 @@ bool Model::movement(glm::ivec2 coords, TileMap* tileMap, Unit* currentUnit)
 bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit, 
 	               std::vector<Unit*> units)
 {
+	if (lockTime) return false;
+
 	Unit* tarUnit = selectionCheck(units, mouseCoords);
     
-	if (tarUnit != nullptr)
+	if (tarUnit == nullptr) return false;
+	
+	if (currentUnit->getMoveSet()->p_spells[m_currentSpellIndex]->getCost()
+		<= currentUnit->getCombatPoints())
 	{
-		if (currentUnit->getMoveSet()->p_spells[m_currentSpellIndex]->getCost()
-			<= currentUnit->getCombatPoints())
-		{
-		    if (checkIfTileReachable(currentUnit->getCoords(), tarUnit->getCoords(),
-			currentUnit->getMoveSet()->p_spells[m_currentSpellIndex]->getRange()))
-		    { 
-				if (currentUnit != tarUnit)
+		if (checkIfTileReachable(currentUnit->getCoords(), tarUnit->getCoords(),
+		    currentUnit->getMoveSet()->p_spells[m_currentSpellIndex]->getRange()))
+		{ 
+		    if (currentUnit != tarUnit)
+		    {
+			    Spell* castSpell = currentUnit->getMoveSet()->p_spells[m_currentSpellIndex];
+		        castSpell->cast(currentUnit, tarUnit);
+				updateTileStates(tileMap, currentUnit);
+
+				updateStatsDisplay(currentUnit, p_currentUnitIcon,
+					p_currentUnitNameText, p_currentUnitHealthText,
+					p_currentUnitEnergyText, p_currentUnitSpeedText,
+					p_currentUnitCombatPointsText);
+				updateStatsDisplay(tarUnit, p_selectedUnitIcon,
+					p_selectedUnitNameText, p_selectedUnitHealthText,
+					p_selectedUnitEnergyText, p_selectedUnitSpeedText,
+				    p_selectedUnitCombatPointsText);
+				setSelectedUnit(tarUnit);
+
+				tarUnit->updateHealthbar();
+
+				std::string dmgstr = std::to_string(
+				    castSpell->getDamage());
+
+				m_combatLog.announce("EVENT: " + currentUnit->getName() +
+				    " hit " + tarUnit->getName() +
+				    " with " + castSpell->getName() + 
+			        " for " + dmgstr + " damage");
+
+
+				/////////////////////////////
+	            p_visualEffects.push_back(new UIText({ 0, 0 }, 1.0f,
+				    new Solengine::Font("Fonts/Px437_VGA_SquarePx.ttf", 48),
+				    "", { 255, 0, 0, 255 }));
+
+				p_visualEffects.back()->activate("-" + dmgstr, { tarUnit->getPos().x + 0.6f*TILE_WIDTH,
+			        tarUnit->getPos().y + 0.6f*TILE_WIDTH }, 15);
+
+				p_visualEffects.push_back(new UIIcon({ 0, 0 }, 48, 48,
+					castSpell->getTextureID(),
+					castSpell->getColour()));
+
+				p_visualEffects.back()->activate( { tarUnit->getPos().x + 0.1f*TILE_WIDTH, tarUnit->getPos().y }, 
+					15 );
+
+				lockControl(15);
+			    ////////////////////////
+
+				if (tarUnit->getHealth() < 1)
 				{
-					Spell* castSpell = currentUnit->getMoveSet()->p_spells[m_currentSpellIndex];
-					castSpell->cast(currentUnit, tarUnit);
+					entityNeedsDeletion(1);
+					tarUnit->death();
+					m_combatLog.announce("EVENT! " + tarUnit->getName() + " has died!");
+					setSelectedUnit(nullptr);
+					tileMap->getTileByCoords(tarUnit->getCoords())->m_isOccupied = false;
 					updateTileStates(tileMap, currentUnit);
-
-					updateStatsDisplay(currentUnit, p_currentUnitIcon,
-						p_currentUnitNameText, p_currentUnitHealthText,
-						p_currentUnitEnergyText, p_currentUnitSpeedText,
-						p_currentUnitCombatPointsText);
-					updateStatsDisplay(tarUnit, p_selectedUnitIcon,
-						p_selectedUnitNameText, p_selectedUnitHealthText,
-						p_selectedUnitEnergyText, p_selectedUnitSpeedText,
-					    p_selectedUnitCombatPointsText);
-					setSelectedUnit(tarUnit);
-
-					tarUnit->updateHealthbar();
-
-					std::string dmgstr = std::to_string(
-						castSpell->getDamage());
-
-					m_combatLog.announce("EVENT: " + currentUnit->getName() +
-						" hit " + tarUnit->getName() +
-						" with " + castSpell->getName() + 
-						" for " + dmgstr + " damage");
-
-
-					/////////////////////////////
-	                p_visualEffects.push_back(new UIText({ 0, 0 }, 1.0f,
-						new Solengine::Font("Fonts/Px437_VGA_SquarePx.ttf", 48),
-						 "", { 255, 0, 0, 255 }));
-
-					p_visualEffects.back()->activate("-" + dmgstr, { tarUnit->getPos().x + 0.6f*TILE_WIDTH,
-				         tarUnit->getPos().y + 0.6f*TILE_WIDTH });
-
-					p_visualEffects.push_back(new UIIcon({ 0, 0 }, 48, 48,
-						castSpell->getTextureID(),
-						castSpell->getColour()));
-
-					p_visualEffects.back()->activate( { tarUnit->getPos().x + 0.1f*TILE_WIDTH, tarUnit->getPos().y } );
-					 ////////////////////////
-
-					if (tarUnit->getHealth() < 1)
-					{
-						entityNeedsDeletion(1);
-						tarUnit->death();
-						m_combatLog.announce("EVENT! " + tarUnit->getName() + " has died!");
-						setSelectedUnit(nullptr);
-						tileMap->getTileByCoords(tarUnit->getCoords())->m_isOccupied = false;
-					}
-
-					return true;
 				}
-				else m_combatLog.announce("WARNING! " + currentUnit->getName()
+
+				return true;
+			}
+			else m_combatLog.announce("WARNING! " + currentUnit->getName()
 					+ " can't attack itself!");		
-		    }
-	    	else m_combatLog.announce("WARNING! " + tarUnit->getName() + 
-                  " is out of range of " + 
-	     		  currentUnit->getName() + "'s " + 
-                  currentUnit->getMoveSet()->p_spells[m_currentSpellIndex]
-                  ->getName() );
 		}
-		else m_combatLog.announce("WARNING! " + currentUnit->getName() +
-			" has no NRG for " + currentUnit->
-			getMoveSet()->p_spells[m_currentSpellIndex]->getName());
+	    else m_combatLog.announce("WARNING! " + tarUnit->getName() + 
+            " is out of range of " + 
+	        currentUnit->getName() + "'s " + 
+            currentUnit->getMoveSet()->p_spells[m_currentSpellIndex]
+            ->getName() );
 	}
+	else m_combatLog.announce("WARNING! " + currentUnit->getName() +
+	   " has no NRG for " + currentUnit->
+	   getMoveSet()->p_spells[m_currentSpellIndex]->getName());
+	
 
 	return false;
 }

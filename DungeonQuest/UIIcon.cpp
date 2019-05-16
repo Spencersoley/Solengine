@@ -52,8 +52,8 @@ void UIIcon::draw()
 	else p_SOL_S->render();
 }
 
-void UIIcon::activate(glm::vec2 pos)
+void UIIcon::activate(glm::vec2 pos, float duration)
 {
 	setPos(pos);
-	m_duration = 10;
+	m_duration = duration;
 }

@@ -38,11 +38,11 @@ void UIText::draw()
 	else p_SOL_S->render();
 }
 
-void UIText::activate(std::string txt, glm::vec2 pos)
+void UIText::activate(std::string txt, glm::vec2 pos, float duration)
 {
 	setPos(pos);
 	updateText(txt);
-	m_duration = 15;
+	m_duration = duration;
 }
 
 

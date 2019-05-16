@@ -89,6 +89,8 @@ public:
 
 	void setScrollIcon(UIIcon* icon) { m_combatLog.setScrollIcon(icon); }
 
+	void setUIPanelHeight(int h) { m_UIpanelHeight = h; }
+
 	std::vector<Drawable*> getEffects();
 
 	bool deleteCheck() { return m_entityNeedsDeletion; }
@@ -130,6 +132,8 @@ private:
 	UIIcon* p_selectionBox = nullptr;
 
 	UIIcon* p_selectedSpellBox = nullptr;
+
+	int m_UIpanelHeight = 0;
 	
 	std::vector<UIText*> p_spellText;
 
@@ -163,4 +167,7 @@ private:
     void updateCurrentUnitBox(Unit* currentUnit, UIIcon* currentUnitBox);
 	void updateSpellDisplay(Unit* currentUnit);
 
+	float lockTime = 0; 
+
+	void lockControl(int a) { lockTime = a; }
 };
