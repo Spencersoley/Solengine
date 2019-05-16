@@ -76,9 +76,6 @@
     <ClCompile Include="Drawable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SpellBook.cpp">
-      <Filter>Source Files\Spells</Filter>
-    </ClCompile>
     <ClCompile Include="Spell.cpp">
       <Filter>Source Files\Spells</Filter>
     </ClCompile>
@@ -87,9 +84,6 @@
     </ClCompile>
     <ClCompile Include="LoadingScreen.cpp">
       <Filter>Source Files\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="UnitCompendium.cpp">
-      <Filter>Source Files\Unit</Filter>
     </ClCompile>
     <ClCompile Include="UnitSpawner.cpp" />
   </ItemGroup>

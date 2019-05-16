@@ -27,7 +27,6 @@
     <ClCompile Include="MoveSet.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Spell.cpp" />
-    <ClCompile Include="SpellBook.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="UIButton.cpp" />
@@ -35,7 +34,6 @@
     <ClCompile Include="UIIcon.cpp" />
     <ClCompile Include="UIText.cpp" />
     <ClCompile Include="Unit.cpp" />
-    <ClCompile Include="UnitCompendium.cpp" />
     <ClCompile Include="UnitSpawner.cpp" />
     <ClCompile Include="View.cpp" />
   </ItemGroup>

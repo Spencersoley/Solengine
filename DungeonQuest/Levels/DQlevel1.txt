@@ -1,11 +1,11 @@
 dungeonquest: 1
 XXXXXXXXXXXXXXXXXXX
-XASX........XX....X
-X.FX...........R..X
+XASFX.............X
+X...X..........R..X
+X...X.............X
+X...XXXXXXXXX.....X
 X.................X
-X..X.....XXXX.....X
-X.................X
-X.....XXXXXXX.....X
-X..R.......R......X
-X.................X
+X...X.............X
+X..RX......R......X
+X...X.............X
 XXXXXXXXXXXXXXXXXXX

@@ -56,6 +56,8 @@ public:
 
 	void setCurrentUnitSpeedText(UIText* text) { p_currentUnitSpeedText = text; }
 
+	void setCurrentUnitCombatPointsText(UIText* text) { p_currentUnitCombatPointsText = text; }
+
 	void setCurrentUnitBox(UIIcon* icon) { p_currentUnitBox = icon; }
 
 	void setSelectedUnitIcon(UIIcon* icon) { p_selectedUnitIcon = icon; }
@@ -67,6 +69,8 @@ public:
 	void setSelectedEnergyText(UIText* text) { p_selectedUnitEnergyText = text; }
 
 	void setSelectedUnitSpeedText(UIText* text) { p_selectedUnitSpeedText = text; }
+
+	void setSelectedUnitCombatPointsText(UIText* text) { p_selectedUnitCombatPointsText = text; }
 
     // These get pushed back in order
 	void setSpellText(UIText* text) { p_spellText.push_back(text); }
@@ -114,6 +118,7 @@ private:
 	UIText* p_currentUnitHealthText = nullptr;
     UIText* p_currentUnitEnergyText = nullptr;
 	UIText* p_currentUnitSpeedText = nullptr;
+	UIText* p_currentUnitCombatPointsText = nullptr;
     UIIcon* p_currentUnitBox = nullptr;
 	
 	UIIcon* p_selectedUnitIcon = nullptr;
@@ -121,6 +126,7 @@ private:
 	UIText* p_selectedUnitHealthText = nullptr;
 	UIText* p_selectedUnitEnergyText = nullptr;
 	UIText* p_selectedUnitSpeedText = nullptr;
+	UIText* p_selectedUnitCombatPointsText = nullptr;
 	UIIcon* p_selectionBox = nullptr;
 
 	UIIcon* p_selectedSpellBox = nullptr;
@@ -140,19 +146,19 @@ private:
 	bool movement(glm::ivec2 coords, TileMap* tileMap, Unit* currentUnit);
 	bool attack(glm::ivec2 coords, TileMap* tileMap, Unit* currentUnit, std::vector<Unit*> units);
 	Solengine::GameState nextTurn(std::vector<Unit*> units, Unit* currentUnit, 
-		                          Unit* selectedUnit);
+        Unit* selectedUnit);
 	Unit* selectionCheck(std::vector<Unit*> units, glm::ivec2 coords);
 
 	void updateHighlight(std::vector<std::vector<Tile*>> tiles,
-		               glm::ivec2 mouseCoords, UIIcon* hoverHighlight);
+        glm::ivec2 mouseCoords, UIIcon* hoverHighlight);
 	void updateHighlightColour(glm::ivec2 mouseCoords, UIIcon* hoverHighlight);
 	bool checkIfTileReachable(glm::ivec2 mouseCoords, glm::ivec2 unitCoords, int spellRange);
 
 	bool checkIfCoordsInBound(std::vector<std::vector<Tile*>> tiles, 
-		                      glm::ivec2 coords);
+        glm::ivec2 coords);
 	void updateTileStates(TileMap* tileMap, Unit* currentUnit);
 	void updateStatsDisplay(Unit* unit, UIIcon* icon, UIText* name,
-	                     	UIText* health, UIText* energy, UIText* speed);
+        UIText* health, UIText* energy, UIText* speed, UIText* cb);
 	void updateSelectedUnitBox(Unit* selectedUnit, UIIcon* selectionBox);
     void updateCurrentUnitBox(Unit* currentUnit, UIIcon* currentUnitBox);
 	void updateSpellDisplay(Unit* currentUnit);

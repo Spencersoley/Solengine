@@ -192,6 +192,12 @@ void Scene::initScene()
 	m_model.setCurrentUnitSpeedText(currentUnitSpeed);
 	overlayDrawables.push_back(currentUnitSpeed);
 
+	//Set current combatPoints 
+	UIText* currentCombatPoints = new UIText({ 0.12f*sW, 0.0666f*sH }, textSize,
+		new Solengine::Font(font1, fontSize), "CBP: ", col1);
+	m_model.setCurrentUnitCombatPointsText(currentCombatPoints);
+	overlayDrawables.push_back(currentCombatPoints);
+
 	//Set selected icon
 	UIIcon* selectedUnitIcon = new UIIcon({ 0.75f*sW, 0.033f*sH }, 0.25*sH, 0.25*sH);
 	m_model.setSelectedUnitIcon(selectedUnitIcon);
@@ -220,6 +226,12 @@ void Scene::initScene()
 		new Solengine::Font(font1, fontSize), "SPD: ", col1);
 	m_model.setSelectedUnitSpeedText(selectedUnitSpeed);
 	overlayDrawables.push_back(selectedUnitSpeed);
+
+	//Set selected combatPoints 
+	UIText* selectedCombatPoints = new UIText({ 0.87f*sW, 0.0666f*sH }, textSize,
+		new Solengine::Font(font1, fontSize), "CBP: ", col1);
+	m_model.setSelectedUnitCombatPointsText(selectedCombatPoints);
+	overlayDrawables.push_back(selectedCombatPoints);
 
 	//Set attack 1 
 	UIText* spellOneText = new UIText({ 0.20f*sW, 0.166f*sH }, textSize,

@@ -100,7 +100,7 @@ struct Rat : public Unit
 class UnitCompendium
 {
 public:
-	UnitCompendium();
-	~UnitCompendium();
+	UnitCompendium() {}
+	~UnitCompendium() {}
 };
 

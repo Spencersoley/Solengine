@@ -14,6 +14,8 @@ void Unit::init(glm::vec2 coords)
 	m_colour = { 255, 255, 255, 255 };
 	m_width = TILE_WIDTH;
 	m_height = TILE_WIDTH;
+	m_combatPointsMax = 3;
+	m_combatPoints = m_combatPointsMax;
 }
 
 void Unit::death()
@@ -27,6 +29,7 @@ void Unit::newTurn()
 {
 	m_turnPoints += m_speed;
 	m_energy = m_energyMax;
+	m_combatPoints = m_combatPointsMax;
 }
 
 void Unit::updateHealthbar()

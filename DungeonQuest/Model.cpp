@@ -31,12 +31,12 @@ void Model::awake(std::vector<Unit*> units)
 	updateTileStates(p_tileMap, p_currentUnit);
 	updateCurrentUnitBox(p_currentUnit, p_currentUnitBox);
 	updateSelectedUnitBox(p_selectedUnit, p_selectionBox);
-	updateStatsDisplay(p_currentUnit, p_currentUnitIcon, 
-		               p_currentUnitNameText, p_currentUnitHealthText, 
-		               p_currentUnitEnergyText, p_currentUnitSpeedText);
-	updateStatsDisplay(p_selectedUnit, p_selectedUnitIcon, 
-		               p_selectedUnitNameText, p_selectedUnitHealthText,
-		               p_selectedUnitEnergyText, p_selectedUnitSpeedText);
+	updateStatsDisplay(p_currentUnit, p_currentUnitIcon, p_currentUnitNameText, 
+	    p_currentUnitHealthText, p_currentUnitEnergyText, p_currentUnitSpeedText,
+		p_currentUnitCombatPointsText);
+	updateStatsDisplay(p_selectedUnit, p_selectedUnitIcon, p_selectedUnitNameText, 
+        p_selectedUnitHealthText, p_selectedUnitEnergyText, p_selectedUnitSpeedText,
+		p_selectedUnitCombatPointsText);
 	updateSpellDisplay(p_currentUnit);
 
 	updateSelectedSpellBox();
@@ -185,8 +185,8 @@ bool Model::movement(glm::ivec2 coords, TileMap* tileMap, Unit* currentUnit)
 
 		updateCurrentUnitBox(currentUnit, p_currentUnitBox);
         updateStatsDisplay(currentUnit, p_currentUnitIcon, 
-                           p_currentUnitNameText, p_currentUnitHealthText,
-			               p_currentUnitEnergyText, p_currentUnitSpeedText);
+            p_currentUnitNameText, p_currentUnitHealthText, p_currentUnitEnergyText, 
+			p_currentUnitSpeedText, p_currentUnitCombatPointsText);
 		
 		currentUnit->redraw();
 
@@ -206,7 +206,7 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
 	if (tarUnit != nullptr)
 	{
 		if (currentUnit->getMoveSet()->p_spells[m_currentSpellIndex]->getCost()
-			<= currentUnit->getEnergy())
+			<= currentUnit->getCombatPoints())
 		{
 		    if (checkIfTileReachable(currentUnit->getCoords(), tarUnit->getCoords(),
 			currentUnit->getMoveSet()->p_spells[m_currentSpellIndex]->getRange()))
@@ -219,10 +219,12 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
 
 					updateStatsDisplay(currentUnit, p_currentUnitIcon,
 						p_currentUnitNameText, p_currentUnitHealthText,
-						p_currentUnitEnergyText, p_currentUnitSpeedText);
+						p_currentUnitEnergyText, p_currentUnitSpeedText,
+						p_currentUnitCombatPointsText);
 					updateStatsDisplay(tarUnit, p_selectedUnitIcon,
 						p_selectedUnitNameText, p_selectedUnitHealthText,
-						p_selectedUnitEnergyText, p_selectedUnitSpeedText);
+						p_selectedUnitEnergyText, p_selectedUnitSpeedText,
+					    p_selectedUnitCombatPointsText);
 					setSelectedUnit(tarUnit);
 
 					tarUnit->updateHealthbar();
@@ -242,7 +244,7 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
 						 "", { 255, 0, 0, 255 }));
 
 					p_visualEffects.back()->activate("-" + dmgstr, { tarUnit->getPos().x + 0.6f*TILE_WIDTH,
-						 	tarUnit->getPos().y + 0.6f*TILE_WIDTH });
+				         tarUnit->getPos().y + 0.6f*TILE_WIDTH });
 
 					p_visualEffects.push_back(new UIIcon({ 0, 0 }, 48, 48,
 						castSpell->getTextureID(),
@@ -285,8 +287,9 @@ void Model::setSelectedUnit(Unit* selectedUnit)
 	{
 		p_selectedUnit = selectedUnit;
 		updateStatsDisplay(selectedUnit, p_selectedUnitIcon, 
-			               p_selectedUnitNameText, p_selectedUnitHealthText, 
-			               p_selectedUnitEnergyText, p_selectedUnitSpeedText);
+            p_selectedUnitNameText, p_selectedUnitHealthText, 
+            p_selectedUnitEnergyText, p_selectedUnitSpeedText,
+			p_selectedUnitCombatPointsText);
 
 		updateSelectedUnitBox(selectedUnit, p_selectionBox);
 	}
@@ -311,7 +314,7 @@ void Model::changeSpell()
 }
 
 void Model::updateStatsDisplay(Unit* unit, UIIcon* icon, UIText* name, 
-	                           UIText* health, UIText* energy, UIText* speed)
+    UIText* health, UIText* energy, UIText* speed, UIText* cb)
 {
 	//set icon
 	if (icon != nullptr) 
@@ -336,7 +339,7 @@ void Model::updateStatsDisplay(Unit* unit, UIIcon* icon, UIText* name,
 	{
 		if (unit != nullptr) 
 			health->updateText(std::to_string(unit->getHealth())
-                               + "/" + std::to_string(unit->getHealthMax()));
+                + "/" + std::to_string(unit->getHealthMax()));
 		else health->updateText("");
 
 		health->redraw();
@@ -347,7 +350,7 @@ void Model::updateStatsDisplay(Unit* unit, UIIcon* icon, UIText* name,
 	{
         if (unit != nullptr) 
 			energy->updateText(std::to_string(unit->getEnergy()) 
-			                   + "/" + std::to_string(unit->getEnergyMax()));
+                + "/" + std::to_string(unit->getEnergyMax()));
 		else energy->updateText("");
 
 		energy->redraw();
@@ -360,6 +363,16 @@ void Model::updateStatsDisplay(Unit* unit, UIIcon* icon, UIText* name,
 		else speed->updateText("");
 
 		speed->redraw();
+	}
+
+	if (cb != nullptr)
+	{
+		if (unit != nullptr)
+			cb->updateText(std::to_string(unit->getCombatPoints())
+				+ "/" + std::to_string(unit->getCombatPointsMax()));
+		else cb->updateText("");
+
+		cb->redraw();
 	}
 }
 
@@ -493,7 +506,8 @@ Solengine::GameState Model::nextTurn(std::vector<Unit*> units,
 
 	updateCurrentUnitBox(currentUnit, p_currentUnitBox);
 	updateStatsDisplay(currentUnit, p_currentUnitIcon, p_currentUnitNameText,
-		p_currentUnitHealthText, p_currentUnitEnergyText, p_currentUnitSpeedText);
+		p_currentUnitHealthText, p_currentUnitEnergyText, p_currentUnitSpeedText,
+		p_currentUnitCombatPointsText);
 	m_currentSpellIndex = 0;
 	updateSpellDisplay(currentUnit);
 	updateSelectedSpellBox();

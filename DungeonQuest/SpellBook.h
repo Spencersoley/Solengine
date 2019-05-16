@@ -24,8 +24,8 @@ struct Strike : Spell
 	{
 		m_name = "Strike";
 		m_range = 1;
-		m_damage = 6;
-		m_cost = 4;
+		m_damage = 8;
+		m_cost = 2;
 		m_textureID = Solengine::ResourceManager::getTexture(
 			"Textures/DQ_pack/icon_strike.png").textureID;
 		m_colour = { 200, 155, 155, 255 };
@@ -41,8 +41,8 @@ struct Claw : Spell
 	{
 		m_name = "Claw";
 		m_range = 1;
-		m_damage = 2;
-		m_cost = 2;
+		m_damage = 3;
+		m_cost = 1;
 		m_textureID = Solengine::ResourceManager::getTexture(
 			"Textures/DQ_pack/icon_claw.png").textureID;
 		m_colour = { 255, 0, 0, 255 };
@@ -57,9 +57,9 @@ struct Enflame : Spell
 	void init() 
 	{
 		m_name = "Enflame";
-		m_range = 3;
-		m_damage = 3;
-		m_cost = 5;
+		m_range = 6;
+		m_damage = 2;
+		m_cost = 1;
 		m_textureID = Solengine::ResourceManager::getTexture(
 			"Textures/DQ_pack/icon_flame.png").textureID;
 		m_colour = { 255, 50, 0, 255 };
