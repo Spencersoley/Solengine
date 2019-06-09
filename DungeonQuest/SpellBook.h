@@ -23,6 +23,7 @@ struct Strike : Spell
 	void init()
 	{
 		m_name = "Strike";
+		m_spellType = SpellType::ATTACK;
 		m_range = 1;
 		m_damage = 8;
 		m_cost = 2;
@@ -40,6 +41,7 @@ struct Claw : Spell
 	void init()
 	{
 		m_name = "Claw";
+		m_spellType = SpellType::ATTACK;
 		m_range = 1;
 		m_damage = 3;
 		m_cost = 1;
@@ -57,6 +59,7 @@ struct BowShot : Spell
 	void init()
 	{
 		m_name = "Bow Shot";
+		m_spellType = SpellType::ATTACK;
 		m_range = 6;
 		m_damage = 4;
 		m_cost = 2;
@@ -74,6 +77,7 @@ struct Enflame : Spell
 	void init() 
 	{
 		m_name = "Enflame";
+		m_spellType = SpellType::ATTACK;
 		m_range = 6;
 		m_damage = 2;
 		m_cost = 1;
@@ -91,12 +95,31 @@ struct Curse : Spell
 	void init()
 	{
 		m_name = "Curse";
+		m_spellType = SpellType::ATTACK;
 		m_range = 4;
 		m_damage = 8;
 		m_cost = 3;
 		m_textureID = Solengine::ResourceManager::getTexture(
 			"Textures/DQ_pack/icon_flame.png").textureID;
 		m_colour = { 55, 50, 200, 255 };
+	}
+};
+
+struct HealingRay : Spell
+{
+	HealingRay() {}
+	~HealingRay() {};
+
+	void init()
+	{
+		m_name = "Healing Ray";
+		m_spellType = SpellType::HEAL;
+		m_range = 4;
+		m_damage = 5;
+		m_cost = 3;
+		m_textureID = Solengine::ResourceManager::getTexture(
+			"Textures/DQ_pack/icon_flame.png").textureID;
+		m_colour = { 150, 150, 0, 255 };
 	}
 };
 
@@ -111,6 +134,7 @@ struct SpellBook
 	Claw* claw() { return &m_claw; }
 	Curse* curse() { return &m_curse; }
 	BowShot* bowShot() { return &m_bowShot; }
+	HealingRay* healingRay() { return &m_healingRay; }
 
 	NullSpell m_nullSpell;
 	Strike m_strike;
@@ -118,6 +142,7 @@ struct SpellBook
 	Enflame m_enflame;
 	Curse m_curse;
 	BowShot m_bowShot;
+	HealingRay m_healingRay;
 
 	void initSpells()
 	{
@@ -127,7 +152,7 @@ struct SpellBook
 		m_enflame.init();
 		m_curse.init();
 		m_bowShot.init();
+		m_healingRay.init();
 	}
-
 };
 

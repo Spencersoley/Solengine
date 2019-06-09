@@ -27,9 +27,9 @@ void Unit::death()
 
 void Unit::newTurn()
 {
-	m_turnPoints += m_speed;
-	m_energy = m_energyMax;
-	m_combatPoints = m_combatPointsMax;
+	m_turnPoints += 1;
+	resetEnergy();
+	resetCombatPoints();
 }
 
 void Unit::updateHealthbar()

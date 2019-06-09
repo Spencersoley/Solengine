@@ -42,9 +42,11 @@ public:
 	CombatLog* getCombatLog() { return &m_combatLog; }
 
 	//SETTERS
+	void setCameraCentre(Drawable* drawable) { p_SOL_cam->setPosition(drawable->getPos() - glm::vec2(0.5f * TILE_WIDTH, 0.5f * TILE_WIDTH)); }
+
 	void setSelectedUnit(Unit* unit);
 
-    void setCurrentUnit(Unit* unit) { p_currentUnit = unit; }                   
+	void setCurrentUnit(Unit* unit) { p_currentUnit = unit; }
 
 	void setCurrentUnitIcon(UIIcon* icon) { p_currentUnitIcon = icon; }
 
@@ -93,7 +95,11 @@ public:
 
 	std::vector<Drawable*> getEffects();
 
-	bool deleteCheck() { return m_entityNeedsDeletion; }
+	bool deleteCheck() 
+	{ 
+		if (m_entityNeedsDeletion) { entityNeedsDeletion(0); return true; }
+		return false; 
+	}
 
 
 private:
@@ -146,11 +152,13 @@ private:
 	int m_turnCounter;
 	float m_physicsSpeed;
 	
+
+	void beginTurn(Unit* unit);
+
 	Uint32 getDeltaTicks();
 	bool movement(glm::ivec2 coords, TileMap* tileMap, Unit* currentUnit);
 	bool attack(glm::ivec2 coords, TileMap* tileMap, Unit* currentUnit, std::vector<Unit*> units);
-	Solengine::GameState nextTurn(std::vector<Unit*> units, Unit* currentUnit, 
-        Unit* selectedUnit);
+	Solengine::GameState endTurn(std::vector<Unit*> units, Unit* currentUnit);
 	Unit* selectionCheck(std::vector<Unit*> units, glm::ivec2 coords);
 
 	void updateHighlight(std::vector<std::vector<Tile*>> tiles,
@@ -168,6 +176,7 @@ private:
 	void updateSpellDisplay(Unit* currentUnit);
 
 	float lockTime = 0; 
+	unsigned int turnCounter;
 
 	void lockControl(int a) { lockTime = a; }
 };

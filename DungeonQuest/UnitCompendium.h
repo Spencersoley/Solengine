@@ -22,6 +22,7 @@ struct Adept : public Unit
 			"Textures/DQ_pack/adept.png").textureID;
 		m_moveSet.addSpell(sb->enflame(), 0);
 		m_moveSet.addSpell(sb->curse(), 1);
+		m_moveSet.addSpell(sb->healingRay(), 2);
 
 	}
 	~Adept() {};

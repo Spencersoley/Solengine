@@ -20,13 +20,11 @@ void Model::init(float physicsSpeed, Solengine::Camera2D* cam, int sw, int sh)
 
 void Model::awake(std::vector<Unit*> units)
 {
-	setCurrentUnit(units[0]);
+	turnCounter = 0;
+	setCurrentUnit(units[turnCounter]);
 
 	for (size_t i = 0; i < units.size(); i++)
 		units[i]->newTurn();
-
-	for (size_t i = 0; i < units.size(); i++)
-		if (units[i]->getSpeed() < p_currentUnit->getSpeed()) p_currentUnit = units[i];
 
 	updateTileStates(p_tileMap, p_currentUnit);
 	updateCurrentUnitBox(p_currentUnit, p_currentUnitBox);
@@ -46,7 +44,6 @@ void Model::awake(std::vector<Unit*> units)
 
 	for (size_t i = 0; i < units.size(); i++) 
 		units[i]->updateHealthbar();
-
 }
 
 Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
@@ -57,8 +54,6 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 	const float CAMERA_SPEED = 2.0f;
 	const float SCALE_SPEED = 0.1f;
 	float SCROLL_SPEED = 20 * adjustedDeltaTicks;
-
-	entityNeedsDeletion(0);
 
 	Solengine::GameState state = m_SOL_inputManager.processInput();
 
@@ -95,7 +90,6 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 		updateHighlight(p_tileMap->p_tiles, mouseCoords, p_hoverHighlight);
 	}
 
-
 	if (lockTime > 0) lockTime -= adjustedDeltaTicks;
 	else if (lockTime < 0) lockTime = 0;
 	std::cout << lockTime;
@@ -127,7 +121,6 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 	{
 		updateHighlight(p_tileMap->p_tiles, { 0, 0 }, p_hoverHighlight);
 
-
 		//Doesn't work as intended. Perhaps we should create dedicated button images?
 		/*
 		for (size_t i = 0; i < p_mouseoverable.size(); i++)
@@ -148,8 +141,7 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 		*/
 	}
 	
-	if (state == Solengine::GameState::TURNOVER)                                   
-		state = nextTurn(units, p_currentUnit, p_selectedUnit);
+	if (state == Solengine::GameState::TURNOVER) state = endTurn(units, p_currentUnit);
 	
 	for (size_t i = 0; i < p_visualEffects.size(); i++)
 		if (!p_visualEffects[i]->updateEffect(adjustedDeltaTicks))
@@ -159,7 +151,6 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 			i--;
 		}
 		
-
 	previousMouseCoords = mouseCoords;
 	return state;
 }
@@ -216,71 +207,93 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
     
 	if (tarUnit == nullptr) return false;
 	
-	if (currentUnit->getMoveSet()->p_spells[m_currentSpellIndex]->getCost()
-		<= currentUnit->getCombatPoints())
+	Spell* spellToCast = currentUnit->getMoveSet()->p_spells[m_currentSpellIndex];
+
+	if (spellToCast ->getCost() <= currentUnit->getCombatPoints())
 	{
 		if (checkIfTileReachable(currentUnit->getCoords(), tarUnit->getCoords(),
-		    currentUnit->getMoveSet()->p_spells[m_currentSpellIndex]->getRange()))
+			spellToCast->getRange()))
 		{ 
-		    if (currentUnit != tarUnit)
-		    {
-			    Spell* castSpell = currentUnit->getMoveSet()->p_spells[m_currentSpellIndex];
-		        castSpell->cast(currentUnit, tarUnit);
-				updateTileStates(tileMap, currentUnit);
+			SpellType castType = spellToCast->getType();
 
-				updateStatsDisplay(currentUnit, p_currentUnitIcon,
-					p_currentUnitNameText, p_currentUnitHealthText,
-					p_currentUnitEnergyText, p_currentUnitSpeedText,
-					p_currentUnitCombatPointsText);
-				updateStatsDisplay(tarUnit, p_selectedUnitIcon,
-					p_selectedUnitNameText, p_selectedUnitHealthText,
-					p_selectedUnitEnergyText, p_selectedUnitSpeedText,
-				    p_selectedUnitCombatPointsText);
-				setSelectedUnit(tarUnit);
+			if (currentUnit == tarUnit && SpellType::ATTACK == castType)
+			{
+			    m_combatLog.announce("WARNING! " + currentUnit->getName()
+				+ " can't attack itself!");
+				return false; 
+			}
 
-				tarUnit->updateHealthbar();
+			spellToCast->cast(currentUnit, tarUnit);
+			updateTileStates(tileMap, currentUnit);
+	
+			updateStatsDisplay(currentUnit, p_currentUnitIcon,
+				p_currentUnitNameText, p_currentUnitHealthText,
+				p_currentUnitEnergyText, p_currentUnitSpeedText,
+				p_currentUnitCombatPointsText);
+			updateStatsDisplay(tarUnit, p_selectedUnitIcon,
+				p_selectedUnitNameText, p_selectedUnitHealthText,
+				p_selectedUnitEnergyText, p_selectedUnitSpeedText,
+			    p_selectedUnitCombatPointsText);
+			setSelectedUnit(tarUnit);
 
-				std::string dmgstr = std::to_string(
-				    castSpell->getDamage());
+			tarUnit->updateHealthbar();
 
+			std::string dmgstr = std::to_string(
+				spellToCast->getDamage());
+
+			/////////////////////////////
+			if (castType == SpellType::ATTACK)
+			{
 				m_combatLog.announce("EVENT: " + currentUnit->getName() +
-				    " hit " + tarUnit->getName() +
-				    " with " + castSpell->getName() + 
-			        " for " + dmgstr + " damage");
+					" hit " + tarUnit->getName() +
+					" with " + spellToCast->getName() +
+					" for " + dmgstr + " damage");
 
-
-				/////////////////////////////
-	            p_visualEffects.push_back(new UIText({ 0, 0 }, 1.0f,
-				    new Solengine::Font("Fonts/Px437_VGA_SquarePx.ttf", 48),
-				    "", { 255, 0, 0, 255 }));
+				p_visualEffects.push_back(new UIText({ 0, 0 }, 1.0f,
+					new Solengine::Font("Fonts/Px437_VGA_SquarePx.ttf", 48),
+					"", { 255, 0, 0, 255 }));
 
 				p_visualEffects.back()->activate("-" + dmgstr, { tarUnit->getPos().x + 0.6f*TILE_WIDTH,
-			        tarUnit->getPos().y + 0.6f*TILE_WIDTH }, 15);
-
-				p_visualEffects.push_back(new UIIcon({ 0, 0 }, 48, 48,
-					castSpell->getTextureID(),
-					castSpell->getColour()));
-
-				p_visualEffects.back()->activate( { tarUnit->getPos().x + 0.1f*TILE_WIDTH, tarUnit->getPos().y }, 
-					15 );
-
-				lockControl(15);
-			    ////////////////////////
-
-				if (tarUnit->getHealth() < 1)
-				{
-					entityNeedsDeletion(1);
-					tarUnit->death();
-					m_combatLog.announce("EVENT! " + tarUnit->getName() + " has died!");
-					setSelectedUnit(nullptr);
-					tileMap->getTileByCoords(tarUnit->getCoords())->m_isOccupied = false;
-					updateTileStates(tileMap, currentUnit);
-				}
-
-				return true;
+					tarUnit->getPos().y + 0.6f*TILE_WIDTH }, 15);
 			}
-			else m_combatLog.announce("WARNING! " + currentUnit->getName()
-					+ " can't attack itself!");		
+			else if (castType == SpellType::HEAL)
+			{
+				m_combatLog.announce("EVENT: " + currentUnit->getName() +
+					" healed " + tarUnit->getName() +
+					" with " + spellToCast->getName() +
+					" for " + dmgstr + " health");
+
+
+				p_visualEffects.push_back(new UIText({ 0, 0 }, 1.0f,
+					new Solengine::Font("Fonts/Px437_VGA_SquarePx.ttf", 48),
+					"", { 0, 255, 0, 255 }));
+
+				p_visualEffects.back()->activate("+" + dmgstr, { tarUnit->getPos().x + 0.6f*TILE_WIDTH,
+					tarUnit->getPos().y + 0.6f*TILE_WIDTH }, 15);
+			}
+	      
+
+			p_visualEffects.push_back(new UIIcon({ 0, 0 }, 48, 48,
+				spellToCast->getTextureID(),
+				spellToCast->getColour()));
+
+			p_visualEffects.back()->activate( { tarUnit->getPos().x + 0.1f*TILE_WIDTH, tarUnit->getPos().y }, 
+				15 );
+
+			lockControl(15);
+			////////////////////////
+
+			if (tarUnit->getHealth() < 1)
+			{
+				entityNeedsDeletion(1);
+				tarUnit->death();
+				m_combatLog.announce("EVENT! " + tarUnit->getName() + " has died!");
+				setSelectedUnit(nullptr);
+				tileMap->getTileByCoords(tarUnit->getCoords())->m_isOccupied = false;
+				updateTileStates(tileMap, currentUnit);
+			}
+
+			return true;			
 		}
 	    else m_combatLog.announce("WARNING! " + tarUnit->getName() + 
             " is out of range of " + 
@@ -291,7 +304,6 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
 	else m_combatLog.announce("WARNING! " + currentUnit->getName() +
 	   " has no NRG for " + currentUnit->
 	   getMoveSet()->p_spells[m_currentSpellIndex]->getName());
-	
 
 	return false;
 }
@@ -502,36 +514,44 @@ void Model::updateSelectedUnitBox(Unit* selectedUnit, UIIcon* selectBox)
 	selectBox->redraw();
 }
 
-Solengine::GameState Model::nextTurn(std::vector<Unit*> units,
-	Unit* currentUnit, Unit* selectedUnit)
+Solengine::GameState Model::endTurn(std::vector<Unit*> units, Unit* currentUnit)
 {
-	currentUnit->resetEnergy();
-
 	currentUnit->newTurn();
+	
+	turnCounter = (turnCounter + 1)%units.size();
 
 	for (size_t i = 0; i < units.size(); i++)
 		if (units[i]->getTurnPoints() < currentUnit->getTurnPoints()) currentUnit = units[i];
+	
+	beginTurn(units[turnCounter%units.size()]);
+	
+	return Solengine::GameState::PLAY;
+}
 
-	setCurrentUnit(currentUnit);
-	p_SOL_cam->setPosition(currentUnit->getPos() - glm::vec2(0.5f * TILE_WIDTH, 0.5f * TILE_WIDTH));
+void Model::beginTurn(Unit* unit)
+{
+	setCurrentUnit(unit);
 
-	if (currentUnit == selectedUnit) setSelectedUnit(nullptr);
+	if (unit == p_selectedUnit) setSelectedUnit(nullptr);
 
-	updateTileStates(p_tileMap, currentUnit);
+	setCameraCentre(unit);
 
-	updateCurrentUnitBox(currentUnit, p_currentUnitBox);
-	updateStatsDisplay(currentUnit, p_currentUnitIcon, p_currentUnitNameText,
+	updateTileStates(p_tileMap, unit);
+
+	updateCurrentUnitBox(unit, p_currentUnitBox);
+	
+	updateStatsDisplay(unit, p_currentUnitIcon, p_currentUnitNameText,
 		p_currentUnitHealthText, p_currentUnitEnergyText, p_currentUnitSpeedText,
 		p_currentUnitCombatPointsText);
+	
 	m_currentSpellIndex = 0;
-	updateSpellDisplay(currentUnit);
+	
+	updateSpellDisplay(unit);
+	
 	updateSelectedSpellBox();
-
-	return Solengine::GameState::PLAY;
 }
 
 std::vector<Drawable*> Model::getEffects()
 {
-
 	return p_visualEffects;
 }

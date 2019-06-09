@@ -36,9 +36,10 @@ public:
 	// SETTERS //
 	void setEnergy(int nrg) { m_energy = nrg; }
 	void resetEnergy() { m_energy = m_energyMax; }
+	void resetCombatPoints() { m_combatPoints = m_combatPointsMax; }
 	void removeEnergy(int energyUsed) { m_energy -= energyUsed; }
 	void removeCombatPoints(int cbpUsed) { m_combatPoints -= cbpUsed; }
-	void removeHealth(int dmg){ m_health -= dmg; }
+	void modifyHealth(int dmg) { m_health += dmg; if (m_health > m_healthMax) m_health = m_healthMax; }
 	void setHealthbar(std::pair<UIIcon*, UIIcon*> h) { p_healthbar = h.first; p_healthbarBackplate = h.second; }
 
 	void init(glm::vec2 coords);
@@ -46,7 +47,6 @@ public:
 	void death();
 
 	void newTurn();
-
 
 	void updateHealthbar();
 

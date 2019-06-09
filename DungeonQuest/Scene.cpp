@@ -327,7 +327,7 @@ void Scene::deleteEntity()
 		if (p_worldDrawables[i]->m_delete)
 		{
 			delete p_worldDrawables[i];
-			//since order is important here we can't just popback!
+
 			for (size_t j = i; j < p_worldDrawables.size() - 1; j++)
 				p_worldDrawables[j] = p_worldDrawables[j + 1];
 			p_worldDrawables.pop_back();

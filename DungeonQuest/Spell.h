@@ -5,6 +5,8 @@
 
 class Unit;
 
+enum class SpellType{ ATTACK, HEAL };
+
 class Spell
 {
 public:
@@ -13,6 +15,7 @@ public:
 
 	std::string getName() const { return m_name; }
 	int getRange() const { return m_range; }
+	SpellType getType() const { return m_spellType; }
 	int getDamage() const { return m_damage; }
 	int getCost() const { return m_cost; }
 	int getTextureID() const { return m_textureID; }
@@ -22,6 +25,7 @@ public:
 
 protected:
 	std::string m_name;
+	SpellType m_spellType;
 	int m_range;
 	int m_damage;
 	int m_cost;
