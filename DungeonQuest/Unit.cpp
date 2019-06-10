@@ -30,6 +30,21 @@ void Unit::newTurn()
 	m_turnPoints += 1;
 	resetEnergy();
 	resetCombatPoints();
+
+	std::vector<Debuff*> erasors;
+
+	//can we delete elements of a map by key whilst iterating through the map?w
+
+	for (std::map<Debuff*, int>::iterator it = p_debuffs.begin(); it != p_debuffs.end(); it++)
+	{
+		modifyHealth(-(it->first->tick()));
+		it->second--;
+		if (it->second == 0)
+			erasors.push_back(it->first);
+	}
+
+	for (size_t i = 0; i < erasors.size(); i++)
+        p_debuffs.erase(erasors[i]);
 }
 
 void Unit::updateHealthbar()

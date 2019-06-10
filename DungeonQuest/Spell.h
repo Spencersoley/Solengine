@@ -3,6 +3,8 @@
 #include <iostream>
 #include <Solengine/Vertex.h>
 
+#include "Debuff.h"
+
 class Unit;
 
 enum class SpellType{ ATTACK, HEAL };
@@ -26,6 +28,9 @@ public:
 protected:
 	std::string m_name;
 	SpellType m_spellType;
+
+	Debuff* p_debuff = nullptr; 
+
 	int m_range;
 	int m_damage;
 	int m_cost;

@@ -88,6 +88,9 @@
     <ClCompile Include="UnitSpawner.cpp">
       <Filter>Source Files\Unit</Filter>
     </ClCompile>
+    <ClCompile Include="Debuff.cpp">
+      <Filter>Source Files\Spells</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Level.h">
@@ -146,6 +149,9 @@
     </ClInclude>
     <ClInclude Include="UnitSpawner.h">
       <Filter>Header Files\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="Debuff.h">
+      <Filter>Header Files\Spells</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

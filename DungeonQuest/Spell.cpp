@@ -11,6 +11,11 @@ void Spell::cast(Unit* caster, Unit* target)
 
 	if (m_spellType == SpellType::HEAL)
 		target->modifyHealth(m_damage);
-   
+
+	if (p_debuff != nullptr && !target->hasDebuff(p_debuff))
+	{
+		target->applyDebuff(p_debuff);
+	} 
+	   
 	caster->removeCombatPoints(m_cost);
 }

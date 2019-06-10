@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Debuff.cpp" />
     <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LoadingScreen.cpp" />
@@ -38,6 +39,7 @@
     <ClCompile Include="View.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Debuff.h" />
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="CombatLog.h" />

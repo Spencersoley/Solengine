@@ -4,6 +4,43 @@
 
 #include "Solengine/ResourceManager.h"
 
+
+struct Burn : Debuff
+{
+	Burn() {}
+	~Burn() {}
+
+	void init()
+	{
+		m_name = "Burn";
+		m_damage = 1;
+		m_duration = 3;
+		m_textureID = Solengine::ResourceManager::getTexture(
+			"Textures/DQ_pack/icon_flame.png").textureID;
+		m_colour = { 150, 150, 0, 255 };
+	}
+};
+
+struct DebuffBook
+{
+	DebuffBook() {};
+	~DebuffBook() {};
+
+	Burn* burn() { return &m_burn; }
+
+	Burn m_burn;
+
+	void initDebuffs()
+	{
+		m_burn.init();
+	}
+
+};
+
+
+
+
+
 struct NullSpell : Spell
 {
 	NullSpell() {};
@@ -92,10 +129,11 @@ struct Enflame : Spell
 	Enflame() {};
 	~Enflame() {};
 
-	void init() 
+	void init(Debuff* debuff)
 	{
 		m_name = "Enflame";
 		m_spellType = SpellType::ATTACK;
+		p_debuff = debuff;
 		m_range = 6;
 		m_damage = 2;
 		m_cost = 1;
@@ -146,9 +184,11 @@ struct SpellBook
 	SpellBook() {};
 	~SpellBook() {};
 
+	DebuffBook m_debuffBook;
+
 	NullSpell* nullSpell() { return &m_nullSpell; }
 	Strike* strike() { return &m_strike; }
-	Shank* shank() { return &m_shank;  }
+	Shank* shank() { return &m_shank; }
 	Enflame* enflame() { return &m_enflame; }
 	Claw* claw() { return &m_claw; }
 	Curse* curse() { return &m_curse; }
@@ -166,14 +206,28 @@ struct SpellBook
 
 	void initSpells()
 	{
+		m_debuffBook.initDebuffs();
+
 		m_nullSpell.init();
 		m_strike.init();
 		m_shank.init();
 		m_claw.init();
-		m_enflame.init();
+		m_enflame.init(m_debuffBook.burn());
 		m_curse.init();
 		m_bowShot.init();
 		m_healRay.init();
 	}
 };
+
+
+
+
+
+
+
+
+
+
+
+
 

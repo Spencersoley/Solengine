@@ -16,13 +16,14 @@
 
 //TODO:
 // Limit basic camera movement
-// Status effects etc
+// Improve status effects
 // Mouseover tooltip on spells
 // Button functionality
 // damage randomizer (crit handling etc)
 // add pause screen
 // LERP movement
 
+//Decentralise damage animations so they can be invoked from different places.
 
 //Constructor will initialise private member variables
 Scene::Scene() :

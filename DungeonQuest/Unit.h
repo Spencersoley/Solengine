@@ -6,6 +6,8 @@
 #include "Drawable.h"
 #include "MoveSet.h"
 #include "UIIcon.h"
+#include "Debuff.h"
+
 
 const float AGENT_WIDTH = 64.0f;
 const float AGENT_RADIUS = AGENT_WIDTH / 2.0f;
@@ -50,9 +52,25 @@ public:
 
 	void updateHealthbar();
 
+	void applyDebuff(Debuff* debuff)
+	{
+		p_debuffs[debuff] += debuff->getDuration();
+	}
+
+	bool hasDebuff(Debuff* debuff)
+	{
+		for (std::map<Debuff*, int>::iterator it = p_debuffs.begin(); it != p_debuffs.end(); it++)
+			if (it->first->getName() == debuff->getName())
+				return true;
+		
+		return false;
+	}
+
 protected:
 
 	MoveSet m_moveSet;
+
+	std::map<Debuff*, int> p_debuffs;
 
 	SpellBook* p_spellBook;
 	UIIcon* p_healthbar = nullptr;
