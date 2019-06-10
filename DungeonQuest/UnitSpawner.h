@@ -17,6 +17,9 @@ public:
 	Unit* spawnScout();
 
 	Unit* spawnRat();
+	Unit* spawnBat();
+
+	Unit* spawnEnemy();
 
 	std::vector<Drawable*> getDrawables(Unit* unit);
 

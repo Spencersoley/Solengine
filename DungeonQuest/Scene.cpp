@@ -143,7 +143,7 @@ void Scene::initScene()
 	int enemyCount = p_levels[m_currentLevel]->getEnemyCount();
 	for (int i = 0; i < enemyCount; i++)
 	{
-		p_units.push_back(unitSpawner.spawnRat());
+		p_units.push_back(unitSpawner.spawnEnemy());
 		tempDraw = unitSpawner.getDrawables(p_units.back());
 		worldDrawables.insert(worldDrawables.end(), tempDraw.begin(), tempDraw.end());
 	}

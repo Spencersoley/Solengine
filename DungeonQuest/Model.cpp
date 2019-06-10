@@ -85,14 +85,17 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 		m_combatLog.scrollCombatLog(false);
 
 	if (m_SOL_inputManager.keyPress(SDLK_f))
-	{
-		changeSpell();
-		updateHighlight(p_tileMap->p_tiles, mouseCoords, p_hoverHighlight);
-	}
+		changeSpell(0, mouseCoords);
+
+	float mwp = getMouseWheel();
+	if (mwp > 0)
+		changeSpell(-1, mouseCoords);
+	else if (mwp < 0)
+		changeSpell(1, mouseCoords);
+
 
 	if (lockTime > 0) lockTime -= adjustedDeltaTicks;
 	else if (lockTime < 0) lockTime = 0;
-	std::cout << lockTime;
 
 
 	//////////////     Mouse Control       /////////////////
@@ -272,7 +275,6 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
 					tarUnit->getPos().y + 0.6f*TILE_WIDTH }, 15);
 			}
 	      
-
 			p_visualEffects.push_back(new UIIcon({ 0, 0 }, 48, 48,
 				spellToCast->getTextureID(),
 				spellToCast->getColour()));
@@ -330,13 +332,26 @@ Unit* Model::selectionCheck(std::vector<Unit*> units, glm::ivec2 coords)
 	return nullptr;
 }
 
-void Model::changeSpell()
+void Model::changeSpell(int mode, glm::ivec2 mouseCoords)
 {
-	m_currentSpellIndex++;
-	m_currentSpellIndex = m_currentSpellIndex % 4;
-	if (p_currentUnit->getMoveSet()->p_spells[m_currentSpellIndex]->getCost() == 0)
-		changeSpell();
-
+	switch (mode)
+	{
+	case -1 :
+		if (m_currentSpellIndex > 0) m_currentSpellIndex--;
+		break;
+	case 0 : 
+		m_currentSpellIndex = (m_currentSpellIndex+1) % 4;
+		if (p_currentUnit->getMoveSet()->p_spells[m_currentSpellIndex]->getCost() == 0)
+			 changeSpell(0, mouseCoords);
+		break;
+	case 1 :
+		m_currentSpellIndex++;
+		if (p_currentUnit->getMoveSet()->p_spells[m_currentSpellIndex]->getCost() == 0)
+			changeSpell(-1, mouseCoords);
+		break;
+	}
+	
+	updateHighlight(p_tileMap->p_tiles, mouseCoords, p_hoverHighlight);
 	updateSelectedSpellBox();
 }
 

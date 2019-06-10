@@ -85,7 +85,9 @@
     <ClCompile Include="LoadingScreen.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
-    <ClCompile Include="UnitSpawner.cpp" />
+    <ClCompile Include="UnitSpawner.cpp">
+      <Filter>Source Files\Unit</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Level.h">
@@ -142,6 +144,8 @@
     <ClInclude Include="UnitCompendium.h">
       <Filter>Header Files\Unit</Filter>
     </ClInclude>
-    <ClInclude Include="UnitSpawner.h" />
+    <ClInclude Include="UnitSpawner.h">
+      <Filter>Header Files\Unit</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

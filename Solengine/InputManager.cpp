@@ -18,6 +18,7 @@ namespace Solengine {
 	//Checks all queued events, changing their states accordingly
 	Solengine::GameState InputManager::processInput()
 	{
+		setMouseWheel(0);
 		updatePreviousKeyMap();
 
 		SDL_Event evnt;
@@ -38,6 +39,8 @@ namespace Solengine {
 			case SDL_MOUSEBUTTONUP:
 				keyUp(evnt.button.button);
 				break;
+			case SDL_MOUSEWHEEL:
+				setMouseWheel(evnt.wheel.y);
 			case SDL_KEYDOWN:
 				keyDown(evnt.key.keysym.sym);
 				break;
@@ -120,5 +123,10 @@ namespace Solengine {
 	{
 		m_mouseCoords.x = (float)x;
 		m_mouseCoords.y = (float)y;
+	}
+
+	void InputManager::setMouseWheel(float y)
+	{
+		m_mouseWheel = (float)y;
 	}
 }

@@ -51,6 +51,23 @@ Unit* UnitSpawner::spawnRat()
 	return rat;
 }
 
+Unit* UnitSpawner::spawnBat()
+{
+	Unit* bat = new Bat(p_spellBook);
+	bat->init(p_levels[m_currentLevel]->getEnemySpawnCoords());
+
+	bat->setHealthbar(createHealthbar());
+
+	return bat;
+}
+
+Unit* UnitSpawner::spawnEnemy()
+{
+	int r = rand();
+	if (r % 2 == 0) return spawnBat();
+	else return spawnRat();
+}
+
 std::pair<UIIcon*, UIIcon*> UnitSpawner::createHealthbar()
 {
 	UIIcon* hb = new UIIcon({ 0, 0 }, 0.5f * TILE_WIDTH, 0.1f * TILE_WIDTH,

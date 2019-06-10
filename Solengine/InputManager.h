@@ -20,14 +20,14 @@ namespace Solengine {
 		void keyUp(unsigned int keyID);
 		bool keyPress(unsigned int keyID);
 		void setMouseCoords(int x, int y);
+		void setMouseWheel(float y);
 		bool keyState(unsigned int keyID);
 		bool previousKeyState(unsigned int keyID);
-	
-	
 
 		Solengine::GameState processInput();
 
 		glm::vec2 getMouseCoords() { return m_mouseCoords; }
+		float getMouseWheel() { return m_mouseWheel; }
 
 	private:
 		//We want to store states for all of our keys. We could make an array of booleans, but that would use a lot of memory.
@@ -39,6 +39,7 @@ namespace Solengine {
 		std::unordered_map<unsigned int, bool> m_keyMap;
 		std::unordered_map<unsigned int, bool> m_previousKeyMap;
 		glm::vec2 m_mouseCoords;
+		float m_mouseWheel;
 	};
 }
 

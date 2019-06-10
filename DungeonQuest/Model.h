@@ -37,6 +37,8 @@ public:
 
 	glm::ivec2 getMouseCoordinates() { return flatten(getMouseWorldPos(), TILE_WIDTH); }
 
+	float getMouseWheel() { return m_SOL_inputManager.getMouseWheel(); }
+
 	glm::ivec2 flatten(glm::ivec2 vec2, int c) { return { floor(vec2.x / c), floor(vec2.y / c) }; }
 
 	CombatLog* getCombatLog() { return &m_combatLog; }
@@ -114,7 +116,7 @@ private:
 	int m_screenWidth;
 	int m_currentSpellIndex = 0;
 
-	void changeSpell();
+	void changeSpell(int mode, glm::ivec2 mouseCoords);
 	void entityNeedsDeletion(bool set) { m_entityNeedsDeletion = set; }
 	void updateSelectedSpellBox();
 	
@@ -175,6 +177,13 @@ private:
     void updateCurrentUnitBox(Unit* currentUnit, UIIcon* currentUnitBox);
 	void updateSpellDisplay(Unit* currentUnit);
 
+
+	void lockChangeSpell(float dur)
+	{
+		changeSpellLockTimer = dur;
+	}
+
+	float changeSpellLockTimer = 0;
 	float lockTime = 0; 
 	unsigned int turnCounter;
 
