@@ -2,13 +2,9 @@
 
 #include "Model.h"
 
-Model::Model() 
-{
-}
+Model::Model() {}
 
-Model::~Model()
-{
-}
+Model::~Model() {}
 
 void Model::init(float physicsSpeed, Solengine::Camera2D* cam, int sw, int sh)
 {
@@ -93,10 +89,8 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 	else if (mwp < 0)
 		changeSpell(1, mouseCoords);
 
-
 	if (lockTime > 0) lockTime -= adjustedDeltaTicks;
 	else if (lockTime < 0) lockTime = 0;
-
 
 	//////////////     Mouse Control       /////////////////
 	glm::vec2 msp = getMouseScreenPos();
@@ -146,13 +140,7 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 	
 	if (state == Solengine::GameState::TURNOVER) state = endTurn(units, p_currentUnit);
 	
-	for (size_t i = 0; i < p_visualEffects.size(); i++)
-		if (!p_visualEffects[i]->updateEffect(adjustedDeltaTicks))
-		{
-			p_visualEffects[i] = p_visualEffects.back();
-			p_visualEffects.pop_back();
-			i--;
-		}
+	m_effectManager.updateEffects(adjustedDeltaTicks);
 		
 	previousMouseCoords = mouseCoords;
 	return state;
@@ -241,47 +229,24 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
 
 			tarUnit->updateHealthbar();
 
-			std::string dmgstr = std::to_string(
-				spellToCast->getDamage());
-
 			/////////////////////////////
 			if (castType == SpellType::ATTACK)
 			{
 				m_combatLog.announce("EVENT: " + currentUnit->getName() +
-					" hit " + tarUnit->getName() +
-					" with " + spellToCast->getName() +
-					" for " + dmgstr + " damage");
-
-				p_visualEffects.push_back(new UIText({ 0, 0 }, 1.0f,
-					new Solengine::Font("Fonts/Px437_VGA_SquarePx.ttf", 48),
-					"", { 255, 0, 0, 255 }));
-
-				p_visualEffects.back()->activate("-" + dmgstr, { tarUnit->getPos().x + 0.6f*TILE_WIDTH,
-					tarUnit->getPos().y + 0.6f*TILE_WIDTH }, 15);
+					" hit " + tarUnit->getName() + " with " + spellToCast->getName() +
+					" for " + std::to_string(spellToCast->getDamage()) + " damage");
+				
+				m_effectManager.newCombatEffect(tarUnit, spellToCast);
 			}
 			else if (castType == SpellType::HEAL)
 			{
 				m_combatLog.announce("EVENT: " + currentUnit->getName() +
-					" healed " + tarUnit->getName() +
-					" with " + spellToCast->getName() +
-					" for " + dmgstr + " health");
+					" healed " + tarUnit->getName() + " with " + spellToCast->getName() +
+					" for " + std::to_string(spellToCast->getDamage()) + " health");
 
-
-				p_visualEffects.push_back(new UIText({ 0, 0 }, 1.0f,
-					new Solengine::Font("Fonts/Px437_VGA_SquarePx.ttf", 48),
-					"", { 0, 255, 0, 255 }));
-
-				p_visualEffects.back()->activate("+" + dmgstr, { tarUnit->getPos().x + 0.6f*TILE_WIDTH,
-					tarUnit->getPos().y + 0.6f*TILE_WIDTH }, 15);
+				m_effectManager.newCombatEffect(tarUnit, spellToCast);
 			}
 	      
-			p_visualEffects.push_back(new UIIcon({ 0, 0 }, 48, 48,
-				spellToCast->getTextureID(),
-				spellToCast->getColour()));
-
-			p_visualEffects.back()->activate( { tarUnit->getPos().x + 0.1f*TILE_WIDTH, tarUnit->getPos().y }, 
-				15 );
-
 			lockControl(15);
 			////////////////////////
 
@@ -494,8 +459,7 @@ void Model::updateTileStates(TileMap* tileMap, Unit* currentUnit)
 	tileMap->resetWalkable();
 	std::vector<glm::vec2> walkableTiles = tileMap->
 		getWalkablePos(currentUnit->getCoords(), 
-                       (int)floor(currentUnit->getEnergy() 
-						     / currentUnit->getMoveCost()));
+            (int)floor(currentUnit->getEnergy() / currentUnit->getMoveCost()));
 	p_walkableHighlight->setMultidraw(walkableTiles);	
 	p_walkableHighlight->redraw();
 }
@@ -531,8 +495,10 @@ void Model::updateSelectedUnitBox(Unit* selectedUnit, UIIcon* selectBox)
 
 Solengine::GameState Model::endTurn(std::vector<Unit*> units, Unit* currentUnit)
 {
+	std::map<Debuff*, int> activeDebuffs = currentUnit->getDebuffs();
 	currentUnit->newTurn();
-	
+	m_effectManager.newCombatEffect(currentUnit, activeDebuffs);
+
 	turnCounter = (turnCounter + 1)%units.size();
 
 	for (size_t i = 0; i < units.size(); i++)
@@ -566,7 +532,4 @@ void Model::beginTurn(Unit* unit)
 	updateSelectedSpellBox();
 }
 
-std::vector<Drawable*> Model::getEffects()
-{
-	return p_visualEffects;
-}
+std::vector<Drawable*> Model::getEffects() { return m_effectManager.getEffects(); }

@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Debuff.cpp" />
     <ClCompile Include="Drawable.cpp" />
+    <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LoadingScreen.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -41,6 +42,7 @@
   <ItemGroup>
     <ClInclude Include="Debuff.h" />
     <ClInclude Include="Drawable.h" />
+    <ClInclude Include="EffectManager.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="CombatLog.h" />
     <ClInclude Include="LoadingScreen.h" />

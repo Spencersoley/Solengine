@@ -7,10 +7,11 @@
 #include "MoveSet.h"
 #include "UIIcon.h"
 #include "Debuff.h"
-
+#include "EffectManager.h"
 
 const float AGENT_WIDTH = 64.0f;
 const float AGENT_RADIUS = AGENT_WIDTH / 2.0f;
+
 
 class Unit : public Drawable
 {
@@ -51,6 +52,8 @@ public:
 	void newTurn();
 
 	void updateHealthbar();
+
+	std::map<Debuff*, int> getDebuffs() { return p_debuffs; }
 
 	void applyDebuff(Debuff* debuff)
 	{

@@ -11,6 +11,7 @@
 #include "UIButton.h"
 #include "UIIcon.h"
 #include "CombatLog.h"
+#include "EffectManager.h"
 
 class Model
 {
@@ -108,6 +109,8 @@ private:
 	Solengine::InputManager m_SOL_inputManager;
 	Solengine::Camera2D* p_SOL_cam;
 	CombatLog m_combatLog;
+
+	EffectManager m_effectManager;
 
 	std::vector<Drawable*> p_visualEffects;
 	std::vector<UIElement*> p_mouseoverable;

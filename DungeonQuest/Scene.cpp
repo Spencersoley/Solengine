@@ -23,9 +23,8 @@
 // add pause screen
 // LERP movement
 
-//Decentralise damage animations so they can be invoked from different places.
+//Debuff tick at start of turn
 
-//Constructor will initialise private member variables
 Scene::Scene() :
 	m_screenWidth(1200), 
 	m_screenHeight(600), 
