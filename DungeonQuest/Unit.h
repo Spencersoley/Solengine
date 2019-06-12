@@ -6,7 +6,7 @@
 #include "Drawable.h"
 #include "MoveSet.h"
 #include "UIIcon.h"
-#include "Debuff.h"
+#include "StatusEffect.h"
 #include "EffectManager.h"
 
 const float AGENT_WIDTH = 64.0f;
@@ -53,17 +53,17 @@ public:
 
 	void updateHealthbar();
 
-	std::map<Debuff*, int> getDebuffs() { return p_debuffs; }
+	std::map<StatusEffect*, int> getStatusEffects() { return p_statusEffects; }
 
-	void applyDebuff(Debuff* debuff)
+	void applyDebuff(StatusEffect* statusEffect)
 	{
-		p_debuffs[debuff] += debuff->getDuration();
+		p_statusEffects[statusEffect] += statusEffect->getDuration();
 	}
 
-	bool hasDebuff(Debuff* debuff)
+	bool hasDebuff(StatusEffect* statusEffect)
 	{
-		for (std::map<Debuff*, int>::iterator it = p_debuffs.begin(); it != p_debuffs.end(); it++)
-			if (it->first->getName() == debuff->getName())
+		for (std::map<StatusEffect*, int>::iterator it = p_statusEffects.begin(); it != p_statusEffects.end(); it++)
+			if (it->first->getName() == statusEffect->getName())
 				return true;
 		
 		return false;
@@ -73,7 +73,7 @@ protected:
 
 	MoveSet m_moveSet;
 
-	std::map<Debuff*, int> p_debuffs;
+	std::map<StatusEffect*, int> p_statusEffects;
 
 	SpellBook* p_spellBook;
 	UIIcon* p_healthbar = nullptr;

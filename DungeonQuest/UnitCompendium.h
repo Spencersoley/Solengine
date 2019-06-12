@@ -23,6 +23,7 @@ struct Adept : public Unit
 		m_moveSet.addSpell(sb->enflame(), 0);
 		m_moveSet.addSpell(sb->curse(), 1);
 		m_moveSet.addSpell(sb->healRay(), 2);
+		m_moveSet.addSpell(sb->replenish(), 3);
 
 	}
 	~Adept() {};

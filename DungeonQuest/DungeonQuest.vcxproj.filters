@@ -79,9 +79,6 @@
     <ClCompile Include="UnitSpawner.cpp">
       <Filter>Source Files\Unit</Filter>
     </ClCompile>
-    <ClCompile Include="Debuff.cpp">
-      <Filter>Source Files\Spells</Filter>
-    </ClCompile>
     <ClCompile Include="EffectManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -99,6 +96,9 @@
     </ClCompile>
     <ClCompile Include="Drawable.cpp">
       <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="StatusEffect.cpp">
+      <Filter>Source Files\Spells</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -147,9 +147,6 @@
     <ClInclude Include="UnitSpawner.h">
       <Filter>Header Files\Unit</Filter>
     </ClInclude>
-    <ClInclude Include="Debuff.h">
-      <Filter>Header Files\Spells</Filter>
-    </ClInclude>
     <ClInclude Include="EffectManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -164,6 +161,9 @@
     </ClInclude>
     <ClInclude Include="Drawable.h">
       <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="StatusEffect.h">
+      <Filter>Header Files\Spells</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

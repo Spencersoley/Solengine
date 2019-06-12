@@ -4,8 +4,7 @@
 
 #include "Solengine/ResourceManager.h"
 
-
-struct Burn : Debuff
+struct Burn : StatusEffect
 {
 	Burn() {}
 	~Burn() {}
@@ -13,6 +12,7 @@ struct Burn : Debuff
 	void init()
 	{
 		m_name = "Burn";
+		m_statusType = StatusType::DEBUFF;
 		m_damage = 1;
 		m_duration = 3;
 		m_textureID = Solengine::ResourceManager::getTexture(
@@ -21,22 +21,40 @@ struct Burn : Debuff
 	}
 };
 
-struct DebuffBook
+struct Regen : StatusEffect
 {
-	DebuffBook() {};
-	~DebuffBook() {};
+	Regen() {}
+	~Regen() {}
 
-	Burn* burn() { return &m_burn; }
-
-	Burn m_burn;
-
-	void initDebuffs()
+	void init()
 	{
-		m_burn.init();
+		m_name = "Regen";
+		m_statusType = StatusType::BUFF;
+		m_damage = 1;
+		m_duration = 3;
+		m_textureID = Solengine::ResourceManager::getTexture(
+			"Textures/DQ_pack/icon_flame.png").textureID;
+		m_colour = { 63, 191, 89, 255 };
 	}
-
 };
 
+struct StatusEffectBook
+{
+	StatusEffectBook() {};
+	~StatusEffectBook() {};
+
+	Burn* burn() { return &m_burn; }
+	Regen* regen() { return &m_regen; }
+
+	Burn m_burn;
+	Regen m_regen;
+
+	void initStatusEffects()
+	{
+		m_burn.init();
+		m_regen.init();
+	}
+};
 
 struct NullSpell : Spell
 {
@@ -126,11 +144,11 @@ struct Enflame : Spell
 	Enflame() {};
 	~Enflame() {};
 
-	void init(Debuff* debuff)
+	void init(StatusEffect* statusEffect)
 	{
 		m_name = "Enflame";
 		m_spellType = SpellType::ATTACK;
-		p_debuff = debuff;
+		p_statusEffect = statusEffect;
 		m_range = 6;
 		m_damage = 2;
 		m_cost = 1;
@@ -176,12 +194,31 @@ struct HealRay : Spell
 	}
 };
 
+struct Replenish : Spell
+{
+	Replenish() {}
+	~Replenish() {};
+
+	void init(StatusEffect* statusEffect)
+	{
+		m_name = "Replenish";
+		m_spellType = SpellType::HEAL;
+		p_statusEffect = statusEffect;
+		m_range = 7;
+		m_damage = 0;
+		m_cost = 1;
+		m_textureID = Solengine::ResourceManager::getTexture(
+			"Textures/DQ_pack/icon_flame.png").textureID;
+		m_colour = { 63, 191, 89, 255 };
+	}
+};
+
 struct SpellBook
 {
 	SpellBook() {};
 	~SpellBook() {};
 
-	DebuffBook m_debuffBook;
+	StatusEffectBook m_statusEffectBook;
 
 	NullSpell* nullSpell() { return &m_nullSpell; }
 	Strike* strike() { return &m_strike; }
@@ -191,6 +228,7 @@ struct SpellBook
 	Curse* curse() { return &m_curse; }
 	BowShot* bowShot() { return &m_bowShot; }
 	HealRay* healRay() { return &m_healRay; }
+	Replenish* replenish() { return &m_replenish; }
 
 	NullSpell m_nullSpell;
 	Strike m_strike;
@@ -200,16 +238,18 @@ struct SpellBook
 	Curse m_curse;
 	BowShot m_bowShot;
 	HealRay m_healRay;
+	Replenish m_replenish;
 
 	void initSpells()
 	{
-		m_debuffBook.initDebuffs();
+		m_statusEffectBook.initStatusEffects();
 
 		m_nullSpell.init();
 		m_strike.init();
 		m_shank.init();
 		m_claw.init();
-		m_enflame.init(m_debuffBook.burn());
+		m_enflame.init(m_statusEffectBook.burn());
+		m_replenish.init(m_statusEffectBook.regen());
 		m_curse.init();
 		m_bowShot.init();
 		m_healRay.init();

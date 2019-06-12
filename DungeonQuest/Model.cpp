@@ -496,7 +496,7 @@ Solengine::GameState Model::endTurn(std::vector<Unit*> units, Unit* currentUnit)
 void Model::beginTurn(Unit* unit)
 {
 	setCurrentUnit(unit);
-	m_effectManager.newCombatEffect(unit, unit->getDebuffs());
+	m_effectManager.newCombatEffect(unit, unit->getStatusEffects());
 
 	if (unit == p_selectedUnit) setSelectedUnit(nullptr);
 

@@ -45,15 +45,23 @@ void EffectManager::newCombatEffect(Unit* tarUnit, Spell* spellCast)
 	p_visualEffects.push_back(visualEffect);
 }
 
-void EffectManager::newCombatEffect(Unit* tarUnit, std::map<Debuff*, int> activeDebuffs)
+void EffectManager::newCombatEffect(Unit* tarUnit, std::map<StatusEffect*, int> activeStatusEffects)
 {
 	Solengine::ColourRGBA8 effectCol = { 0, 0, 0, 0 };
 	std::string effectSymbol;
 
-	for (std::map<Debuff*, int>::iterator it = activeDebuffs.begin(); it != activeDebuffs.end(); it++)
+	for (std::map<StatusEffect*, int>::iterator it = activeStatusEffects.begin(); it != activeStatusEffects.end(); it++)
 	{
-		effectCol = { 255, 0, 0, 255 };
-		effectSymbol = "-";
+		if (it->first->m_statusType == StatusType::DEBUFF)
+		{
+			effectCol = { 255, 0, 0, 255 };
+			effectSymbol = "-";
+		}
+		else
+		{
+			effectCol = { 0, 255, 0, 255 };
+			effectSymbol = "+";
+		}
 
 		glm::vec2 tarPos = tarUnit->getPos();
 		

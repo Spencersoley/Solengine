@@ -19,7 +19,7 @@ public:
 	void updateEffects(float adj);
 
 	void newCombatEffect(Unit* tarUnit, Spell* spellCast);
-	void newCombatEffect(Unit* tarUnit, std::map<Debuff*, int> activeDebuffs);
+	void newCombatEffect(Unit* tarUnit, std::map<StatusEffect*, int> activeStatusEffects);
 
 
 private:

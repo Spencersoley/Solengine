@@ -3,7 +3,7 @@
 #include <iostream>
 #include <Solengine/Vertex.h>
 
-#include "Debuff.h"
+#include "StatusEffect.h"
 
 class Unit;
 
@@ -29,7 +29,7 @@ protected:
 	std::string m_name;
 	SpellType m_spellType;
 
-	Debuff* p_debuff = nullptr; 
+	StatusEffect* p_statusEffect = nullptr;
 
 	int m_range;
 	int m_damage;

@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Debuff.cpp" />
+    <ClCompile Include="StatusEffect.cpp" />
     <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="Level.cpp" />
@@ -40,7 +40,7 @@
     <ClCompile Include="View.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Debuff.h" />
+    <ClInclude Include="StatusEffect.h" />
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="EffectManager.h" />
     <ClInclude Include="Level.h" />
