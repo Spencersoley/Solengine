@@ -8,13 +8,11 @@ EffectManager::~EffectManager() {}
 
 void EffectManager::updateEffects(float adj)
 {
-	for (size_t i = 0; i < p_visualEffects.size(); i++)
-		if (!p_visualEffects[i]->updateEffect(adj))
-		{
-			p_visualEffects[i] = p_visualEffects.back();
-			p_visualEffects.pop_back();
-			i--;
-		}
+	if (p_visualEffects.size() > 0)
+		if (!p_visualEffects[0].first->updateEffect(adj))
+			p_visualEffects.erase(p_visualEffects.begin());
+		else if (!p_visualEffects[0].second->updateEffect(adj))
+			p_visualEffects.erase(p_visualEffects.begin());
 }
 
 void EffectManager::newCombatEffect(Unit* tarUnit, Spell* spellCast)
@@ -33,21 +31,18 @@ void EffectManager::newCombatEffect(Unit* tarUnit, Spell* spellCast)
 		effectSymbol = "+";
 	}
 
-	p_visualEffects.push_back(new UIText({ 0, 0 }, 1.0f,
-		new Solengine::Font("Fonts/Px437_VGA_SquarePx.ttf", 48),
-		"", effectCol));
-
 	glm::vec2 tarPos = tarUnit->getPos();
 
-	p_visualEffects.back()->activate(effectSymbol + std::to_string(spellCast->getDamage()),
+	std::pair <Drawable*, Drawable*> visualEffect = { new UIText({ 0, 0 }, 1.0f,
+		new Solengine::Font("Fonts/Px437_VGA_SquarePx.ttf", 48), "", effectCol),
+		new UIIcon({ 0, 0 }, 48, 48, spellCast->getTextureID(), spellCast->getColour()) };
+
+	visualEffect.first->activate(effectSymbol + std::to_string(spellCast->getDamage()),
 		{ tarPos.x + 0.6f*TILE_WIDTH, tarPos.y + 0.6f*TILE_WIDTH }, 15);
 
-	p_visualEffects.push_back(new UIIcon({ 0, 0 }, 48, 48,
-		spellCast->getTextureID(),
-		spellCast->getColour()));
+	visualEffect.second->activate({ tarPos.x + 0.1f*TILE_WIDTH, tarPos.y }, 15);
 
-	p_visualEffects.back()->activate({ tarPos.x + 0.1f*TILE_WIDTH, tarPos.y },
-		15);
+	p_visualEffects.push_back(visualEffect);
 }
 
 void EffectManager::newCombatEffect(Unit* tarUnit, std::map<Debuff*, int> activeDebuffs)
@@ -57,18 +52,20 @@ void EffectManager::newCombatEffect(Unit* tarUnit, std::map<Debuff*, int> active
 
 	for (std::map<Debuff*, int>::iterator it = activeDebuffs.begin(); it != activeDebuffs.end(); it++)
 	{
-
 		effectCol = { 255, 0, 0, 255 };
 		effectSymbol = "-";
 
-		p_visualEffects.push_back(new UIText({ 0, 0 }, 1.0f,
-			new Solengine::Font("Fonts/Px437_VGA_SquarePx.ttf", 48),
-			"", effectCol));
-
 		glm::vec2 tarPos = tarUnit->getPos();
+		
+		std::pair <Drawable*, Drawable*> visualEffect = { new UIText({ 0, 0 }, 1.0f,
+	        new Solengine::Font("Fonts/Px437_VGA_SquarePx.ttf", 48), "", effectCol),
+	        new UIIcon({ 0, 0 }, 48, 48, it->first->getTextureID(), it->first->getColour()) };
 
-		p_visualEffects.back()->activate(effectSymbol + std::to_string(it->first->getDamage()),
+		visualEffect.first->activate(effectSymbol + std::to_string(it->first->getDamage()),
 			{ tarPos.x + 0.6f*TILE_WIDTH, tarPos.y + 0.6f*TILE_WIDTH }, 15);
-	}
 
+		visualEffect.second->activate({ tarPos.x + 0.1f*TILE_WIDTH, tarPos.y }, 15);
+
+		p_visualEffects.push_back(visualEffect);
+	}
 }

@@ -96,7 +96,7 @@ public:
 
 	void setUIPanelHeight(int h) { m_UIpanelHeight = h; }
 
-	std::vector<Drawable*> getEffects();
+	std::vector<std::pair<Drawable*, Drawable*>> getEffects();
 
 	bool deleteCheck() 
 	{ 
@@ -180,15 +180,5 @@ private:
     void updateCurrentUnitBox(Unit* currentUnit, UIIcon* currentUnitBox);
 	void updateSpellDisplay(Unit* currentUnit);
 
-
-	void lockChangeSpell(float dur)
-	{
-		changeSpellLockTimer = dur;
-	}
-
-	float changeSpellLockTimer = 0;
-	float lockTime = 0; 
 	unsigned int turnCounter;
-
-	void lockControl(int a) { lockTime = a; }
 };

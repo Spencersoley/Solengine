@@ -37,7 +37,7 @@ void View::init(Solengine::Camera2D* cam, Solengine::Camera2D* uiCam,
 }
 
 void View::update(std::vector<Drawable*> worldDrawables, 
-	std::vector<Drawable*> visualEffectDrawables,
+	std::vector<std::pair<Drawable*, Drawable*>> visualEffectDrawables,
     std::vector<Drawable*> overlayDrawables)
 {
 	p_SOL_cam->update();
@@ -47,7 +47,7 @@ void View::update(std::vector<Drawable*> worldDrawables,
 }
 
 void View::drawGame(std::vector<Drawable*> worldDrawables, 
-    std::vector<Drawable*> visualEffectDrawables,
+	std::vector<std::pair<Drawable*, Drawable*>> visualEffectDrawables,
 	std::vector<Drawable*> overlayDrawables)
 {
 	//Set base depth
@@ -84,5 +84,20 @@ void View::drawToCamera(std::vector<Drawable*> drawables,
 		if (drawables[i] != nullptr) drawables[i]->draw();
 }
 
+void View::drawToCamera(std::vector<std::pair<Drawable*, Drawable*>> drawablePairs,
+	Solengine::Camera2D* cam)
+{
+	glm::mat4 projectionMatrix = cam->getCameraMatrix();
+	GLint pUniform = m_SOL_shaderProgram.getUniformLocation("P");
+	glUniformMatrix4fv(pUniform, 1, GL_FALSE, &projectionMatrix[0][0]);
+
+	for (size_t i = 0; i < drawablePairs.size(); i++)
+	{
+		if (drawablePairs[i].first != nullptr)
+		    drawablePairs[i].first->draw();
+		if (drawablePairs[i].second != nullptr)
+		    drawablePairs[i].second->draw();
+	}
+}
 
 

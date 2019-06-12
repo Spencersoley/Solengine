@@ -14,7 +14,7 @@ public:
 	EffectManager();
 	~EffectManager();
 
-	std::vector<Drawable*> getEffects() { return p_visualEffects; }
+	std::vector<std::pair<Drawable*, Drawable*>> getEffects() { return p_visualEffects; }
 
 	void updateEffects(float adj);
 
@@ -24,6 +24,6 @@ public:
 
 private:
 
-	std::vector<Drawable*> p_visualEffects;
+	std::vector<std::pair<Drawable*, Drawable*>> p_visualEffects;
 };
 

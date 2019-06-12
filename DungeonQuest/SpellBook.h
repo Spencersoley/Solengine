@@ -17,7 +17,7 @@ struct Burn : Debuff
 		m_duration = 3;
 		m_textureID = Solengine::ResourceManager::getTexture(
 			"Textures/DQ_pack/icon_flame.png").textureID;
-		m_colour = { 150, 150, 0, 255 };
+		m_colour = { 255, 50, 0, 255 };
 	}
 };
 
@@ -36,9 +36,6 @@ struct DebuffBook
 	}
 
 };
-
-
-
 
 
 struct NullSpell : Spell

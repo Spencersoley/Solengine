@@ -24,7 +24,8 @@
 // LERP movement
 
 //Debuff tick at start of turn
-
+//Add debuffs to combat log
+//Combat effect class
 Scene::Scene() :
 	m_screenWidth(1200), 
 	m_screenHeight(600), 

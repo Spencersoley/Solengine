@@ -89,9 +89,6 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 	else if (mwp < 0)
 		changeSpell(1, mouseCoords);
 
-	if (lockTime > 0) lockTime -= adjustedDeltaTicks;
-	else if (lockTime < 0) lockTime = 0;
-
 	//////////////     Mouse Control       /////////////////
 	glm::vec2 msp = getMouseScreenPos();
 
@@ -156,8 +153,6 @@ Uint32 Model::getDeltaTicks()
 
 bool Model::movement(glm::ivec2 coords, TileMap* tileMap, Unit* currentUnit)
 {
-	if (lockTime) return false;
-
 	Tile* tarTile = tileMap->getTileByCoords(coords);
 	Tile* currentTile = tileMap->getTileByCoords(currentUnit->getCoords());
 	
@@ -192,8 +187,6 @@ bool Model::movement(glm::ivec2 coords, TileMap* tileMap, Unit* currentUnit)
 bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit, 
 	               std::vector<Unit*> units)
 {
-	if (lockTime) return false;
-
 	Unit* tarUnit = selectionCheck(units, mouseCoords);
     
 	if (tarUnit == nullptr) return false;
@@ -231,23 +224,16 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
 
 			/////////////////////////////
 			if (castType == SpellType::ATTACK)
-			{
 				m_combatLog.announce("EVENT: " + currentUnit->getName() +
 					" hit " + tarUnit->getName() + " with " + spellToCast->getName() +
 					" for " + std::to_string(spellToCast->getDamage()) + " damage");
-				
-				m_effectManager.newCombatEffect(tarUnit, spellToCast);
-			}
 			else if (castType == SpellType::HEAL)
-			{
 				m_combatLog.announce("EVENT: " + currentUnit->getName() +
 					" healed " + tarUnit->getName() + " with " + spellToCast->getName() +
 					" for " + std::to_string(spellToCast->getDamage()) + " health");
 
-				m_effectManager.newCombatEffect(tarUnit, spellToCast);
-			}
-	      
-			lockControl(15);
+			m_effectManager.newCombatEffect(tarUnit, spellToCast);
+
 			////////////////////////
 
 			if (tarUnit->getHealth() < 1)
@@ -494,10 +480,8 @@ void Model::updateSelectedUnitBox(Unit* selectedUnit, UIIcon* selectBox)
 }
 
 Solengine::GameState Model::endTurn(std::vector<Unit*> units, Unit* currentUnit)
-{
-	std::map<Debuff*, int> activeDebuffs = currentUnit->getDebuffs();
+{ 
 	currentUnit->newTurn();
-	m_effectManager.newCombatEffect(currentUnit, activeDebuffs);
 
 	turnCounter = (turnCounter + 1)%units.size();
 
@@ -512,6 +496,7 @@ Solengine::GameState Model::endTurn(std::vector<Unit*> units, Unit* currentUnit)
 void Model::beginTurn(Unit* unit)
 {
 	setCurrentUnit(unit);
+	m_effectManager.newCombatEffect(unit, unit->getDebuffs());
 
 	if (unit == p_selectedUnit) setSelectedUnit(nullptr);
 
@@ -532,4 +517,4 @@ void Model::beginTurn(Unit* unit)
 	updateSelectedSpellBox();
 }
 
-std::vector<Drawable*> Model::getEffects() { return m_effectManager.getEffects(); }
+std::vector<std::pair<Drawable*, Drawable*>> Model::getEffects() { return m_effectManager.getEffects(); }
