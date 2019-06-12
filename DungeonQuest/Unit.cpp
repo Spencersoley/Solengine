@@ -33,7 +33,7 @@ void Unit::newTurn()
 
 	std::vector<StatusEffect*> erasors;
 
-	//can we delete elements of a map by key whilst iterating through the map?w
+	//can we delete elements of a map by key whilst iterating through the map?
 
 	for (std::map<StatusEffect*, int>::iterator it = p_statusEffects.begin(); it != p_statusEffects.end(); it++)
 	{
