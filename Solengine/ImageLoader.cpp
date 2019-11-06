@@ -2,34 +2,29 @@
 
 #include "picoPNG.h"
 #include "IOManager.h"
-#include "ErrorHandler.h"
+#include "ErrorManager.h"
 
 namespace Solengine
 {
-	GLTexture ImageLoader::loadPNG(std::string filePath)
+	GLTexture ImageLoader::LoadPNG(std::string filePath)
 	{
-		GLTexture texture = {}; //A struct trick to initialise everything to zero ( = {} )
-
-		std::vector<unsigned char> in;
-		std::vector<unsigned char> out;
+		GLTexture texture = {}; 
+		std::vector<unsigned char> bufferedPNG = IOManager::ReadFileToBuffer(filePath);
+		std::vector<unsigned char> decodedPNG;
 		unsigned long width, height;
 
-		if (IOManager::readFileToBuffer(filePath, in) == false)
-		{
-			fatalError("Failed to load PNG file to buffer!");
-		}
 
 		//Using picoPNG
-		int errorCode = decodePNG(out, width, height, &(in[0]), in.size());
+		int errorCode = decodePNG(decodedPNG, width, height, &(bufferedPNG[0]), bufferedPNG.size());
 		if (errorCode != 0)
 		{
-			fatalError("decodePNG failed with error: " + std::to_string(errorCode));
+			ErrorManager::FatalError("decodePNG failed with error: " + std::to_string(errorCode));
 		}
 
 		glGenTextures(1, &(texture.textureID));
 
 		glBindTexture(GL_TEXTURE_2D, texture.textureID);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &(out[0]));
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &(decodedPNG[0]));
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

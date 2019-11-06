@@ -9,13 +9,13 @@ struct Burn : StatusEffect
 	Burn() {}
 	~Burn() {}
 
-	void init()
+	void Init()
 	{
 		m_name = "Burn";
 		m_statusType = StatusType::DEBUFF;
 		m_damage = 1;
 		m_duration = 3;
-		m_textureID = Solengine::ResourceManager::getTexture(
+		m_textureID = Solengine::ResourceManager::GetTexture(
 			"Textures/DQ_pack/icon_flame.png").textureID;
 		m_colour = { 255, 50, 0, 255 };
 	}
@@ -26,13 +26,13 @@ struct Regen : StatusEffect
 	Regen() {}
 	~Regen() {}
 
-	void init()
+	void Init()
 	{
 		m_name = "Regen";
 		m_statusType = StatusType::BUFF;
 		m_damage = 1;
 		m_duration = 3;
-		m_textureID = Solengine::ResourceManager::getTexture(
+		m_textureID = Solengine::ResourceManager::GetTexture(
 			"Textures/DQ_pack/icon_flame.png").textureID;
 		m_colour = { 63, 191, 89, 255 };
 	}
@@ -43,16 +43,16 @@ struct StatusEffectBook
 	StatusEffectBook() {};
 	~StatusEffectBook() {};
 
-	Burn* burn() { return &m_burn; }
-	Regen* regen() { return &m_regen; }
+	Burn* GetBurn() { return &m_burn; }
+	Regen* GetRegen() { return &m_regen; }
 
 	Burn m_burn;
 	Regen m_regen;
 
 	void initStatusEffects()
 	{
-		m_burn.init();
-		m_regen.init();
+		m_burn.Init();
+		m_regen.Init();
 	}
 };
 
@@ -72,14 +72,14 @@ struct Strike : Spell
 	Strike() {};
 	~Strike() {};
 
-	void init()
+	void Init()
 	{
 		m_name = "Strike";
 		m_spellType = SpellType::ATTACK;
 		m_range = 1;
 		m_damage = 8;
 		m_cost = 2;
-		m_textureID = Solengine::ResourceManager::getTexture(
+		m_textureID = Solengine::ResourceManager::GetTexture(
 			"Textures/DQ_pack/icon_strike.png").textureID;
 		m_colour = { 200, 155, 155, 255 };
 	}
@@ -90,14 +90,14 @@ struct Shank : Spell
 	Shank() {};
 	~Shank() {};
 
-	void init()
+	void Init()
 	{
 		m_name = "Shank";
 		m_spellType = SpellType::ATTACK;
 		m_range = 2;
 		m_damage = 2;
 		m_cost = 1;
-		m_textureID = Solengine::ResourceManager::getTexture(
+		m_textureID = Solengine::ResourceManager::GetTexture(
 			"Textures/DQ_pack/icon_strike.png").textureID;
 		m_colour = { 100, 80, 80, 255 };
 	}
@@ -108,14 +108,14 @@ struct Claw : Spell
 	Claw() {};
 	~Claw() {};
 
-	void init()
+	void Init()
 	{
 		m_name = "Claw";
 		m_spellType = SpellType::ATTACK;
 		m_range = 1;
 		m_damage = 3;
 		m_cost = 1;
-		m_textureID = Solengine::ResourceManager::getTexture(
+		m_textureID = Solengine::ResourceManager::GetTexture(
 			"Textures/DQ_pack/icon_claw.png").textureID;
 		m_colour = { 255, 0, 0, 255 };
 	}
@@ -126,14 +126,14 @@ struct BowShot : Spell
 	BowShot() {};
 	~BowShot() {};
 
-	void init()
+	void Init()
 	{
 		m_name = "Bow Shot";
 		m_spellType = SpellType::ATTACK;
 		m_range = 6;
 		m_damage = 5;
 		m_cost = 2;
-		m_textureID = Solengine::ResourceManager::getTexture(
+		m_textureID = Solengine::ResourceManager::GetTexture(
 			"Textures/DQ_pack/icon_shoot.png").textureID;
 		m_colour = { 200, 155, 155, 255 };
 	}
@@ -144,7 +144,7 @@ struct Enflame : Spell
 	Enflame() {};
 	~Enflame() {};
 
-	void init(StatusEffect* statusEffect)
+	void Init(StatusEffect* statusEffect)
 	{
 		m_name = "Enflame";
 		m_spellType = SpellType::ATTACK;
@@ -152,7 +152,7 @@ struct Enflame : Spell
 		m_range = 6;
 		m_damage = 2;
 		m_cost = 1;
-		m_textureID = Solengine::ResourceManager::getTexture(
+		m_textureID = Solengine::ResourceManager::GetTexture(
 			"Textures/DQ_pack/icon_flame.png").textureID;
 		m_colour = { 255, 50, 0, 255 };
 	}
@@ -163,14 +163,14 @@ struct Curse : Spell
 	Curse() {};
 	~Curse() {};
 
-	void init()
+	void Init()
 	{
 		m_name = "Curse";
 		m_spellType = SpellType::ATTACK;
 		m_range = 4;
 		m_damage = 8;
 		m_cost = 3;
-		m_textureID = Solengine::ResourceManager::getTexture(
+		m_textureID = Solengine::ResourceManager::GetTexture(
 			"Textures/DQ_pack/icon_flame.png").textureID;
 		m_colour = { 55, 50, 200, 255 };
 	}
@@ -181,14 +181,14 @@ struct HealRay : Spell
 	HealRay() {}
 	~HealRay() {};
 
-	void init()
+	void Init()
 	{
 		m_name = "Heal Ray";
 		m_spellType = SpellType::HEAL;
 		m_range = 4;
 		m_damage = 5;
 		m_cost = 2;
-		m_textureID = Solengine::ResourceManager::getTexture(
+		m_textureID = Solengine::ResourceManager::GetTexture(
 			"Textures/DQ_pack/icon_flame.png").textureID;
 		m_colour = { 150, 150, 0, 255 };
 	}
@@ -199,7 +199,7 @@ struct Replenish : Spell
 	Replenish() {}
 	~Replenish() {};
 
-	void init(StatusEffect* statusEffect)
+	void Init(StatusEffect* statusEffect)
 	{
 		m_name = "Replenish";
 		m_spellType = SpellType::HEAL;
@@ -207,7 +207,7 @@ struct Replenish : Spell
 		m_range = 7;
 		m_damage = 0;
 		m_cost = 1;
-		m_textureID = Solengine::ResourceManager::getTexture(
+		m_textureID = Solengine::ResourceManager::GetTexture(
 			"Textures/DQ_pack/icon_flame.png").textureID;
 		m_colour = { 63, 191, 89, 255 };
 	}
@@ -220,15 +220,15 @@ struct SpellBook
 
 	StatusEffectBook m_statusEffectBook;
 
-	NullSpell* nullSpell() { return &m_nullSpell; }
-	Strike* strike() { return &m_strike; }
-	Shank* shank() { return &m_shank; }
-	Enflame* enflame() { return &m_enflame; }
-	Claw* claw() { return &m_claw; }
-	Curse* curse() { return &m_curse; }
-	BowShot* bowShot() { return &m_bowShot; }
-	HealRay* healRay() { return &m_healRay; }
-	Replenish* replenish() { return &m_replenish; }
+	NullSpell* GetNullSpell() { return &m_nullSpell; }
+	Strike* GetStrike() { return &m_strike; }
+	Shank* GetShank() { return &m_shank; }
+	Enflame* GetEnflame() { return &m_enflame; }
+	Claw* GetClaw() { return &m_claw; }
+	Curse* GetCurse() { return &m_curse; }
+	BowShot* GetBowShot() { return &m_bowShot; }
+	HealRay* GetHealRay() { return &m_healRay; }
+	Replenish* GetReplenish() { return &m_replenish; }
 
 	NullSpell m_nullSpell;
 	Strike m_strike;
@@ -240,19 +240,19 @@ struct SpellBook
 	HealRay m_healRay;
 	Replenish m_replenish;
 
-	void initSpells()
+	void InitSpells()
 	{
 		m_statusEffectBook.initStatusEffects();
 
 		m_nullSpell.init();
-		m_strike.init();
-		m_shank.init();
-		m_claw.init();
-		m_enflame.init(m_statusEffectBook.burn());
-		m_replenish.init(m_statusEffectBook.regen());
-		m_curse.init();
-		m_bowShot.init();
-		m_healRay.init();
+		m_strike.Init();
+		m_shank.Init();
+		m_claw.Init();
+		m_enflame.Init(m_statusEffectBook.GetBurn());
+		m_replenish.Init(m_statusEffectBook.GetRegen());
+		m_curse.Init();
+		m_bowShot.Init();
+		m_healRay.Init();
 	}
 };
 

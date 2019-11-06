@@ -1,6 +1,6 @@
 #include "Window.h"
 
-#include "ErrorHandler.h"
+#include "ErrorManager.h"
 
 namespace Solengine
 {
@@ -12,7 +12,7 @@ namespace Solengine
 	{
 	}
 
-	int Window::create(std::string windowName, int screenWidth, int screenHeight, unsigned int currentFlags)
+	int Window::Create(std::string windowName, int screenWidth, int screenHeight, unsigned int currentFlags)
 	{
 		Uint32 flags = SDL_WINDOW_OPENGL;
 
@@ -33,21 +33,21 @@ namespace Solengine
 		p_SdlWindow = SDL_CreateWindow(windowName.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, SDL_WINDOW_OPENGL);
 		if (p_SdlWindow == nullptr)
 		{
-			fatalError("SDL Window could not be created!");
+			ErrorManager::FatalError("SDL Window could not be created!");
 		}
 
 		//Set up OpenGL context
 		SDL_GLContext glContext = SDL_GL_CreateContext(p_SdlWindow);
 		if (glContext == nullptr)
 		{
-			fatalError("SDL_GL context could not be created!");
+			ErrorManager::FatalError("SDL_GL context could not be created!");
 		}
 
 		//Set up glew
 		GLenum error = glewInit();
 		if (error != GLEW_OK)
 		{
-			fatalError("Could not initialise GLEW");
+			ErrorManager::FatalError("Could not initialise GLEW");
 		}
 
 		//Check openGL version
@@ -66,11 +66,11 @@ namespace Solengine
 		return 0;
 	}
 
-	void Window::swapBuffer()
+	void Window::SwapBuffer()
 	{
 		if (p_SdlWindow == nullptr)
 		{
-			fatalError("SDL Window could not be swapped!");
+			ErrorManager::FatalError("SDL Window could not be swapped!");
 		}
 		SDL_GL_SwapWindow(p_SdlWindow);
 	}

@@ -25,7 +25,7 @@ Tile::~Tile()
 {
 }
 
-void Tile::setWalkable(int stepsAvailable, int stepTotal)
+void Tile::SetWalkable(int stepsAvailable, int stepTotal)
 {	
 	if (stepsAvailable <= 0) return;
 	
@@ -37,5 +37,5 @@ void Tile::setWalkable(int stepsAvailable, int stepTotal)
 	int step = --stepsAvailable;
 	for (size_t i = 0; i < p_neighbours.size(); i++)
 	    if (!p_neighbours[i]->m_isOccupied) 
-			p_neighbours[i]->setWalkable(step, stepTotal);
+			p_neighbours[i]->SetWalkable(step, stepTotal);
 }

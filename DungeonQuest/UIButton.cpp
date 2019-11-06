@@ -18,11 +18,16 @@ UIButton::~UIButton()
 {
 }
 
-bool UIButton::checkMouseover(glm::vec2 mousePos)
+bool UIButton::CheckMouseover(glm::vec2 mousePos)
 {
 	if (mousePos.x > m_pos.x && mousePos.x < m_pos.x + 30 //return true;
 		&& mousePos.y > m_pos.y && mousePos.y < m_pos.y + 30)
 		return true;
 
 	return false;
+}
+
+void UIButton::SetBaseImage(UIIcon* baseImage) 
+{
+	m_baseImage = baseImage; 
 }

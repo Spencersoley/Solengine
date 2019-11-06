@@ -23,33 +23,33 @@
     <ProjectGuid>{C4171837-0EB5-4A28-B6FD-379152443057}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Spengino</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>Solengine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -159,16 +159,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Camera2D.h" />
-    <ClInclude Include="ErrorHandler.h" />
+    <ClInclude Include="ErrorManager.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSManager.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GLSLProgram.h" />
     <ClInclude Include="GLTexture.h" />
+    <ClInclude Include="Glyph.h" />
+    <ClInclude Include="ICamera.h" />
     <ClInclude Include="ImageLoader.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="IOManager.h" />
     <ClInclude Include="picoPNG.h" />
+    <ClInclude Include="RenderBatch.h" />
+    <ClInclude Include="RenderSingle.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SDLInitialiser.h" />
     <ClInclude Include="SpriteBase.h" />
@@ -181,7 +185,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera2D.cpp" />
-    <ClCompile Include="ErrorHandler.cpp" />
+    <ClCompile Include="ErrorManager.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSManager.cpp" />
     <ClCompile Include="GLSLProgram.cpp" />

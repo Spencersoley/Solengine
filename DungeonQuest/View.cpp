@@ -10,39 +10,38 @@ View::View() {}
 
 View::~View() {}
 
-void View::init(Solengine::Camera2D* cam, Solengine::Camera2D* uiCam,
+void View::Init(Solengine::ICamera* cam, Solengine::ICamera* uiCam,
 	int screenwidth, int screenheight)
 {
 	//Creates window
-	m_SOL_window.create("DQ", screenwidth, screenheight, 0);
+	m_SOL_window.Create("DQ", screenwidth, screenheight, 0);
 
 	//Initialises the shader programs
-	m_SOL_shaderProgram.compileShaders("Shaders/colourShading.vert",
+	m_SOL_shaderProgram.CompileShaders("Shaders/colourShading.vert",
 		"Shaders/colourShading.frag");
-	m_SOL_shaderProgram.addAttribute("vertexPosition");
-	m_SOL_shaderProgram.addAttribute("vertexColour");
-	m_SOL_shaderProgram.addAttribute("vertexUV");
-	m_SOL_shaderProgram.linkShaders();
+	m_SOL_shaderProgram.AddAttribute("vertexPosition");
+	m_SOL_shaderProgram.AddAttribute("vertexColour");
+	m_SOL_shaderProgram.AddAttribute("vertexUV");
+	m_SOL_shaderProgram.LinkShaders();
 
 	//Obtain the cameras from the scene and intiialise/position them
 	p_SOL_cam = cam;
-	cam->init(screenwidth, screenheight);
+	cam->Init(screenwidth, screenheight);
 	p_SOL_uiCam = uiCam;
-	uiCam->init(screenwidth, screenheight);
+	uiCam->Init(screenwidth, screenheight);
 
 	//Stores the screen dimensions
 	m_screenHeight = screenheight;
 	m_screenWidth = screenwidth;
-
 }
 
-void View::update(std::vector<Drawable*> worldDrawables, 
+void View::Update(std::vector<Drawable*> worldDrawables, 
 	std::vector<std::pair<Drawable*, Drawable*>> visualEffectDrawables,
     std::vector<Drawable*> overlayDrawables)
 {
-	p_SOL_cam->update();
-	p_SOL_uiCam->update();
-    p_SOL_uiCam->setPosition(glm::vec2(m_screenWidth / 2, m_screenHeight / 2));
+	p_SOL_cam->Update();
+	p_SOL_uiCam->Update();
+    p_SOL_uiCam->SetPosition(glm::vec2(m_screenWidth / 2, m_screenHeight / 2));
 	drawGame(worldDrawables, visualEffectDrawables, overlayDrawables);
 }
 
@@ -55,11 +54,11 @@ void View::drawGame(std::vector<Drawable*> worldDrawables,
 	//Clear colour and depth buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//start the shader program
-	m_SOL_shaderProgram.use();
+	m_SOL_shaderProgram.Use();
 	//DrawCode, optional? Tells it to use texture unit 0
 	glActiveTexture(GL_TEXTURE0);
 	//Shader uses texture 0
-	GLint textureUniform = m_SOL_shaderProgram.getUniformLocation("mySampler");
+	GLint textureUniform = m_SOL_shaderProgram.GetUniformLocation("mySampler");
 	glUniform1i(textureUniform, 0);
 
 	// NTS: anything that changes/moves must be redrawn. 
@@ -69,34 +68,34 @@ void View::drawGame(std::vector<Drawable*> worldDrawables,
 	drawToCamera(visualEffectDrawables, p_SOL_cam);
 	drawToCamera(overlayDrawables, p_SOL_uiCam);
 
-	m_SOL_shaderProgram.unuse();
-	m_SOL_window.swapBuffer();
+	m_SOL_shaderProgram.Unuse();
+	m_SOL_window.SwapBuffer();
 }
 
 void View::drawToCamera(std::vector<Drawable*> drawables, 
-    Solengine::Camera2D* cam)
+    Solengine::ICamera* cam)
 {
-	glm::mat4 projectionMatrix = cam->getCameraMatrix();
-	GLint pUniform = m_SOL_shaderProgram.getUniformLocation("P");
+	glm::mat4 projectionMatrix = cam->GetCameraMatrix();
+	GLint pUniform = m_SOL_shaderProgram.GetUniformLocation("P");
 	glUniformMatrix4fv(pUniform, 1, GL_FALSE, &projectionMatrix[0][0]);
 
 	for (size_t i = 0; i < drawables.size(); i++)
-		if (drawables[i] != nullptr) drawables[i]->draw();
+		if (drawables[i] != nullptr) drawables[i]->Draw();
 }
 
 void View::drawToCamera(std::vector<std::pair<Drawable*, Drawable*>> drawablePairs,
-	Solengine::Camera2D* cam)
+	Solengine::ICamera* cam)
 {
-	glm::mat4 projectionMatrix = cam->getCameraMatrix();
-	GLint pUniform = m_SOL_shaderProgram.getUniformLocation("P");
+	glm::mat4 projectionMatrix = cam->GetCameraMatrix();
+	GLint pUniform = m_SOL_shaderProgram.GetUniformLocation("P");
 	glUniformMatrix4fv(pUniform, 1, GL_FALSE, &projectionMatrix[0][0]);
 
 	for (size_t i = 0; i < drawablePairs.size(); i++)
 	{
 		if (drawablePairs[i].first != nullptr)
-		    drawablePairs[i].first->draw();
+		    drawablePairs[i].first->Draw();
 		if (drawablePairs[i].second != nullptr)
-		    drawablePairs[i].second->draw();
+		    drawablePairs[i].second->Draw();
 	}
 }
 

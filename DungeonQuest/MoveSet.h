@@ -14,12 +14,12 @@ public:
 	MoveSet();
 	~MoveSet();
 
-	void init(SpellBook* sb);
+	void Init(SpellBook* sb);
 
-	void addSpell(Spell* s, int index);
+	void AddSpell(Spell* s, int index);
 
-	Spell* getSpell(int index);
-	size_t getMoveSetSize() const { return p_spells.size(); }
+	Spell* GetSpell(int index);
+	size_t GetMoveSetSize() const { return p_spells.size(); }
 
 	std::vector<Spell*> p_spells;	
 };

@@ -1,5 +1,5 @@
 #pragma once
-
+#include <iostream>
 #include <map>
 
 #include "GLTexture.h"
@@ -14,7 +14,7 @@ namespace Solengine
 		TextureCache();
 		~TextureCache();
 
-		GLTexture getTexture(std::string);
+		GLTexture GetTexture(std::string);
 
 	private:
 		std::map<std::string, GLTexture> m_textureMap;

@@ -10,9 +10,9 @@ public:
         GLuint texture = -1, Solengine::ColourRGBA8 col = { 255, 255, 255, 255 });
 	~UIButton();
 
-	bool checkMouseover(glm::vec2 mousePos);
+	bool CheckMouseover(glm::vec2 mousePos);
 
-	void setBaseImage(UIIcon* baseImage) { m_baseImage = baseImage; }
+	void SetBaseImage(UIIcon* baseImage);
 
 	UIIcon* m_baseImage = nullptr;
 	UIIcon* m_buttonImage = nullptr;;

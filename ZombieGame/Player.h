@@ -3,7 +3,7 @@
 #include "Human.h"
 
 #include <Solengine/InputManager.h>
-#include <Solengine/Camera2D.h>
+#include <Solengine/ICamera.h>
 
 #include "Bullet.h"
 
@@ -19,7 +19,7 @@ public:
 	~Player();
 
 	void init(float speed, glm::vec2 pos);
-	void setCamera(Solengine::Camera2D* cam) { p_cam = cam; }
+	void setCamera(Solengine::ICamera* cam) { p_cam = cam; }
 	void addGun(Gun* gun);
 	void move(float adjustedDeltaTicks, std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Bullet>& bullets); //Why can we override this but not zombie/human's move
 	
@@ -33,7 +33,7 @@ public:
 
 private:
 	std::vector<Gun*> p_guns;
-	Solengine::Camera2D* p_cam = nullptr;
+	Solengine::ICamera* p_cam = nullptr;
 
 	int m_currentGunIndex;
 	glm::vec2 m_direction;

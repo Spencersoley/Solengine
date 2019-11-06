@@ -41,8 +41,8 @@ private:
 
 	Solengine::FPSManager m_SOL_fpsManager;
 	Solengine::TileLevelLoader m_SOL_tileLevelLoader;
-	Solengine::Camera2D m_SOL_cam;
-	Solengine::Camera2D m_SOL_uiCam;
+	Solengine::ICamera* m_SOL_cam = new Solengine::Camera2D;
+	Solengine::ICamera* m_SOL_uiCam = new Solengine::Camera2D;
 	Model m_model;
 	View m_view;
 	Controller m_controller;

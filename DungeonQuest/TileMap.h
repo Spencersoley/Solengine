@@ -10,14 +10,14 @@ public:
 	TileMap();
 	~TileMap();
 
-	void init(std::vector<std::vector<Tile*>> tileMap, int tileWidth);
+	void Init(std::vector<std::vector<Tile*>> tileMap, int tileWidth);
 
 	// Getters //
-	int getWidth() const { return p_tiles[0].size(); }
-	int getHeight() const { return p_tiles.size(); }
-    std::vector<glm::vec2> getWalkablePos(glm::ivec2 coords, int steps);
-	Tile* getTileByPosition(glm::ivec2 pos);	
-    Tile* getTileByCoords(glm::ivec2 coords) 
+	int GetWidth() const { return p_tiles[0].size(); }
+	int GetHeight() const { return p_tiles.size(); }
+    std::vector<glm::vec2> GetWalkablePos(glm::ivec2 coords, int steps);
+	Tile* GetTileByPosition(glm::ivec2 pos);	
+    Tile* GetTileByCoords(glm::ivec2 coords) 
 	{   
 		if (coords.y < p_tiles.size() && coords.x < p_tiles[0].size())
 		    return p_tiles[coords.y][coords.x]; 
@@ -25,7 +25,7 @@ public:
 		return nullptr;
 	}
 
-	void resetWalkable();
+	void ResetWalkable();
 
 	std::vector<std::vector<Tile*>> p_tiles;
 

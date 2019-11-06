@@ -10,18 +10,18 @@ public:
 	UnitSpawner();
 	~UnitSpawner();
 
-	void init(SpellBook* sb, std::vector<Level*> levels, int currentLevel);
+	void Init(SpellBook* sb, std::vector<Level*> levels, int currentLevel);
 
-	Unit* spawnAdept();
-	Unit* spawnFighter();
-	Unit* spawnScout();
+	Unit* SpawnAdept();
+	Unit* SpawnFighter();
+	Unit* SpawnScout();
 
-	Unit* spawnRat();
-	Unit* spawnBat();
+	Unit* SpawnRat();
+	Unit* SpawnBat();
 
-	Unit* spawnEnemy();
+	Unit* SpawnEnemy();
 
-	std::vector<Drawable*> getDrawables(Unit* unit);
+	std::vector<Drawable*> GetDrawables(Unit* unit);
 
 private:
 	SpellBook* p_spellBook;

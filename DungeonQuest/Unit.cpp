@@ -6,7 +6,7 @@ Unit::Unit() { p_SOL_S = new Solengine::SpriteSingle(); }
 
 Unit::~Unit() { delete p_SOL_S; }
 
-void Unit::init(glm::vec2 coords)
+void Unit::Init(glm::vec2 coords)
 {
 	m_pos.x = coords.x * TILE_WIDTH;
 	m_pos.y = coords.y * TILE_WIDTH;
@@ -18,18 +18,18 @@ void Unit::init(glm::vec2 coords)
 	m_combatPoints = m_combatPointsMax;
 }
 
-void Unit::death()
+void Unit::Death()
 {
 	m_delete = true;
 	p_healthbar->m_delete = true;
 	p_healthbarBackplate->m_delete = true;
 }
 
-void Unit::newTurn()
+void Unit::NewTurn()
 {
 	m_turnPoints += 1;
-	resetEnergy();
-	resetCombatPoints();
+	ResetEnergy();
+	ResetCombatPoints();
 
 	std::vector<StatusEffect*> erasors;
 
@@ -37,7 +37,11 @@ void Unit::newTurn()
 
 	for (std::map<StatusEffect*, int>::iterator it = p_statusEffects.begin(); it != p_statusEffects.end(); it++)
 	{
-		modifyHealth(-(it->first->tick()));
+		if (it->first->m_statusType == StatusType::DEBUFF)
+		    ModifyHealth(-(it->first->Tick()));
+		if (it->first->m_statusType == StatusType::BUFF)
+			ModifyHealth(+(it->first->Tick()));
+
 		it->second--;
 		if (it->second == 0)
 			erasors.push_back(it->first);
@@ -47,12 +51,12 @@ void Unit::newTurn()
         p_statusEffects.erase(erasors[i]);
 }
 
-void Unit::updateHealthbar()
+void Unit::UpdateHealthbar()
 {
-	p_healthbar->resizeWidth((getHealth() * p_healthbarBackplate->getWidth()
-		/ (float)getHealthMax()));
-	p_healthbar->setPos({ getPos().x + 0.25 * TILE_WIDTH,
-		getPos().y + 0.9 * TILE_WIDTH });
-	p_healthbarBackplate->setPos({ getPos().x + 0.25 * TILE_WIDTH,
-		getPos().y + 0.9 * TILE_WIDTH });
+	p_healthbar->ResizeWidth((GetHealth() * p_healthbarBackplate->GetWidth()
+		/ (float)GetHealthMax()));
+	p_healthbar->SetPos({ GetPos().x + 0.25 * TILE_WIDTH,
+		GetPos().y + 0.9 * TILE_WIDTH });
+	p_healthbarBackplate->SetPos({ GetPos().x + 0.25 * TILE_WIDTH,
+		GetPos().y + 0.9 * TILE_WIDTH });
 }

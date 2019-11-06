@@ -39,18 +39,18 @@ namespace Solengine
 		{
 		}
 		
-		void init(const char* font, int size);
-		void init(const char* font, int size, char cs, char ce);
+		void Init(const char* font, int size);
+		void Init(const char* font, int size, char cs, char ce);
 
-		void dispose();
+		void Dispose();
 
-		int getFontHeight() const { return m_fontHeight; }
+		int GetFontHeight() const { return m_fontHeight; }
 
-		glm::vec2 measure(const char* s);
+		glm::vec2 Measure(const char* s);
 
-		void draw(const char* s, glm::vec2 position, glm::vec2 scaling, float depth, ColourRGBA8 tint, Justification just = Justification::LEFT);
+		void Draw(const char* s, glm::vec2 position, glm::vec2 scaling, float depth, ColourRGBA8 tint, Justification just = Justification::LEFT);
 
-		Solengine::SpriteBatch* getSpriteBatch() { return &m_SOL_SB; }
+		Solengine::SpriteBatch* GetSpriteBatch() { return &m_SOL_SB; }
 
 	private: 
 		static std::vector<int>* createRows(glm::ivec4* rects, int rectsLength, int r, int padding, int& w);

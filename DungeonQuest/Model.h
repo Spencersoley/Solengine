@@ -3,7 +3,7 @@
 #include <SDL/SDL.h>
 
 #include <Solengine/GameState.h>
-#include <Solengine/Camera2D.h>
+#include <Solengine/ICamera.h>
 #include <Solengine/InputManager.h>
 
 #include "Unit.h"
@@ -11,7 +11,7 @@
 #include "UIButton.h"
 #include "UIIcon.h"
 #include "CombatLog.h"
-#include "EffectManager.h"
+#include "VisualEffectManager.h"
 
 class Model
 {
@@ -19,86 +19,86 @@ public:
 	Model();
 	~Model();
 
-	void init(float physicsSpeed, Solengine::Camera2D* cam, int sw, int sh);
+	void Init(float physicsSpeed, Solengine::ICamera* cam, int sw, int sh);
 
-	void awake(std::vector<Unit*> units);
+	void Awake(std::vector<Unit*> units);
 
-	Solengine::GameState update(int pauseDuration, std::vector<Unit*> units);
+	Solengine::GameState Update(int pauseDuration, std::vector<Unit*> units);
 	
 	//GETTERS
-	bool getLeftMouse() { return m_SOL_inputManager.keyState(SDL_BUTTON_LEFT); }
+	bool GetLeftMouse() { return m_SOL_inputManager.KeyState(SDL_BUTTON_LEFT); }
 
-	bool getRightMouse() { return m_SOL_inputManager.keyState(SDL_BUTTON_RIGHT); }
+	bool GetRightMouse() { return m_SOL_inputManager.KeyState(SDL_BUTTON_RIGHT); }
 
-	glm::ivec2 getMouseScreenInputPos() { return m_SOL_inputManager.getMouseCoords(); }
+	glm::ivec2 GetMouseScreenInputPos() { return m_SOL_inputManager.GetMouseCoords(); }
 
-	glm::ivec2 getMouseScreenPos()  { glm::ivec2 msp = getMouseScreenInputPos(); return { msp.x, m_screenHeight - msp.y }; }
+	glm::ivec2 GetMouseScreenPos()  { glm::ivec2 msp = GetMouseScreenInputPos(); return { msp.x, m_screenHeight - msp.y }; }
 
-	glm::ivec2 getMouseWorldPos() { return p_SOL_cam->screenToWorld(getMouseScreenInputPos()); }
+	glm::ivec2 GetMouseWorldPos() { return p_SOL_cam->ScreenToWorld(GetMouseScreenInputPos()); }
 
-	glm::ivec2 getMouseCoordinates() { return flatten(getMouseWorldPos(), TILE_WIDTH); }
+	glm::ivec2 GetMouseCoordinates() { return Flatten(GetMouseWorldPos(), TILE_WIDTH); }
 
-	float getMouseWheel() { return m_SOL_inputManager.getMouseWheel(); }
+	float GetMouseWheel() { return m_SOL_inputManager.GetMouseWheel(); }
 
-	glm::ivec2 flatten(glm::ivec2 vec2, int c) { return { floor(vec2.x / c), floor(vec2.y / c) }; }
+	glm::ivec2 Flatten(glm::ivec2 vec2, int c) { return { floor(vec2.x / c), floor(vec2.y / c) }; }
 
-	CombatLog* getCombatLog() { return &m_combatLog; }
+	CombatLog* GetCombatLog() { return &m_combatLog; }
 
 	//SETTERS
-	void setCameraCentre(Drawable* drawable) { p_SOL_cam->setPosition(drawable->getPos() - glm::vec2(0.5f * TILE_WIDTH, 0.5f * TILE_WIDTH)); }
+	void SetCameraCentre(Drawable* drawable) { p_SOL_cam->SetPosition(drawable->GetPos() - glm::vec2(0.5f * TILE_WIDTH, 0.5f * TILE_WIDTH)); }
 
-	void setSelectedUnit(Unit* unit);
+	void SetSelectedUnit(Unit* unit);
 
-	void setCurrentUnit(Unit* unit) { p_currentUnit = unit; }
+	void SetCurrentUnit(Unit* unit) { p_currentUnit = unit; }
 
-	void setCurrentUnitIcon(UIIcon* icon) { p_currentUnitIcon = icon; }
+	void SetCurrentUnitIcon(UIIcon* icon) { p_currentUnitIcon = icon; }
 
-	void setCurrentUnitNameText(UIText* text) { p_currentUnitNameText = text; }
+	void SetCurrentUnitNameText(UIText* text) { p_currentUnitNameText = text; }
 
-	void setCurrentUnitHealthText(UIText* text) { p_currentUnitHealthText = text; }
+	void SetCurrentUnitHealthText(UIText* text) { p_currentUnitHealthText = text; }
 
-	void setCurrentUnitEnergyText(UIText* text) { p_currentUnitEnergyText = text; }
+	void SetCurrentUnitEnergyText(UIText* text) { p_currentUnitEnergyText = text; }
 
-	void setCurrentUnitSpeedText(UIText* text) { p_currentUnitSpeedText = text; }
+	void SetCurrentUnitSpeedText(UIText* text) { p_currentUnitSpeedText = text; }
 
-	void setCurrentUnitCombatPointsText(UIText* text) { p_currentUnitCombatPointsText = text; }
+	void SetCurrentUnitCombatPointsText(UIText* text) { p_currentUnitCombatPointsText = text; }
 
-	void setCurrentUnitBox(UIIcon* icon) { p_currentUnitBox = icon; }
+	void SetCurrentUnitBox(UIIcon* icon) { p_currentUnitBox = icon; }
 
-	void setSelectedUnitIcon(UIIcon* icon) { p_selectedUnitIcon = icon; }
+	void SetSelectedUnitIcon(UIIcon* icon) { p_selectedUnitIcon = icon; }
 
-	void setSelectedUnitNameText(UIText* text) { p_selectedUnitNameText = text; }
+	void SetSelectedUnitNameText(UIText* text) { p_selectedUnitNameText = text; }
 
-	void setSelectedHealthText(UIText* text) { p_selectedUnitHealthText = text; }
+	void SetSelectedHealthText(UIText* text) { p_selectedUnitHealthText = text; }
 
-	void setSelectedEnergyText(UIText* text) { p_selectedUnitEnergyText = text; }
+	void SetSelectedEnergyText(UIText* text) { p_selectedUnitEnergyText = text; }
 
-	void setSelectedUnitSpeedText(UIText* text) { p_selectedUnitSpeedText = text; }
+	void SetSelectedUnitSpeedText(UIText* text) { p_selectedUnitSpeedText = text; }
 
-	void setSelectedUnitCombatPointsText(UIText* text) { p_selectedUnitCombatPointsText = text; }
+	void SetSelectedUnitCombatPointsText(UIText* text) { p_selectedUnitCombatPointsText = text; }
 
     // These get pushed back in order
-	void setSpellText(UIText* text) { p_spellText.push_back(text); }
+	void SetSpellText(UIText* text) { p_spellText.push_back(text); }
 
-	void setSelectionBox(UIIcon* icon) { p_selectionBox = icon; }
+	void SetSelectionBox(UIIcon* icon) { p_selectionBox = icon; }
 	
-	void setSelectedSpellBox(UIIcon* icon) { p_selectedSpellBox = icon; }
+	void SetSelectedSpellBox(UIIcon* icon) { p_selectedSpellBox = icon; }
 
-	void setHoverHighlight(UIIcon* icon) { p_hoverHighlight = icon; }
+	void SetHoverHighlight(UIIcon* icon) { p_hoverHighlight = icon; }
 
-    void setWalkableHighlight(UIIcon* icon) { p_walkableHighlight = icon; }
+    void SetWalkableHighlight(UIIcon* icon) { p_walkableHighlight = icon; }
 
-	void setTileMap(TileMap* tileMap) { p_tileMap = tileMap; }
+	void SetTileMap(TileMap* tileMap) { p_tileMap = tileMap; }
 
-	void setCombatLog(std::vector<UIText*> texts) { m_combatLog.setTexts(texts); }
+	void SetCombatLog(std::vector<UIText*> texts) { m_combatLog.setTexts(texts); }
 
-	void setScrollIcon(UIIcon* icon) { m_combatLog.setScrollIcon(icon); }
+	void SetScrollIcon(UIIcon* icon) { m_combatLog.setScrollIcon(icon); }
 
-	void setUIPanelHeight(int h) { m_UIpanelHeight = h; }
+	void SetUIPanelHeight(int h) { m_UIpanelHeight = h; }
 
-	std::vector<std::pair<Drawable*, Drawable*>> getEffects();
+	std::vector<std::pair<Drawable*, Drawable*>> GetEffects();
 
-	bool deleteCheck() 
+	bool DeleteCheck() 
 	{ 
 		if (m_entityNeedsDeletion) { entityNeedsDeletion(0); return true; }
 		return false; 
@@ -107,10 +107,10 @@ public:
 
 private:
 	Solengine::InputManager m_SOL_inputManager;
-	Solengine::Camera2D* p_SOL_cam;
+	Solengine::ICamera* p_SOL_cam;
 	CombatLog m_combatLog;
 
-	EffectManager m_effectManager;
+	VisualEffectManager m_visualEffectManager;
 
 	std::vector<Drawable*> p_visualEffects;
 	std::vector<UIElement*> p_mouseoverable;

@@ -3,11 +3,13 @@
 
 #include "Solengine/ResourceManager.h"
 
+// Write a file reader containing all this information.
+
 struct Adept : public Unit
 {
 	Adept(SpellBook* sb)
 	{
-		m_moveSet.init(sb);
+		m_moveSet.Init(sb);
 		p_spellBook = sb;
 		m_isVisible = true;
 		m_isFriendly = true;
@@ -18,12 +20,12 @@ struct Adept : public Unit
 		m_health = 20;
 		m_healthMax = 20;
 		m_name = "Adept";
-		m_textureID = Solengine::ResourceManager::getTexture(
+		m_textureID = Solengine::ResourceManager::GetTexture(
 			"Textures/DQ_pack/adept.png").textureID;
-		m_moveSet.addSpell(sb->enflame(), 0);
-		m_moveSet.addSpell(sb->curse(), 1);
-		m_moveSet.addSpell(sb->healRay(), 2);
-		m_moveSet.addSpell(sb->replenish(), 3);
+		m_moveSet.AddSpell(sb->GetEnflame(), 0);
+		m_moveSet.AddSpell(sb->GetCurse(), 1);
+		m_moveSet.AddSpell(sb->GetHealRay(), 2);
+		m_moveSet.AddSpell(sb->GetReplenish(), 3);
 
 	}
 	~Adept() {};
@@ -33,7 +35,7 @@ struct Fighter : public Unit
 {
     Fighter(SpellBook* sb)
 	{
-		m_moveSet.init(sb);
+		m_moveSet.Init(sb);
 		p_spellBook = sb;
 		m_isVisible = true;
 		m_isFriendly = true;
@@ -44,10 +46,10 @@ struct Fighter : public Unit
 		m_health = 22;
 		m_healthMax = 22;
 		m_name = "Fighter";
-		m_textureID = Solengine::ResourceManager::getTexture(
+		m_textureID = Solengine::ResourceManager::GetTexture(
 			"Textures/DQ_pack/fighter.png").textureID;
-		m_moveSet.addSpell(sb->strike(), 0);
-		m_moveSet.addSpell(sb->shank(), 1);
+		m_moveSet.AddSpell(sb->GetStrike(), 0);
+		m_moveSet.AddSpell(sb->GetShank(), 1);
 	}
 	~Fighter() { };
 
@@ -57,7 +59,7 @@ struct Scout : public Unit
 {
 	Scout(SpellBook* sb)
 	{
-		m_moveSet.init(sb);
+		m_moveSet.Init(sb);
 		p_spellBook = sb;
 		m_isVisible = true;
 		m_isFriendly = true;
@@ -68,11 +70,11 @@ struct Scout : public Unit
 		m_health = 21;
 		m_healthMax = 21;
 		m_name = "Scout";
-		m_textureID = Solengine::ResourceManager::getTexture(
+		m_textureID = Solengine::ResourceManager::GetTexture(
 			"Textures/DQ_pack/scout.png").textureID;
-		m_moveSet.addSpell(sb->strike(), 0);
-		m_moveSet.addSpell(sb->bowShot(), 1);
-		m_moveSet.addSpell(sb->claw(), 2);
+		m_moveSet.AddSpell(sb->GetStrike(), 0);
+		m_moveSet.AddSpell(sb->GetBowShot(), 1);
+		m_moveSet.AddSpell(sb->GetClaw(), 2);
 	}
 	~Scout() {};
 };
@@ -81,7 +83,7 @@ struct Rat : public Unit
 {
 	Rat(SpellBook* sb)
 	{
-		m_moveSet.init(sb);
+		m_moveSet.Init(sb);
 		p_spellBook = sb;
 		m_isVisible = true;
 		m_isFriendly = false;
@@ -92,9 +94,9 @@ struct Rat : public Unit
 		m_health = 60;
 		m_healthMax = 60;
 		m_name = "Rat";
-		m_textureID = Solengine::ResourceManager::getTexture(
+		m_textureID = Solengine::ResourceManager::GetTexture(
 			"Textures/DQ_pack/rat.png").textureID;
-		m_moveSet.addSpell(sb->claw(), 0);
+		m_moveSet.AddSpell(sb->GetClaw(), 0);
 
 	}
 	~Rat() {};
@@ -104,7 +106,7 @@ struct Bat : public Unit
 {
 	Bat(SpellBook* sb)
 	{
-		m_moveSet.init(sb);
+		m_moveSet.Init(sb);
 		p_spellBook = sb;
 		m_isVisible = true;
 		m_isFriendly = false;
@@ -115,9 +117,9 @@ struct Bat : public Unit
 		m_health = 40;
 		m_healthMax = 40;
 		m_name = "Rat";
-		m_textureID = Solengine::ResourceManager::getTexture(
+		m_textureID = Solengine::ResourceManager::GetTexture(
 			"Textures/DQ_pack/bat.png").textureID;
-		m_moveSet.addSpell(sb->claw(), 0);
+		m_moveSet.AddSpell(sb->GetClaw(), 0);
 
 	}
 	~Bat() {};

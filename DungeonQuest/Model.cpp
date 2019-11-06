@@ -1,4 +1,4 @@
-#include "Solengine/ErrorHandler.h"
+//#include "Solengine/ErrorHandler.h"
 
 #include "Model.h"
 
@@ -6,7 +6,7 @@ Model::Model() {}
 
 Model::~Model() {}
 
-void Model::init(float physicsSpeed, Solengine::Camera2D* cam, int sw, int sh)
+void Model::Init(float physicsSpeed, Solengine::ICamera* cam, int sw, int sh)
 {
 	m_physicsSpeed = physicsSpeed;
 	p_SOL_cam = cam;
@@ -14,13 +14,13 @@ void Model::init(float physicsSpeed, Solengine::Camera2D* cam, int sw, int sh)
 	m_screenWidth = sw;
 }
 
-void Model::awake(std::vector<Unit*> units)
+void Model::Awake(std::vector<Unit*> units)
 {
 	turnCounter = 0;
-	setCurrentUnit(units[turnCounter]);
+	SetCurrentUnit(units[turnCounter]);
 
 	for (size_t i = 0; i < units.size(); i++)
-		units[i]->newTurn();
+		units[i]->NewTurn();
 
 	updateTileStates(p_tileMap, p_currentUnit);
 	updateCurrentUnitBox(p_currentUnit, p_currentUnitBox);
@@ -39,70 +39,68 @@ void Model::awake(std::vector<Unit*> units)
 		p_mouseoverable.push_back(p_spellText[i]);
 
 	for (size_t i = 0; i < units.size(); i++) 
-		units[i]->updateHealthbar();
+		units[i]->UpdateHealthbar();
 }
 
-Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
+Solengine::GameState Model::Update(int pauseDur, std::vector<Unit*> units)
 {
-	const float physSpeed = m_physicsSpeed;
+	static float physSpeed = m_physicsSpeed;
 	float adjustedDeltaTicks = (getDeltaTicks() - pauseDur) * physSpeed;
 
 	const float CAMERA_SPEED = 2.0f;
 	const float SCALE_SPEED = 0.1f;
 	float SCROLL_SPEED = 20 * adjustedDeltaTicks;
 
-	Solengine::GameState state = m_SOL_inputManager.processInput();
+	Solengine::GameState state = m_SOL_inputManager.ProcessInput();
 
 	static glm::ivec2 previousMouseCoords;
-	glm::ivec2 mouseCoords = getMouseCoordinates();
+	glm::ivec2 mouseCoords = GetMouseCoordinates();
 
-	if (m_SOL_inputManager.keyPress(SDLK_p))
+	if (m_SOL_inputManager.KeyPress(SDLK_p))
 	    state = Solengine::GameState::PAUSE;
 
-	if (m_SOL_inputManager.keyPress(SDLK_r))
+	if (m_SOL_inputManager.KeyPress(SDLK_r))
 	    state = Solengine::GameState::TURNOVER;
 
-	if (m_SOL_inputManager.keyState(SDLK_w))
-		p_SOL_cam->shiftPosition(glm::vec2{ 0, SCROLL_SPEED });
+	if (m_SOL_inputManager.KeyState(SDLK_w))
+		p_SOL_cam->ShiftPosition(glm::vec2{ 0, SCROLL_SPEED });
 
-	if (m_SOL_inputManager.keyState(SDLK_s))
-		p_SOL_cam->shiftPosition(glm::vec2{ 0, -SCROLL_SPEED });
+	if (m_SOL_inputManager.KeyState(SDLK_s))
+		p_SOL_cam->ShiftPosition(glm::vec2{ 0, -SCROLL_SPEED });
 	
-	if (m_SOL_inputManager.keyState(SDLK_a))
-		p_SOL_cam->shiftPosition(glm::vec2{ -SCROLL_SPEED, 0 });
+	if (m_SOL_inputManager.KeyState(SDLK_a))
+		p_SOL_cam->ShiftPosition(glm::vec2{ -SCROLL_SPEED, 0 });
 
-	if (m_SOL_inputManager.keyState(SDLK_d))
-		p_SOL_cam->shiftPosition(glm::vec2{ SCROLL_SPEED, 0 });
+	if (m_SOL_inputManager.KeyState(SDLK_d))
+		p_SOL_cam->ShiftPosition(glm::vec2{ SCROLL_SPEED, 0 });
 
-	if (m_SOL_inputManager.keyPress(SDLK_c))
+	if (m_SOL_inputManager.KeyPress(SDLK_c))
 		m_combatLog.scrollCombatLog(true);
 
-	if (m_SOL_inputManager.keyPress(SDLK_v))
+	if (m_SOL_inputManager.KeyPress(SDLK_v))
 		m_combatLog.scrollCombatLog(false);
 
-	if (m_SOL_inputManager.keyPress(SDLK_f))
+	if (m_SOL_inputManager.KeyPress(SDLK_f))
 		changeSpell(0, mouseCoords);
 
-	float mwp = getMouseWheel();
-	if (mwp > 0)
-		changeSpell(-1, mouseCoords);
-	else if (mwp < 0)
-		changeSpell(1, mouseCoords);
+	float mwp = GetMouseWheel();
+
+	if (mwp != 0) changeSpell(mwp, mouseCoords);
 
 	//////////////     Mouse Control       /////////////////
-	glm::vec2 msp = getMouseScreenPos();
+	glm::vec2 msp = GetMouseScreenPos();
 
 	static int overlayCutoff = m_UIpanelHeight;
 
 	if (msp.y > overlayCutoff) //exclude backplate
 	{
-		if (m_SOL_inputManager.keyPress(SDL_BUTTON_LEFT))
+		if (m_SOL_inputManager.KeyPress(SDL_BUTTON_LEFT))
 		{
 			if (!movement(mouseCoords, p_tileMap, p_currentUnit))
-			    setSelectedUnit(selectionCheck(units, mouseCoords));
+			    SetSelectedUnit(selectionCheck(units, mouseCoords));
 		}
 			
-		if (m_SOL_inputManager.keyPress(SDL_BUTTON_RIGHT))
+		if (m_SOL_inputManager.KeyPress(SDL_BUTTON_RIGHT))
 		{
 			if (!movement(mouseCoords, p_tileMap, p_currentUnit))
 			    attack(mouseCoords, p_tileMap, p_currentUnit, units);
@@ -114,30 +112,11 @@ Solengine::GameState Model::update(int pauseDur, std::vector<Unit*> units)
 	else 
 	{
 		updateHighlight(p_tileMap->p_tiles, { 0, 0 }, p_hoverHighlight);
-
-		//Doesn't work as intended. Perhaps we should create dedicated button images?
-		/*
-		for (size_t i = 0; i < p_mouseoverable.size(); i++)
-		{
-			if (p_mouseoverable[i]->checkMouseover(msp))
-				if (m_SOL_inputManager.keyPress(SDL_BUTTON_LEFT))
-				{
-					if (p_mouseoverable[i] == p_spellText[i])
-					{
-						m_currentSpellIndex = i;
-						if (p_currentUnit->m_moveSet.p_spells[m_currentSpellIndex]->getCost() == 0)
-							changeSpell();   
-						updateSelectedSpellBox();
-					}			
-				}
-
-		}
-		*/
 	}
 	
 	if (state == Solengine::GameState::TURNOVER) state = endTurn(units, p_currentUnit);
 	
-	m_effectManager.updateEffects(adjustedDeltaTicks);
+	m_visualEffectManager.UpdateEffects(adjustedDeltaTicks);
 		
 	previousMouseCoords = mouseCoords;
 	return state;
@@ -153,19 +132,19 @@ Uint32 Model::getDeltaTicks()
 
 bool Model::movement(glm::ivec2 coords, TileMap* tileMap, Unit* currentUnit)
 {
-	Tile* tarTile = tileMap->getTileByCoords(coords);
-	Tile* currentTile = tileMap->getTileByCoords(currentUnit->getCoords());
+	Tile* tarTile = tileMap->GetTileByCoords(coords);
+	Tile* currentTile = tileMap->GetTileByCoords(currentUnit->GetCoords());
 	
 	if (tarTile == nullptr) return false;
 	
 	if (tarTile->m_isWalkable && !tarTile->m_isOccupied)
 	{
-        currentUnit->setPos({ coords.x * TILE_WIDTH, coords.y * TILE_WIDTH } );
-        currentUnit->removeEnergy(tarTile->getDist() 
-			                      * currentUnit->getMoveCost());         
+        currentUnit->SetPos({ coords.x * TILE_WIDTH, coords.y * TILE_WIDTH } );
+        currentUnit->RemoveEnergy(tarTile->GetDist() 
+			                      * currentUnit->GetMoveCost());         
 
-		currentTile->setOccupied(false);
-		tarTile->setOccupied(true);
+		currentTile->SetOccupied(false);
+		tarTile->SetOccupied(true);
 
 		updateTileStates(tileMap, currentUnit);
 
@@ -174,9 +153,9 @@ bool Model::movement(glm::ivec2 coords, TileMap* tileMap, Unit* currentUnit)
             p_currentUnitNameText, p_currentUnitHealthText, p_currentUnitEnergyText, 
 			p_currentUnitSpeedText, p_currentUnitCombatPointsText);
 		
-		currentUnit->redraw();
+		currentUnit->Redraw();
 
-		currentUnit->updateHealthbar();
+		currentUnit->UpdateHealthbar();
 
 		return true;
 	}
@@ -191,23 +170,23 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
     
 	if (tarUnit == nullptr) return false;
 	
-	Spell* spellToCast = currentUnit->getMoveSet()->p_spells[m_currentSpellIndex];
+	Spell* spellToCast = currentUnit->GetMoveSet()->p_spells[m_currentSpellIndex];
 
-	if (spellToCast ->getCost() <= currentUnit->getCombatPoints())
+	if (spellToCast ->GetCost() <= currentUnit->GetCombatPoints())
 	{
-		if (checkIfTileReachable(currentUnit->getCoords(), tarUnit->getCoords(),
-			spellToCast->getRange()))
+		if (checkIfTileReachable(currentUnit->GetCoords(), tarUnit->GetCoords(),
+			spellToCast->GetRange()))
 		{ 
-			SpellType castType = spellToCast->getType();
+			SpellType castType = spellToCast->GetType();
 
 			if (currentUnit == tarUnit && SpellType::ATTACK == castType)
 			{
-			    m_combatLog.announce("WARNING! " + currentUnit->getName()
+			    m_combatLog.announce("WARNING! " + currentUnit->GetName()
 				+ " can't attack itself!");
 				return false; 
 			}
 
-			spellToCast->cast(currentUnit, tarUnit);
+			spellToCast->Cast(currentUnit, tarUnit);
 			updateTileStates(tileMap, currentUnit);
 	
 			updateStatsDisplay(currentUnit, p_currentUnitIcon,
@@ -218,50 +197,50 @@ bool Model::attack(glm::ivec2 mouseCoords, TileMap* tileMap, Unit* currentUnit,
 				p_selectedUnitNameText, p_selectedUnitHealthText,
 				p_selectedUnitEnergyText, p_selectedUnitSpeedText,
 			    p_selectedUnitCombatPointsText);
-			setSelectedUnit(tarUnit);
+			SetSelectedUnit(tarUnit);
 
-			tarUnit->updateHealthbar();
+			tarUnit->UpdateHealthbar();
 
 			/////////////////////////////
 			if (castType == SpellType::ATTACK)
-				m_combatLog.announce("EVENT: " + currentUnit->getName() +
-					" hit " + tarUnit->getName() + " with " + spellToCast->getName() +
-					" for " + std::to_string(spellToCast->getDamage()) + " damage");
+				m_combatLog.announce("EVENT: " + currentUnit->GetName() +
+					" hit " + tarUnit->GetName() + " with " + spellToCast->GetName() +
+					" for " + std::to_string(spellToCast->GetDamage()) + " damage");
 			else if (castType == SpellType::HEAL)
-				m_combatLog.announce("EVENT: " + currentUnit->getName() +
-					" healed " + tarUnit->getName() + " with " + spellToCast->getName() +
-					" for " + std::to_string(spellToCast->getDamage()) + " health");
+				m_combatLog.announce("EVENT: " + currentUnit->GetName() +
+					" healed " + tarUnit->GetName() + " with " + spellToCast->GetName() +
+					" for " + std::to_string(spellToCast->GetDamage()) + " health");
 
-			m_effectManager.newCombatEffect(tarUnit, spellToCast);
+			m_visualEffectManager.NewCombatEffect(tarUnit, spellToCast);
 
 			////////////////////////
 
-			if (tarUnit->getHealth() < 1)
+			if (tarUnit->GetHealth() < 1)
 			{
 				entityNeedsDeletion(1);
-				tarUnit->death();
-				m_combatLog.announce("EVENT! " + tarUnit->getName() + " has died!");
-				setSelectedUnit(nullptr);
-				tileMap->getTileByCoords(tarUnit->getCoords())->m_isOccupied = false;
+				tarUnit->Death();
+				m_combatLog.announce("EVENT! " + tarUnit->GetName() + " has died!");
+				SetSelectedUnit(nullptr);
+				tileMap->GetTileByCoords(tarUnit->GetCoords())->m_isOccupied = false;
 				updateTileStates(tileMap, currentUnit);
 			}
 
 			return true;			
 		}
-	    else m_combatLog.announce("WARNING! " + tarUnit->getName() + 
+	    else m_combatLog.announce("WARNING! " + tarUnit->GetName() + 
             " is out of range of " + 
-	        currentUnit->getName() + "'s " + 
-            currentUnit->getMoveSet()->p_spells[m_currentSpellIndex]
-            ->getName() );
+	        currentUnit->GetName() + "'s " + 
+            currentUnit->GetMoveSet()->p_spells[m_currentSpellIndex]
+            ->GetName() );
 	}
-	else m_combatLog.announce("WARNING! " + currentUnit->getName() +
+	else m_combatLog.announce("WARNING! " + currentUnit->GetName() +
 	   " has no NRG for " + currentUnit->
-	   getMoveSet()->p_spells[m_currentSpellIndex]->getName());
+	   GetMoveSet()->p_spells[m_currentSpellIndex]->GetName());
 
 	return false;
 }
 
-void Model::setSelectedUnit(Unit* selectedUnit)
+void Model::SetSelectedUnit(Unit* selectedUnit)
 {
 	if (p_selectedUnit != selectedUnit && p_currentUnit != selectedUnit)
 	{
@@ -278,7 +257,7 @@ void Model::setSelectedUnit(Unit* selectedUnit)
 Unit* Model::selectionCheck(std::vector<Unit*> units, glm::ivec2 coords)
 {
 	for (size_t i = 0; i < units.size(); i++)
-		if (units[i]->getCoords() == coords) return units[i];
+		if (units[i]->GetCoords() == coords) return units[i];
 	
 	return nullptr;
 }
@@ -287,18 +266,18 @@ void Model::changeSpell(int mode, glm::ivec2 mouseCoords)
 {
 	switch (mode)
 	{
-	case -1 :
+	case 1 :
 		if (m_currentSpellIndex > 0) m_currentSpellIndex--;
 		break;
 	case 0 : 
 		m_currentSpellIndex = (m_currentSpellIndex+1) % 4;
-		if (p_currentUnit->getMoveSet()->p_spells[m_currentSpellIndex]->getCost() == 0)
+		if (p_currentUnit->GetMoveSet()->p_spells[m_currentSpellIndex]->GetCost() == 0)
 			 changeSpell(0, mouseCoords);
 		break;
-	case 1 :
-		m_currentSpellIndex++;
-		if (p_currentUnit->getMoveSet()->p_spells[m_currentSpellIndex]->getCost() == 0)
-			changeSpell(-1, mouseCoords);
+	case -1 :
+		if (m_currentSpellIndex < 3) m_currentSpellIndex++;
+		if (p_currentUnit->GetMoveSet()->p_spells[m_currentSpellIndex]->GetCost() == 0) // no cost means null spell
+			changeSpell(1, mouseCoords);
 		break;
 	}
 	
@@ -312,85 +291,85 @@ void Model::updateStatsDisplay(Unit* unit, UIIcon* icon, UIText* name,
 	//set icon
 	if (icon != nullptr) 
 	{
-		if (unit != nullptr) icon->setTexture(unit->getTextureID());
-		else icon->setTexture(-1);
+		if (unit != nullptr) icon->SetTexture(unit->GetTextureID());
+		else icon->SetTexture(-1);
 
-		icon->redraw();
+		icon->Redraw();
 	}
 
 	//set name
 	if (name != nullptr)
 	{
-		if (unit != nullptr) name->updateText(unit->getName());
-		else name->updateText("");
+		if (unit != nullptr) name->UpdateText(unit->GetName());
+		else name->UpdateText("");
 
-		name->redraw();
+		name->Redraw();
 	}
 
 	//set health
 	if (health != nullptr)
 	{
 		if (unit != nullptr) 
-			health->updateText(std::to_string(unit->getHealth())
-                + "/" + std::to_string(unit->getHealthMax()));
-		else health->updateText("");
+			health->UpdateText(std::to_string(unit->GetHealth())
+                + "/" + std::to_string(unit->GetHealthMax()));
+		else health->UpdateText("");
 
-		health->redraw();
+		health->Redraw();
 	}
 
 	//set energy
 	if (energy != nullptr)
 	{
         if (unit != nullptr) 
-			energy->updateText(std::to_string(unit->getEnergy()) 
-                + "/" + std::to_string(unit->getEnergyMax()));
-		else energy->updateText("");
+			energy->UpdateText(std::to_string(unit->GetEnergy()) 
+                + "/" + std::to_string(unit->GetEnergyMax()));
+		else energy->UpdateText("");
 
-		energy->redraw();
+		energy->Redraw();
 	}
 
 	if (speed != nullptr)
 	{
 		if (unit != nullptr)
-			speed->updateText(std::to_string(unit->getSpeed()));
-		else speed->updateText("");
+			speed->UpdateText(std::to_string(unit->GetSpeed()));
+		else speed->UpdateText("");
 
-		speed->redraw();
+		speed->Redraw();
 	}
 
 	if (cb != nullptr)
 	{
 		if (unit != nullptr)
-			cb->updateText(std::to_string(unit->getCombatPoints())
-				+ "/" + std::to_string(unit->getCombatPointsMax()));
-		else cb->updateText("");
+			cb->UpdateText(std::to_string(unit->GetCombatPoints())
+				+ "/" + std::to_string(unit->GetCombatPointsMax()));
+		else cb->UpdateText("");
 
-		cb->redraw();
+		cb->Redraw();
 	}
 }
 
 void Model::updateSelectedSpellBox()
 {
-	p_selectedSpellBox->setPos(p_spellText[m_currentSpellIndex]->getPos());
-	p_selectedSpellBox->redraw();
+	p_selectedSpellBox->SetPos(p_spellText[m_currentSpellIndex]->GetPos());
+	p_selectedSpellBox->Redraw();
 }
 
 void Model::updateSpellDisplay(Unit* currentUnit)
 {
 	for (size_t i = 0; i < p_spellText.size(); i++)
 	{
-		if (i < currentUnit->getMoveSet()->getMoveSetSize())
+		if (i < currentUnit->GetMoveSet()->GetMoveSetSize())
 		{
-			p_spellText[i]->updateText(currentUnit->getMoveSet()->getSpell(i)->getName());
-			p_spellText[i]->setVisible(true);
+			p_spellText[i]->UpdateText(currentUnit->GetMoveSet()->GetSpell(i)->GetName());
+			p_spellText[i]->SetVisible(true);
 		}
 		else
 		{
-			p_spellText[i]->updateText(" ");
-			p_spellText[i]->setVisible(false);
+			p_spellText[i]->UpdateText(" ");
+			p_spellText[i]->SetVisible(false);
 		}
         
-		p_spellText[i]->redraw();
+		p_spellText[i]->Redraw();
 	}
 }
 
@@ -402,21 +381,21 @@ void Model::updateHighlight(std::vector<std::vector<Tile*>> tiles,
 		if (!tiles[mouseCoords.y][mouseCoords.x]->m_isObstacle)
 		{
 			updateHighlightColour(mouseCoords, hoverHighlight);
-			hoverHighlight->setVisible(true);
-			hoverHighlight->setPos(mouseCoords * TILE_WIDTH);
-			hoverHighlight->redraw();
+			hoverHighlight->SetVisible(true);
+			hoverHighlight->SetPos(mouseCoords * TILE_WIDTH);
+			hoverHighlight->Redraw();
 		}
-		else hoverHighlight->setVisible(false);
+		else hoverHighlight->SetVisible(false);
 	}
-    else hoverHighlight->setVisible(false);
+    else hoverHighlight->SetVisible(false);
 }
 
 void Model::updateHighlightColour(glm::ivec2 mouseCoords, UIIcon* hoverHighlight)
 {
-	if (checkIfTileReachable(mouseCoords, p_currentUnit->getCoords(),
-		p_currentUnit->getMoveSet()->p_spells[m_currentSpellIndex]->getRange()))
-		hoverHighlight->setColour({ 255, 15, 15, 200 });
-	else hoverHighlight->setColour({ 100, 100, 100, 200 });
+	if (checkIfTileReachable(mouseCoords, p_currentUnit->GetCoords(),
+		p_currentUnit->GetMoveSet()->p_spells[m_currentSpellIndex]->GetRange()))
+		hoverHighlight->SetColour({ 255, 15, 15, 200 });
+	else hoverHighlight->SetColour({ 100, 100, 100, 200 });
 }
 
 bool Model::checkIfTileReachable(glm::ivec2 mouseCoords, glm::ivec2 unitCoords, int spellRange)
@@ -442,51 +421,51 @@ bool Model::checkIfCoordsInBound(std::vector<std::vector<Tile*>> tiles,
 
 void Model::updateTileStates(TileMap* tileMap, Unit* currentUnit)
 {
-	tileMap->resetWalkable();
+	tileMap->ResetWalkable();
 	std::vector<glm::vec2> walkableTiles = tileMap->
-		getWalkablePos(currentUnit->getCoords(), 
-            (int)floor(currentUnit->getEnergy() / currentUnit->getMoveCost()));
-	p_walkableHighlight->setMultidraw(walkableTiles);	
-	p_walkableHighlight->redraw();
+		GetWalkablePos(currentUnit->GetCoords(), 
+            (int)floor(currentUnit->GetEnergy() / currentUnit->GetMoveCost()));
+	p_walkableHighlight->SetMultidraw(walkableTiles);	
+	p_walkableHighlight->Redraw();
 }
 
 void Model::updateCurrentUnitBox(Unit* currentUnit, UIIcon* currentUnitBox)
 {
 	if (currentUnit != nullptr)
 	{
-		currentUnitBox->setVisible(true);
-		currentUnitBox->setPos(currentUnit->getPos());
-		currentUnitBox->setColour({ 0, 255, 0, 255 });
+		currentUnitBox->SetVisible(true);
+		currentUnitBox->SetPos(currentUnit->GetPos());
+		currentUnitBox->SetColour({ 0, 255, 0, 255 });
 	}
-	else currentUnitBox->setVisible(false);
+	else currentUnitBox->SetVisible(false);
 
-	currentUnitBox->redraw();
+	currentUnitBox->Redraw();
 }
 
 void Model::updateSelectedUnitBox(Unit* selectedUnit, UIIcon* selectBox)
 {
 	if (selectedUnit != nullptr)
 	{
-		selectBox->setVisible(true);
-		selectBox->setPos(selectedUnit->getPos());
+		selectBox->SetVisible(true);
+		selectBox->SetPos(selectedUnit->GetPos());
 
-        if (selectedUnit->getIsFriendly()) 
-			selectBox->setColour({ 200, 200, 200, 255 });
-		else selectBox->setColour({ 255, 0, 0, 255 });
+        if (selectedUnit->GetIsFriendly()) 
+			selectBox->SetColour({ 200, 200, 200, 255 });
+		else selectBox->SetColour({ 255, 0, 0, 255 });
 	}
-	else selectBox->setVisible(false);
+	else selectBox->SetVisible(false);
 
-	selectBox->redraw();
+	selectBox->Redraw();
 }
 
 Solengine::GameState Model::endTurn(std::vector<Unit*> units, Unit* currentUnit)
 { 
-	currentUnit->newTurn();
+	currentUnit->NewTurn();
 
 	turnCounter = (turnCounter + 1)%units.size();
 
 	for (size_t i = 0; i < units.size(); i++)
-		if (units[i]->getTurnPoints() < currentUnit->getTurnPoints()) currentUnit = units[i];
+		if (units[i]->GetTurnPoints() < currentUnit->GetTurnPoints()) currentUnit = units[i];
 	
 	beginTurn(units[turnCounter%units.size()]);
 	
@@ -495,12 +474,12 @@ Solengine::GameState Model::endTurn(std::vector<Unit*> units, Unit* currentUnit)
 
 void Model::beginTurn(Unit* unit)
 {
-	setCurrentUnit(unit);
-	m_effectManager.newCombatEffect(unit, unit->getStatusEffects());
+	SetCurrentUnit(unit);
+	m_visualEffectManager.NewCombatEffect(unit, unit->GetStatusEffects());
 
-	if (unit == p_selectedUnit) setSelectedUnit(nullptr);
+	if (unit == p_selectedUnit) SetSelectedUnit(nullptr);
 
-	setCameraCentre(unit);
+	SetCameraCentre(unit);
 
 	updateTileStates(p_tileMap, unit);
 
@@ -517,4 +496,7 @@ void Model::beginTurn(Unit* unit)
 	updateSelectedSpellBox();
 }
 
-std::vector<std::pair<Drawable*, Drawable*>> Model::getEffects() { return m_effectManager.getEffects(); }
+std::vector<std::pair<Drawable*, Drawable*>> Model::GetEffects() 
+{ 
+	return m_visualEffectManager.GetEffects();
+}

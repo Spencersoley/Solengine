@@ -28,8 +28,8 @@ public:
 	void setScrollIcon(UIIcon* icon) 
 	{ 
 		scrollIcon = icon; 
-		scrollIconStartYPos = icon->getPos().y;
-		scrollIconStartHeight = icon->getHeight();
+		scrollIconStartYPos = icon->GetPos().y;
+		scrollIconStartHeight = icon->GetHeight();
 	}
 
 	std::vector<Drawable*> init(int sW, int sH)
@@ -71,8 +71,8 @@ public:
 		
 		for (size_t i = 0; (i < p_text.size() && i < m_log.size()); i++)
 		{
-	        p_text[i]->updateText(m_log[i]);
-			p_text[i]->redraw();
+	        p_text[i]->UpdateText(m_log[i]);
+			p_text[i]->Redraw();
 		}
 
 		m_logDisplay = 0;
@@ -80,17 +80,17 @@ public:
 
 		if (m_log.size() > 4 && m_log.size() < 50)
 		{
-			scrollIcon->resizeHeight(scrollIconStartHeight * (4.0f / m_log.size()));
-			scrollIcon->redraw();
+			scrollIcon->ResizeHeight(scrollIconStartHeight * (4.0f / m_log.size()));
+			scrollIcon->Redraw();
 		}
 
-		scrollIcon->setPos({ scrollIcon->getPos().x, scrollIconStartYPos });
+		scrollIcon->SetPos({ scrollIcon->GetPos().x, scrollIconStartYPos });
 	} 
 
 	void highlightRecentMessage(bool highlight)
 	{
-		if (highlight) p_text[0]->setColour({ 255, 155, 40, 255 });
-		else p_text[0]->setColour({ 155, 155, 155, 255 });
+		if (highlight) p_text[0]->SetColour({ 255, 155, 40, 255 });
+		else p_text[0]->SetColour({ 155, 155, 155, 255 });
 	}
 
 	void scrollCombatLog(bool scrollUp)
@@ -100,8 +100,8 @@ public:
 		else return; 
 		
 		changeDisplayedLines(m_logDisplay);
-		scrollIcon->setPos({ scrollIcon->getPos().x, scrollIconStartYPos + (scrollIconStartHeight * ((float)m_logDisplay / m_log.size())) });
-		scrollIcon->redraw();
+		scrollIcon->SetPos({ scrollIcon->GetPos().x, scrollIconStartYPos + (scrollIconStartHeight * ((float)m_logDisplay / m_log.size())) });
+		scrollIcon->Redraw();
 	}
 
 	void changeDisplayedLines(int start)
@@ -109,8 +109,8 @@ public:
 		for (size_t i = 0; i < p_text.size(); i++)
 			if (i < m_log.size() - 1)
 			{
-				p_text[i]->updateText(m_log[start + i]);
-				p_text[i]->redraw();
+				p_text[i]->UpdateText(m_log[start + i]);
+				p_text[i]->Redraw();
 			}
 
 		if (start == 0) highlightRecentMessage(true);

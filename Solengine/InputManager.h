@@ -16,24 +16,20 @@ namespace Solengine {
 		~InputManager();
 
 		//Using SDL keyIDs for now, would be better to wrap keyIDs in your own enum
-		void keyDown(unsigned int keyID);
-		void keyUp(unsigned int keyID);
-		bool keyPress(unsigned int keyID);
-		void setMouseCoords(int x, int y);
-		void setMouseWheel(float y);
-		bool keyState(unsigned int keyID);
-		bool previousKeyState(unsigned int keyID);
+		void KeyDown(unsigned int keyID);
+		void KeyUp(unsigned int keyID);
+		bool KeyPress(unsigned int keyID);
+		void SetMouseCoords(int x, int y);
+		void SetMouseWheel(float y);
+		bool KeyState(unsigned int keyID);
+		bool PreviousKeyState(unsigned int keyID);
 
-		Solengine::GameState processInput();
+		Solengine::GameState ProcessInput();
 
-		glm::vec2 getMouseCoords() { return m_mouseCoords; }
-		float getMouseWheel() { return m_mouseWheel; }
+		glm::vec2 GetMouseCoords() { return m_mouseCoords; }
+		float GetMouseWheel() { return m_mouseWheel; }
 
 	private:
-		//We want to store states for all of our keys. We could make an array of booleans, but that would use a lot of memory.
-		//Instead, we can use a 'map'. Unordered maps behave similarly to ordered maps except they're internally stored as 
-		//a hash table rather than a tree, making it faster to access (it accesses in constant time rather than log time).
-		//however, it can use more space than a map. It's fine as order is irrelevant to us.
 		void updatePreviousKeyMap();
 
 		std::unordered_map<unsigned int, bool> m_keyMap;

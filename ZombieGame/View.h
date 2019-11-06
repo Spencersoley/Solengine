@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Solengine/GLSLProgram.h>
-#include <Solengine/Camera2D.h>
+#include <Solengine/ICamera.h>
 #include <Solengine/SpriteBatch.h>
 #include <Solengine/Window.h>
 #include <Solengine/Font.h>
@@ -24,7 +24,7 @@ public:
 	View();
 	~View();
 
-	void init(Player* player, Solengine::Camera2D* cam, Solengine::Camera2D* uiCam, int screenwidth, int screenheight);
+	void init(Player* player, Solengine::ICamera* cam, Solengine::ICamera* uiCam, int screenwidth, int screenheight);
 	void update(std::vector<Human*>& humans, std::vector<Zombie*>& zombies, std::vector<Level*>& levels, std::vector<Bullet>& m_bullets);
 
 private: 
@@ -42,8 +42,8 @@ private:
 
 	Solengine::Font* p_SOL_spriteFont = nullptr;
 
-	Solengine::Camera2D* p_SOL_cam = nullptr;
-	Solengine::Camera2D* p_SOL_uiCam = nullptr;
+	Solengine::ICamera* p_SOL_cam = nullptr;
+	Solengine::ICamera* p_SOL_uiCam = nullptr;
 	Player* p_player = nullptr;
 
 	int m_screenHeight;

@@ -5,7 +5,7 @@
 int main(int argc, char** argv)
 {
 	Scene m_scene;
-	m_scene.run();
+	m_scene.Run();
 
 	std::cout << std::endl;
 

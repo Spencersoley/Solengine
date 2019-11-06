@@ -11,7 +11,7 @@ Drawable::~Drawable()
 {
 }
 
-void Drawable::draw()
+void Drawable::Draw()
 {
 	if (!m_isVisible || m_textureID == -1) return;
 
@@ -21,13 +21,13 @@ void Drawable::draw()
 		glm::vec4 destRect(m_pos.x, m_pos.y,
 			m_width, m_height);
 
-		p_SOL_S->draw(destRect, uvRect, m_textureID, 0.0f, m_colour);
+		p_SOL_S->Draw(destRect, uvRect, m_textureID, 0.0f, m_colour);
 
-		p_SOL_S->end();
-		p_SOL_S->render();
+		p_SOL_S->End();
+		p_SOL_S->Render();
 
 		m_redraw = false;
 	}
-	else p_SOL_S->render();
+	else p_SOL_S->Render();
 }
 

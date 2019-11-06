@@ -4,34 +4,34 @@
 
 namespace Solengine
 {
-	SpriteBatch::SpriteBatch() : m_VBO(0), m_VAO(0)
+	SpriteBatch::SpriteBatch() : vertexBufferObject(0), vertexArrayObject(0)
 	{
 		createVertexArray();
 	}
 
 	SpriteBatch::~SpriteBatch() {}
 
-	void SpriteBatch::begin(GlyphSortType sortType/* = GlyphSortType::TEXTURE*/)
+	void SpriteBatch::Begin(GlyphSortType sType/* = GlyphSortType::TEXTURE*/)
 	{
-		m_sortType = sortType;
-		m_renderBatches.clear();
-		m_glyphs.clear();
+		sortType = sType;
+		renderBatches.clear();
+		glyphs.clear();
 	}
 
-	void SpriteBatch::end()
+	void SpriteBatch::End()
 	{
-		p_glyphs.resize(m_glyphs.size());
-		for (size_t i = 0; i < m_glyphs.size(); i++)
+		_glyphs.resize(glyphs.size());
+		for (size_t i = 0; i < glyphs.size(); i++)
 		{
-			p_glyphs[i] = &m_glyphs[i];
+			_glyphs[i] = &glyphs[i];
 		}
 		sortGlyphs();
 		createRenderBatches();
 	}
 
-	void SpriteBatch::draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const ColourRGBA8& colour)
+	void SpriteBatch::Draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const ColourRGBA8& colour)
 	{
-		m_glyphs.emplace_back(destRect, uvRect, texture, depth, colour);
+		glyphs.emplace_back(destRect, uvRect, texture, depth, colour);
 	}
 
 	void SpriteBatch::createRenderBatches()
@@ -39,46 +39,46 @@ namespace Solengine
 		std::vector <Vertex> vertices;
 		//reserving memory should make this faster
 		//resizes based on size of glyph array
-		vertices.resize(p_glyphs.size() * 6);
+		vertices.resize(_glyphs.size() * 6);
 
 		//.empty is same as .size == 0;
-		if (p_glyphs.empty()) return;
+		if (_glyphs.empty()) return;
 		
 		//current vertex
 		int cv = 0; 
 		int offset = 0;
 	
-		m_renderBatches.emplace_back(offset, 6, p_glyphs[0]->texture);
+		renderBatches.emplace_back(offset, 6, _glyphs[0]->Texture);
 		
-		vertices[cv++] = p_glyphs[0]->topLeft;
-		vertices[cv++] = p_glyphs[0]->bottomLeft;
-		vertices[cv++] = p_glyphs[0]->bottomRight;
-		vertices[cv++] = p_glyphs[0]->bottomRight;
-		vertices[cv++] = p_glyphs[0]->topRight;
-		vertices[cv++] = p_glyphs[0]->topLeft;
+		vertices[cv++] = _glyphs[0]->TopLeft;
+		vertices[cv++] = _glyphs[0]->BottomLeft;
+		vertices[cv++] = _glyphs[0]->BottomRight;
+		vertices[cv++] = _glyphs[0]->BottomRight;
+		vertices[cv++] = _glyphs[0]->TopRight;
+		vertices[cv++] = _glyphs[0]->TopLeft;
 		offset += 6;
 
-		for (size_t cg = 1; cg < p_glyphs.size(); cg++)
+		for (size_t cg = 1; cg < _glyphs.size(); cg++)
 		{
-			if (p_glyphs[cg]->texture != p_glyphs[cg - 1]->texture)
+			if (_glyphs[cg]->Texture != _glyphs[cg - 1]->Texture)
 			{
-				m_renderBatches.emplace_back(offset, 6, p_glyphs[cg]->texture);
+				renderBatches.emplace_back(offset, 6, _glyphs[cg]->Texture);
 			}
 			else
 			{
-				m_renderBatches.back().numVertices += 6;
+				renderBatches.back().NumVertices += 6;
 			}
 
-			vertices[cv++] = p_glyphs[cg]->topLeft;
-			vertices[cv++] = p_glyphs[cg]->bottomLeft;
-			vertices[cv++] = p_glyphs[cg]->bottomRight;
-			vertices[cv++] = p_glyphs[cg]->bottomRight;
-			vertices[cv++] = p_glyphs[cg]->topRight;
-			vertices[cv++] = p_glyphs[cg]->topLeft;
+			vertices[cv++] = _glyphs[cg]->TopLeft;
+			vertices[cv++] = _glyphs[cg]->BottomLeft;
+			vertices[cv++] = _glyphs[cg]->BottomRight;
+			vertices[cv++] = _glyphs[cg]->BottomRight;
+			vertices[cv++] = _glyphs[cg]->TopRight;
+			vertices[cv++] = _glyphs[cg]->TopLeft;
 			offset += 6;
 		}
 		//bind buffer
-		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+		glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
 		//orphan the buffer
 		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), nullptr, GL_DYNAMIC_DRAW);
 		//upload the data
@@ -88,15 +88,15 @@ namespace Solengine
 	}
 
 	//Renders the entire spritebatch to screen
-	void SpriteBatch::render()
+	void SpriteBatch::Render()
 	{
-		glBindVertexArray(m_VAO);
+		glBindVertexArray(vertexArrayObject);
 
-		for (size_t i = 0; i < m_renderBatches.size(); i++)
+		for (size_t i = 0; i < renderBatches.size(); i++)
 		{
-			glBindTexture(GL_TEXTURE_2D, m_renderBatches[i].texture);
+			glBindTexture(GL_TEXTURE_2D, renderBatches[i].Texture);
 
-			glDrawArrays(GL_TRIANGLES, m_renderBatches[i].offset, m_renderBatches[i].numVertices);
+			glDrawArrays(GL_TRIANGLES, renderBatches[i].Offset, renderBatches[i].NumVertices);
 		}
 
 		glBindVertexArray(0);
@@ -104,17 +104,17 @@ namespace Solengine
 
 	void SpriteBatch::createVertexArray()
 	{
-		if (m_VAO == 0)
+		if (vertexArrayObject == 0)
 		{
-			glGenVertexArrays(1, &m_VAO);
+			glGenVertexArrays(1, &vertexArrayObject);
 		}
-		glBindVertexArray(m_VAO);
+		glBindVertexArray(vertexArrayObject);
 
-		if (m_VBO == 0)
+		if (vertexBufferObject == 0)
 		{
-		    glGenBuffers(1, &m_VBO);
+		    glGenBuffers(1, &vertexBufferObject);
 		}
-		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+		glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
 
 		//Tells opengl to use the first attrib array.
 		//We only need this for now as we're only using position.
@@ -134,32 +134,32 @@ namespace Solengine
 
 	void SpriteBatch::sortGlyphs() 
 	{
-		switch (m_sortType)
+		switch (sortType)
 		{
 		    case GlyphSortType::BACK_TO_FRONT:
-			    std::stable_sort(p_glyphs.begin(), p_glyphs.end(), compareBackToFront);
+			    std::stable_sort(_glyphs.begin(), _glyphs.end(), compareBackToFront);
 				break;
 			case GlyphSortType::FRONT_TO_BACK:
-				std::stable_sort(p_glyphs.begin(), p_glyphs.end(), compareFrontToBack);
+				std::stable_sort(_glyphs.begin(), _glyphs.end(), compareFrontToBack);
 				break;
 			case GlyphSortType::TEXTURE:
-				std::stable_sort(p_glyphs.begin(), p_glyphs.end(), compareTexture);
+				std::stable_sort(_glyphs.begin(), _glyphs.end(), compareTexture);
 				break;
 		}	
 	}
 
 	bool SpriteBatch::compareFrontToBack(Glyph* a, Glyph* b)
 	{
-		return (a->depth < b->depth);
+		return (a->Depth < b->Depth);
 	}
 
 	bool SpriteBatch::compareBackToFront(Glyph* a, Glyph* b)
 	{
-		return (a->depth > b->depth);
+		return (a->Depth > b->Depth);
 	}
 
 	bool SpriteBatch::compareTexture(Glyph* a, Glyph* b) 
 	{
-		return (a->texture < b->texture);
+		return (a->Texture < b->Texture);
 	}
 }

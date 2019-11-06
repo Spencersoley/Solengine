@@ -10,7 +10,7 @@ Level::Level(std::vector<std::string> levelData)
 {
 	m_levelData = levelData;
 	m_SOL_levelSpriteBatch.init();
-	m_SOL_levelSpriteBatch.begin();
+	m_SOL_levelSpriteBatch.Begin();
 
 	glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
 	Solengine::ColourRGBA8 whiteColour = {/*r*/ 255, /*g*/ 255, /*b*/ 255, /*a*/ 255 };
@@ -33,17 +33,17 @@ Level::Level(std::vector<std::string> levelData)
 			switch (tile) 
 			{
 			    case 'R':
-					m_SOL_levelSpriteBatch.draw(destRect, uvRect, Solengine::ResourceManager::getTexture("Textures/zombie_pack/light_bricks.png").textureID, 0.0f, whiteColour);
+					m_SOL_levelSpriteBatch.Draw(destRect, uvRect, Solengine::ResourceManager::GetTexture("Textures/zombie_pack/light_bricks.png").textureID, 0.0f, whiteColour);
 					//std::cout << x << " " << y << std::endl;
 					m_nodeRow.emplace_back(-1, x, y, TILE_WIDTH);
 					break;
 				case 'G':
-					m_SOL_levelSpriteBatch.draw(destRect, uvRect, Solengine::ResourceManager::getTexture("Textures/zombie_pack/glass.png").textureID, 0.0f, whiteColour);
+					m_SOL_levelSpriteBatch.Draw(destRect, uvRect, Solengine::ResourceManager::GetTexture("Textures/zombie_pack/glass.png").textureID, 0.0f, whiteColour);
 					//std::cout << x << " " << y << std::endl;
 					m_nodeRow.emplace_back(-1, x, y, TILE_WIDTH);
 					break;
 				case 'L':
-				    m_SOL_levelSpriteBatch.draw(destRect, uvRect, Solengine::ResourceManager::getTexture("Textures/zombie_pack/light_bricks.png").textureID, 0.0f, whiteColour);
+				    m_SOL_levelSpriteBatch.Draw(destRect, uvRect, Solengine::ResourceManager::GetTexture("Textures/zombie_pack/light_bricks.png").textureID, 0.0f, whiteColour);
 					//std::cout << x << " " << y << std::endl;
 					m_nodeRow.emplace_back(-1, x, y, TILE_WIDTH);
 					break;
@@ -72,7 +72,7 @@ Level::Level(std::vector<std::string> levelData)
 		}
 		m_nodeField.push_back(m_nodeRow);
 	}
-	m_SOL_levelSpriteBatch.end();
+	m_SOL_levelSpriteBatch.End();
 }
 
 Level::~Level()

@@ -17,22 +17,22 @@ public:
 	Level(std::vector<std::string> levelData);
 	~Level();
 
-	void draw();
+	void Draw();
 
-	glm::vec2 getAdeptSpawnCoords() const { return m_adeptSpawnCoords; }
-	glm::vec2 getFighterSpawnCoords() const { return m_fighterSpawnCoords; }
-	glm::vec2 getScoutSpawnCoords() const { return m_scoutSpawnCoords; }
-	int getEnemyCount() const { return m_enemySpawnCoords.size(); }
-	glm::vec2 getEnemySpawnCoords() 
+	glm::vec2 GetAdeptSpawnCoords() const { return m_adeptSpawnCoords; }
+	glm::vec2 GetFighterSpawnCoords() const { return m_fighterSpawnCoords; }
+	glm::vec2 GetScoutSpawnCoords() const { return m_scoutSpawnCoords; }
+	int GetEnemyCount() const { return m_enemySpawnCoords.size(); }
+	glm::vec2 GetEnemySpawnCoords() 
 	{ 
 		glm::vec2 spawnCoords = m_enemySpawnCoords[m_enemySpawnCoords.size() - 1];
 		m_enemySpawnCoords.pop_back();
 		return spawnCoords; 
 	}
 
-	TileMap* getTileMap() { return &m_tileMap; }
+	TileMap* GetTileMap() { return &m_tileMap; }
 
-	bool checkMouseover(glm::vec2 mousePos) { return false; }
+	bool CheckMouseover(glm::vec2 mousePos) { return false; }
 
 private:
 	glm::vec2 m_adeptSpawnCoords;

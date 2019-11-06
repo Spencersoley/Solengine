@@ -32,15 +32,15 @@ public:
 	void addNeighbour(Tile* tile) { p_neighbours.push_back(tile); }
 	glm::vec2 getPos() const { return { m_xPos, m_yPos }; }
 
-	int getDist() { return m_stepDistance; }
-	void setDist(int dist) { m_stepDistance = dist; }
-	bool getIsObstacle() { return m_isObstacle; }
-	void setIsObstacle(bool set) { m_isObstacle = set; }
-	bool getIsWalkable() { return m_isWalkable; }
-	void setIsWalkable(bool set) { m_isWalkable = set; }
+	int GetDist() { return m_stepDistance; }
+	void SetDist(int dist) { m_stepDistance = dist; }
+	bool GetIsObstacle() { return m_isObstacle; }
+	void SetIsObstacle(bool set) { m_isObstacle = set; }
+	bool GetIsWalkable() { return m_isWalkable; }
+	void SetIsWalkable(bool set) { m_isWalkable = set; }
 
-	void setWalkable(int stepsAvailable, int stepDistance);
-	void setOccupied(bool occupied) { m_isOccupied = occupied; }
+	void SetWalkable(int stepsAvailable, int stepDistance);
+	void SetOccupied(bool occupied) { m_isOccupied = occupied; }
 
 	std::vector<Tile*> p_neighbours;
 

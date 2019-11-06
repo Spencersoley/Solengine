@@ -11,13 +11,13 @@ public:
 	Controller();
 	~Controller();
 
-	void init(Solengine::Camera2D* cam);
+	void init(Solengine::ICamera* cam);
 	Solengine::GameState playStateInput();
 	Solengine::GameState pauseStateInput();
 
 private:
 	Solengine::InputManager m_SOL_inputManager;
 
-	Solengine::Camera2D* p_SOL_cam = nullptr;
+	Solengine::ICamera* p_SOL_cam = nullptr;
 };
 

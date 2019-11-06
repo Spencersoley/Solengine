@@ -9,7 +9,7 @@ namespace Solengine
 	class ImageLoader
 	{
 	public:
-		static GLTexture loadPNG(std::string filePath);
+		static GLTexture LoadPNG(std::string filePath);
 	};
 }
 

@@ -12,7 +12,7 @@ public:
 	Controller();
 	~Controller();
 
-	void init(Solengine::Camera2D* cam, Player* player, std::vector<Level*> levels);
+	void init(Solengine::ICamera* cam, Player* player, std::vector<Level*> levels);
 	Solengine::GameState playStateInput();
 	Solengine::GameState pauseStateInput();
 
@@ -21,7 +21,7 @@ private:
 
 	std::vector<Level*> p_levels;
 
-	Solengine::Camera2D* p_SOL_cam = nullptr;
+	Solengine::ICamera* p_SOL_cam = nullptr;
 	Player* p_player = nullptr;
 };
 

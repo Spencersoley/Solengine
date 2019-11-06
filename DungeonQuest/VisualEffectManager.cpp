@@ -1,4 +1,4 @@
-#include "EffectManager.h"
+#include "VisualEffectManager.h"
 
 #include "UIText.h"
 

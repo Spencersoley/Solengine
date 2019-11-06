@@ -70,12 +70,12 @@ void Bullet::draw(Solengine::SpriteBatch& spriteBatch)
 {
 	//Our resourcemanager should not be static! change it
 
-	static int textureID = Solengine::ResourceManager::getTexture("Textures/zombie_pack/circle2.png").textureID;
+	static int textureID = Solengine::ResourceManager::GetTexture("Textures/zombie_pack/circle2.png").textureID;
 
 	glm::vec4 destRect(m_position.x + BULLET_RADIUS, m_position.y + BULLET_RADIUS, BULLET_RADIUS * 2, BULLET_RADIUS * 2);
 	const glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
 
 	Solengine::ColourRGBA8 colour = {/*r*/ 150, /*g*/ 150, /*b*/ 150, /*a*/ 255 };
 
-	spriteBatch.draw(destRect, uvRect, textureID, 0.0f, colour);
+	spriteBatch.Draw(destRect, uvRect, textureID, 0.0f, colour);
 }

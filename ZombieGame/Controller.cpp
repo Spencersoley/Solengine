@@ -8,7 +8,7 @@ Controller::~Controller()
 {
 }
 
-void Controller::init(Solengine::Camera2D* cam, Player* player, std::vector<Level*> levels)
+void Controller::init(Solengine::ICamera* cam, Player* player, std::vector<Level*> levels)
 {
 	p_SOL_cam = cam;
 	p_player = player;

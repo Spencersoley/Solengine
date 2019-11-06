@@ -2,7 +2,7 @@
 
 #include "Solengine/ResourceManager.h"
 #include "Solengine/SDLInitialiser.h"
-#include "Solengine/ErrorHandler.h"
+//#include "Solengine/ErrorHandler.h"
 
 #include <iostream>
 #include <string>
@@ -48,7 +48,7 @@ Scene::~Scene()
 }
 
 //Runs the game
-void Scene::run()
+void Scene::Run()
 {
 	initSystems();
 	gameLoop(&m_model, &m_view);
@@ -59,11 +59,11 @@ void Scene::initSystems()
 {
 	Solengine::initialiseSDL();
 	
-	m_view.init(&m_SOL_cam, &m_SOL_uiCam, m_screenWidth, m_screenHeight);
+	m_view.Init(&m_SOL_cam, &m_SOL_uiCam, m_screenWidth, m_screenHeight);
 
 	LoadingScreen loadScreen(m_screenWidth, m_screenHeight, &m_view);
 
-	m_model.init(m_physicsSpeed, &m_SOL_cam, m_screenWidth, m_screenHeight);
+	m_model.Init(m_physicsSpeed, &m_SOL_cam, m_screenWidth, m_screenHeight);
 
 	initScene();
 }
@@ -71,7 +71,7 @@ void Scene::initSystems()
 //Initialise the game content
 void Scene::initScene()
 {
-	m_spellBook.initSpells();
+	m_spellBook.InitSpells();
 
 	std::vector<Drawable*> worldDrawables;
 	std::vector<Drawable*> overlayDrawables;
@@ -89,63 +89,63 @@ void Scene::initScene()
 	p_levels.push_back(new Level(m_SOL_tileLevelLoader.ParseLevelData("Levels/DQlevel1.txt")));
 	worldDrawables.push_back(p_levels.back());
 
-	m_model.setTileMap(p_levels[0]->getTileMap());
+	m_model.SetTileMap(p_levels[0]->GetTileMap());
 
 	//LAYER 1
 
 	//Set walkable highlight
 	UIIcon* walkableHighlight = new UIIcon({ 0, 0 }, TILE_WIDTH, TILE_WIDTH,
-		Solengine::ResourceManager::getTexture("Textures/DQ_pack/DQtile.png").textureID,
+		Solengine::ResourceManager::GetTexture("Textures/DQ_pack/DQtile.png").textureID,
 		{ 0, 150, 0, 150 });
-	m_model.setWalkableHighlight(walkableHighlight);
+	m_model.SetWalkableHighlight(walkableHighlight);
 	worldDrawables.push_back(walkableHighlight);
 
 	//Set hover highlight
 	UIIcon* hoverHighlight = new UIIcon({ 0, 0 }, TILE_WIDTH, TILE_WIDTH,
-		Solengine::ResourceManager::getTexture("Textures/DQ_pack/Aim.png").textureID,
+		Solengine::ResourceManager::GetTexture("Textures/DQ_pack/Aim.png").textureID,
 		{ 200, 200, 200, 100 });
-	m_model.setHoverHighlight(hoverHighlight);
+	m_model.SetHoverHighlight(hoverHighlight);
 	worldDrawables.push_back(hoverHighlight);
 
 	//Selection box
 	UIIcon* selectionBox = new UIIcon({ 0, 0 }, TILE_WIDTH, TILE_WIDTH,
-		Solengine::ResourceManager::getTexture("Textures/DQ_pack/selection.png").textureID);
-	m_model.setSelectionBox(selectionBox);
+		Solengine::ResourceManager::GetTexture("Textures/DQ_pack/selection.png").textureID);
+	m_model.SetSelectionBox(selectionBox);
 	worldDrawables.push_back(selectionBox);
 
 	//Current unit box
 	UIIcon* currentUnitBox = new UIIcon({ 0, 0 }, TILE_WIDTH, TILE_WIDTH,
-		Solengine::ResourceManager::getTexture("Textures/DQ_pack/selection.png").textureID);
-	m_model.setCurrentUnitBox(currentUnitBox);
+		Solengine::ResourceManager::GetTexture("Textures/DQ_pack/selection.png").textureID);
+	m_model.SetCurrentUnitBox(currentUnitBox);
 	worldDrawables.push_back(currentUnitBox);
 
 	//LAYER 2
 
 	UnitSpawner unitSpawner;
-	unitSpawner.init(&m_spellBook, p_levels, m_currentLevel);
+	unitSpawner.Init(&m_spellBook, p_levels, m_currentLevel);
 	std::vector<Drawable*> tempDraw;
 
 	//ADEPT INIT
-	p_units.push_back(unitSpawner.spawnAdept());
-	tempDraw = unitSpawner.getDrawables(p_units.back());
+	p_units.push_back(unitSpawner.SpawnAdept());
+	tempDraw = unitSpawner.GetDrawables(p_units.back());
 	worldDrawables.insert(worldDrawables.end(), tempDraw.begin(), tempDraw.end());
 
 	//FIGHTER INIT
-	p_units.push_back(unitSpawner.spawnFighter());
-	tempDraw = unitSpawner.getDrawables(p_units.back());
+	p_units.push_back(unitSpawner.SpawnFighter());
+	tempDraw = unitSpawner.GetDrawables(p_units.back());
 	worldDrawables.insert(worldDrawables.end(), tempDraw.begin(), tempDraw.end());
 
 	//SCOUT INIT
-	p_units.push_back(unitSpawner.spawnScout());
-	tempDraw = unitSpawner.getDrawables(p_units.back());
+	p_units.push_back(unitSpawner.SpawnScout());
+	tempDraw = unitSpawner.GetDrawables(p_units.back());
 	worldDrawables.insert(worldDrawables.end(), tempDraw.begin(), tempDraw.end());
 
 	//ENEMY INIT
-	int enemyCount = p_levels[m_currentLevel]->getEnemyCount();
+	int enemyCount = p_levels[m_currentLevel]->GetEnemyCount();
 	for (int i = 0; i < enemyCount; i++)
 	{
-		p_units.push_back(unitSpawner.spawnEnemy());
-		tempDraw = unitSpawner.getDrawables(p_units.back());
+		p_units.push_back(unitSpawner.SpawnEnemy());
+		tempDraw = unitSpawner.GetDrawables(p_units.back());
 		worldDrawables.insert(worldDrawables.end(), tempDraw.begin(), tempDraw.end());
 	}
 
@@ -153,121 +153,121 @@ void Scene::initScene()
 
 	//Sets ui backplate
 	overlayDrawables.push_back(new UIIcon({ 0.017f*sW, 0 }, sW, 0.25f*sH,
-		Solengine::ResourceManager::getTexture("Textures/DQ_pack/Backplate1.png").textureID,
+		Solengine::ResourceManager::GetTexture("Textures/DQ_pack/Backplate1.png").textureID,
 		{ 200, 200, 200, 255 }));
-	m_model.setUIPanelHeight(overlayDrawables.back()->getHeight() - 20);
+	m_model.SetUIPanelHeight(overlayDrawables.back()->GetHeight() - 20);
 
 	//Set combatlog scroll
 	UIIcon* scrollIcon = new UIIcon({ 0.754f*sW, 0.055*sH }, 0.008f*sW, 0.14f*sH,
-		Solengine::ResourceManager::getTexture("Textures/DQ_pack/DQtile.png").textureID,
+		Solengine::ResourceManager::GetTexture("Textures/DQ_pack/DQtile.png").textureID,
 		col1);
-	m_model.setScrollIcon(scrollIcon);
+	m_model.SetScrollIcon(scrollIcon);
 	overlayDrawables.push_back(scrollIcon);
 
 	//Set current icon
 	UIIcon* currentUnitIcon = new UIIcon({ 0.02f*sW, 0.033f*sH }, 0.25*sH, 0.25*sH);
-	m_model.setCurrentUnitIcon(currentUnitIcon);
+	m_model.SetCurrentUnitIcon(currentUnitIcon);
 	overlayDrawables.push_back(currentUnitIcon);       //collect in vector
 
 	//Set current name
 	UIText* currentUnitNameText = new UIText({ 0.06f*sW, 0.033f*sH }, textSize,
 		new Solengine::Font(font1, fontSize), "", col1);
-	m_model.setCurrentUnitNameText(currentUnitNameText);   //assign use
+	m_model.SetCurrentUnitNameText(currentUnitNameText);   //assign use
 	overlayDrawables.push_back(currentUnitNameText);     //collect in vector
 
 	//Set current health
 	UIText* currentUnitHealth = new UIText({ 0.12f*sW, 0.166f*sH }, textSize,
 		new Solengine::Font(font1, fontSize), "HP: ", col1);
-	m_model.setCurrentUnitHealthText(currentUnitHealth);
+	m_model.SetCurrentUnitHealthText(currentUnitHealth);
 	overlayDrawables.push_back(currentUnitHealth);
 
 	//Set current energy
 	UIText* currentUnitEnergy = new UIText({ 0.12f*sW , 0.133f*sH }, textSize,
 		new Solengine::Font(font1, fontSize), "NRG: ", col1);
-	m_model.setCurrentUnitEnergyText(currentUnitEnergy);
+	m_model.SetCurrentUnitEnergyText(currentUnitEnergy);
 	overlayDrawables.push_back(currentUnitEnergy);
 
 	//Set current speed
 	UIText* currentUnitSpeed = new UIText({ 0.12f*sW, 0.1f*sH }, textSize,
 		new Solengine::Font(font1, fontSize), "SPD: ", col1);
-	m_model.setCurrentUnitSpeedText(currentUnitSpeed);
+	m_model.SetCurrentUnitSpeedText(currentUnitSpeed);
 	overlayDrawables.push_back(currentUnitSpeed);
 
 	//Set current combatPoints 
 	UIText* currentCombatPoints = new UIText({ 0.12f*sW, 0.0666f*sH }, textSize,
 		new Solengine::Font(font1, fontSize), "CBP: ", col1);
-	m_model.setCurrentUnitCombatPointsText(currentCombatPoints);
+	m_model.SetCurrentUnitCombatPointsText(currentCombatPoints);
 	overlayDrawables.push_back(currentCombatPoints);
 
 	//Set selected icon
 	UIIcon* selectedUnitIcon = new UIIcon({ 0.75f*sW, 0.033f*sH }, 0.25*sH, 0.25*sH);
-	m_model.setSelectedUnitIcon(selectedUnitIcon);
+	m_model.SetSelectedUnitIcon(selectedUnitIcon);
 	overlayDrawables.push_back(selectedUnitIcon);       //collect in vector
 
 	//Set selected name
 	UIText* selectedUnitNameText = new UIText({ 0.8f*sW, 0.033f*sH }, textSize,
 		new Solengine::Font(font1, fontSize), "", col1);
-	m_model.setSelectedUnitNameText(selectedUnitNameText);
+	m_model.SetSelectedUnitNameText(selectedUnitNameText);
 	overlayDrawables.push_back(selectedUnitNameText);     //collect in vector
 
 	//Set selected health
 	UIText* selectedUnitHealth = new UIText({ 0.87f*sW, 0.166f*sH }, textSize,
 		new Solengine::Font(font1, fontSize), "HP: ", col1);
-	m_model.setSelectedHealthText(selectedUnitHealth);
+	m_model.SetSelectedHealthText(selectedUnitHealth);
 	overlayDrawables.push_back(selectedUnitHealth);
 
 	//Set selected energy
 	UIText* selectedUnitEnergy = new UIText({ 0.87f*sW, 0.133f*sH }, textSize,
 		new Solengine::Font(font1, fontSize), "NRG: ", col1);
-	m_model.setSelectedEnergyText(selectedUnitEnergy);
+	m_model.SetSelectedEnergyText(selectedUnitEnergy);
 	overlayDrawables.push_back(selectedUnitEnergy); 
 
 	//Set selected speed
 	UIText* selectedUnitSpeed = new UIText({ 0.87f*sW, 0.1f*sH }, textSize,
 		new Solengine::Font(font1, fontSize), "SPD: ", col1);
-	m_model.setSelectedUnitSpeedText(selectedUnitSpeed);
+	m_model.SetSelectedUnitSpeedText(selectedUnitSpeed);
 	overlayDrawables.push_back(selectedUnitSpeed);
 
 	//Set selected combatPoints 
 	UIText* selectedCombatPoints = new UIText({ 0.87f*sW, 0.0666f*sH }, textSize,
 		new Solengine::Font(font1, fontSize), "CBP: ", col1);
-	m_model.setSelectedUnitCombatPointsText(selectedCombatPoints);
+	m_model.SetSelectedUnitCombatPointsText(selectedCombatPoints);
 	overlayDrawables.push_back(selectedCombatPoints);
 
 	//Set attack 1 
 	UIText* spellOneText = new UIText({ 0.20f*sW, 0.166f*sH }, textSize,
 		new Solengine::Font(font1, fontSize), " 1: ", col1);
-	m_model.setSpellText(spellOneText);
+	m_model.SetSpellText(spellOneText);
 	overlayDrawables.push_back(spellOneText);
 
 	//Set attack 2 text
 	UIText* spellTwoText = new UIText({0.20f*sW, 0.133f*sH}, textSize,
 		new Solengine::Font(font1, fontSize), " 2: ", col1);
-	m_model.setSpellText(spellTwoText);
+	m_model.SetSpellText(spellTwoText);
 	overlayDrawables.push_back(spellTwoText);
 
 	//Set attack 3 text
 	UIText* spellThreeText = new UIText({ 0.20f*sW, 0.1f*sH }, textSize,
 		new Solengine::Font(font1, fontSize), " 3: ", col1);
-	m_model.setSpellText(spellThreeText);
+	m_model.SetSpellText(spellThreeText);
 	overlayDrawables.push_back(spellThreeText);
 
 	//Set attack 4 text
 	UIText* spellFourText = new UIText({ 0.20f*sW, 0.066f*sH }, textSize,
 		new Solengine::Font(font1, fontSize), " 4: ", col1);
-	m_model.setSpellText(spellFourText);
+	m_model.SetSpellText(spellFourText);
 	overlayDrawables.push_back(spellFourText);
 
 
 	//Set current attack box
 	UIIcon* selectedSpellBox = new UIIcon({0.23f * sW, 0.1666f*sH}, 0.1666f*sH, 0.0333f*sH,
-		Solengine::ResourceManager::getTexture("Textures/DQ_pack/Panel.png").textureID);
-	m_model.setSelectedSpellBox(selectedSpellBox);
+		Solengine::ResourceManager::GetTexture("Textures/DQ_pack/Panel.png").textureID);
+	m_model.SetSelectedSpellBox(selectedSpellBox);
 	overlayDrawables.push_back(selectedSpellBox);
 
 	//COMBAT LOG
 
-	std::vector<Drawable*> logTexts = m_model.getCombatLog()->init(sW, sH);
+	std::vector<Drawable*> logTexts = m_model.GetCombatLog()->init(sW, sH);
     overlayDrawables.insert(overlayDrawables.end(), logTexts.begin(), logTexts.end());
 
 	//////////////////////////////////
@@ -286,19 +286,19 @@ void Scene::gameLoop(Model* model, View* view)
 
 	Solengine::GameState gameState = Solengine::GameState::PLAY;
 
-	model->awake(p_units);
+	model->Awake(p_units);
 
 	while (gameState != Solengine::GameState::EXIT)
 	{
 		while (gameState == Solengine::GameState::PLAY)
 		{
-			gameState = model->update(pauseDuration, p_units);
+			gameState = model->Update(pauseDuration, p_units);
 
-			if (m_model.deleteCheck()) deleteEntity();
+			if (m_model.DeleteCheck()) deleteEntity();
 
-			view->update(p_worldDrawables, model->getEffects(), p_overlayDrawables);
+			view->Update(p_worldDrawables, model->GetEffects(), p_overlayDrawables);
 			
-			m_SOL_fpsManager.limitFPS(trackFPS, (int)DESIRED_TICKS_PER_FRAME);
+			m_SOL_fpsManager.LimitFPS(trackFPS, (int)DESIRED_TICKS_PER_FRAME);
 			pauseDuration = 0;
 		}
 		

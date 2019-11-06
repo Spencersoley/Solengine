@@ -23,15 +23,15 @@ namespace Solengine
 {
 	Font::Font(const char* font, int size, char cs, char ce)
 	{
-		init(font, size, cs, ce);
+		Init(font, size, cs, ce);
 	}
 
-	void Font::init(const char* font, int size) 
+	void Font::Init(const char* font, int size) 
 	{
-		init(font, size, FIRST_PRINTABLE_CHAR, LAST_PRINTABLE_CHAR);
+		Init(font, size, FIRST_PRINTABLE_CHAR, LAST_PRINTABLE_CHAR);
 	}
 
-	void Font::init(const char* font, int size, char cs, char ce) 
+	void Font::Init(const char* font, int size, char cs, char ce) 
 	{
 		// Initialize SDL_ttf
 		if (!TTF_WasInit()) TTF_Init();
@@ -187,7 +187,7 @@ namespace Solengine
 		TTF_CloseFont(f);
 	}
 
-	void Font::dispose() 
+	void Font::Dispose() 
 	{
 		if (m_texID != 0) 
 		{
@@ -237,7 +237,7 @@ namespace Solengine
 		return l;
 	}
 
-	glm::vec2 Font::measure(const char* s) 
+	glm::vec2 Font::Measure(const char* s) 
 	{
 		glm::vec2 size(0, m_fontHeight);
 		float cw = 0;
@@ -264,12 +264,12 @@ namespace Solengine
 		return size;
 	}
 
-	void Font::draw(const char* s, glm::vec2 position, glm::vec2 scaling, float depth, ColourRGBA8 tint, Justification just /* = Justification::LEFT */)
+	void Font::Draw(const char* s, glm::vec2 position, glm::vec2 scaling, float depth, ColourRGBA8 tint, Justification just /* = Justification::LEFT */)
 	{
 		glm::vec2 tp = position;
 		// Apply justification
-		if (just == Justification::MIDDLE) tp.x -= measure(s).x * scaling.x / 2;
-		else if (just == Justification::RIGHT) tp.x -= measure(s).x * scaling.x;
+		if (just == Justification::MIDDLE) tp.x -= Measure(s).x * scaling.x / 2;
+		else if (just == Justification::RIGHT) tp.x -= Measure(s).x * scaling.x;
 
 		for (int i = 0; s[i] != 0; i++) 
 		{
@@ -285,7 +285,7 @@ namespace Solengine
 				int gi = c - m_regStart;
 				if (gi < 0 || gi >= m_regLength) gi = m_regLength;
 				glm::vec4 destRect(tp, p_glyphs[gi].size * scaling);
-				m_SOL_SB.draw(destRect, p_glyphs[gi].uvRect, m_texID, depth, tint);
+				m_SOL_SB.Draw(destRect, p_glyphs[gi].uvRect, m_texID, depth, tint);
 				tp.x += p_glyphs[gi].size.x * scaling.x;
 			}
 		}

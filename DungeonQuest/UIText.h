@@ -12,11 +12,11 @@ public:
 		Solengine::ColourRGBA8 col = { 255, 255, 255, 255 });
 	~UIText();
 
-	void draw();
+	void Draw();
 
-	void activate(std::string txt, glm::vec2 pos, float duration);
+	void Activate(std::string txt, glm::vec2 pos, float duration);
 
-    void updateText(std::string tString) { m_trackedString = tString; }
+    void UpdateText(std::string tString) { m_trackedString = tString; }
 
 protected:
 	std::string m_message;

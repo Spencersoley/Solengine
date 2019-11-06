@@ -11,21 +11,23 @@ namespace Solengine
 		GLSLProgram();
 		~GLSLProgram();
 
-		void compileShaders(const std::string& vertexShaderFilePath, const std::string& fragmentShaderFilePath);
-		void linkShaders();
-		void addAttribute(const std::string& attributeName);
+		void CompileShaders(const std::string& vertexShaderFilePath, const std::string& fragmentShaderFilePath);
+		
+		void LinkShaders();
+		
+		void AddAttribute(const std::string& attributeName);
 
-		GLuint getUniformLocation(const std::string& uniformName);
+		GLuint GetUniformLocation(const std::string& uniformName);
 
-		void use();
-		void unuse();
+		void Use();
+		void Unuse();
 
 	private:
 		void compileShader(const std::string& filePath, GLuint id);
 
-		int m_numAttributes;
-		GLuint m_programID;
-		GLuint m_vertexShaderID;
-		GLuint m_fragmentShaderID;
+		int numAttributes;
+		GLuint programID;
+		GLuint vertexShaderID;
+		GLuint fragmentShaderID;
 	};
 }

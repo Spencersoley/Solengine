@@ -1,6 +1,53 @@
-﻿  View.cpp
-c:\users\ssole\source\repos\solengineproject\zombiegame\view.cpp(30): error C2661: 'Solengine::Font::Font': no overloaded function takes 2 arguments
-c:\users\ssole\source\repos\solengineproject\zombiegame\view.cpp(149): error C2664: 'void Solengine::Font::draw(const char *,glm::vec2,glm::vec2,float,Solengine::ColourRGBA8,Solengine::Justification)': cannot convert argument 1 from 'Solengine::SpriteBatch' to 'const char *'
-  c:\users\ssole\source\repos\solengineproject\zombiegame\view.cpp(149): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
-c:\users\ssole\source\repos\solengineproject\zombiegame\view.cpp(153): error C2664: 'void Solengine::Font::draw(const char *,glm::vec2,glm::vec2,float,Solengine::ColourRGBA8,Solengine::Justification)': cannot convert argument 1 from 'Solengine::SpriteBatch' to 'const char *'
-  c:\users\ssole\source\repos\solengineproject\zombiegame\view.cpp(153): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+﻿  Agent.cpp
+  Bullet.cpp
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\Bullet.h(21,49): error C2039:  'string': is not a member of 'std'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.21.27702\include\vector(19): message :  see declaration of 'std'
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\Bullet.h(21,55): error C2065:  'string': undeclared identifier
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\Bullet.h(21,55): error C2923:  'std::vector': 'string' is not a valid template type argument for parameter '_Ty'
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\Bullet.h(21,55): error C2903:  'allocator': symbol is neither a class template nor a function template
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\Bullet.h(21,55): error C3203:  'allocator': unspecialized class template can't be used as a template argument for template parameter '_Alloc', expected a real type
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\Bullet.h(21,56): error C2923:  'std::vector': 'string' is not a valid template type argument for parameter '_Ty'
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\Bullet.h(21,56): error C2903:  'allocator': symbol is neither a class template nor a function template
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\Bullet.h(21,56): error C3203:  'allocator': unspecialized class template can't be used as a template argument for template parameter '_Alloc', expected a real type
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\Bullet.cpp(55,1): error C2511:  'bool Bullet::collisionWithWorld(const std::vector<std::string,std::allocator<_Ty>> &)': overloaded member function not found in 'Bullet'
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\Bullet.cpp(55,1): error C2511:         with
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\Bullet.cpp(55,1): error C2511:         [
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\Bullet.cpp(55,1): error C2511:             _Ty=std::string
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\Bullet.cpp(55,1): error C2511:         ]
+  Controller.cpp
+  Model.cpp
+  Pathfinder.cpp
+  View.cpp
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\Bullet.h(13): message :  see declaration of 'Bullet'
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\View.cpp(27,29): error C2039:  'init': is not a member of 'Solengine::SpriteBatch'
+C:\Users\Ssole\source\repos\SolengineProject\Solengine\Font.h(15): message :  see declaration of 'Solengine::SpriteBatch'
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\View.cpp(28,26): error C2039:  'init': is not a member of 'Solengine::SpriteBatch'
+C:\Users\Ssole\source\repos\SolengineProject\Solengine\Font.h(15): message :  see declaration of 'Solengine::SpriteBatch'
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\View.cpp(91,36): error C2039:  'renderBatch': is not a member of 'Solengine::SpriteBatch'
+C:\Users\Ssole\source\repos\SolengineProject\Solengine\Font.h(15): message :  see declaration of 'Solengine::SpriteBatch'
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\View.cpp(149,140): error C2664:  'void Solengine::Font::draw(const char *,glm::vec2,glm::vec2,float,Solengine::ColourRGBA8,Solengine::Justification)': cannot convert argument 1 from 'Solengine::SpriteBatch' to 'const char *'
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\View.cpp(149,25): message :  No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\View.cpp(153,140): error C2664:  'void Solengine::Font::draw(const char *,glm::vec2,glm::vec2,float,Solengine::ColourRGBA8,Solengine::Justification)': cannot convert argument 1 from 'Solengine::SpriteBatch' to 'const char *'
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\View.cpp(153,25): message :  No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\View.cpp(158,33): error C2039:  'renderBatch': is not a member of 'Solengine::SpriteBatch'
+  Gun.cpp
+  Human.cpp
+  Level.cpp
+C:\Users\Ssole\source\repos\SolengineProject\Solengine\Font.h(15): message :  see declaration of 'Solengine::SpriteBatch'
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\Level.cpp(12,29): error C2039:  'init': is not a member of 'Solengine::SpriteBatch'
+C:\Users\Ssole\source\repos\SolengineProject\Solengine\SpriteBatch.h(21): message :  see declaration of 'Solengine::SpriteBatch'
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\Level.cpp(84,36): error C2039:  'renderBatch': is not a member of 'Solengine::SpriteBatch'
+  Main.cpp
+  Scene.cpp
+C:\Users\Ssole\source\repos\SolengineProject\Solengine\SpriteBatch.h(21): message :  see declaration of 'Solengine::SpriteBatch'
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\Scene.cpp(71,80): error C2664:  'void View::init(Player *,Solengine::ICamera *,Solengine::ICamera *,int,int)': cannot convert argument 2 from 'Solengine::ICamera **' to 'Solengine::ICamera *'
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\Scene.cpp(71,25): message :  Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\Scene.cpp(73,51): error C2664:  'void Controller::init(Solengine::ICamera *,Player *,std::vector<Level *,std::allocator<_Ty>>)': cannot convert argument 1 from 'Solengine::ICamera **' to 'Solengine::ICamera *'
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\Scene.cpp(73,51): error C2664:         with
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\Scene.cpp(73,51): error C2664:         [
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\Scene.cpp(73,51): error C2664:             _Ty=Level *
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\Scene.cpp(73,51): error C2664:         ]
+  Player.cpp
+  Zombie.cpp
+  Generating Code...
+C:\Users\Ssole\source\repos\SolengineProject\ZombieGame\Scene.cpp(73,20): message :  Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast

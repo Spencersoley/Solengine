@@ -21,14 +21,14 @@ namespace Solengine
 	{
 	}
 
-	void Camera2D::init(int screenWidth, int screenHeight)
+	void Camera2D::Init(int screenWidth, int screenHeight)
 	{
 		m_screenWidth = screenWidth;
 		m_screenHeight = screenHeight;
 		m_orthoMatrix = glm::ortho(0.0f, (float)m_screenWidth, 0.0f, (float)m_screenHeight);
 	}
 
-	void Camera2D::update()
+	void Camera2D::Update()
 	{
 		if (m_needsMatrixUpdate)
 		{
@@ -42,7 +42,7 @@ namespace Solengine
 		}
 	}
 
-	glm::vec2 Camera2D::screenToWorld(glm::vec2 screenCoords)
+	glm::vec2 Camera2D::ScreenToWorld(glm::vec2 screenCoords)
 	{
 		//Invert Y direction
 		screenCoords.y = m_screenHeight - screenCoords.y;
@@ -57,7 +57,7 @@ namespace Solengine
 	}
 
 	//AABB Camera culling
-	bool Camera2D::isBoxInView(const glm::vec2& position, const glm::vec2& dimensions)
+	bool Camera2D::IsBoxInView(const glm::vec2& position, const glm::vec2& dimensions)
 	{
 		glm::vec2 scaledScreenDimensions = glm::vec2(m_screenWidth, m_screenHeight) / m_scale;
 

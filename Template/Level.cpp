@@ -10,7 +10,7 @@ Level::Level(std::vector<std::string> levelData)
 {
 	m_levelData = levelData;
 	m_SOL_levelSpriteBatch.init();
-	m_SOL_levelSpriteBatch.begin();
+	m_SOL_levelSpriteBatch.Begin();
 
 	glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
 	Solengine::ColourRGBA8 whiteColour = {/*r*/ 255, /*g*/ 255, /*b*/ 255, /*a*/ 255 };
@@ -39,7 +39,7 @@ Level::Level(std::vector<std::string> levelData)
 			}
 		}
 	}
-	m_SOL_levelSpriteBatch.end();
+	m_SOL_levelSpriteBatch.End();
 }
 
 Level::~Level()

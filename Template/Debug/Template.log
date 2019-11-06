@@ -1,4 +1,28 @@
-﻿  View.cpp
-c:\users\ssole\source\repos\solengineproject\template\view.cpp(29): error C2661: 'Solengine::Font::Font': no overloaded function takes 2 arguments
-c:\users\ssole\source\repos\solengineproject\template\view.cpp(103): error C2664: 'void Solengine::Font::draw(const char *,glm::vec2,glm::vec2,float,Solengine::ColourRGBA8,Solengine::Justification)': cannot convert argument 1 from 'Solengine::SpriteBatch' to 'const char *'
-  c:\users\ssole\source\repos\solengineproject\template\view.cpp(103): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+﻿  Controller.cpp
+C:\Users\Ssole\source\repos\SolengineProject\Template\Controller.cpp(12,1): error C2511:  'void Controller::init(Solengine::Camera2D *)': overloaded member function not found in 'Controller'
+C:\Users\Ssole\source\repos\SolengineProject\Template\Controller.h(8): message :  see declaration of 'Controller'
+  Level.cpp
+C:\Users\Ssole\source\repos\SolengineProject\Template\Controller.cpp(13,17): error C2597:  illegal reference to non-static member 'Controller::p_SOL_cam'
+C:\Users\Ssole\source\repos\SolengineProject\Template\Level.cpp(12,29): error C2039:  'init': is not a member of 'Solengine::SpriteBatch'
+C:\Users\Ssole\source\repos\SolengineProject\Solengine\SpriteBatch.h(21): message :  see declaration of 'Solengine::SpriteBatch'
+C:\Users\Ssole\source\repos\SolengineProject\Template\Level.cpp(51,36): error C2039:  'renderBatch': is not a member of 'Solengine::SpriteBatch'
+  Main.cpp
+  Model.cpp
+  Scene.cpp
+C:\Users\Ssole\source\repos\SolengineProject\Solengine\SpriteBatch.h(21): message :  see declaration of 'Solengine::SpriteBatch'
+C:\Users\Ssole\source\repos\SolengineProject\Template\Scene.cpp(43,69): error C2664:  'void View::init(Solengine::Camera2D *,Solengine::Camera2D *,int,int)': cannot convert argument 1 from 'Solengine::ICamera **' to 'Solengine::Camera2D *'
+C:\Users\Ssole\source\repos\SolengineProject\Template\Scene.cpp(43,14): message :  Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+C:\Users\Ssole\source\repos\SolengineProject\Template\Scene.cpp(44,30): error C2664:  'void Controller::init(Solengine::ICamera *)': cannot convert argument 1 from 'Solengine::ICamera **' to 'Solengine::ICamera *'
+  View.cpp
+C:\Users\Ssole\source\repos\SolengineProject\Template\Scene.cpp(44,20): message :  Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+C:\Users\Ssole\source\repos\SolengineProject\Template\View.cpp(26,29): error C2039:  'init': is not a member of 'Solengine::SpriteBatch'
+C:\Users\Ssole\source\repos\SolengineProject\Solengine\Font.h(15): message :  see declaration of 'Solengine::SpriteBatch'
+C:\Users\Ssole\source\repos\SolengineProject\Template\View.cpp(27,26): error C2039:  'init': is not a member of 'Solengine::SpriteBatch'
+C:\Users\Ssole\source\repos\SolengineProject\Solengine\Font.h(15): message :  see declaration of 'Solengine::SpriteBatch'
+C:\Users\Ssole\source\repos\SolengineProject\Template\View.cpp(82,36): error C2039:  'renderBatch': is not a member of 'Solengine::SpriteBatch'
+C:\Users\Ssole\source\repos\SolengineProject\Solengine\Font.h(15): message :  see declaration of 'Solengine::SpriteBatch'
+C:\Users\Ssole\source\repos\SolengineProject\Template\View.cpp(103,140): error C2664:  'void Solengine::Font::draw(const char *,glm::vec2,glm::vec2,float,Solengine::ColourRGBA8,Solengine::Justification)': cannot convert argument 1 from 'Solengine::SpriteBatch' to 'const char *'
+C:\Users\Ssole\source\repos\SolengineProject\Template\View.cpp(103,25): message :  No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+C:\Users\Ssole\source\repos\SolengineProject\Template\View.cpp(106,33): error C2039:  'renderBatch': is not a member of 'Solengine::SpriteBatch'
+  Generating Code...
+C:\Users\Ssole\source\repos\SolengineProject\Solengine\Font.h(15): message :  see declaration of 'Solengine::SpriteBatch'

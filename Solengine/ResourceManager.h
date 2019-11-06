@@ -9,7 +9,7 @@ namespace Solengine
 	class ResourceManager
 	{
 	public:
-		static GLTexture getTexture(std::string texturePath);
+		static GLTexture GetTexture(std::string texturePath);
 
 	private:
 		static TextureCache m_textureCache;

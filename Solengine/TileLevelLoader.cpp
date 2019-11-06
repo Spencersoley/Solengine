@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iostream>
 
-#include "ErrorHandler.h"
+#include "ErrorManager.h"
 #include "ResourceManager.h"
 
 namespace Solengine
@@ -24,12 +24,12 @@ namespace Solengine
 
 		if (file.fail())
 		{
-			Solengine::fatalError(fileName + "would not open");
+			ErrorManager::FatalError(fileName + "would not open");
 		}
 
 		std::vector<std::string> levelData;
 		std::string temp;
-		//To throw away the first string:
+
 		int test;
 		file >> temp >> test;
 		std::getline(file, temp);
@@ -39,6 +39,7 @@ namespace Solengine
 		{
 			if (temp.size() > 0) levelData.push_back(temp);
 		}
+
 		return levelData;
 	}
 }

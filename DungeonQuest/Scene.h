@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Solengine/SDLInitialiser.h>
-#include <Solengine/ErrorHandler.h>
+//#include <Solengine/ErrorHandler.h>
 #include <Solengine/GLSLProgram.h>
 #include <Solengine/GLTexture.h>
 #include <Solengine/Window.h>
@@ -22,7 +22,7 @@ public:
 	Scene();
 	~Scene();
 
-	void run();
+	void Run();
 
 private:
 	void initSystems();

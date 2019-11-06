@@ -1,18 +1,4 @@
-﻿  Scene.cpp
-c:\users\ssole\source\repos\solengineproject\dungeonquest\tilemap.h(22): warning C4018: '<': signed/unsigned mismatch
-c:\users\ssole\source\repos\solengineproject\dungeonquest\combatlog.h(31): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
-          with
-          [
-              T=float
-          ]
-c:\users\ssole\source\repos\solengineproject\dungeonquest\combatlog.h(32): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\dungeonquest\combatlog.h(70): warning C4018: '>': signed/unsigned mismatch
-c:\users\ssole\source\repos\solengineproject\dungeonquest\combatlog.h(98): warning C4018: '<': signed/unsigned mismatch
-c:\users\ssole\source\repos\solengineproject\dungeonquest\scene.cpp(155): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\ssole\source\repos\solengineproject\dungeonquest\scene.cpp(158): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ssole\source\repos\solengineproject\dungeonquest\scene.cpp(168): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\ssole\source\repos\solengineproject\dungeonquest\scene.cpp(203): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  UnitSpawner.cpp
-c:\users\ssole\source\repos\solengineproject\dungeonquest\tilemap.h(22): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
+﻿  Unit.cpp
+C:\Users\Ssole\source\repos\SolengineProject\DungeonQuest\TileMap.h(22,16): warning C4018:  '<': signed/unsigned mismatch
+C:\Users\Ssole\source\repos\SolengineProject\DungeonQuest\TileMap.h(22,45): warning C4018:  '<': signed/unsigned mismatch
   DungeonQuest.vcxproj -> C:\Users\Ssole\source\repos\SolengineProject\Debug\DungeonQuest.exe

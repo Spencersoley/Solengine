@@ -4,55 +4,51 @@
 #include <vector>
 #include <fstream>
 
-#include "ErrorHandler.h"
+#include "ErrorManager.h"
 
 namespace Solengine
 {
-	GLSLProgram::GLSLProgram() : m_numAttributes(0), m_programID(0), m_vertexShaderID(0), m_fragmentShaderID(0)
-	{
-	}
+	GLSLProgram::GLSLProgram() : 
+		numAttributes(0), 
+		programID(0), 
+		vertexShaderID(0), 
+		fragmentShaderID(0) 
+	{}
 
-	GLSLProgram::~GLSLProgram()
-	{
-	}
+	GLSLProgram::~GLSLProgram() {}
 
-	void GLSLProgram::compileShaders(const std::string& vertexShaderFilePath, const std::string& fragmentShaderFilePath)
+	void GLSLProgram::CompileShaders(const std::string& vertexShaderFilePath, const std::string& fragmentShaderFilePath)
 	{
 		//Creates shader IDs 
-		m_vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
-		if (m_vertexShaderID == 0)
-		{
-			fatalError("Vertex shader failed to be created!");
-		}
-		m_fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
-		if (m_fragmentShaderID == 0)
-		{
-			fatalError("Fragment shader failed to be created!");
-		}
+		vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
+		if (vertexShaderID == 0) ErrorManager::FatalError("Vertex shader failed to be created!");
+	
+		fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
+		if (fragmentShaderID == 0) ErrorManager::FatalError("Fragment shader failed to be created!");
 
 		//Compiles individual shaders
-		compileShader(vertexShaderFilePath, m_vertexShaderID);
-		compileShader(fragmentShaderFilePath, m_fragmentShaderID);
+		compileShader(vertexShaderFilePath, vertexShaderID);
+		compileShader(fragmentShaderFilePath, fragmentShaderID);
 	}
 
 	void GLSLProgram::compileShader(const std::string& filePath, GLuint id)
 	{
 		//Creates program ID
-		m_programID = glCreateProgram();
+		programID = glCreateProgram();
 
 		//Reads contents of filePath into fileContents
 		std::ifstream shaderFile(filePath);
 		if (shaderFile.fail())
 		{
 			perror(filePath.c_str());
-			fatalError("Failed to open " + filePath);
+			ErrorManager::FatalError("Failed to open " + filePath);
 		}
+		//Extracts from shareFile, to line, formatted into fileContents
 		std::string fileContents = "";
-		std::string line;
-		while (std::getline(shaderFile, line))
-		{
-			fileContents += line + "\n";
-		}
+		std::string tempLine;
+		while (std::getline(shaderFile, tempLine))
+			fileContents += tempLine + "\n";
+		
 		shaderFile.close();
 
 		//Creates pointer to fileContents
@@ -74,76 +70,70 @@ namespace Solengine
 			glDeleteShader(id);
 
 			std::printf("%s\n", (&errorLog[0]));
-			fatalError("Shader " + filePath + "failed to compile");
+			ErrorManager::FatalError("Shader " + filePath + "failed to compile");
 		}
 	}
 
-	void GLSLProgram::linkShaders()
+	void GLSLProgram::LinkShaders()
 	{
+		glAttachShader(programID, vertexShaderID);
+		glAttachShader(programID, fragmentShaderID);
 
-		glAttachShader(m_programID, m_vertexShaderID);
-		glAttachShader(m_programID, m_fragmentShaderID);
-
-		glLinkProgram(m_programID);
+		glLinkProgram(programID);
 
 		GLint isLinked = 0;
-		glGetProgramiv(m_programID, GL_LINK_STATUS, (int *)&isLinked);
+		glGetProgramiv(programID, GL_LINK_STATUS, (int *)&isLinked);
 
 		if (isLinked == GL_FALSE)
 		{
 			GLint maxLength = 0;
-			glGetProgramiv(m_programID, GL_INFO_LOG_LENGTH, &maxLength);
+			glGetProgramiv(programID, GL_INFO_LOG_LENGTH, &maxLength);
 
 			std::vector<char> errorLog(maxLength);
-			glGetProgramInfoLog(m_programID, maxLength, &maxLength, &errorLog[0]);
+			glGetProgramInfoLog(programID, maxLength, &maxLength, &errorLog[0]);
 
 
-			glDeleteProgram(m_programID);
+			glDeleteProgram(programID);
 
-			glDeleteShader(m_vertexShaderID);
-			glDeleteShader(m_fragmentShaderID);
+			glDeleteShader(vertexShaderID);
+			glDeleteShader(fragmentShaderID);
 
 			std::printf("%s\n", &(errorLog[0]));
-			fatalError("Shaders failed to link");
+			ErrorManager::FatalError("Shaders failed to link");
 		}
 
-		glDetachShader(m_programID, m_vertexShaderID);
-		glDetachShader(m_programID, m_fragmentShaderID);
-		glDeleteShader(m_vertexShaderID);
-		glDeleteShader(m_fragmentShaderID);
+		glDetachShader(programID, vertexShaderID);
+		glDetachShader(programID, fragmentShaderID);
+		glDeleteShader(vertexShaderID);
+		glDeleteShader(fragmentShaderID);
 	}
 
-	void GLSLProgram::addAttribute(const std::string& attributeName)
+	void GLSLProgram::AddAttribute(const std::string& attributeName)
 	{
-		glBindAttribLocation(m_programID, m_numAttributes++, attributeName.c_str());
+		glBindAttribLocation(programID, numAttributes++, attributeName.c_str());
 	}
 
-	GLuint GLSLProgram::getUniformLocation(const std::string& uniformName)
+	GLuint GLSLProgram::GetUniformLocation(const std::string& uniformName)
 	{
-		GLint location = glGetUniformLocation(m_programID, uniformName.c_str());
+		GLint location = glGetUniformLocation(programID, uniformName.c_str());
 		if (location == GL_INVALID_INDEX)
-		{
-			fatalError("Uniform " + uniformName + " not found in shader!");
-		}
+			ErrorManager::FatalError("Uniform " + uniformName + " not found in shader!");
+		
 		return location;
 	}
 
-	void GLSLProgram::use()
+	void GLSLProgram::Use()
 	{
-		glUseProgram(m_programID);
-		for (int i = 0; i < m_numAttributes; i++)
-		{
+		glUseProgram(programID);
+		for (int i = 0; i < numAttributes; i++)
 			glEnableVertexAttribArray(i);
-		}
 	}
 
-	void GLSLProgram::unuse()
+	void GLSLProgram::Unuse()
 	{
 		glUseProgram(0);
-		for (int i = 0; i < m_numAttributes; i++)
-		{
+		for (int i = 0; i < numAttributes; i++)
 			glDisableVertexAttribArray(i);
-		}
 	}
 }
 

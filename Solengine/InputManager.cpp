@@ -16,9 +16,9 @@ namespace Solengine {
 	}
 
 	//Checks all queued events, changing their states accordingly
-	Solengine::GameState InputManager::processInput()
+	Solengine::GameState InputManager::ProcessInput()
 	{
-		setMouseWheel(0);
+		SetMouseWheel(0);
 		updatePreviousKeyMap();
 
 		SDL_Event evnt;
@@ -31,21 +31,21 @@ namespace Solengine {
 				return Solengine::GameState::EXIT;
 				break;
 			case SDL_MOUSEMOTION:
-				setMouseCoords(evnt.motion.x, evnt.motion.y);
+				SetMouseCoords(evnt.motion.x, evnt.motion.y);
 				break;
 			case SDL_MOUSEBUTTONDOWN:
-				keyDown(evnt.button.button);
+				KeyDown(evnt.button.button);
 				break;
 			case SDL_MOUSEBUTTONUP:
-				keyUp(evnt.button.button);
+				KeyUp(evnt.button.button);
 				break;
 			case SDL_MOUSEWHEEL:
-				setMouseWheel(evnt.wheel.y);
+				SetMouseWheel(evnt.wheel.y);
 			case SDL_KEYDOWN:
-				keyDown(evnt.key.keysym.sym);
+				KeyDown(evnt.key.keysym.sym);
 				break;
 			case SDL_KEYUP:
-				keyUp(evnt.key.keysym.sym);
+				KeyUp(evnt.key.keysym.sym);
 				break;
 			}
 		}
@@ -63,20 +63,20 @@ namespace Solengine {
 	}
 
 	//Changes the state of the key in the current map
-	void InputManager::keyDown(unsigned int keyID)
+	void InputManager::KeyDown(unsigned int keyID)
 	{
 		//Creates a pair if it doesn't exist in the map
 		m_keyMap[keyID] = true;
 	}
 
 	//Changes the state of the key in the current map
-	void InputManager::keyUp(unsigned int keyID)
+	void InputManager::KeyUp(unsigned int keyID)
 	{
 		m_keyMap[keyID] = false;
 	}
 
 	//Returns the state of the key id in the current map
-	bool InputManager::keyState(unsigned int keyID)
+	bool InputManager::KeyState(unsigned int keyID)
 	{
 		auto it = m_keyMap.find(keyID);
 		
@@ -92,7 +92,7 @@ namespace Solengine {
 	}
 
 	//Returns the state of the key id in the previous map
-	bool InputManager::previousKeyState(unsigned int keyID)
+	bool InputManager::PreviousKeyState(unsigned int keyID)
 	{
 		auto it = m_previousKeyMap.find(keyID);
 
@@ -107,9 +107,9 @@ namespace Solengine {
 	}
 
 	//checks for a key press
-	bool InputManager::keyPress(unsigned int keyID) 
+	bool InputManager::KeyPress(unsigned int keyID) 
 	{
-		if (keyState(keyID) && !previousKeyState(keyID))
+		if (KeyState(keyID) && !PreviousKeyState(keyID))
 		{
 			return true;
 		}
@@ -119,13 +119,13 @@ namespace Solengine {
 		}
 	}
 
-	void InputManager::setMouseCoords(int x, int y) 
+	void InputManager::SetMouseCoords(int x, int y) 
 	{
 		m_mouseCoords.x = (float)x;
 		m_mouseCoords.y = (float)y;
 	}
 
-	void InputManager::setMouseWheel(float y)
+	void InputManager::SetMouseWheel(float y)
 	{
 		m_mouseWheel = (float)y;
 	}

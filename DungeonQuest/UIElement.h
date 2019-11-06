@@ -10,8 +10,8 @@ public:
 	UIElement();
 	virtual ~UIElement();
 
-	float m_duration;
+	bool UpdateEffect(float adjustedTicks);
 
-	bool updateEffect(float adjustedTicks);
+	float m_duration;
 };
 

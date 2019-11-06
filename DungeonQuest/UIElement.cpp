@@ -6,13 +6,13 @@ UIElement::UIElement() {}
 
 UIElement::~UIElement() {}
 
-bool UIElement::updateEffect(float adjustedDeltaTicks)
+bool UIElement::UpdateEffect(float adjustedDeltaTicks)
 {
 	if (m_duration <= 0) return false;
 
-	redraw();
+	Redraw();
+	MovePos({ 0, 0.1f });      //We can stabilise the speed of effects. How should we do this?
 	m_duration -= adjustedDeltaTicks;
-	movePos({ 0, 0.1f });      //We can stabilise the speed of effects. How should we do this?
 
 	return true;
 }

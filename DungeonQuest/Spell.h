@@ -15,15 +15,15 @@ public:
 	Spell();
 	virtual ~Spell();
 
-	std::string getName() const { return m_name; }
-	int getRange() const { return m_range; }
-	SpellType getType() const { return m_spellType; }
-	int getDamage() const { return m_damage; }
-	int getCost() const { return m_cost; }
-	int getTextureID() const { return m_textureID; }
-	Solengine::ColourRGBA8 getColour() const { return m_colour; }
+	std::string GetName() const { return m_name; }
+	int GetRange() const { return m_range; }
+	SpellType GetType() const { return m_spellType; }
+	int GetDamage() const { return m_damage; }
+	int GetCost() const { return m_cost; }
+	int GetTextureID() const { return m_textureID; }
+	Solengine::ColourRGBA8 GetColour() const { return m_colour; }
 
-	void cast(Unit* caster, Unit* target);
+	void Cast(Unit* caster, Unit* target);
 
 protected:
 	std::string m_name;

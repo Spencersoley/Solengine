@@ -5,137 +5,163 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Textures">
-      <UniqueIdentifier>{b92b8b07-0f66-4c97-8f60-287f30ad2971}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Textures">
+    <Filter Include="Source Files\Graphics">
       <UniqueIdentifier>{0154942b-d7c4-4108-a7fe-8947c91ced99}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Textures\Sprites">
+    <Filter Include="Source Files\Graphics\Sprites">
       <UniqueIdentifier>{f37ee50c-e6af-4e77-a7dc-2b480b34cb46}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Textures\Sprites">
-      <UniqueIdentifier>{bc481156-b7e6-4c23-8d84-ed8855ec13ad}</UniqueIdentifier>
+    <Filter Include="Source Files\InputManager">
+      <UniqueIdentifier>{9d1abea1-8ae3-40d9-b056-0bf4b1c018dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\LoopUtility">
+      <UniqueIdentifier>{50cde79f-b7a1-4aa1-ad32-e9ffc71a5360}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Cameras">
+      <UniqueIdentifier>{07e4e150-d9b0-4bf2-baf3-485f0b056cec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Fonts">
+      <UniqueIdentifier>{5a963ff4-08c2-4c77-9728-b5aff753cc17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Textures">
+      <UniqueIdentifier>{52df759f-c892-4859-bb38-1c9f7f458bea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\StaticManagers">
+      <UniqueIdentifier>{1c6df540-5292-4c8a-a599-c61c5b82e4db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SDL">
+      <UniqueIdentifier>{59370645-39ca-40b7-9450-1f32b3896b1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Loaders">
+      <UniqueIdentifier>{defb9cea-8855-4d28-ad9c-4e16c74c116a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GLSLProgram.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="picoPNG.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vertex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Camera2D.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files\Cameras</Filter>
     </ClInclude>
-    <ClInclude Include="InputManager.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="ICamera.h">
+      <Filter>Source Files\Cameras</Filter>
     </ClInclude>
     <ClInclude Include="FPSManager.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files\LoopUtility</Filter>
     </ClInclude>
-    <ClInclude Include="SDLInitialiser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ErrorHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GLTexture.h">
-      <Filter>Header Files\Textures</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureCache.h">
-      <Filter>Header Files\Textures</Filter>
-    </ClInclude>
-    <ClInclude Include="IOManager.h">
-      <Filter>Header Files\Textures</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageLoader.h">
-      <Filter>Header Files\Textures</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>Header Files\Textures</Filter>
-    </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Font.h">
-      <Filter>Header Files\Textures</Filter>
-    </ClInclude>
-    <ClInclude Include="TileLevelLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteBatch.h">
-      <Filter>Header Files\Textures\Sprites</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteSingle.h">
-      <Filter>Header Files\Textures\Sprites</Filter>
+    <ClInclude Include="InputManager.h">
+      <Filter>Source Files\InputManager</Filter>
     </ClInclude>
     <ClInclude Include="SpriteBase.h">
-      <Filter>Header Files\Textures\Sprites</Filter>
+      <Filter>Source Files\Graphics\Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteSingle.h">
+      <Filter>Source Files\Graphics\Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteBatch.h">
+      <Filter>Source Files\Graphics\Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Source Files\Graphics\Fonts</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageLoader.h">
+      <Filter>Source Files\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="IOManager.h">
+      <Filter>Source Files\StaticManagers</Filter>
+    </ClInclude>
+    <ClInclude Include="GLTexture.h">
+      <Filter>Source Files\Graphics\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureCache.h">
+      <Filter>Source Files\Graphics\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Source Files\StaticManagers</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorManager.h">
+      <Filter>Source Files\StaticManagers</Filter>
+    </ClInclude>
+    <ClInclude Include="TileLevelLoader.h">
+      <Filter>Source Files\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="SDLInitialiser.h">
+      <Filter>Source Files\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Source Files\LoopUtility</Filter>
+    </ClInclude>
+    <ClInclude Include="picoPNG.h">
+      <Filter>Source Files\Graphics\Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Source Files\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GLSLProgram.h">
+      <Filter>Source Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Glyph.h">
+      <Filter>Source Files\Graphics\Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderBatch.h">
+      <Filter>Source Files\Graphics\Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSingle.h">
+      <Filter>Source Files\Graphics\Sprites</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GLSLProgram.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="picoPNG.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InputManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FPSManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SDLInitialiser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ErrorHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageLoader.cpp">
-      <Filter>Source Files\Textures</Filter>
-    </ClCompile>
-    <ClCompile Include="IOManager.cpp">
-      <Filter>Source Files\Textures</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManager.cpp">
-      <Filter>Source Files\Textures</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureCache.cpp">
-      <Filter>Source Files\Textures</Filter>
-    </ClCompile>
-    <ClCompile Include="Font.cpp">
-      <Filter>Source Files\Textures</Filter>
-    </ClCompile>
-    <ClCompile Include="TileLevelLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SpriteBatch.cpp">
-      <Filter>Source Files\Textures\Sprites</Filter>
+      <Filter>Source Files\Graphics\Sprites</Filter>
     </ClCompile>
     <ClCompile Include="SpriteSingle.cpp">
-      <Filter>Source Files\Textures\Sprites</Filter>
+      <Filter>Source Files\Graphics\Sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Source Files\InputManager</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSManager.cpp">
+      <Filter>Source Files\LoopUtility</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera2D.cpp">
+      <Filter>Source Files\Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Source Files\Graphics\Fonts</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageLoader.cpp">
+      <Filter>Source Files\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="IOManager.cpp">
+      <Filter>Source Files\StaticManagers</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureCache.cpp">
+      <Filter>Source Files\Graphics\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Source Files\StaticManagers</Filter>
+    </ClCompile>
+    <ClCompile Include="ErrorManager.cpp">
+      <Filter>Source Files\StaticManagers</Filter>
+    </ClCompile>
+    <ClCompile Include="picoPNG.cpp">
+      <Filter>Source Files\Graphics\Sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source Files\SDL</Filter>
+    </ClCompile>
+    <ClCompile Include="SDLInitialiser.cpp">
+      <Filter>Source Files\SDL</Filter>
+    </ClCompile>
+    <ClCompile Include="TileLevelLoader.cpp">
+      <Filter>Source Files\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="GLSLProgram.cpp">
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

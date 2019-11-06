@@ -1,16 +1,22 @@
 #include "IOManager.h"
 
 #include <fstream>
+#include <iostream>
+
+#include "ErrorManager.h"
 
 namespace Solengine
 {
-	bool IOManager::readFileToBuffer(std::string filePath, std::vector<unsigned char>& buffer)
+	std::vector<unsigned char> IOManager::ReadFileToBuffer(std::string filePath)
 	{
+		std::vector<unsigned char> buffer;
+
 		std::ifstream file(filePath, std::ios::binary);
 		if (file.fail())
 		{
 			perror(filePath.c_str());
-			return false;
+			ErrorManager::FatalError("Failed to load PNG file to buffer!");
+		    return buffer;
 		}
 
 		//seek to the end
@@ -29,6 +35,6 @@ namespace Solengine
 		file.read((char *)&(buffer[0]), fileSize);
 		file.close();
 
-		return true;
+		return buffer;
 	}
 }

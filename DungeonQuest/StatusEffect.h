@@ -11,14 +11,15 @@ public:
 	StatusEffect();
 	virtual ~StatusEffect();
 
-	StatusType m_statusType;
-	std::string getName() const { return m_name; }
-	int getDamage() const { return m_damage; }	
-	int getDuration() const { return m_duration; }
-	int getTextureID() const { return m_textureID; }
-	Solengine::ColourRGBA8 getColour() const { return m_colour; }
+	std::string GetName() const { return m_name; }
+	int GetDamage() const { return m_damage; }	
+	int GetDuration() const { return m_duration; }
+	int GetTextureID() const { return m_textureID; }
+	Solengine::ColourRGBA8 GetColour() const { return m_colour; }
 
-	int tick() { return m_damage; }
+	int Tick() { return m_damage; }
+
+	StatusType m_statusType;
 
 protected:
 	std::string m_name;

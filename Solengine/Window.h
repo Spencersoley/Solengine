@@ -14,12 +14,12 @@ namespace Solengine
 		Window();
 		~Window();
 
-		int create(std::string windowName, int screenWidth, int screenHeight, unsigned int currentFlags);
+		int Create(std::string windowName, int screenWidth, int screenHeight, unsigned int currentFlags);
 
-		void swapBuffer();
+		void SwapBuffer();
 
-		int getScreenHeight() { m_screenHeight; }
-		int getScreenWidth() { m_screenWidth; }
+		int GetScreenHeight() { m_screenHeight; }
+		int GetScreenWidth() { m_screenWidth; }
 	private:
 		SDL_Window* p_SdlWindow;
 		int m_screenWidth, m_screenHeight;

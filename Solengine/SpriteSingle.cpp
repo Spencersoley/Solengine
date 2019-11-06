@@ -4,22 +4,22 @@
 
 namespace Solengine
 {
-	SpriteSingle::SpriteSingle() : m_VBO(0), m_VAO(0)
+	SpriteSingle::SpriteSingle() : vertexBufferObject(0), vertexArrayObject(0)
 	{
 		createVertexArray();
 	}
 
 	SpriteSingle::~SpriteSingle() {}
 
-	void SpriteSingle::end()
+	void SpriteSingle::End()
 	{
 		createRenderSingle();
 	}
 
-	void SpriteSingle::draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const ColourRGBA8& colour)
+	void SpriteSingle::Draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const ColourRGBA8& colour)
 	{
 		Glyph newGlyph(destRect, uvRect, texture, depth, colour);
-		m_glyph = newGlyph;
+		glyph = newGlyph;
 	}
 
 	void SpriteSingle::createRenderSingle()
@@ -30,17 +30,17 @@ namespace Solengine
 		//current vertex
 		int cv = 0;
 		
-		m_renderSingle.texture = m_glyph.texture;
+		renderSingle.Texture = glyph.Texture;
 
-		vertices[cv++] = m_glyph.topLeft;
-		vertices[cv++] = m_glyph.bottomLeft;
-		vertices[cv++] = m_glyph.bottomRight;
-		vertices[cv++] = m_glyph.bottomRight;
-		vertices[cv++] = m_glyph.topRight;
-		vertices[cv++] = m_glyph.topLeft;
+		vertices[cv++] = glyph.TopLeft;
+		vertices[cv++] = glyph.BottomLeft;
+		vertices[cv++] = glyph.BottomRight;
+		vertices[cv++] = glyph.BottomRight;
+		vertices[cv++] = glyph.TopRight;
+		vertices[cv++] = glyph.TopLeft;
 
 		//bind buffer
-		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+		glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
 		//orphan the buffer
 		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), nullptr, GL_DYNAMIC_DRAW);
 		//upload the data
@@ -50,30 +50,30 @@ namespace Solengine
 	}
 
 	//Renders the entire spritebatch to screen
-	void SpriteSingle::render()
+	void SpriteSingle::Render()
 	{
-		glBindVertexArray(m_VAO);
+		glBindVertexArray(vertexArrayObject);
 
-		glBindTexture(GL_TEXTURE_2D, m_renderSingle.texture);
+		glBindTexture(GL_TEXTURE_2D, renderSingle.Texture);
 
-		glDrawArrays(GL_TRIANGLES, 0, m_renderSingle.numVertices);	
+		glDrawArrays(GL_TRIANGLES, 0, renderSingle.NumVertices);	
 
 		glBindVertexArray(0);
 	}
 
 	void SpriteSingle::createVertexArray()
 	{
-		if (m_VAO == 0)
+		if (vertexArrayObject == 0)
 		{
-			glGenVertexArrays(1, &m_VAO);
+			glGenVertexArrays(1, &vertexArrayObject);
 		}
-		glBindVertexArray(m_VAO);
+		glBindVertexArray(vertexArrayObject);
 
-		if (m_VBO == 0)
+		if (vertexBufferObject == 0)
 		{
-			glGenBuffers(1, &m_VBO);
+			glGenBuffers(1, &vertexBufferObject);
 		}
-		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+		glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
 
 		//Tells opengl to use the first attrib array.
 		//We only need this for now as we're only using position.

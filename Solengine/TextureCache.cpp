@@ -1,28 +1,23 @@
 #include "TextureCache.h"
 
-
 #include "ImageLoader.h"
 
 namespace Solengine
 {
-	TextureCache::TextureCache()
-	{
-	}
+	TextureCache::TextureCache(){}
 
-	TextureCache::~TextureCache()
-	{
-	}
+	TextureCache::~TextureCache(){}
 
-	GLTexture TextureCache::getTexture(std::string texturePath)
+	GLTexture TextureCache::GetTexture(std::string texturePath)
 	{
 		//Look up the texture
-		auto mit = m_textureMap.find(texturePath);
+		auto texture = m_textureMap.find(texturePath);
 
 		//Check if it's not in the map
-		if (mit == m_textureMap.end())
+		if (texture == m_textureMap.end())
 		{
 			//Load the texture
-			GLTexture newTexture = ImageLoader::loadPNG(texturePath);
+			GLTexture newTexture = ImageLoader::LoadPNG(texturePath);
 
 			//Insert it into the map
 			m_textureMap.insert(make_pair(texturePath, newTexture));
@@ -30,6 +25,6 @@ namespace Solengine
 			return newTexture;
 		}
 	
-		return mit->second;
+		return texture->second;
 	}
 }

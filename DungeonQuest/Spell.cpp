@@ -4,18 +4,18 @@
 Spell::Spell() {}
 Spell::~Spell() {}
 
-void Spell::cast(Unit* caster, Unit* target)
+void Spell::Cast(Unit* caster, Unit* target)
 {
 	if (m_spellType == SpellType::ATTACK)
-		target->modifyHealth(-m_damage);
+		target->ModifyHealth(-m_damage);
 
 	if (m_spellType == SpellType::HEAL)
-		target->modifyHealth(m_damage);
+		target->ModifyHealth(m_damage);
 
-	if (p_statusEffect != nullptr && !target->hasDebuff(p_statusEffect))
+	if (p_statusEffect != nullptr && !target->HasDebuff(p_statusEffect))
 	{
-		target->applyDebuff(p_statusEffect);
+		target->ApplyDebuff(p_statusEffect);
 	} 
 	   
-	caster->removeCombatPoints(m_cost);
+	caster->RemoveCombatPoints(m_cost);
 }

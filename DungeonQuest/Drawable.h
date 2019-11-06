@@ -9,29 +9,29 @@ class Drawable
 {
 public:
 	Drawable();
-	virtual ~Drawable();
+	~Drawable();
 
 	// SETTERS //
-	void setColour(Solengine::ColourRGBA8 col) { m_colour = col; }
-	void setVisible(bool set) { m_isVisible = set; }
-	void setTexture(GLuint textureID) { m_textureID = textureID; }
-	void setPos(glm::vec2 pos) { m_pos = pos; redraw(); }
+	void SetColour(Solengine::ColourRGBA8 col) { m_colour = col; }
+	void SetVisible(bool set) { m_isVisible = set; }
+	void SetTexture(GLuint textureID) { m_textureID = textureID; }
+	void SetPos(glm::vec2 pos) { m_pos = pos; Redraw(); }
 	
 	// GETTERS //
-	glm::vec2 getPos() const { return m_pos; }
-	GLuint getTextureID() const { return m_textureID; }
-	float getWidth() const { return m_width; }
-	float getHeight() const { return m_height; }
+	glm::vec2 GetPos() const { return m_pos; }
+	GLuint GetTextureID() const { return m_textureID; }
+	float GetWidth() const { return m_width; }
+	float GetHeight() const { return m_height; }
 
-	virtual void draw();
+	virtual void Draw();
 
-	void redraw() { m_redraw = true; }
+	void Redraw() { m_redraw = true; }
 
 
-	void movePos(glm::vec2 pos) { m_pos += pos; redraw(); }
-	virtual void activate(glm::vec2 pos, float duration) {}
-	virtual void activate(std::string str, glm::vec2 pos, float duration) {}
-	virtual bool updateEffect(float adjustedTicks) { return false; }
+	void MovePos(glm::vec2 pos) { m_pos += pos; Redraw(); }
+	virtual void Activate(glm::vec2 pos, float duration) {}
+	virtual void Activate(std::string str, glm::vec2 pos, float duration) {}
+	virtual bool UpdateEffect(float adjustedTicks) { return false; }
 
 	bool m_delete = false;
 
