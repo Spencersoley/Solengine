@@ -1,5 +1,2 @@
-﻿  ResourceManager.cpp
-  TextureCache.cpp
-  TileLevelLoader.cpp
-  Generating Code...
+﻿  Camera2D.cpp
   Solengine.vcxproj -> C:\Users\Ssole\source\repos\SolengineProject\Debug\Solengine.lib

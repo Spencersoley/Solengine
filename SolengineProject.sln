@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.136
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Solengine", "Solengine\Solengine.vcxproj", "{C4171837-0EB5-4A28-B6FD-379152443057}"
 EndProject
@@ -16,6 +16,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DungeonQuest", "DungeonQues
 	ProjectSection(ProjectDependencies) = postProject
 		{C4171837-0EB5-4A28-B6FD-379152443057} = {C4171837-0EB5-4A28-B6FD-379152443057}
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EvolutionSim", "EvolutionSim\EvolutionSim.vcxproj", "{27235DBC-AE66-48D4-85FC-F85C94834AA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,14 @@ Global
 		{1EF56C45-FCC3-4043-98BB-10D31B7694AE}.Release|x64.Build.0 = Release|x64
 		{1EF56C45-FCC3-4043-98BB-10D31B7694AE}.Release|x86.ActiveCfg = Release|Win32
 		{1EF56C45-FCC3-4043-98BB-10D31B7694AE}.Release|x86.Build.0 = Release|Win32
+		{27235DBC-AE66-48D4-85FC-F85C94834AA9}.Debug|x64.ActiveCfg = Debug|x64
+		{27235DBC-AE66-48D4-85FC-F85C94834AA9}.Debug|x64.Build.0 = Debug|x64
+		{27235DBC-AE66-48D4-85FC-F85C94834AA9}.Debug|x86.ActiveCfg = Debug|Win32
+		{27235DBC-AE66-48D4-85FC-F85C94834AA9}.Debug|x86.Build.0 = Debug|Win32
+		{27235DBC-AE66-48D4-85FC-F85C94834AA9}.Release|x64.ActiveCfg = Release|x64
+		{27235DBC-AE66-48D4-85FC-F85C94834AA9}.Release|x64.Build.0 = Release|x64
+		{27235DBC-AE66-48D4-85FC-F85C94834AA9}.Release|x86.ActiveCfg = Release|Win32
+		{27235DBC-AE66-48D4-85FC-F85C94834AA9}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

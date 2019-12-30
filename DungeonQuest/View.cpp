@@ -30,22 +30,22 @@ void View::Init(Solengine::ICamera* cam, Solengine::ICamera* uiCam,
 	p_SOL_uiCam = uiCam;
 	uiCam->Init(screenwidth, screenheight);
 
+	p_SOL_uiCam->SetPosition({ -screenwidth / 2, 0});
+
 	//Stores the screen dimensions
 	m_screenHeight = screenheight;
 	m_screenWidth = screenwidth;
 }
 
-void View::Update(std::vector<Drawable*> worldDrawables, 
+void View::Update(std::vector<Drawable*> worldDrawables,
 	std::vector<std::pair<Drawable*, Drawable*>> visualEffectDrawables,
-    std::vector<Drawable*> overlayDrawables)
+	std::vector<Drawable*> overlayDrawables)
 {
 	p_SOL_cam->Update();
-	p_SOL_uiCam->Update();
-    p_SOL_uiCam->SetPosition(glm::vec2(m_screenWidth / 2, m_screenHeight / 2));
 	drawGame(worldDrawables, visualEffectDrawables, overlayDrawables);
 }
 
-void View::drawGame(std::vector<Drawable*> worldDrawables, 
+void View::drawGame(std::vector<Drawable*> worldDrawables,
 	std::vector<std::pair<Drawable*, Drawable*>> visualEffectDrawables,
 	std::vector<Drawable*> overlayDrawables)
 {
@@ -72,8 +72,8 @@ void View::drawGame(std::vector<Drawable*> worldDrawables,
 	m_SOL_window.SwapBuffer();
 }
 
-void View::drawToCamera(std::vector<Drawable*> drawables, 
-    Solengine::ICamera* cam)
+void View::drawToCamera(std::vector<Drawable*> drawables,
+	Solengine::ICamera* cam)
 {
 	glm::mat4 projectionMatrix = cam->GetCameraMatrix();
 	GLint pUniform = m_SOL_shaderProgram.GetUniformLocation("P");
@@ -93,10 +93,15 @@ void View::drawToCamera(std::vector<std::pair<Drawable*, Drawable*>> drawablePai
 	for (size_t i = 0; i < drawablePairs.size(); i++)
 	{
 		if (drawablePairs[i].first != nullptr)
-		    drawablePairs[i].first->Draw();
+			drawablePairs[i].first->Draw();
 		if (drawablePairs[i].second != nullptr)
-		    drawablePairs[i].second->Draw();
+			drawablePairs[i].second->Draw();
 	}
 }
+
+////
+////
+
+
 
 

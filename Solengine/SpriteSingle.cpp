@@ -16,15 +16,17 @@ namespace Solengine
 		createRenderSingle();
 	}
 
+	//DrawSprite
 	void SpriteSingle::Draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const ColourRGBA8& colour)
 	{
 		Glyph newGlyph(destRect, uvRect, texture, depth, colour);
 		glyph = newGlyph;
 	}
 
+	//CreateRenderFromDrawnSprite
 	void SpriteSingle::createRenderSingle()
 	{
-		std::vector <Vertex> vertices(6);
+		std::vector<Vertex> vertices(6);
 		//reserving memory should make this faster
 
 		//current vertex
@@ -49,7 +51,7 @@ namespace Solengine
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
-	//Renders the entire spritebatch to screen
+	//RenderSprite
 	void SpriteSingle::Render()
 	{
 		glBindVertexArray(vertexArrayObject);

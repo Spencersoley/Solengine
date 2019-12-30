@@ -1,4 +1,1 @@
-﻿  Unit.cpp
-C:\Users\Ssole\source\repos\SolengineProject\DungeonQuest\TileMap.h(22,16): warning C4018:  '<': signed/unsigned mismatch
-C:\Users\Ssole\source\repos\SolengineProject\DungeonQuest\TileMap.h(22,45): warning C4018:  '<': signed/unsigned mismatch
-  DungeonQuest.vcxproj -> C:\Users\Ssole\source\repos\SolengineProject\Debug\DungeonQuest.exe
+﻿  DungeonQuest.vcxproj -> C:\Users\Ssole\source\repos\SolengineProject\Debug\DungeonQuest.exe
