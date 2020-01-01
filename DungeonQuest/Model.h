@@ -3,9 +3,8 @@
 #include <SDL/SDL.h>
 
 #include <Solengine/GameState.h>
-#include <Solengine/ICamera.h>
 #include <Solengine/InputManager.h>
-
+#include <Solengine/Camera2D.h>
 #include "Unit.h"
 #include "UIText.h"
 #include "UIButton.h"
@@ -19,7 +18,7 @@ public:
 	Model();
 	~Model();
 
-	void Init(float physicsSpeed, Solengine::ICamera* cam, int sw, int sh);
+	void Init(float physicsSpeed, Solengine::Camera2D* cam, int sw, int sh);
 
 	void Awake(std::vector<Unit*> units);
 
@@ -107,7 +106,7 @@ public:
 
 private:
 	Solengine::InputManager m_SOL_inputManager;
-	Solengine::ICamera* p_SOL_cam;
+	Solengine::Camera2D* p_SOL_cam;
 	CombatLog m_combatLog;
 
 	VisualEffectManager m_visualEffectManager;

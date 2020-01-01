@@ -10,7 +10,7 @@ View::View() {}
 
 View::~View() {}
 
-void View::Init(Solengine::ICamera* cam, Solengine::ICamera* uiCam,
+void View::Init(Solengine::Camera2D* cam, Solengine::Camera2D* uiCam,
 	int screenwidth, int screenheight)
 {
 	//Creates window
@@ -73,9 +73,9 @@ void View::drawGame(std::vector<Drawable*> worldDrawables,
 }
 
 void View::drawToCamera(std::vector<Drawable*> drawables,
-	Solengine::ICamera* cam)
+	Solengine::Camera2D* cam)
 {
-	glm::mat4 projectionMatrix = cam->GetCameraMatrix();
+	glm::mat4 projectionMatrix = cam->GetProjectionMatrix();
 	GLint pUniform = m_SOL_shaderProgram.GetUniformLocation("P");
 	glUniformMatrix4fv(pUniform, 1, GL_FALSE, &projectionMatrix[0][0]);
 
@@ -84,9 +84,9 @@ void View::drawToCamera(std::vector<Drawable*> drawables,
 }
 
 void View::drawToCamera(std::vector<std::pair<Drawable*, Drawable*>> drawablePairs,
-	Solengine::ICamera* cam)
+	Solengine::Camera2D* cam)
 {
-	glm::mat4 projectionMatrix = cam->GetCameraMatrix();
+	glm::mat4 projectionMatrix = cam->GetProjectionMatrix();
 	GLint pUniform = m_SOL_shaderProgram.GetUniformLocation("P");
 	glUniformMatrix4fv(pUniform, 1, GL_FALSE, &projectionMatrix[0][0]);
 

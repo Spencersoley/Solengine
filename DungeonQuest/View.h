@@ -20,7 +20,7 @@ public:
 	View();
 	~View();
 
-	void Init(Solengine::ICamera* cam, Solengine::ICamera* uiCam,
+	void Init(Solengine::Camera2D* cam, Solengine::Camera2D* uiCam,
 	    int screenWidth, int screenHeight);
 
     void Update(std::vector<Drawable*> worldDrawables, 
@@ -32,12 +32,12 @@ private:
 		std::vector<std::pair<Drawable*, Drawable*>> visualEffectDrawables,
 	    std::vector<Drawable*> overlayDrawables);
 	void drawToCamera(std::vector<Drawable*> drawables, 
-	    Solengine::ICamera* cam);
+	    Solengine::Camera2D* cam);
 	void drawToCamera(std::vector<std::pair<Drawable*, Drawable*>> drawablePair,
-		Solengine::ICamera* cam);
+		Solengine::Camera2D* cam);
 
-	Solengine::ICamera* p_SOL_cam = nullptr;
-	Solengine::ICamera* p_SOL_uiCam = nullptr;
+	Solengine::Camera2D* p_SOL_cam = nullptr;
+	Solengine::Camera2D* p_SOL_uiCam = nullptr;
 
 	Solengine::GLSLProgram m_SOL_shaderProgram;
 	Solengine::Window m_SOL_window;

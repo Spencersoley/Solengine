@@ -2,13 +2,12 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include "ICamera.h"
 
 #include <unordered_map>
 
 namespace Solengine
 {
-	class Camera2D : public ICamera
+	class Camera2D 
 	{
 	public:
 		Camera2D();

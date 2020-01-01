@@ -6,7 +6,9 @@ Model::Model() {}
 
 Model::~Model() {}
 
-void Model::Init(float physicsSpeed, Solengine::ICamera* cam, int sw, int sh)
+
+
+void Model::Init(float physicsSpeed, Solengine::Camera2D* cam, int sw, int sh)
 {
 	m_physicsSpeed = physicsSpeed;
 	p_SOL_cam = cam;

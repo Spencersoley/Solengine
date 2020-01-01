@@ -44,9 +44,6 @@
     <ClInclude Include="Camera2D.h">
       <Filter>Source Files\Cameras</Filter>
     </ClInclude>
-    <ClInclude Include="ICamera.h">
-      <Filter>Source Files\Cameras</Filter>
-    </ClInclude>
     <ClInclude Include="FPSManager.h">
       <Filter>Source Files\LoopUtility</Filter>
     </ClInclude>
